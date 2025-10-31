@@ -55,7 +55,6 @@ class SessionController extends Controller {
         $session->delete();
         return redirect()->route('coach.sessions.index')->with('status', 'Session deleted successfully.');
     }
-{
     public function show(\App\Models\TrainingSession $session)
     {
         $coach = Auth::user();
