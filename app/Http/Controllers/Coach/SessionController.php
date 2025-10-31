@@ -9,6 +9,51 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class SessionController extends Controller
+
+    public function edit(\App\Models\TrainingSession $session)
+    {
+        $coach = Auth::user();
+        abort_unless($session->coach_user_id === $coach->id, 403);
+        $groups = \App\Models\Group::where('branch_id', $coach->branch_id)->orderBy('name')->get();
+        return view('coach.sessions.edit', [
+            'session' => $session,
+            'groups' => $groups,
+            'branch' => $coach->branch,
+        ]);
+    }
+
+    public function update(Request $request, \App\Models\TrainingSession $session)
+    {
+        $coach = Auth::user();
+        abort_unless($session->coach_user_id === $coach->id, 403);
+        $data = $request->validate([
+            'date' => ['required', 'date'],
+            'start_time' => ['required'],
+            'end_time' => ['required', 'after:start_time'],
+            'location' => ['required', 'string', 'max:255'],
+            'group_id' => ['required', 'integer', 'exists:groups,id'],
+        ]);
+        $group = \App\Models\Group::where('id', $data['group_id'])
+            ->where('branch_id', $coach->branch_id)
+            ->firstOrFail();
+        $session->update([
+            'date' => $data['date'],
+            'start_time' => $data['start_time'],
+            'end_time' => $data['end_time'],
+            'location' => $data['location'],
+            'group_id' => $group->id,
+            'group_name' => $group->name,
+        ]);
+        return redirect()->route('coach.sessions.show', $session)->with('status', 'Session updated successfully.');
+    }
+
+    public function destroy(\App\Models\TrainingSession $session)
+    {
+        $coach = Auth::user();
+        abort_unless($session->coach_user_id === $coach->id, 403);
+        $session->delete();
+        return redirect()->route('coach.sessions.index')->with('status', 'Session deleted successfully.');
+    }
 {
     public function show(\App\Models\TrainingSession $session)
     {

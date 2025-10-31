@@ -156,6 +156,9 @@ Route::middleware(['auth', 'role:coach|admin|super-admin'])->prefix('coach')->gr
     Route::get('/sessions/create', [\App\Http\Controllers\Coach\SessionController::class, 'create'])->name('coach.sessions.create');
     Route::post('/sessions', [\App\Http\Controllers\Coach\SessionController::class, 'store'])->name('coach.sessions.store');
     Route::get('/sessions/{session}', [\App\Http\Controllers\Coach\SessionController::class, 'show'])->name('coach.sessions.show');
+    Route::get('/sessions/{session}/edit', [\App\Http\Controllers\Coach\SessionController::class, 'edit'])->name('coach.sessions.edit');
+    Route::put('/sessions/{session}', [\App\Http\Controllers\Coach\SessionController::class, 'update'])->name('coach.sessions.update');
+    Route::delete('/sessions/{session}', [\App\Http\Controllers\Coach\SessionController::class, 'destroy'])->name('coach.sessions.destroy');
     // Students (coach scope)
     Route::get('/students', [\App\Http\Controllers\Coach\StudentsController::class, 'index'])->name('coach.students.index');
     Route::get('/students/{student}', [\App\Http\Controllers\Coach\StudentsController::class, 'show'])->name('coach.students.show');
