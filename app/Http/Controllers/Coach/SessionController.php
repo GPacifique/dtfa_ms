@@ -8,7 +8,8 @@ use App\Models\TrainingSession;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class SessionController extends Controller
+
+class SessionController extends Controller {
 
     public function edit(\App\Models\TrainingSession $session)
     {
