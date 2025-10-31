@@ -72,6 +72,11 @@
                             @endif
                         </div>
 
+                        <!-- Attendance Action Button -->
+                        <div class="mb-4 flex gap-2">
+                            <a href="{{ route('coach.students.attendance', $student) }}" class="px-4 py-2 bg-blue-100 hover:bg-blue-200 text-blue-800 rounded-lg font-semibold transition">📋 Attendance</a>
+                        </div>
+
                         <!-- Status Badge -->
                         <div class="mb-4">
                             @if($student->status === 'active')

@@ -65,7 +65,7 @@ class SessionController extends Controller
             ->where('branch_id', $coach->branch_id)
             ->firstOrFail();
 
-        TrainingSession::create([
+        $session = TrainingSession::create([
             'date' => $data['date'],
             'start_time' => $data['start_time'],
             'end_time' => $data['end_time'],
@@ -75,6 +75,17 @@ class SessionController extends Controller
             'group_id' => $group->id,
             'group_name' => $group->name,
         ]);
+
+        // Create StudentAttendance records for all students in the group
+        $students = $group->students()->get();
+        foreach ($students as $student) {
+            \App\Models\StudentAttendance::firstOrCreate([
+                'student_id' => $student->id,
+                'training_session_id' => $session->id,
+            ], [
+                'status' => 'absent', // default status
+            ]);
+        }
 
         return redirect()->route('coach.attendance.index')->with('status', 'Session scheduled successfully.');
     }
