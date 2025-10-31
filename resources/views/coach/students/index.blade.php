@@ -8,13 +8,16 @@
             <h1 class="text-3xl font-bold text-slate-900">👥 My Students</h1>
             <p class="text-slate-600 mt-1">Manage student profiles and attendance records</p>
         </div>
-        <form method="GET" class="flex items-center gap-2">
-            <input type="text" name="q" value="{{ $q }}" placeholder="Search by name or phone…" class="px-4 py-2 border border-slate-300 rounded-lg dark:bg-neutral-900 dark:border-neutral-700 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500" />
-            <button class="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg font-semibold transition">🔍 Search</button>
-            @if($q)
-                <a href="{{ route('coach.students.index') }}" class="px-4 py-2 border border-slate-300 text-slate-700 rounded-lg hover:bg-slate-50 font-semibold transition">Clear</a>
-            @endif
-        </form>
+        <div class="flex items-center gap-2">
+            <form method="GET" class="flex items-center gap-2">
+                <input type="text" name="q" value="{{ $q }}" placeholder="Search by name or phone…" class="px-4 py-2 border border-slate-300 rounded-lg dark:bg-neutral-900 dark:border-neutral-700 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500" />
+                <button class="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg font-semibold transition">🔍 Search</button>
+                @if($q)
+                    <a href="{{ route('coach.students.index') }}" class="px-4 py-2 border border-slate-300 text-slate-700 rounded-lg hover:bg-slate-50 font-semibold transition">Clear</a>
+                @endif
+            </form>
+            <a href="{{ route('coach.dashboard') }}" class="px-4 py-2 border border-slate-300 text-slate-700 rounded-lg hover:bg-slate-50 font-semibold transition">← Back</a>
+        </div>
     </div>
 
     @if($students->isEmpty())

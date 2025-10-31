@@ -4,7 +4,7 @@
 <div class="max-w-xl mx-auto p-6">
     <div class="flex items-center justify-between mb-6">
         <h1 class="text-2xl font-bold">✏️ Edit Session</h1>
-        <a href="{{ route('coach.sessions.show', $session) }}" class="text-sm underline text-indigo-600 hover:text-indigo-800">← Back to Details</a>
+    <a href="{{ url()->previous() }}" class="text-sm underline text-indigo-600 hover:text-indigo-800">← Back</a>
     </div>
     <form method="POST" action="{{ route('coach.sessions.update', $session) }}" class="bg-white dark:bg-neutral-900 shadow rounded-lg p-6 space-y-5">
         @csrf

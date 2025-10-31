@@ -7,7 +7,7 @@
             <h1 class="text-2xl font-bold">📅 Schedule a Session</h1>
             <p class="text-slate-600 mt-1">Create a new training session for your group</p>
         </div>
-        <a href="{{ route('coach.attendance.index') }}" class="text-sm underline text-indigo-600 hover:text-indigo-800">← Back</a>
+    <a href="{{ url()->previous() }}" class="text-sm underline text-indigo-600 hover:text-indigo-800">← Back</a>
     </div>
 
     @if($groups->isEmpty())

@@ -3,14 +3,17 @@
 @section('content')
     <div class="space-y-6">
         <!-- Header -->
-        <div class="flex items-center justify-between">
+        <div class="flex items-center justify-between mb-6">
             <div>
                 <h1 class="text-4xl font-bold text-slate-900">📅 My Sessions</h1>
                 <p class="text-slate-600 mt-2">Training sessions you have scheduled</p>
             </div>
-            <a href="{{ route('coach.sessions.create') }}" class="px-6 py-3 bg-gradient-to-r from-indigo-600 to-blue-600 text-white font-semibold rounded-lg hover:shadow-lg transition">
-                ➕ Schedule Session
-            </a>
+            <div class="flex items-center gap-2">
+                <a href="{{ route('coach.sessions.create') }}" class="px-6 py-3 bg-gradient-to-r from-indigo-600 to-blue-600 text-white font-semibold rounded-lg hover:shadow-lg transition">
+                    ➕ Schedule Session
+                </a>
+                <a href="{{ route('coach.dashboard') }}" class="px-4 py-2 border border-slate-300 text-slate-700 rounded-lg hover:bg-slate-50 font-semibold transition">← Back</a>
+            </div>
         </div>
 
         <!-- Sessions Table -->

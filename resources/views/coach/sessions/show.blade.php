@@ -6,7 +6,7 @@
         <h1 class="text-3xl font-bold text-slate-900">Session Details</h1>
         <div class="flex gap-2">
             <a href="{{ route('coach.sessions.create') }}" class="px-4 py-2 bg-indigo-600 text-white rounded-lg font-semibold hover:bg-indigo-700 transition">➕ Schedule New Session</a>
-            <a href="{{ route('coach.sessions.index') }}" class="text-sm underline text-indigo-600 hover:text-indigo-800">← Back to Sessions</a>
+            <a href="{{ url()->previous() }}" class="text-sm underline text-indigo-600 hover:text-indigo-800">← Back</a>
         </div>
     </div>
     <div class="bg-white dark:bg-neutral-900 rounded-lg shadow p-6 border border-slate-200 dark:border-neutral-700">

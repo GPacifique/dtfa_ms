@@ -7,9 +7,7 @@
             <h1 class="text-3xl font-bold text-slate-900">📅 My Training Sessions</h1>
             <p class="text-slate-600 mt-1">Record and manage student attendance for your sessions</p>
         </div>
-        @if (session('status'))
-            <div class="bg-green-50 border border-green-200 text-green-800 px-4 py-2 rounded-lg text-sm font-semibold">✓ {{ session('status') }}</div>
-        @endif
+        <a href="{{ route('coach.dashboard') }}" class="px-4 py-2 border border-slate-300 text-slate-700 rounded-lg hover:bg-slate-50 font-semibold transition">← Back</a>
     </div>
 
     @if($sessions->isEmpty())

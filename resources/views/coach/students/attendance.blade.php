@@ -22,7 +22,7 @@
         </div>
         <div class="flex items-center gap-3">
             <a href="{{ route('coach.students.show', $student) }}" class="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg font-semibold transition">👁️ Profile</a>
-            <a href="{{ route('coach.students.index') }}" class="px-4 py-2 border border-slate-300 text-slate-700 rounded-lg hover:bg-slate-50 font-semibold transition">← Back</a>
+            <a href="{{ url()->previous() }}" class="px-4 py-2 border border-slate-300 text-slate-700 rounded-lg hover:bg-slate-50 font-semibold transition">← Back</a>
         </div>
     </div>
 

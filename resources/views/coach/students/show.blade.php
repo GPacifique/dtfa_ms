@@ -4,7 +4,7 @@
 <div class="max-w-3xl mx-auto p-6 space-y-6">
     <div class="flex items-center justify-between">
         <h1 class="text-2xl font-bold">Student Profile</h1>
-        <a href="{{ route('coach.students.index') }}" class="text-sm underline">Back to list</a>
+        <a href="{{ url()->previous() }}" class="text-sm underline">← Back</a>
     </div>
 
     <div class="bg-white dark:bg-neutral-900 shadow rounded-lg p-6">

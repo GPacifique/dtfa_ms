@@ -3,9 +3,12 @@
 
 @section('content')
     <div class="space-y-6">
-        <div>
-            <h1 class="text-2xl font-bold text-slate-900">Coach Dashboard</h1>
-            <p class="text-slate-600 mt-1">Manage teams and track training progress</p>
+        <div class="flex items-center justify-between mb-6">
+            <div>
+                <h1 class="text-2xl font-bold text-slate-900">Coach Dashboard</h1>
+                <p class="text-slate-600 mt-1">Manage teams and track training progress</p>
+            </div>
+            <a href="/" class="px-4 py-2 border border-slate-300 text-slate-700 rounded-lg hover:bg-slate-50 font-semibold transition">← Back</a>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
