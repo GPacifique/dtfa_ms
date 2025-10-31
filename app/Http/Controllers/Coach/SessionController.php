@@ -9,6 +9,14 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class SessionController extends Controller
+    public function show(\App\Models\TrainingSession $session)
+    {
+        $coach = Auth::user();
+        // Only allow viewing if this coach owns the session
+        abort_unless($session->coach_user_id === $coach->id, 403);
+        $session->load(['group', 'branch']);
+        return view('coach.sessions.show', compact('session'));
+    }
 {
     public function index()
     {
