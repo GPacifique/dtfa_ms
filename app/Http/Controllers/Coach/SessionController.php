@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class SessionController extends Controller
+{
     public function show(\App\Models\TrainingSession $session)
     {
         $coach = Auth::user();
@@ -17,7 +18,6 @@ class SessionController extends Controller
         $session->load(['group', 'branch']);
         return view('coach.sessions.show', compact('session'));
     }
-{
     public function index()
     {
         $coach = Auth::user();
