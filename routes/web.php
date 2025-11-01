@@ -4,6 +4,8 @@ Route::middleware(['auth'])->prefix('user')->group(function () {
         return view('user.dashboard');
     })->name('user.dashboard');
 });
+// User dashboard route for all authenticated users
+// (Definition moved after PHP opening tag below)
 <?php
 
 use App\Http\Controllers\ProfileController;
