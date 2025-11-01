@@ -76,7 +76,6 @@ class StudentsController extends Controller {
         $student->save();
         return redirect()->route('coach.students.show', $student)->with('status', 'Student updated successfully.');
     }
-{
     public function index(Request $request)
     {
         $coach = Auth::user();
