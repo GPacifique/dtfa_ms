@@ -1,3 +1,9 @@
+// User dashboard route for all authenticated users
+Route::middleware('auth')->group(function () {
+    Route::get('/user/dashboard', function () {
+        return view('user.dashboard');
+    })->name('user.dashboard');
+});
 <?php
 
 use App\Http\Controllers\ProfileController;
