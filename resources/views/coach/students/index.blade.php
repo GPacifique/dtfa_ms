@@ -39,8 +39,11 @@
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             @foreach ($students as $student)
                 <div class="bg-white dark:bg-neutral-900 border border-slate-200 dark:border-neutral-700 rounded-lg shadow-sm hover:shadow-md transition overflow-hidden">
-                    <!-- Card Header -->
-                    <div class="bg-gradient-to-r from-indigo-50 to-blue-50 dark:from-neutral-800 dark:to-neutral-700 px-4 py-3 border-b border-slate-200 dark:border-neutral-700">
+                    <!-- Card Header with Image -->
+                    <div class="bg-gradient-to-r from-indigo-50 to-blue-50 dark:from-neutral-800 dark:to-neutral-700 px-4 py-3 border-b border-slate-200 dark:border-neutral-700 flex flex-col items-center">
+                        @if($student->image_path)
+                            <img src="{{ asset('storage/' . $student->image_path) }}" alt="Profile Image" class="h-16 w-16 rounded-full object-cover border-2 border-slate-200 shadow mb-2">
+                        @endif
                         <h3 class="font-bold text-lg text-slate-900 dark:text-white">{{ $student->first_name }} {{ $student->second_name }}</h3>
                         @if($student->jersey_number || $student->jersey_name)
                             <div class="flex items-center gap-2 mt-2">

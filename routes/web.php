@@ -140,8 +140,16 @@ Route::middleware(['auth', 'role:admin|super-admin'])->prefix('admin')->group(fu
     Route::delete('/groups/{group}', [\App\Http\Controllers\Admin\GroupsController::class, 'destroy'])->name('admin.groups.destroy');
 });
 
-Route::middleware('auth')->prefix('user')->group(function () {
-    Route::get('/dashboard', [\App\Http\Controllers\UserController::class, 'index'])->name('user.dashboard');
+
+// Allow all authenticated users to manage students
+Route::middleware('auth')->group(function () {
+    Route::get('/students', [\App\Http\Controllers\Coach\StudentsController::class, 'index'])->name('students.index');
+    Route::get('/students/create', [\App\Http\Controllers\Coach\StudentsController::class, 'create'])->name('students.create');
+    Route::post('/students', [\App\Http\Controllers\Coach\StudentsController::class, 'store'])->name('students.store');
+    Route::get('/students/{student}/edit', [\App\Http\Controllers\Coach\StudentsController::class, 'edit'])->name('students.edit');
+    Route::put('/students/{student}', [\App\Http\Controllers\Coach\StudentsController::class, 'update'])->name('students.update');
+    Route::delete('/students/{student}', [\App\Http\Controllers\Coach\StudentsController::class, 'destroy'])->name('students.destroy');
+    Route::get('/students/{student}', [\App\Http\Controllers\Coach\StudentsController::class, 'show'])->name('students.show');
 });
 
 // Role-based dashboards
