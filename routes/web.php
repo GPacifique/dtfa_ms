@@ -161,6 +161,10 @@ Route::middleware(['auth', 'role:coach|admin|super-admin'])->prefix('coach')->gr
     Route::delete('/sessions/{session}', [\App\Http\Controllers\Coach\SessionController::class, 'destroy'])->name('coach.sessions.destroy');
     // Students (coach scope)
     Route::get('/students', [\App\Http\Controllers\Coach\StudentsController::class, 'index'])->name('coach.students.index');
+    Route::get('/students/create', [\App\Http\Controllers\Coach\StudentsController::class, 'create'])->name('coach.students.create');
+    Route::post('/students', [\App\Http\Controllers\Coach\StudentsController::class, 'store'])->name('coach.students.store');
+    Route::get('/students/{student}/edit', [\App\Http\Controllers\Coach\StudentsController::class, 'edit'])->name('coach.students.edit');
+    Route::put('/students/{student}', [\App\Http\Controllers\Coach\StudentsController::class, 'update'])->name('coach.students.update');
     Route::get('/students/{student}', [\App\Http\Controllers\Coach\StudentsController::class, 'show'])->name('coach.students.show');
     Route::get('/students/{student}/attendance', [\App\Http\Controllers\Coach\StudentsController::class, 'attendance'])->name('coach.students.attendance');
     // Equipment (view only)
