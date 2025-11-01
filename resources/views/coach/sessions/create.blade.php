@@ -1,85 +1,85 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="max-w-xl mx-auto p-6">
+@extends('layouts.app')
+
+@section('content')
+<div class="max-w-2xl mx-auto p-6 bg-white shadow-md rounded-lg">
     <div class="flex items-center justify-between mb-6">
-        <div>
-            <h1 class="text-2xl font-bold">📅 Schedule a Session</h1>
-            <p class="text-slate-600 mt-1">Create a new training session for your group</p>
-        </div>
-    <a href="{{ url()->previous() }}" class="text-sm underline text-indigo-600 hover:text-indigo-800">← Back</a>
+        <h1 class="text-2xl font-bold text-slate-900">Create New Session</h1>
+        <a href="{{ route('coach.sessions.index') }}" class="px-4 py-2 border border-slate-300 text-slate-700 rounded-lg hover:bg-slate-50 font-semibold transition">
+            ← Back
+        </a>
     </div>
 
-    @if($groups->isEmpty())
-        <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-6 text-center">
-            <svg class="mx-auto h-12 w-12 text-yellow-600 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4v.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
-            </svg>
-            <p class="text-yellow-800 font-semibold">No groups available</p>
-            <p class="text-yellow-700 text-sm mt-2">Please contact the administrator to assign you to a branch and group.</p>
-            <a href="{{ route('coach.attendance.index') }}" class="inline-block mt-4 px-4 py-2 bg-yellow-600 text-white rounded hover:bg-yellow-700">
-                Return to Attendance
-            </a>
+    <form method="POST" action="{{ route('coach.sessions.store') }}" class="space-y-6">
+        @csrf
+
+        <!-- Date -->
+        <div>
+            <label for="date" class="block text-sm font-medium text-slate-700">Date</label>
+            <input type="date" name="date" id="date" value="{{ old('date', now()->format('Y-m-d')) }}" required
+                   class="mt-1 block w-full border-slate-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+            @error('date')
+                <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
+            @enderror
         </div>
-    @else
-        <form method="POST" action="{{ route('coach.sessions.store') }}" class="bg-white dark:bg-neutral-900 shadow rounded-lg p-6 space-y-5">
-            @csrf
-            
-            @if($branch)
-                <div class="bg-blue-50 dark:bg-neutral-800 border border-blue-200 dark:border-neutral-700 rounded-lg p-4">
-                    <p class="text-xs font-semibold text-blue-700 dark:text-blue-300 uppercase">Assigned Branch</p>
-                    <p class="text-lg font-bold text-blue-900 dark:text-blue-100">{{ $branch->name }}</p>
-                </div>
-            @endif
 
+        <!-- Start and End Time -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
-                <label class="block text-sm font-medium mb-2">Date <span class="text-red-500">*</span></label>
-                <input type="date" name="date" value="{{ old('date') }}" class="w-full border rounded px-3 py-2 dark:bg-neutral-900 dark:border-neutral-700 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500" required>
-                @error('date')<p class="text-sm text-red-600 mt-1">{{ $message }}</p>@enderror
+                <label for="start_time" class="block text-sm font-medium text-slate-700">Start Time</label>
+                <input type="time" name="start_time" id="start_time" value="{{ old('start_time') }}" required
+                       class="mt-1 block w-full border-slate-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+                @error('start_time')
+                    <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
+                @enderror
             </div>
-
-            <div class="grid grid-cols-2 gap-4">
-                <div>
-                    <label class="block text-sm font-medium mb-2">Start Time <span class="text-red-500">*</span></label>
-                    <input type="time" name="start_time" value="{{ old('start_time') }}" class="w-full border rounded px-3 py-2 dark:bg-neutral-900 dark:border-neutral-700 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500" required>
-                    @error('start_time')<p class="text-sm text-red-600 mt-1">{{ $message }}</p>@enderror
-                </div>
-                <div>
-                    <label class="block text-sm font-medium mb-2">End Time <span class="text-red-500">*</span></label>
-                    <input type="time" name="end_time" value="{{ old('end_time') }}" class="w-full border rounded px-3 py-2 dark:bg-neutral-900 dark:border-neutral-700 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500" required>
-                    @error('end_time')<p class="text-sm text-red-600 mt-1">{{ $message }}</p>@enderror
-                </div>
-            </div>
-
             <div>
-                <label class="block text-sm font-medium mb-2">Location <span class="text-red-500">*</span></label>
-                <input type="text" name="location" value="{{ old('location') }}" class="w-full border rounded px-3 py-2 dark:bg-neutral-900 dark:border-neutral-700 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500" placeholder="e.g., Main Field, Stadium" required>
-                @error('location')<p class="text-sm text-red-600 mt-1">{{ $message }}</p>@enderror
+                <label for="end_time" class="block text-sm font-medium text-slate-700">End Time</label>
+                <input type="time" name="end_time" id="end_time" value="{{ old('end_time') }}" required
+                       class="mt-1 block w-full border-slate-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+                @error('end_time')
+                    <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
+                @enderror
             </div>
+        </div>
 
-            <div>
-                <label class="block text-sm font-medium mb-2">Select Group <span class="text-red-500">*</span></label>
-                <select name="group_id" class="w-full border rounded px-3 py-2 dark:bg-neutral-900 dark:border-neutral-700 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500" required>
-                    <option value="">-- Choose a group --</option>
-                    @foreach ($groups as $group)
-                        <option value="{{ $group->id }}" @selected(old('group_id', $defaultGroupId) == $group->id)>
-                            {{ $group->name }}
-                        </option>
-                    @endforeach
-                </select>
-                @error('group_id')<p class="text-sm text-red-600 mt-1">{{ $message }}</p>@enderror
-                <p class="text-xs text-slate-500 mt-2">{{ $groups->count() }} group(s) available</p>
-            </div>
+        <!-- Location -->
+        <div>
+            <label for="location" class="block text-sm font-medium text-slate-700">Location</label>
+            <input type="text" name="location" id="location" value="{{ old('location', $branch->name ?? '') }}" required
+                   class="mt-1 block w-full border-slate-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+            @error('location')
+                <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
+            @enderror
+        </div>
 
-            <div class="flex items-center justify-end gap-2 pt-4 border-t dark:border-neutral-700">
-                <a href="{{ route('coach.attendance.index') }}" class="px-4 py-2 border rounded hover:bg-slate-50 dark:hover:bg-neutral-800">
-                    Cancel
-                </a>
-                <button type="submit" class="px-4 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700 transition font-semibold">
-                    ✓ Schedule Session
-                </button>
-            </div>
-        </form>
-    @endif
+        <!-- Group -->
+        <div>
+            <label for="group_id" class="block text-sm font-medium text-slate-700">Group</label>
+            <select name="group_id" id="group_id" required
+                    class="mt-1 block w-full border-slate-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+                <option value="">Select a group</option>
+                @foreach ($groups as $group)
+                    <option value="{{ $group->id }}" {{ old('group_id') == $group->id ? 'selected' : '' }}>
+                        {{ $group->name }}
+                    </option>
+                @endforeach
+            </select>
+            @error('group_id')
+                <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
+            @enderror
+        </div>
+
+        <!-- Submit Button -->
+        <div class="flex justify-end">
+            <button type="submit" class="px-6 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 font-semibold transition">
+                Create Session
+            </button>
+        </div>
+    </form>
 </div>
+@endsection
+
 @endsection
