@@ -12,9 +12,15 @@
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <x-stat-card title="My Sessions" :value="$allSessions->count()" icon="🎯" color="blue" />
-            <x-stat-card title="Active Students" :value="$activeStudents->count()" icon="🎓" color="emerald" />
-            <x-stat-card title="Attendance Rate" :value="$attendanceRate . '%'" icon="✅" color="fuchsia" />
+            <a href="{{ route('coach.sessions.index') }}" class="block">
+                <x-stat-card title="My Sessions" :value="$allSessions->count()" icon="🎯" color="blue" />
+            </a>
+            <a href="{{ route('coach.students.index') }}" class="block">
+                <x-stat-card title="Active Students" :value="$activeStudents->count()" icon="🎓" color="emerald" />
+            </a>
+            <a href="{{ route('coach.attendance.index') }}" class="block">
+                <x-stat-card title="Attendance Rate" :value="$attendanceRate . '%'" icon="✅" color="fuchsia" />
+            </a>
         </div>
         <div class="bg-white rounded-lg shadow-md border border-slate-200 p-6 mt-8">
             <h2 class="text-lg font-semibold text-slate-900 mb-4">My Students</h2>
@@ -70,7 +76,8 @@
                                     <div class="font-medium text-slate-900">{{ $s->start_time }}–{{ $s->end_time }} • {{ $s->location }}</div>
                                     <div class="text-sm text-slate-600">Group: {{ optional($s->group)->name ?? $s->group_name }}</div>
                                 </div>
-                                <a class="text-indigo-600 text-sm hover:underline" href="{{ route('coach.attendance.show', $s) }}">Mark</a>
+                                <a class="text-indigo-600 text-sm hover:underline" href="{{ route('coach.sessions.show', $s) }}">View</a>
+                                <a class="ml-2 text-blue-600 text-sm hover:underline" href="{{ route('coach.attendance.show', $s) }}">Mark Attendance</a>
                             </li>
                         @endforeach
                     </ul>
