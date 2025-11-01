@@ -1,6 +1,6 @@
 // User dashboard route for all authenticated users
-Route::middleware('auth')->group(function () {
-    Route::get('/user/dashboard', function () {
+Route::middleware(['auth'])->prefix('user')->group(function () {
+    Route::get('/dashboard', function () {
         return view('user.dashboard');
     })->name('user.dashboard');
 });
