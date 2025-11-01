@@ -7,7 +7,8 @@ use App\Models\Student;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 
-class StudentsController extends Controller
+
+class StudentsController extends Controller {
 
     public function create()
     {
