@@ -57,7 +57,7 @@
 
         <!-- Form Actions -->
         <div class="flex items-center justify-end gap-3 pt-6 border-t border-slate-200 dark:border-neutral-700">
-        <a href="{{ url()->previous() }}" class="px-4 py-2 border border-slate-300 dark:border-neutral-600 text-slate-700 dark:text-slate-300 rounded-lg hover:bg-slate-50 dark:hover:bg-neutral-800 transition font-semibold">← Back</a>
+        <a href="{{ route('coach.attendance.index') }}" class="px-4 py-2 border border-slate-300 dark:border-neutral-600 text-slate-700 dark:text-slate-300 rounded-lg hover:bg-slate-50 dark:hover:bg-neutral-800 transition font-semibold">← Back</a>
             <button type="submit" class="px-6 py-2 bg-gradient-to-r from-indigo-600 to-blue-600 text-white rounded-lg hover:shadow-lg transition font-semibold">💾 Save Attendance</button>
         </div>
     </form>

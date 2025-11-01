@@ -55,7 +55,7 @@
                             <a href="{{ route('coach.attendance.show', $session) }}" class="flex-1 px-3 py-2 bg-gradient-to-r from-indigo-600 to-blue-600 text-white font-semibold rounded-lg hover:shadow-lg transition text-center text-sm">
                                 ✏️ Mark Attendance
                             </a>
-                            <a href="{{ route('coach.sessions.index') }}" title="View Session Details" class="px-3 py-2 border border-slate-300 dark:border-neutral-600 text-slate-700 dark:text-slate-300 rounded-lg hover:bg-slate-50 dark:hover:bg-neutral-800 transition text-sm">
+                            <a href="{{ route('coach.sessions.show', $session) }}" title="View Session Details" class="px-3 py-2 border border-slate-300 dark:border-neutral-600 text-slate-700 dark:text-slate-300 rounded-lg hover:bg-slate-50 dark:hover:bg-neutral-800 transition text-sm">
                                 👁️
                             </a>
                         </div>
