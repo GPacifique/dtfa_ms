@@ -11,6 +11,13 @@
             <a href="/" class="px-4 py-2 border border-slate-300 text-slate-700 rounded-lg hover:bg-slate-50 font-semibold transition">← Back</a>
         </div>
 
+        @if (session('error'))
+            <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-6" role="alert">
+                <strong class="font-bold">Error:</strong>
+                <span class="block sm:inline">{{ session('error') }}</span>
+            </div>
+        @endif
+
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
             <a href="{{ route('coach.sessions.index') }}" class="block">
                 <x-stat-card title="My Sessions" :value="$allSessions->count()" icon="🎯" color="blue" />
