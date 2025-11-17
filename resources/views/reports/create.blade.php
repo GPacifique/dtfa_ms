@@ -6,8 +6,8 @@
     <form action="{{ route('reports.store') }}" method="POST">
         @csrf
         <div class="mb-3">
-            <label>No</label>
-            <input type="number" name="no" class="form-control" value="{{ old('no') }}" required>
+            <label>No (Auto-generated)</label>
+            <input type="number" name="no" class="form-control" value="{{ $nextNo }}" readonly>
         </div>
         <div class="mb-3">
             <label>Workstream</label>

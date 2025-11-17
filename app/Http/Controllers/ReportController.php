@@ -20,7 +20,9 @@ class ReportController extends Controller
      */
     public function create()
     {
-        return view('reports.create');
+        // Auto-generate the next 'no' value
+        $nextNo = (\App\Models\Report::max('no') ?? 0) + 1;
+        return view('reports.create', compact('nextNo'));
     }
 
     /**
@@ -29,12 +31,12 @@ class ReportController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'no' => 'required|integer|unique:reports,no',
             'workstream' => 'required|in:SPORTING,BUSINESS,ADMINISTRATION,TECHNOLOGY',
             'activity' => 'required|string',
             'status' => 'required|in:RED,YELLOW,GREEN',
             'comments' => 'nullable|string',
         ]);
+        $validated['no'] = (\App\Models\Report::max('no') ?? 0) + 1;
         \App\Models\Report::create($validated);
         return redirect()->route('reports.index')->with('success', 'Report created successfully.');
     }
