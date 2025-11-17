@@ -25,6 +25,9 @@
                 <a href="{{ route('user.dashboard') }}" class="flex items-center gap-2 px-3 py-2 rounded-md hover:bg-slate-800 {{ request()->routeIs('user.dashboard') ? 'bg-slate-800' : '' }}">
                     <span>🏠</span><span>User</span>
                 </a>
+                <a href="{{ route('reports.index') }}" class="flex items-center gap-2 px-3 py-2 rounded-md hover:bg-slate-800 {{ request()->routeIs('reports.*') ? 'bg-slate-800' : '' }}">
+                    <span>📄</span><span>Reports</span>
+                </a>
                 @role('admin')
                     <a href="{{ route('admin.dashboard') }}" class="flex items-center gap-2 px-3 py-2 rounded-md hover:bg-slate-800 {{ request()->routeIs('admin.dashboard') ? 'bg-slate-800' : '' }}">
                         <span>🛡️</span><span>Admin</span>
@@ -107,7 +110,7 @@
         <!-- Footer -->
         <x-app-footer />
     </div>
-    
+
     <!-- Mobile menu placeholder (optional extension) -->
     <div id="mobileMenu" class="md:hidden hidden fixed inset-y-0 left-0 z-40 w-64 bg-slate-900 text-slate-200">
         <div class="h-16 flex items-center px-6 border-b border-slate-800">
@@ -116,6 +119,7 @@
         <nav class="px-3 py-4 space-y-1">
             @auth
                 <a href="{{ route('user.dashboard') }}" class="block px-3 py-2 rounded-md hover:bg-slate-800">User</a>
+                <a href="{{ route('reports.index') }}" class="block px-3 py-2 rounded-md hover:bg-slate-800">Reports</a>
                 @role('admin')<a href="{{ route('admin.dashboard') }}" class="block px-3 py-2 rounded-md hover:bg-slate-800">Admin</a>@endrole
                 @role('coach')<a href="{{ route('coach.dashboard') }}" class="block px-3 py-2 rounded-md hover:bg-slate-800">Coach</a>@endrole
                 @role('accountant')<a href="{{ route('accountant.dashboard') }}" class="block px-3 py-2 rounded-md hover:bg-slate-800">Accountant</a>@endrole
