@@ -1,3 +1,6 @@
+use App\Http\Controllers\ReportController;
+// Reports CRUD routes
+Route::resource('reports', ReportController::class);
 <?php
 
 use App\Http\Controllers\ProfileController;
