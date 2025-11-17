@@ -1,13 +1,13 @@
-use App\Http\Controllers\ReportController;
-// Reports CRUD routes
-Route::resource('reports', ReportController::class);
+
 <?php
 
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-
+use App\Http\Controllers\ReportController;
+// Reports CRUD routes
+Route::resource('reports', ReportController::class);
 // User dashboard route for all authenticated users
 Route::middleware(['auth'])->prefix('user')->group(function () {
     Route::get('/dashboard', function () {
@@ -109,7 +109,7 @@ Route::middleware(['auth', 'role:admin|super-admin'])->prefix('admin')->group(fu
     Route::post('/plans', [\App\Http\Controllers\Admin\SubscriptionPlansController::class, 'store'])->name('admin.plans.store');
     Route::get('/plans/{plan}/edit', [\App\Http\Controllers\Admin\SubscriptionPlansController::class, 'edit'])->name('admin.plans.edit');
     Route::put('/plans/{plan}', [\App\Http\Controllers\Admin\SubscriptionPlansController::class, 'update'])->name('admin.plans.update');
-    Route::delete('/plans/{plan}', [\AppHttp\Controllers\Admin\SubscriptionPlansController::class, 'destroy'])->name('admin.plans.destroy');
+    Route::delete('/plans/{plan}', [\App\Http\Controllers\Admin\SubscriptionPlansController::class, 'destroy'])->name('admin.plans.destroy');
 
     // Expenses
     Route::get('/expenses', [\App\Http\Controllers\Admin\ExpensesController::class, 'index'])->name('admin.expenses.index');
