@@ -165,6 +165,14 @@ Route::middleware(['auth', 'role:admin|super-admin'])->prefix('admin')->group(fu
         Route::put('/roles/{role}', [\App\Http\Controllers\Admin\RolePermissionController::class, 'update'])->name('admin.roles.update');
 
         Route::post('/permissions', [\App\Http\Controllers\Admin\RolePermissionController::class, 'storePermission'])->name('admin.permissions.store');
+        // Role creation / deletion
+        Route::get('/roles/create', [\App\Http\Controllers\Admin\RolePermissionController::class, 'create'])->name('admin.roles.create');
+        Route::post('/roles', [\App\Http\Controllers\Admin\RolePermissionController::class, 'storeRole'])->name('admin.roles.store');
+        Route::delete('/roles/{role}', [\App\Http\Controllers\Admin\RolePermissionController::class, 'destroy'])->name('admin.roles.destroy');
+
+        // User-role assignment
+        Route::get('/roles/assign', [\App\Http\Controllers\Admin\RolePermissionController::class, 'assignUserForm'])->name('admin.roles.assignForm');
+        Route::post('/roles/assign', [\App\Http\Controllers\Admin\RolePermissionController::class, 'assignUserUpdate'])->name('admin.roles.assign');
     });
 });
 
