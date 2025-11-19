@@ -3,7 +3,7 @@
 
 @section('content')
 <div class="min-h-screen bg-gradient-to-br from-slate-50 via-emerald-50 to-teal-50 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900">
-    
+
     {{-- Hero Section --}}
     <div class="footer-like-hero relative overflow-hidden">
         <div class="hero-blob-layer">
@@ -11,7 +11,7 @@
             <div class="hero-blob blob-2"></div>
             <div class="hero-blob blob-3"></div>
         </div>
-        
+
         <div class="relative z-10 container mx-auto px-6 py-8">
             <h1 class="text-3xl md:text-4xl font-bold text-white mb-2">Admin Dashboard</h1>
             <p class="text-emerald-100">A high-level view of academy operations</p>
@@ -19,7 +19,7 @@
     </div>
 
     <div class="container mx-auto px-6 -mt-8">
-        
+
         {{-- Main KPI Cards --}}
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
             {{-- Total Users --}}
@@ -312,21 +312,21 @@
 
         <!-- Analytics & Insights Section (polished layout) -->
         <div>
+
             <h2 class="text-xl font-bold text-slate-900 mb-4">📈 Analytics & Insights</h2>
-            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                <!-- Trends Chart (Sessions over last 8 weeks) -->
-                <div class="lg:col-span-2 card">
-                    <div class="card-body p-4">
-                        <h3 class="font-bold text-slate-900 mb-3 text-sm">📊 Weekly Session Trends (Last 8 Weeks)</h3>
-                        <canvas id="sessionTrendsChart" class="card-chart"></canvas>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <!-- Weekly Session Trends (fixed small card) -->
+                <div class="card" style="min-width:180px;max-width:260px;width:100%;height:140px;display:flex;align-items:center;justify-content:center;">
+                    <div class="card-body p-1 flex flex-col items-center justify-center w-full h-full">
+                        <h3 class="font-bold text-slate-900 mb-1 text-xs">📊 Weekly Session Trends (Last 8 Weeks)</h3>
+                        <canvas id="sessionTrendsChart" class="card-chart" style="height:70px;width:100%"></canvas>
                     </div>
                 </div>
-
-                <!-- Coach Workload (Top 5 Coaches) -->
-                <div class="card">
-                    <div class="card-body p-4">
-                        <h3 class="font-bold text-slate-900 mb-3 text-sm">👨‍🏫 Coach Workload (This Month)</h3>
-                        <canvas id="coachWorkloadChart" class="card-chart"></canvas>
+                <!-- Coach Workload (fixed small card) -->
+                <div class="card" style="min-width:180px;max-width:260px;width:100%;height:140px;display:flex;align-items:center;justify-content:center;">
+                    <div class="card-body p-1 flex flex-col items-center justify-center w-full h-full">
+                        <h3 class="font-bold text-slate-900 mb-1 text-xs">👨‍🏫 Coach Workload (This Month)</h3>
+                        <canvas id="coachWorkloadChart" class="card-chart" style="height:70px;width:100%"></canvas>
                     </div>
                 </div>
             </div>
