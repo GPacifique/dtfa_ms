@@ -157,6 +157,15 @@ Route::middleware(['auth', 'role:admin|super-admin'])->prefix('admin')->group(fu
     Route::get('/groups/{group}/edit', [\App\Http\Controllers\Admin\GroupsController::class, 'edit'])->name('admin.groups.edit');
     Route::put('/groups/{group}', [\App\Http\Controllers\Admin\GroupsController::class, 'update'])->name('admin.groups.update');
     Route::delete('/groups/{group}', [\App\Http\Controllers\Admin\GroupsController::class, 'destroy'])->name('admin.groups.destroy');
+
+    // Super-admin only: Roles & Permissions management
+    Route::middleware(['role:super-admin'])->group(function () {
+        Route::get('/roles', [\App\Http\Controllers\Admin\RolePermissionController::class, 'index'])->name('admin.roles.index');
+        Route::get('/roles/{role}/edit', [\App\Http\Controllers\Admin\RolePermissionController::class, 'edit'])->name('admin.roles.edit');
+        Route::put('/roles/{role}', [\App\Http\Controllers\Admin\RolePermissionController::class, 'update'])->name('admin.roles.update');
+
+        Route::post('/permissions', [\App\Http\Controllers\Admin\RolePermissionController::class, 'storePermission'])->name('admin.permissions.store');
+    });
 });
 
 
