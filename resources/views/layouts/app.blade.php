@@ -89,6 +89,9 @@
                     </svg>
                 </button>
                 @auth
+                <div class="mr-4 text-sm text-slate-700 dark:text-slate-200">
+                    Hello, <span class="font-semibold">{{ Auth::user()->name }}</span>
+                </div>
                 <form action="{{ route('logout') }}" method="POST">
                     @csrf
                     <button class="btn-primary">Logout</button>
