@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\ReportController;
 // Reports CRUD routes
 Route::resource('reports', ReportController::class);
+Route::get('reports-export/pdf', [ReportController::class, 'exportPdf'])->name('reports.export.pdf');
+Route::get('reports-export/pdf/me', [ReportController::class, 'exportPdfForMe'])->middleware('auth')->name('reports.export.pdf.me');
 // User dashboard route for all authenticated users
 Route::middleware(['auth'])->prefix('user')->group(function () {
     Route::get('/dashboard', function () {

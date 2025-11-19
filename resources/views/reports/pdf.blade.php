@@ -16,6 +16,7 @@
         <div style="text-align:right;font-size:12px;color:#555">
             Generated: {{ now()->format('F j, Y') }}<br>
             Year: {{ now()->year }}
+            @if(!empty($user))<br>Generated for: {{ $user->name }}@endif
         </div>
     </div>
     <table>

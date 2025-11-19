@@ -3,7 +3,13 @@
 @section('content')
 <div class="container">
     <h1>Reports</h1>
-    <a href="{{ route('reports.create') }}" class="btn btn-primary mb-3">Add Report</a>
+    <div class="mb-3 d-flex gap-2">
+        <a href="{{ route('reports.create') }}" class="btn btn-primary">Add Report</a>
+        <a href="{{ route('reports.export.pdf') }}" class="btn btn-secondary">Export PDF</a>
+        @auth
+            <a href="{{ route('reports.export.pdf.me') }}" class="btn btn-secondary">Export My PDF</a>
+        @endauth
+    </div>
     @if(session('success'))
         <div class="alert alert-success">{{ session('success') }}</div>
     @endif

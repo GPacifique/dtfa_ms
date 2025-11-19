@@ -3,9 +3,30 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class ReportController extends Controller
 {
+    /**
+     * Export all reports as PDF.
+     */
+    public function exportPdf()
+    {
+        $reports = \App\Models\Report::all();
+        $pdf = Pdf::loadView('reports.pdf', compact('reports'));
+        return $pdf->download('reports.pdf');
+    }
+
+    /**
+     * Export reports PDF personalized for the authenticated user.
+     */
+    public function exportPdfForMe()
+    {
+        $reports = \App\Models\Report::all();
+        $user = auth()->user();
+        $pdf = Pdf::loadView('reports.pdf', compact('reports','user'));
+        return $pdf->download('reports-'.$user->id.'.pdf');
+    }
     /**
      * Display a listing of the resource.
      */
