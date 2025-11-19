@@ -6,10 +6,17 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\ReportController;
+use App\Http\Controllers\Student\CheckinController;
 // Reports CRUD routes
 Route::resource('reports', ReportController::class);
 Route::get('reports-export/pdf', [ReportController::class, 'exportPdf'])->name('reports.export.pdf');
 Route::get('reports-export/pdf/me', [ReportController::class, 'exportPdfForMe'])->middleware('auth')->name('reports.export.pdf.me');
+
+// Student self check-in (parents can check in their children)
+Route::middleware(['auth'])->group(function () {
+    Route::get('student/checkin', [CheckinController::class, 'index'])->name('student.checkin.index');
+    Route::post('student/checkin', [CheckinController::class, 'store'])->name('student.checkin.store');
+});
 // User dashboard route for all authenticated users
 Route::middleware(['auth'])->prefix('user')->group(function () {
     Route::get('/dashboard', function () {
