@@ -26,6 +26,9 @@ class DatabaseSeeder extends Seeder
         $this->call([
             BranchSeeder::class,
             RolePermissionSeeder::class,
+            // Optional testing seeders
+            \Database\Seeders\StaffAttendanceSeeder::class,
+            \Database\Seeders\TrainingSessionRecordSeeder::class,
         ]);
     }
 }

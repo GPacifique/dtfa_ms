@@ -14,69 +14,26 @@
     @stack('head')
 </head>
 <body class="font-sans antialiased">
-<div class="min-h-screen flex">
-    <!-- Sidebar -->
-    <aside class="hidden md:flex md:w-64 flex-col bg-slate-900 text-slate-200">
-        <div class="h-16 flex items-center px-6 border-b border-slate-800">
-            <a href="/" class="text-lg font-semibold tracking-wide">{{ config('app.name','Sports Academy') }}</a>
-        </div>
-        <nav class="flex-1 px-3 py-4 space-y-1 overflow-y-auto">
-            @auth
-                <a href="{{ route('user.dashboard') }}" class="flex items-center gap-2 px-3 py-2 rounded-md hover:bg-slate-800 {{ request()->routeIs('user.dashboard') ? 'bg-slate-800' : '' }}">
-                    <span>🏠</span><span>User</span>
-                </a>
-                <a href="{{ route('reports.index') }}" class="flex items-center gap-2 px-3 py-2 rounded-md hover:bg-slate-800 {{ request()->routeIs('reports.*') ? 'bg-slate-800' : '' }}">
-                    <span>📄</span><span>Reports</span>
-                </a>
-                @role('admin')
-                    <a href="{{ route('admin.dashboard') }}" class="flex items-center gap-2 px-3 py-2 rounded-md hover:bg-slate-800 {{ request()->routeIs('admin.dashboard') ? 'bg-slate-800' : '' }}">
-                        <span>🛡️</span><span>Admin</span>
-                    </a>
-                @endrole
-                @role('coach')
-                    <a href="{{ route('coach.dashboard') }}" class="flex items-center gap-2 px-3 py-2 rounded-md hover:bg-slate-800 {{ request()->routeIs('coach.dashboard') ? 'bg-slate-800' : '' }}">
-                        <span>🎯</span><span>Coach</span>
-                    </a>
-                @endrole
-                @role('accountant')
-                    <a href="{{ route('accountant.dashboard') }}" class="flex items-center gap-2 px-3 py-2 rounded-md hover:bg-slate-800 {{ request()->routeIs('accountant.dashboard') ? 'bg-slate-800' : '' }}">
-                        <span>💵</span><span>Accountant</span>
-                    </a>
-                @endrole
-                @role('parent')
-                    <a href="{{ route('parent.dashboard') }}" class="flex items-center gap-2 px-3 py-2 rounded-md hover:bg-slate-800 {{ request()->routeIs('parent.dashboard') ? 'bg-slate-800' : '' }}">
-                        <span>👪</span><span>Parent</span>
-                    </a>
-                @endrole
-            @endauth
-        </nav>
-        @auth
-        <div class="p-4 border-t border-slate-800 text-xs space-y-2">
-            <div class="flex flex-wrap gap-2">
-                @role('admin')<span class="px-2 py-0.5 rounded-full bg-fuchsia-700/40 text-fuchsia-200">admin</span>@endrole
-                @role('coach')<span class="px-2 py-0.5 rounded-full bg-blue-700/40 text-blue-200">coach</span>@endrole
-                @role('accountant')<span class="px-2 py-0.5 rounded-full bg-emerald-700/40 text-emerald-200">accountant</span>@endrole
-                @role('parent')<span class="px-2 py-0.5 rounded-full bg-amber-700/40 text-amber-200">parent</span>@endrole
-            </div>
-            <div class="text-slate-400">
-                @if(Auth::user()->branch)
-                    Branch: <span class="text-slate-200">{{ Auth::user()->branch->name }}</span>
-                @endif
-                @if(Auth::user()->group)
-                    · Group: <span class="text-slate-200">{{ Auth::user()->group->name }}</span>
-                @endif
-            </div>
-        </div>
-        @endauth
-    </aside>
+<div x-data="{}" class="min-h-screen flex">
+    <!-- Sidebar (shared partial) -->
+    @include('layouts.sidebar')
 
     <!-- Main -->
-    <div class="flex-1 flex flex-col min-w-0">
+    <div id="main-content" :class="$store.layout.sidebarOpen ? 'lg:ml-64 ml-0' : 'lg:ml-20 ml-0'" class="flex-1 flex flex-col min-w-0 transition-all duration-200 relative z-0">
         <!-- Topbar -->
-        <header class="h-16 bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 flex items-center px-4 sm:px-6 justify-between">
+        <header class="sticky top-0 h-16 bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 flex items-center px-4 sm:px-6 justify-between z-20">
             <div class="flex items-center gap-2">
-                <button class="md:hidden inline-flex items-center justify-center p-2 rounded-md text-slate-500 hover:bg-slate-100" onclick="document.getElementById('mobileMenu').classList.toggle('hidden')">
+                <button data-toggle-sidebar-mobile class="md:hidden inline-flex items-center justify-center p-2 rounded-md text-slate-500 hover:bg-slate-100" @click.prevent="$store.layout.mobileOpen = !$store.layout.mobileOpen; $store.layout.sidebarOpen = true">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" /></svg>
+                </button>
+                <!-- Desktop toggle: visible on md+ -->
+                <button data-toggle-sidebar class="hidden md:inline-flex items-center justify-center p-2 rounded-md text-slate-500 hover:bg-slate-100" @click.prevent="$store.layout.sidebarOpen = !$store.layout.sidebarOpen" title="Toggle sidebar">
+                    <svg x-show="$store.layout.sidebarOpen" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M6 4a1 1 0 00-1 1v10a1 1 0 001 1h8a1 1 0 001-1V5a1 1 0 00-1-1H6zm2 3a1 1 0 012 0v6a1 1 0 11-2 0V7zm4 0a1 1 0 012 0v6a1 1 0 11-2 0V7z" clip-rule="evenodd" />
+                    </svg>
+                    <svg x-show="!$store.layout.sidebarOpen" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                        <path d="M4 5h12v2H4V5zm0 4h12v2H4V9zm0 4h12v2H4v-2z" />
+                    </svg>
                 </button>
                 <div class="font-semibold text-slate-700 dark:text-slate-200">{{ $title ?? 'Dashboard' }}</div>
             </div>
@@ -103,33 +60,24 @@
         </header>
 
         <!-- Content -->
-        <main class="flex-1 p-4 sm:p-6 lg:p-8">
-            @if (session('status'))
-                <div data-flash="success" class="hidden">{{ session('status') }}</div>
-            @endif
-            @yield('content')
+        <main class="flex-1">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+                <!-- Ensure content sits below sticky header and has consistent gutters -->
+                <div class="pt-2">
+                    @if (session('status'))
+                        <div data-flash="success" class="hidden">{{ session('status') }}</div>
+                    @endif
+
+                    @yield('content')
+                </div>
+            </div>
         </main>
 
         <!-- Footer -->
         <x-app-footer />
     </div>
 
-    <!-- Mobile menu placeholder (optional extension) -->
-    <div id="mobileMenu" class="md:hidden hidden fixed inset-y-0 left-0 z-40 w-64 bg-slate-900 text-slate-200">
-        <div class="h-16 flex items-center px-6 border-b border-slate-800">
-            <div class="text-lg font-semibold">Menu</div>
-        </div>
-        <nav class="px-3 py-4 space-y-1">
-            @auth
-                <a href="{{ route('user.dashboard') }}" class="block px-3 py-2 rounded-md hover:bg-slate-800">User</a>
-                <a href="{{ route('reports.index') }}" class="block px-3 py-2 rounded-md hover:bg-slate-800">Reports</a>
-                @role('admin')<a href="{{ route('admin.dashboard') }}" class="block px-3 py-2 rounded-md hover:bg-slate-800">Admin</a>@endrole
-                @role('coach')<a href="{{ route('coach.dashboard') }}" class="block px-3 py-2 rounded-md hover:bg-slate-800">Coach</a>@endrole
-                @role('accountant')<a href="{{ route('accountant.dashboard') }}" class="block px-3 py-2 rounded-md hover:bg-slate-800">Accountant</a>@endrole
-                @role('parent')<a href="{{ route('parent.dashboard') }}" class="block px-3 py-2 rounded-md hover:bg-slate-800">Parent</a>@endrole
-            @endauth
-        </nav>
-    </div>
+    <!-- Mobile menu (handled by sidebar partial) -->
 </div>
 
 @stack('scripts')

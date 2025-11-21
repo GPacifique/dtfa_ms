@@ -4,11 +4,19 @@ namespace App\Http\Controllers\Coach;
 
 use App\Http\Controllers\Controller;
 use App\Models\Student;
+use App\Services\StudentService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 
 
 class StudentsController extends Controller {
+
+    protected $studentService;
+
+    public function __construct(StudentService $studentService)
+    {
+        $this->studentService = $studentService;
+    }
 
     public function create()
     {
@@ -18,29 +26,7 @@ class StudentsController extends Controller {
     public function store(Request $request)
     {
         $coach = Auth::user();
-        $data = $request->validate([
-            'first_name' => 'required|string|max:255',
-            'last_name' => 'required|string|max:255',
-            'dob' => 'nullable|date',
-            'gender' => 'nullable|string|max:10',
-            'phone' => 'nullable|string|max:255',
-            'status' => 'required|string',
-            'image' => 'nullable|image|max:2048',
-        ]);
-        $student = new Student();
-        $student->first_name = $data['first_name'];
-        $student->last_name = $data['last_name'];
-        $student->dob = $data['dob'] ?? null;
-        $student->gender = $data['gender'] ?? null;
-        $student->phone = $data['phone'] ?? null;
-        $student->status = $data['status'];
-        $student->branch_id = $coach->branch_id;
-        $student->group_id = $coach->group_id;
-        $student->parent_user_id = null;
-        if ($request->hasFile('image')) {
-            $student->image_path = $request->file('image')->store('students', 'public');
-        }
-        $student->save();
+        $this->studentService->createForCoach($request, $coach);
         return redirect()->route('coach.students.index')->with('status', 'Student created successfully.');
     }
 
@@ -55,25 +41,7 @@ class StudentsController extends Controller {
     {
         $coach = Auth::user();
         abort_unless($student->branch_id === $coach->branch_id && $student->group_id === $coach->group_id, 403);
-        $data = $request->validate([
-            'first_name' => 'required|string|max:255',
-            'last_name' => 'required|string|max:255',
-            'dob' => 'nullable|date',
-            'gender' => 'nullable|string|max:10',
-            'phone' => 'nullable|string|max:255',
-            'status' => 'required|string',
-            'image' => 'nullable|image|max:2048',
-        ]);
-        $student->first_name = $data['first_name'];
-        $student->last_name = $data['last_name'];
-        $student->dob = $data['dob'] ?? null;
-        $student->gender = $data['gender'] ?? null;
-        $student->phone = $data['phone'] ?? null;
-        $student->status = $data['status'];
-        if ($request->hasFile('image')) {
-            $student->image_path = $request->file('image')->store('students', 'public');
-        }
-        $student->save();
+        $this->studentService->updateFromRequest($student, $request);
         return redirect()->route('coach.students.show', $student)->with('status', 'Student updated successfully.');
     }
     public function index(Request $request)
@@ -88,12 +56,12 @@ class StudentsController extends Controller {
             ->when($q !== '', function ($query) use ($q) {
                 $query->where(function ($sub) use ($q) {
                     $sub->where('first_name', 'like', "%$q%")
-                        ->orWhere('second_name', 'like', "%$q%")
+                        ->orWhere('last_name', 'like', "%$q%")
                         ->orWhere('phone', 'like', "%$q%");
                 });
             })
             ->orderBy('first_name')
-            ->orderBy('second_name')
+            ->orderBy('last_name')
             ->paginate(15)
             ->withQueryString();
 

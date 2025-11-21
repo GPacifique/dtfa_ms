@@ -80,6 +80,10 @@ Route::get('/admin-only', function () {
     return 'Hello admin — you have access.';
 })->middleware(['auth', 'role:admin']);
 
+// Make student creation endpoints public (no auth required)
+Route::get('/admin/students/create', [\App\Http\Controllers\Admin\StudentsController::class, 'create'])->name('admin.students.create.public');
+Route::post('/admin/students', [\App\Http\Controllers\Admin\StudentsController::class, 'store'])->name('admin.students.store.public');
+
 // Admin and User dashboards
 Route::middleware(['auth', 'role:admin|super-admin'])->prefix('admin')->group(function () {
     Route::get('/dashboard', [\App\Http\Controllers\AdminController::class, 'index'])->name('admin.dashboard');
@@ -177,15 +181,17 @@ Route::middleware(['auth', 'role:admin|super-admin'])->prefix('admin')->group(fu
 });
 
 
-// Allow all authenticated users to manage students
+// Student listing and profile: public (view-only)
+Route::get('/students', [\App\Http\Controllers\Coach\StudentsController::class, 'index'])->name('students.index');
+Route::get('/students/{student}', [\App\Http\Controllers\Coach\StudentsController::class, 'show'])->name('students.show');
+
+// Student management (create/edit/delete) requires authentication
 Route::middleware('auth')->group(function () {
-    Route::get('/students', [\App\Http\Controllers\Coach\StudentsController::class, 'index'])->name('students.index');
     Route::get('/students/create', [\App\Http\Controllers\Coach\StudentsController::class, 'create'])->name('students.create');
     Route::post('/students', [\App\Http\Controllers\Coach\StudentsController::class, 'store'])->name('students.store');
     Route::get('/students/{student}/edit', [\App\Http\Controllers\Coach\StudentsController::class, 'edit'])->name('students.edit');
     Route::put('/students/{student}', [\App\Http\Controllers\Coach\StudentsController::class, 'update'])->name('students.update');
     Route::delete('/students/{student}', [\App\Http\Controllers\Coach\StudentsController::class, 'destroy'])->name('students.destroy');
-    Route::get('/students/{student}', [\App\Http\Controllers\Coach\StudentsController::class, 'show'])->name('students.show');
 });
 
 // Role-based dashboards
@@ -258,6 +264,24 @@ Route::post('/webhooks/flutterwave', [\App\Http\Controllers\WebhooksController::
 Route::post('/webhooks/stripe', [\App\Http\Controllers\WebhooksController::class, 'stripe'])->name('webhooks.stripe');
 
 require __DIR__.'/auth.php';
+
+// Staff module routes (profiles, capacity building, attendances, communications, tasks)
+require __DIR__.'/staff.php';
+
+// Capacity Building admin CRUD
+Route::middleware(['auth', 'role:admin|super-admin'])->prefix('admin')->group(function () {
+    Route::resource('capacity-buildings', \App\Http\Controllers\Admin\CapacityBuildingController::class, ['as' => 'admin']);
+});
+
+// Training Session Records admin CRUD - allow coaches as well
+Route::middleware(['auth', 'role:admin|super-admin|coach'])->prefix('admin')->group(function () {
+    Route::resource('training_session_records', \App\Http\Controllers\Admin\TrainingSessionRecordController::class, ['as' => 'admin']);
+});
+
+// Staff Attendance admin CRUD - allow coaches
+Route::middleware(['auth', 'role:admin|super-admin|coach'])->prefix('admin')->group(function () {
+    Route::resource('staff_attendances', \App\Http\Controllers\Admin\StaffAttendanceController::class, ['as' => 'admin']);
+});
 
 // Local-only helper to grant admin role to current user for development
 if (app()->environment('local')) {

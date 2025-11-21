@@ -1,67 +1,32 @@
-<footer style="position: relative; background: linear-gradient(to bottom right, #1e3a8a, #6b21a8, #be185d); color: white; padding: 2.5rem 0; margin-top: auto; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25); overflow: hidden;">
-    <!-- Animated Background Pattern -->
-    <div style="position: absolute; inset: 0; opacity: 0.2;">
-        <div style="position: absolute; top: 0; left: 0; width: 24rem; height: 24rem; background-color: #3b82f6; border-radius: 9999px; mix-blend-mode: overlay; filter: blur(96px); animation: blob 7s infinite;"></div>
-        <div style="position: absolute; top: 0; right: 0; width: 24rem; height: 24rem; background-color: #ec4899; border-radius: 9999px; mix-blend-mode: overlay; filter: blur(96px); animation: blob 7s infinite; animation-delay: 2s;"></div>
-        <div style="position: absolute; bottom: 0; left: 5rem; width: 24rem; height: 24rem; background-color: #a855f7; border-radius: 9999px; mix-blend-mode: overlay; filter: blur(96px); animation: blob 7s infinite; animation-delay: 4s;"></div>
-    </div>
-
-    <div style="position: relative; max-width: 80rem; margin: 0 auto; padding: 0 1rem;">
-        <div style="display: flex; flex-direction: column; justify-content: space-between; align-items: center; gap: 1.5rem;">
-            <!-- Left Section: Copyright -->
-            <div style="text-align: center;">
-                <div style="display: flex; align-items: center; justify-content: center; gap: 0.5rem; margin-bottom: 0.5rem;">
-                    <svg style="width: 2rem; height: 2rem; color: #fcd34d;" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M30 25 L30 35 Q30 50 40 55 L40 70 L35 70 L35 80 L65 80 L65 70 L60 70 L60 55 Q70 50 70 35 L70 25 Z M25 25 L25 35 Q25 40 30 40 L30 30 L25 30 Z M70 30 L70 40 Q75 40 75 35 L75 25 Z" fill="currentColor"/>
-                        <polygon points="45,15 47,22 54,23 49,27 51,34 45,30 39,34 41,27 36,23 43,22" fill="#fbbf24"/>
-                    </svg>
-                    <span style="font-size: 1.5rem; font-weight: 900; background: linear-gradient(to right, #fef08a, #fbbf24); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">Sport Academy MS</span>
-                </div>
-                <p style="font-size: 0.875rem; color: #e5e7eb;">
-                    &copy; {{ date('Y') }} All rights reserved.
-                </p>
-                <p style="font-size: 0.75rem; color: #d1d5db; margin-top: 0.25rem; font-weight: 600;">🏆 Excellence in Sports Training</p>
+<footer class="bg-slate-800 text-slate-200 text-sm">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex items-center justify-between py-2">
+            <div class="flex items-center gap-3">
+                <small class="font-semibold">Sport Academy MS</small>
+                <span class="text-slate-400">&middot;</span>
+                <small class="text-slate-400">&copy; {{ date('Y') }}</small>
             </div>
 
-            <!-- Center Section: Quick Links -->
-            <div style="display: flex; align-items: center; gap: 1.5rem; font-size: 0.875rem; flex-wrap: wrap; justify-content: center;">
-                <a href="#" onclick="showPrivacyModal(event)" style="padding: 0.5rem 1rem; background-color: rgba(255, 255, 255, 0.2); backdrop-filter: blur(4px); border-radius: 9999px; color: white; font-weight: 500; box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1); text-decoration: none; transition: all 0.3s;" onmouseover="this.style.backgroundColor='rgba(255, 255, 255, 0.3)'; this.style.transform='scale(1.05)'" onmouseout="this.style.backgroundColor='rgba(255, 255, 255, 0.2)'; this.style.transform='scale(1)'">
-                    Privacy Policy
-                </a>
-                <a href="#" onclick="showTermsModal(event)" style="padding: 0.5rem 1rem; background-color: rgba(255, 255, 255, 0.2); backdrop-filter: blur(4px); border-radius: 9999px; color: white; font-weight: 500; box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1); text-decoration: none; transition: all 0.3s;" onmouseover="this.style.backgroundColor='rgba(255, 255, 255, 0.3)'; this.style.transform='scale(1.05)'" onmouseout="this.style.backgroundColor='rgba(255, 255, 255, 0.2)'; this.style.transform='scale(1)'">
-                    Terms of Service
-                </a>
-                <a href="#" onclick="showHelpModal(event)" style="padding: 0.5rem 1rem; background-color: rgba(255, 255, 255, 0.2); backdrop-filter: blur(4px); border-radius: 9999px; color: white; font-weight: 500; box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1); text-decoration: none; transition: all 0.3s;" onmouseover="this.style.backgroundColor='rgba(255, 255, 255, 0.3)'; this.style.transform='scale(1.05)'" onmouseout="this.style.backgroundColor='rgba(255, 255, 255, 0.2)'; this.style.transform='scale(1)'">
-                    Help & Support
-                </a>
-            </div>
+            <nav class="hidden sm:flex items-center gap-4" aria-label="Footer links">
+                <a href="#" class="text-slate-300 hover:text-white">Privacy</a>
+                <a href="#" class="text-slate-300 hover:text-white">Terms</a>
+                <a href="#" class="text-slate-300 hover:text-white">Help</a>
+            </nav>
 
-            <!-- Right Section: Developer Contact -->
-            <div style="text-align: center; background: linear-gradient(to bottom right, #111827, #000000); backdrop-filter: blur(12px); border-radius: 1rem; padding: 1rem 1.5rem; border: 2px solid #fbbf24; box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);">
-                <p style="font-size: 0.875rem; color: #d1d5db; margin-bottom: 0.5rem;">
-                    Developed by <span style="font-weight: 900; font-size: 1.25rem; background: linear-gradient(to right, #fcd34d, #fb923c); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">Gashumba</span>
-                </p>
-                <a href="tel:0786163963" style="display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.5rem 1rem; background: linear-gradient(to right, #10b981, #059669); color: white; border-radius: 9999px; font-weight: 700; box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1); text-decoration: none; transition: all 0.3s;" onmouseover="this.style.background='linear-gradient(to right, #059669, #047857)'; this.style.transform='scale(1.05)'; this.style.boxShadow='0 20px 25px -5px rgba(0, 0, 0, 0.2)'" onmouseout="this.style.background='linear-gradient(to right, #10b981, #059669)'; this.style.transform='scale(1)'; this.style.boxShadow='0 10px 15px -3px rgba(0, 0, 0, 0.1)'">
-                    <svg style="width: 1.25rem; height: 1.25rem; transition: transform 0.3s;" fill="currentColor" viewBox="0 0 20 20">
-                        <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z"/>
-                    </svg>
-                    <span>📞 0786 163 963</span>
+            <div class="flex items-center gap-3">
+                <a href="#" class="text-slate-300 hover:text-white" aria-label="Twitter">
+                    <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M23 3a10.9 10.9 0 01-3.14 1.53A4.48 4.48 0 0016 3a4.48 4.48 0 00-4.47 4.47c0 .35.04.69.11 1.02A12.94 12.94 0 013 4.67s-4 9 5 13a13 13 0 01-8 2c9 5 20 0 20-11.5v-.5A7 7 0 0023 3z"/></svg>
+                </a>
+                <a href="#" class="text-slate-300 hover:text-white" aria-label="Facebook">
+                    <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M22 12a10 10 0 10-11.5 9.9v-7h-2v-3h2v-2.2c0-2 1.2-3.1 3-3.1.9 0 1.8.1 1.8.1v2h-1c-1 0-1.3.6-1.3 1.2V12h2.3l-.4 3h-1.9v7A10 10 0 0022 12z"/></svg>
+                </a>
+                <a href="#" class="text-slate-300 hover:text-white" aria-label="Instagram">
+                    <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M7 2h10a5 5 0 015 5v10a5 5 0 01-5 5H7a5 5 0 01-5-5V7a5 5 0 015-5zm5 6.3A3.7 3.7 0 1015.7 12 3.7 3.7 0 0012 8.3zM18.5 6a1.5 1.5 0 11-1.5-1.5A1.5 1.5 0 0118.5 6z"/></svg>
                 </a>
             </div>
         </div>
-
-        <!-- Version Info with Social Links -->
-        <div style="text-align: center; margin-top: 2rem; padding-top: 1.5rem; border-top: 2px solid #4b5563;">
-            <div style="display: flex; flex-direction: column; align-items: center; justify-content: space-between; gap: 0.75rem;">
-                <p style="font-size: 0.75rem; color: #d1d5db; font-weight: 500;">
-                    Version 1.0.0 | Built with ❤️ using <span style="font-weight: 700; color: #f472b6;">most popular programming language</span> & <span style="font-weight: 700; color: #22d3ee;">Tailwind CSS</span>
-                </p>
-                <div style="display: flex; align-items: center; gap: 1rem;">
-                    <span style="font-size: 0.75rem; color: #d1d5db;">Follow us:</span>
-                    <a href="#" style="width: 2.5rem; height: 2.5rem; background-color: #2563eb; border-radius: 9999px; display: flex; align-items: center; justify-content: center; box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1); transition: all 0.3s; text-decoration: none;" onmouseover="this.style.backgroundColor='#1d4ed8'; this.style.transform='scale(1.1)'" onmouseout="this.style.backgroundColor='#2563eb'; this.style.transform='scale(1)'">
-                        <svg style="width: 1.25rem; height: 1.25rem; color: white;" fill="currentColor" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
-                    </a>
-                    <a href="#" style="width: 2.5rem; height: 2.5rem; background-color: #0ea5e9; border-radius: 9999px; display: flex; align-items: center; justify-content: center; box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1); transition: all 0.3s; text-decoration: none;" onmouseover="this.style.backgroundColor='#0284c7'; this.style.transform='scale(1.1)'" onmouseout="this.style.backgroundColor='#0ea5e9'; this.style.transform='scale(1)'">
+    </div>
+</footer>
                         <svg style="width: 1.25rem; height: 1.25rem; color: white;" fill="currentColor" viewBox="0 0 24 24"><path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z"/></svg>
                     </a>
                     <a href="#" style="width: 2.5rem; height: 2.5rem; background: linear-gradient(to bottom right, #9333ea, #ec4899, #f97316); border-radius: 9999px; display: flex; align-items: center; justify-content: center; box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1); transition: all 0.3s; text-decoration: none;" onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'">
@@ -186,7 +151,7 @@
         <div style="padding: 2rem; color: #000000;">
             <h3 style="font-weight: 700; font-size: 1.25rem; margin-bottom: 1rem; color: #1d4ed8;">Need Assistance?</h3>
             <p style="margin-bottom: 1.5rem; font-size: 1.125rem; font-weight: 600;">We're here to help! Contact us through any of the following channels:</p>
-            
+
             <div style="margin-bottom: 1rem;">
                 <div style="display: flex; align-items: flex-start; gap: 0.75rem; padding: 1.25rem; background: linear-gradient(to right, #dbeafe, #eff6ff); border-radius: 0.75rem; border: 2px solid #bfdbfe; margin-bottom: 1rem; transition: all 0.3s;">
                     <svg style="width: 2rem; height: 2rem; color: #2563eb; margin-top: 0.25rem;" fill="currentColor" viewBox="0 0 20 20">

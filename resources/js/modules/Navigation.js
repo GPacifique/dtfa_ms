@@ -11,24 +11,27 @@ class NavigationModule {
         this.isMobile = false;
         this.searchIndex = [];
         this.activeSubmenu = null;
-        
+        this.prefersReducedMotion = false;
+        this._storeWatcher = null;
+        this._focusTrap = { enabled: false, lastFocused: null };
+
         this.init();
     }
 
     init() {
         this.setupEventListeners();
         this.checkMobileStatus();
-        
+
         console.log('🧭 Navigation Module Initialized');
     }
 
     setupEventListeners() {
         this.core.on('domReady', () => this.onDomReady());
         this.core.on('windowResize', (e) => this.handleResize(e.detail));
-        
+
         // Keyboard shortcuts
         this.core.on('searchShortcut', () => this.focusSearch());
-        
+
         document.addEventListener('click', (e) => this.handleDocumentClick(e));
         document.addEventListener('keydown', (e) => this.handleKeyboardNavigation(e));
     }
@@ -39,6 +42,148 @@ class NavigationModule {
         this.setupSearch();
         this.setupBreadcrumbs();
         this.setupQuickActions();
+        this.setupAccessibilityEnhancements();
+    }
+
+    /**
+     * Setup accessibility and polish enhancements
+     */
+    setupAccessibilityEnhancements() {
+        try {
+            this.prefersReducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        } catch (e) {
+            this.prefersReducedMotion = false;
+        }
+
+        // Start a lightweight watcher to sync Alpine layout store mobileOpen value
+        this.startStoreWatcher();
+    }
+
+    /**
+     * Start a small polling watcher to observe Alpine store layout changes
+     * (keeps Navigation module in sync with Alpine without tight coupling)
+     */
+    startStoreWatcher() {
+        if (typeof window === 'undefined' || !window.Alpine || typeof window.Alpine.store !== 'function') return;
+
+        const poll = () => {
+            try {
+                const store = window.Alpine.store('layout');
+                if (!store) return;
+
+                // Mobile open state: when true, ensure sidebar has mobile class and trap focus
+                if (typeof store.mobileOpen !== 'undefined') {
+                    if (store.mobileOpen && !this._focusTrap.enabled) {
+                        this.applyMobileOpen(true);
+                        this.activateFocusTrap();
+                    } else if (!store.mobileOpen && this._focusTrap.enabled) {
+                        this.applyMobileOpen(false);
+                        this.deactivateFocusTrap();
+                    }
+                }
+
+                // Submenu sync
+                if (typeof store.activeSubmenu !== 'undefined') {
+                    // If activeSubmenu differs, open/close submenus accordingly
+                    if (store.activeSubmenu !== this.activeSubmenu) {
+                        // close previous
+                        if (this.activeSubmenu) {
+                            const prev = document.querySelector(`[data-submenu-target="${this.activeSubmenu}"]`);
+                            if (prev) this.closeSubmenu(prev);
+                        }
+
+                        this.activeSubmenu = store.activeSubmenu;
+                        if (this.activeSubmenu) {
+                            const next = document.querySelector(`[data-submenu-target="${this.activeSubmenu}"]`);
+                            if (next) this.openSubmenu(next);
+                        }
+                    }
+                }
+            } catch (e) {
+                // ignore watcher errors
+            }
+        };
+
+        // Poll every 200ms — lightweight and works across environments
+        this._storeWatcher = setInterval(poll, 200);
+    }
+
+    /**
+     * Apply visual state for mobile open/close
+     */
+    applyMobileOpen(isOpen) {
+        if (!this.sidebar) return;
+        this.sidebar.classList.toggle('mobile', isOpen);
+        if (isOpen) {
+            this.sidebar.classList.add('translate-x-0');
+            this.sidebar.classList.remove('-translate-x-full');
+        } else {
+            this.sidebar.classList.remove('translate-x-0');
+            this.sidebar.classList.add('-translate-x-full');
+        }
+    }
+
+    /**
+     * Activate a simple focus trap for the mobile sidebar
+     */
+    activateFocusTrap() {
+        if (!this.sidebar || this._focusTrap.enabled) return;
+        this._focusTrap.enabled = true;
+        this._focusTrap.lastFocused = document.activeElement;
+
+        // Find first and last focusable elements inside sidebar
+        const focusable = this.sidebar.querySelectorAll('a,button,input,select,textarea,[tabindex]:not([tabindex="-1"])');
+        this._focusTrap.first = focusable[0] || this.sidebar;
+        this._focusTrap.last = focusable[focusable.length - 1] || this.sidebar;
+
+        const handleKey = (e) => {
+            if (!this._focusTrap.enabled) return;
+            if (e.key === 'Tab') {
+                if (e.shiftKey) {
+                    if (document.activeElement === this._focusTrap.first) {
+                        e.preventDefault();
+                        (this._focusTrap.last).focus();
+                    }
+                } else {
+                    if (document.activeElement === this._focusTrap.last) {
+                        e.preventDefault();
+                        (this._focusTrap.first).focus();
+                    }
+                }
+            }
+            if (e.key === 'Escape') {
+                // close mobile sidebar via Alpine store if present
+                try {
+                    const store = window.Alpine.store('layout');
+                    if (store) store.mobileOpen = false;
+                } catch (err) {
+                    this.applyMobileOpen(false);
+                }
+            }
+        };
+
+        this._focusTrap.handler = handleKey;
+        document.addEventListener('keydown', handleKey);
+
+        // Focus the first focusable element
+        setTimeout(() => {
+            try { (this._focusTrap.first).focus(); } catch (e) { /* ignore */ }
+        }, 50);
+    }
+
+    /**
+     * Deactivate the focus trap and restore focus
+     */
+    deactivateFocusTrap() {
+        if (!this._focusTrap.enabled) return;
+        this._focusTrap.enabled = false;
+        document.removeEventListener('keydown', this._focusTrap.handler);
+        try {
+            if (this._focusTrap.lastFocused && typeof this._focusTrap.lastFocused.focus === 'function') {
+                this._focusTrap.lastFocused.focus();
+            }
+        } catch (e) {}
+        this._focusTrap = { enabled: false, lastFocused: null };
     }
 
     /**
@@ -47,12 +192,12 @@ class NavigationModule {
     initializeSidebar() {
         this.sidebar = document.querySelector('.sidebar, [data-sidebar]');
         if (!this.sidebar) return;
-        
+
         this.setupSidebarToggle();
         this.setupSidebarMenus();
         this.setupSidebarUserProfile();
         this.loadSidebarState();
-        
+
         // Add modern styling
         this.addSidebarEnhancements();
     }
@@ -62,15 +207,15 @@ class NavigationModule {
      */
     setupSidebarToggle() {
         const toggleButtons = document.querySelectorAll('[data-sidebar-toggle]');
-        
+
         toggleButtons.forEach(button => {
             button.addEventListener('click', () => this.toggleSidebar());
         });
-        
+
         // Auto-collapse on mobile when clicking outside
         document.addEventListener('click', (e) => {
-            if (this.isMobile && 
-                !this.sidebar.contains(e.target) && 
+            if (this.isMobile &&
+                !this.sidebar.contains(e.target) &&
                 !e.target.matches('[data-sidebar-toggle]')) {
                 this.collapseSidebar();
             }
@@ -109,15 +254,15 @@ class NavigationModule {
      */
     updateSidebarState() {
         if (!this.sidebar) return;
-        
+
         this.sidebar.classList.toggle('collapsed', this.isCollapsed);
-        
+
         // Update toggle button icons
         const toggleIcons = document.querySelectorAll('[data-sidebar-toggle] svg');
         toggleIcons.forEach(icon => {
             icon.style.transform = this.isCollapsed ? 'rotate(180deg)' : 'rotate(0deg)';
         });
-        
+
         // Animate navigation items
         const navItems = this.sidebar.querySelectorAll('.nav-item');
         navItems.forEach((item, index) => {
@@ -126,7 +271,7 @@ class NavigationModule {
                 item.style.opacity = this.isCollapsed ? '0.7' : '1';
             }, index * 50);
         });
-        
+
         // Emit event
         this.core.emit('sidebarToggle', { collapsed: this.isCollapsed });
     }
@@ -136,11 +281,11 @@ class NavigationModule {
      */
     setupSidebarMenus() {
         const menuItems = this.sidebar.querySelectorAll('[data-submenu]');
-        
+
         menuItems.forEach(item => {
             this.setupSubmenu(item);
         });
-        
+
         // Active state management
         this.updateActiveMenuItem();
     }
@@ -151,9 +296,9 @@ class NavigationModule {
     setupSubmenu(menuItem) {
         const submenuId = menuItem.getAttribute('data-submenu');
         const submenu = document.querySelector(`[data-submenu-target="${submenuId}"]`);
-        
+
         if (!submenu) return;
-        
+
         const toggle = menuItem.querySelector('.submenu-toggle');
         if (toggle) {
             toggle.addEventListener('click', (e) => {
@@ -161,7 +306,7 @@ class NavigationModule {
                 this.toggleSubmenu(submenuId, submenu);
             });
         }
-        
+
         // Auto-close other submenus
         menuItem.addEventListener('click', () => {
             this.closeOtherSubmenus(submenuId);
@@ -173,13 +318,29 @@ class NavigationModule {
      */
     toggleSubmenu(submenuId, submenu) {
         const isOpen = submenu.classList.contains('open');
-        
+
         if (isOpen) {
             this.closeSubmenu(submenu);
             this.activeSubmenu = null;
+            try {
+                if (window.Alpine && typeof window.Alpine.store === 'function') {
+                    const store = window.Alpine.store('layout');
+                    if (store) store.activeSubmenu = null;
+                }
+            } catch (e) {
+                // ignore
+            }
         } else {
             this.openSubmenu(submenu);
             this.activeSubmenu = submenuId;
+            try {
+                if (window.Alpine && typeof window.Alpine.store === 'function') {
+                    const store = window.Alpine.store('layout');
+                    if (store) store.activeSubmenu = submenuId;
+                }
+            } catch (e) {
+                // ignore
+            }
         }
     }
 
@@ -189,7 +350,7 @@ class NavigationModule {
     openSubmenu(submenu) {
         submenu.classList.add('open');
         submenu.style.maxHeight = submenu.scrollHeight + 'px';
-        
+
         // Animate submenu items
         const items = submenu.querySelectorAll('.submenu-item');
         items.forEach((item, index) => {
@@ -206,7 +367,7 @@ class NavigationModule {
     closeSubmenu(submenu) {
         submenu.classList.remove('open');
         submenu.style.maxHeight = '0';
-        
+
         const items = submenu.querySelectorAll('.submenu-item');
         items.forEach(item => {
             item.style.opacity = '0';
@@ -219,7 +380,7 @@ class NavigationModule {
      */
     closeOtherSubmenus(currentSubmenuId) {
         const openSubmenus = this.sidebar.querySelectorAll('[data-submenu-target].open');
-        
+
         openSubmenus.forEach(submenu => {
             const submenuId = submenu.getAttribute('data-submenu-target');
             if (submenuId !== currentSubmenuId) {
@@ -234,14 +395,14 @@ class NavigationModule {
     updateActiveMenuItem() {
         const currentPath = window.location.pathname;
         const menuItems = this.sidebar.querySelectorAll('.nav-item[href]');
-        
+
         menuItems.forEach(item => {
             item.classList.remove('active');
-            
+
             const href = item.getAttribute('href');
             if (href && currentPath.includes(href)) {
                 item.classList.add('active');
-                
+
                 // Open parent submenu if exists
                 const parentSubmenu = item.closest('[data-submenu-target]');
                 if (parentSubmenu) {
@@ -257,7 +418,7 @@ class NavigationModule {
     setupSidebarUserProfile() {
         const userProfile = this.sidebar.querySelector('.user-profile, [data-user-profile]');
         if (!userProfile) return;
-        
+
         // Add dropdown menu
         const dropdown = userProfile.querySelector('.user-dropdown');
         if (dropdown) {
@@ -265,12 +426,12 @@ class NavigationModule {
                 e.stopPropagation();
                 dropdown.classList.toggle('open');
             });
-            
+
             document.addEventListener('click', () => {
                 dropdown.classList.remove('open');
             });
         }
-        
+
         // Add status indicator
         this.addUserStatusIndicator(userProfile);
     }
@@ -281,13 +442,13 @@ class NavigationModule {
     addUserStatusIndicator(userProfile) {
         const avatar = userProfile.querySelector('.user-avatar');
         if (!avatar) return;
-        
+
         const statusIndicator = document.createElement('div');
         statusIndicator.className = 'user-status-indicator';
         statusIndicator.setAttribute('data-status', 'online');
-        
+
         avatar.appendChild(statusIndicator);
-        
+
         // Update status periodically
         setInterval(() => {
             this.updateUserStatus(statusIndicator);
@@ -302,7 +463,7 @@ class NavigationModule {
         const statuses = ['online', 'away', 'busy'];
         const currentStatus = indicator.getAttribute('data-status');
         const newStatus = statuses[Math.floor(Math.random() * statuses.length)];
-        
+
         if (currentStatus !== newStatus) {
             indicator.setAttribute('data-status', newStatus);
             indicator.style.animation = 'pulse 0.5s ease-in-out';
@@ -325,7 +486,7 @@ class NavigationModule {
      */
     buildSearchIndex() {
         const menuItems = document.querySelectorAll('.nav-item, .submenu-item');
-        
+
         this.searchIndex = Array.from(menuItems).map(item => ({
             element: item,
             text: item.textContent.trim().toLowerCase(),
@@ -349,31 +510,31 @@ class NavigationModule {
             </div>
             <div class="nav-search-results" style="display: none;"></div>
         `;
-        
+
         // Insert at top of sidebar navigation
         const navSection = this.sidebar.querySelector('.sidebar-nav, .nav-section');
         if (navSection) {
             navSection.insertBefore(searchContainer, navSection.firstChild);
         }
-        
+
         const searchInput = searchContainer.querySelector('.nav-search-input');
         const searchResults = searchContainer.querySelector('.nav-search-results');
-        
+
         // Search functionality
         searchInput.addEventListener('input', (e) => {
             this.performSearch(e.target.value, searchResults);
         });
-        
+
         searchInput.addEventListener('keydown', (e) => {
             this.handleSearchKeyboard(e, searchResults);
         });
-        
+
         searchInput.addEventListener('focus', () => {
             if (searchInput.value) {
                 searchResults.style.display = 'block';
             }
         });
-        
+
         searchInput.addEventListener('blur', () => {
             setTimeout(() => {
                 searchResults.style.display = 'none';
@@ -389,12 +550,12 @@ class NavigationModule {
             resultsContainer.style.display = 'none';
             return;
         }
-        
-        const results = this.searchIndex.filter(item => 
+
+        const results = this.searchIndex.filter(item =>
             item.text.includes(query.toLowerCase()) ||
             item.keywords.toLowerCase().includes(query.toLowerCase())
         );
-        
+
         this.renderSearchResults(results, resultsContainer, query);
     }
 
@@ -407,20 +568,20 @@ class NavigationModule {
             container.style.display = 'block';
             return;
         }
-        
+
         container.innerHTML = '';
-        
+
         results.slice(0, 8).forEach((result, index) => {
             const resultItem = document.createElement('div');
             resultItem.className = 'search-result-item';
             if (index === 0) resultItem.classList.add('active');
-            
+
             const highlightedText = this.highlightSearchTerm(result.text, query);
             resultItem.innerHTML = `
                 <span class="result-text">${highlightedText}</span>
                 ${result.href ? `<span class="result-path">${result.href}</span>` : ''}
             `;
-            
+
             resultItem.addEventListener('click', () => {
                 if (result.href) {
                     window.location.href = result.href;
@@ -428,10 +589,10 @@ class NavigationModule {
                     result.element.click();
                 }
             });
-            
+
             container.appendChild(resultItem);
         });
-        
+
         container.style.display = 'block';
     }
 
@@ -440,7 +601,7 @@ class NavigationModule {
      */
     highlightSearchTerm(text, term) {
         if (!term) return text;
-        
+
         const regex = new RegExp(`(${term})`, 'gi');
         return text.replace(regex, '<mark>$1</mark>');
     }
@@ -451,7 +612,7 @@ class NavigationModule {
     handleSearchKeyboard(e, resultsContainer) {
         const items = resultsContainer.querySelectorAll('.search-result-item');
         const activeItem = resultsContainer.querySelector('.search-result-item.active');
-        
+
         if (e.key === 'ArrowDown') {
             e.preventDefault();
             if (activeItem && activeItem.nextElementSibling) {
@@ -495,7 +656,7 @@ class NavigationModule {
     setupBreadcrumbs() {
         const breadcrumbContainer = document.querySelector('.breadcrumb, [data-breadcrumb]');
         if (!breadcrumbContainer) return;
-        
+
         this.generateBreadcrumbs(breadcrumbContainer);
         this.addBreadcrumbInteractions(breadcrumbContainer);
     }
@@ -506,26 +667,26 @@ class NavigationModule {
     generateBreadcrumbs(container) {
         const path = window.location.pathname;
         const segments = path.split('/').filter(segment => segment);
-        
+
         if (segments.length === 0) return;
-        
+
         container.innerHTML = '';
-        
+
         // Add home link
         const homeLink = this.createBreadcrumbItem('Home', '/');
         container.appendChild(homeLink);
-        
+
         // Add path segments
         let currentPath = '';
         segments.forEach((segment, index) => {
             currentPath += '/' + segment;
-            
+
             const breadcrumbItem = this.createBreadcrumbItem(
                 this.formatBreadcrumbText(segment),
                 currentPath,
                 index === segments.length - 1
             );
-            
+
             container.appendChild(breadcrumbItem);
         });
     }
@@ -536,7 +697,7 @@ class NavigationModule {
     createBreadcrumbItem(text, href, isLast = false) {
         const item = document.createElement('div');
         item.className = 'breadcrumb-item';
-        
+
         if (isLast) {
             item.innerHTML = `<span class="breadcrumb-current">${text}</span>`;
         } else {
@@ -547,7 +708,7 @@ class NavigationModule {
                 </svg>
             `;
         }
-        
+
         return item;
     }
 
@@ -568,12 +729,12 @@ class NavigationModule {
      */
     addBreadcrumbInteractions(container) {
         const links = container.querySelectorAll('.breadcrumb-link');
-        
+
         links.forEach(link => {
             link.addEventListener('mouseenter', () => {
                 link.style.transform = 'translateY(-1px)';
             });
-            
+
             link.addEventListener('mouseleave', () => {
                 link.style.transform = 'translateY(0)';
             });
@@ -621,22 +782,22 @@ class NavigationModule {
                 </div>
             </div>
         `;
-        
+
         document.body.appendChild(fab);
-        
+
         const button = fab.querySelector('.fab-button');
         const menu = fab.querySelector('.quick-actions-menu');
-        
+
         button.addEventListener('click', () => {
             const isOpen = menu.style.display !== 'none';
-            
+
             if (isOpen) {
                 this.closeQuickActionsMenu(menu, button);
             } else {
                 this.openQuickActionsMenu(menu, button);
             }
         });
-        
+
         // Close on outside click
         document.addEventListener('click', (e) => {
             if (!fab.contains(e.target)) {
@@ -651,7 +812,7 @@ class NavigationModule {
     openQuickActionsMenu(menu, button) {
         menu.style.display = 'block';
         button.style.transform = 'rotate(45deg)';
-        
+
         const items = menu.querySelectorAll('.quick-action-item');
         items.forEach((item, index) => {
             setTimeout(() => {
@@ -666,13 +827,13 @@ class NavigationModule {
      */
     closeQuickActionsMenu(menu, button) {
         button.style.transform = 'rotate(0deg)';
-        
+
         const items = menu.querySelectorAll('.quick-action-item');
         items.forEach(item => {
             item.style.opacity = '0';
             item.style.transform = 'translateY(10px) scale(0.9)';
         });
-        
+
         setTimeout(() => {
             menu.style.display = 'none';
         }, 200);
@@ -685,7 +846,7 @@ class NavigationModule {
         document.addEventListener('click', (e) => {
             const actionItem = e.target.closest('[data-action]');
             if (!actionItem) return;
-            
+
             const action = actionItem.getAttribute('data-action');
             this.handleQuickAction(action);
         });
@@ -706,12 +867,12 @@ class NavigationModule {
                 window.location.href = '/coach/attendance';
             }
         };
-        
+
         const handler = actions[action];
         if (handler) {
             handler();
         }
-        
+
         this.core.emit('quickAction', { action });
     }
 
@@ -721,7 +882,7 @@ class NavigationModule {
     handleResize(dimensions) {
         const wasMobile = this.isMobile;
         this.isMobile = dimensions.width < 768;
-        
+
         if (wasMobile !== this.isMobile) {
             this.updateSidebarForMobile();
         }
@@ -772,7 +933,7 @@ class NavigationModule {
             e.preventDefault();
             this.toggleSidebar();
         }
-        
+
         // Alt + Q for quick actions
         if (e.altKey && e.key === 'q') {
             e.preventDefault();
@@ -788,9 +949,9 @@ class NavigationModule {
      */
     addSidebarEnhancements() {
         if (!this.sidebar) return;
-        
+
         this.sidebar.classList.add('enhanced-sidebar');
-        
+
         // Add hover effects to nav items
         const navItems = this.sidebar.querySelectorAll('.nav-item');
         navItems.forEach(item => {
@@ -799,12 +960,12 @@ class NavigationModule {
                     item.style.transform = 'translateX(4px)';
                 }
             });
-            
+
             item.addEventListener('mouseleave', () => {
                 item.style.transform = 'translateX(0)';
             });
         });
-        
+
         // Add ripple effect to clickable items
         navItems.forEach(item => {
             item.addEventListener('click', (e) => {
@@ -820,7 +981,7 @@ class NavigationModule {
         const rect = element.getBoundingClientRect();
         const ripple = document.createElement('span');
         const size = Math.max(rect.width, rect.height);
-        
+
         ripple.style.cssText = `
             position: absolute;
             border-radius: 50%;
@@ -833,11 +994,11 @@ class NavigationModule {
             left: ${event.clientX - rect.left - size / 2}px;
             top: ${event.clientY - rect.top - size / 2}px;
         `;
-        
+
         element.style.position = 'relative';
         element.style.overflow = 'hidden';
         element.appendChild(ripple);
-        
+
         setTimeout(() => ripple.remove(), 600);
     }
 
@@ -845,7 +1006,28 @@ class NavigationModule {
      * Save sidebar state
      */
     saveSidebarState() {
-        localStorage.setItem('sidebar-collapsed', this.isCollapsed);
+        try {
+            // Prefer updating the Alpine store when available so there's a
+            // single source of truth for layout state.
+            if (window.Alpine && typeof window.Alpine.store === 'function') {
+                const store = window.Alpine.store('layout');
+                if (store) {
+                    // Alpine's `sidebarOpen` is true when the sidebar is open,
+                    // whereas this module uses `isCollapsed` (true when collapsed).
+                    store.sidebarOpen = !this.isCollapsed;
+                    return;
+                }
+            }
+        } catch (e) {
+            console.warn('Failed to update Alpine store for sidebar state', e);
+        }
+
+        // Fallback: write the legacy localStorage flag (stringified boolean)
+        try {
+            localStorage.setItem('sidebar-collapsed', this.isCollapsed ? 'true' : 'false');
+        } catch (e) {
+            console.warn('Failed to persist sidebar state to localStorage', e);
+        }
     }
 
     /**
@@ -853,11 +1035,30 @@ class NavigationModule {
      */
     loadSidebarState() {
         if (this.isMobile) return;
-        
-        const saved = localStorage.getItem('sidebar-collapsed');
-        if (saved !== null) {
-            this.isCollapsed = saved === 'true';
-            this.updateSidebarState();
+
+        // Prefer reading from the Alpine store if available so both systems
+        // stay in sync. Fallback to legacy localStorage key when needed.
+        try {
+            if (window.Alpine && typeof window.Alpine.store === 'function') {
+                const store = window.Alpine.store('layout');
+                if (store && typeof store.sidebarOpen !== 'undefined') {
+                    this.isCollapsed = !store.sidebarOpen;
+                    this.updateSidebarState();
+                    return;
+                }
+            }
+        } catch (e) {
+            console.warn('Failed to read Alpine store for sidebar state', e);
+        }
+
+        try {
+            const saved = localStorage.getItem('sidebar-collapsed');
+            if (saved !== null) {
+                this.isCollapsed = saved === 'true';
+                this.updateSidebarState();
+            }
+        } catch (e) {
+            console.warn('Failed to read sidebar state from localStorage', e);
         }
     }
 }

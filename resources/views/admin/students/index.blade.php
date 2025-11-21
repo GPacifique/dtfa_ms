@@ -7,6 +7,16 @@
         <div class="flex items-center gap-2">
             <x-button :href="route('admin.students.create')" variant="primary">New Student</x-button>
             <x-button :href="route('admin.students.importForm')" variant="outline">Bulk Import Photos</x-button>
+            <x-button :href="url('/admin/students/export')" variant="outline">Export CSV</x-button>
+            <div class="relative">
+                <button type="button" class="px-3 py-2 bg-slate-100 hover:bg-slate-200 rounded-md">Bulk Actions ▾</button>
+                <div class="absolute right-0 mt-2 w-48 bg-white border rounded shadow-lg hidden">
+                    <a href="#" class="block px-4 py-2 text-sm text-slate-700 hover:bg-slate-50">Delete selected</a>
+                    <a href="#" class="block px-4 py-2 text-sm text-slate-700 hover:bg-slate-50">Mark active</a>
+                    <a href="#" class="block px-4 py-2 text-sm text-slate-700 hover:bg-slate-50">Mark inactive</a>
+                    <a href="#" class="block px-4 py-2 text-sm text-slate-700 hover:bg-slate-50">Assign to group</a>
+                </div>
+            </div>
             <x-button :href="request()->fullUrlWithQuery(['view' => 'table'])" variant="outline" class="{{ request('view') !== 'cards' ? 'ring-1 ring-indigo-500/40' : '' }}">Table</x-button>
             <x-button :href="request()->fullUrlWithQuery(['view' => 'cards'])" variant="outline" class="{{ request('view') === 'cards' ? 'ring-1 ring-indigo-500/40' : '' }}">Cards</x-button>
         </div>
@@ -17,11 +27,11 @@
         <form method="GET" class="flex items-center gap-3">
             <input type="hidden" name="view" value="{{ request('view') }}">
             <div class="flex-1 flex items-center gap-2">
-                <input 
-                    type="text" 
-                    name="q" 
-                    value="{{ $q ?? '' }}" 
-                    placeholder="Search by name, email, phone, jersey number or jersey name…" 
+                <input
+                    type="text"
+                    name="q"
+                    value="{{ $q ?? '' }}"
+                    placeholder="Search by name, email, phone, jersey number or jersey name…"
                     class="flex-1 px-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:bg-neutral-900 dark:border-neutral-700 dark:text-white"
                 />
                 <button type="submit" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-lg transition">
@@ -74,7 +84,7 @@
                         <div class="bg-gradient-to-r from-indigo-50 to-blue-50 px-4 py-3 border-b border-slate-200">
                             <img src="{{ $student->photo_url }}" alt="{{ $student->first_name }} {{ $student->second_name }}" class="w-full h-40 object-cover rounded-lg mb-2">
                             <div class="font-semibold text-slate-900 text-sm truncate">{{ $student->first_name }} {{ $student->second_name }}</div>
-                            
+
                             <!-- Jersey Badges -->
                             @if($student->jersey_number || $student->jersey_name)
                                 <div class="flex items-center gap-1 mt-2 flex-wrap">
@@ -87,7 +97,7 @@
                                 </div>
                             @endif
                         </div>
-                        
+
                         <div class="card-body">
                             <div class="subtle truncate text-xs mb-2">{{ $student->branch?->name ?? '—' }} @if($student->group) • Group {{ $student->group->name }} @endif</div>
                             @if($student->parent)
@@ -105,7 +115,7 @@
                                 @endif
                             </div>
                         </div>
-                        
+
                         <!-- Action Buttons -->
                         <div class="px-4 pb-4 sm:px-6 flex flex-col gap-2 text-sm">
                             <a href="{{ route('admin.students.show', $student) }}" class="text-center px-3 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg font-semibold transition">👁️ View Details</a>
@@ -135,11 +145,14 @@
                 <tbody>
                     @foreach ($students as $student)
                         <tr>
-                            <td class="px-4 py-3">
-                                <div class="flex items-center gap-3">
-                                    <img src="{{ $student->photo_url }}" class="w-10 h-10 rounded-full object-cover ring-1 ring-slate-200 dark:ring-slate-800" alt="">
-                                    <div class="min-w-0">
-                                        <div class="font-semibold text-slate-900 dark:text-white truncate">{{ $student->first_name }} {{ $student->second_name }}</div>
+                                <td class="px-4 py-3">
+                                    <input type="checkbox" name="selected[]" value="{{ $student->id }}" class="bulk-checkbox">
+                                </td>
+                                <td class="px-4 py-3">
+                                    <div class="flex items-center gap-3">
+                                        <img src="{{ $student->photo_url }}" class="w-10 h-10 rounded-full object-cover ring-1 ring-slate-200 dark:ring-slate-800" alt="">
+                                        <div class="min-w-0">
+                                            <div class="font-semibold text-slate-900 dark:text-white truncate">{{ $student->first_name }} {{ $student->last_name }}</div>
                                         @if($student->jersey_number || $student->jersey_name)
                                             <div class="flex items-center gap-1 mt-1">
                                                 @if($student->jersey_number)
@@ -178,8 +191,16 @@
                             </td>
                             <td class="px-4 py-3">{{ optional($student->joined_at)->format('M d, Y') }}</td>
                             <td class="px-4 py-3 text-right">
-                                <a class="text-indigo-700 hover:underline px-2 font-semibold text-sm" href="{{ route('admin.students.show', $student) }}">View</a>
-                                <a class="text-indigo-700 hover:underline px-2 font-semibold text-sm" href="{{ route('admin.students.edit', $student) }}">Edit</a>
+                                    <a class="text-indigo-700 hover:underline px-2 font-semibold text-sm" href="{{ route('admin.students.show', $student) }}">View</a>
+                                    <a class="text-indigo-700 hover:underline px-2 font-semibold text-sm" href="{{ route('admin.students.edit', $student) }}">Edit</a>
+                                    <a class="text-slate-700 hover:underline px-2 font-semibold text-sm" href="{{ url('/admin/students/' . $student->id . '/attendance') }}">Attendance</a>
+                                    <a class="text-slate-700 hover:underline px-2 font-semibold text-sm" href="{{ url('/admin/students/' . $student->id . '/payments') }}">Payments</a>
+                                    <a class="text-slate-700 hover:underline px-2 font-semibold text-sm" href="{{ url('/admin/students/' . $student->id . '/export') }}">Export</a>
+                                    <form action="{{ route('admin.students.destroy', $student) }}" method="POST" class="inline-block" onsubmit="return confirm('Delete this student?');">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="text-red-600 hover:underline px-2 font-semibold text-sm">Delete</button>
+                                    </form>
                             </td>
                         </tr>
                     @endforeach

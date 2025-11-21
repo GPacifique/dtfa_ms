@@ -10,7 +10,7 @@ class Student extends Model
     use HasFactory;
 
     protected $fillable = [
-        'first_name', 'second_name', 'dob', 'gender', 'parent_user_id', 'phone', 'status', 'joined_at', 'branch_id', 'group_id', 'image_path'
+        'first_name', 'last_name', 'dob', 'gender', 'parent_user_id', 'phone', 'status', 'joined_at', 'branch_id', 'group_id', 'image_path'
     ];
 
     protected $casts = [
@@ -65,7 +65,7 @@ class Student extends Model
             }
         }
         // Fallback avatar (SVG data URI or a generic placeholder)
-        $initials = strtoupper(mb_substr($this->first_name ?? 'S', 0, 1) . mb_substr($this->second_name ?? 'T', 0, 1));
+        $initials = strtoupper(mb_substr($this->first_name ?? 'S', 0, 1) . mb_substr($this->last_name ?? 'T', 0, 1));
         $bg = '3b82f6'; // blue-600
         $fg = 'ffffff';
         return "https://ui-avatars.com/api/?name=" . urlencode($initials) . "&background={$bg}&color={$fg}&size=128&bold=true";
