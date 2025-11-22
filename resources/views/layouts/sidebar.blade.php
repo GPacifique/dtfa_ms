@@ -113,6 +113,18 @@
                             <span x-show="$store.layout.sidebarOpen" x-transition class="truncate">Users</span>
                         </a>
                     @endif
+                    @role('super-admin')
+                        @if(Route::has('admin.roles.index'))
+                            <a href="{{ route('admin.roles.index') }}" aria-label="Roles & Permissions" class="nav-item flex items-center gap-3 px-3 py-2 rounded-md hover:bg-slate-800 transition {{ request()->routeIs('admin.roles.*') ? 'active' : '' }}">
+                                <span class="icon flex-shrink-0 w-6 h-6 flex items-center justify-center text-slate-200">
+                                    <!-- Heroicon: Shield Check -->
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 2l7 4v5c0 5-3.58 9.74-7 11-3.42-1.26-7-6-7-11V6l7-4z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4"/></svg>
+                                </span>
+                                <span class="sr-only">Roles & Permissions</span>
+                                <span x-show="$store.layout.sidebarOpen" x-transition class="truncate">Roles & Permissions</span>
+                            </a>
+                        @endif
+                    @endrole
                 @endrole
             </div>
 
