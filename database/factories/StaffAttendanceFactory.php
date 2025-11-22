@@ -17,15 +17,18 @@ class StaffAttendanceFactory extends Factory
         $activities = StaffAttendance::activityOptions();
         $statuses = StaffAttendance::statusOptions();
 
-        // Create a local Faker generator to ensure availability outside test helpers
-        $faker = \Faker\Factory::create();
+        // Use simple PHP randomization to avoid depending on Faker at runtime
+        $activity = count($activities) ? $activities[array_rand($activities)] : null;
+        $status = count($statuses) ? $statuses[array_rand($statuses)] : 'present';
+        $date = \Carbon\Carbon::now()->subDays(rand(0, 30))->format('Y-m-d');
+        $notes = rand(0, 4) === 0 ? 'Auto-generated attendance note' : null;
 
         return [
             'staff_id' => $staff->id,
-            'activity_type' => $faker->randomElement($activities),
-            'date' => $faker->dateTimeBetween('-1 month', '+1 month')->format('Y-m-d'),
-            'status' => $faker->randomElement($statuses),
-            'notes' => $faker->optional()->sentence(),
+            'activity_type' => $activity,
+            'date' => $date,
+            'status' => $status,
+            'notes' => $notes,
         ];
     }
 }
