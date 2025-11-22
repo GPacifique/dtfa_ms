@@ -430,6 +430,11 @@
                             {{ number_format(($netProfit ?? 0)/100, 2) }} RWF
                         </div>
                         <div class="text-xs text-slate-400 mt-1">Revenue minus expenses</div>
+                        <div class="mt-3 text-xs text-slate-500">
+                            <div>Expenses (This Month): <span class="font-medium">{{ number_format(($stats['totalExpensesThisMonth'] ?? 0)/100, 2) }} RWF</span></div>
+                            <div>Total Expenses: <span class="font-medium">{{ number_format(($stats['totalExpenses'] ?? 0)/100, 2) }} RWF</span></div>
+                            <div>Pending Expenses: <span class="font-medium">{{ $stats['pendingExpenses'] ?? 0 }}</span></div>
+                        </div>
                     </div>
                 </div>
                 <div class="card">
