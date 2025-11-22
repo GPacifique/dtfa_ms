@@ -11,14 +11,15 @@ class IncomeFactory extends Factory
 
     public function definition()
     {
+        $faker = $this->faker ?? \Faker\Factory::create();
         return [
             'branch_id' => null,
-            'amount_cents' => $this->faker->numberBetween(1000, 500000),
+            'amount_cents' => $faker->numberBetween(1000, 500000),
             'currency' => 'RWF',
-            'category' => $this->faker->randomElement(['subscriptions','donation','cash','other']),
-            'source' => $this->faker->randomElement(['cash','bank','invoice']),
-            'received_at' => $this->faker->dateTimeBetween('-1 month', 'now'),
-            'notes' => $this->faker->optional()->sentence(),
+            'category' => $faker->randomElement(['subscriptions','donation','cash','other']),
+            'source' => $faker->randomElement(['cash','bank','invoice']),
+            'received_at' => $faker->dateTimeBetween('-1 month', 'now'),
+            'notes' => $faker->optional()->sentence(),
             'recorded_by_user_id' => null,
         ];
     }
