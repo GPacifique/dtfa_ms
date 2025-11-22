@@ -17,10 +17,14 @@ class DatabaseSeeder extends Seeder
     {
         User::factory(10)->create();
 
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
-        ]);
+        // Only create the test user when it doesn't already exist (prevents duplicates
+        // when importing a SQL dump that already includes this user).
+        if (!User::where('email', 'test@example.com')->exists()) {
+            User::factory()->create([
+                'name' => 'Test User',
+                'email' => 'test@example.com',
+            ]);
+        }
 
         // Seed branches (auto-seeds groups A-F per branch) and then roles/permissions
         $this->call([
