@@ -28,12 +28,14 @@
         <!-- Logo Header -->
         <div class="flex items-center justify-between px-4 py-6 border-b border-slate-700">
             <div class="flex items-center space-x-3">
-                <div class="bg-gradient-to-br from-blue-500 to-indigo-600 rounded-lg p-2 shadow-lg">
-                    <img src="/build/images/logo-small.png" alt="logo" class="w-8 h-8">
-                </div>
-                <div x-show="$store.layout.sidebarOpen" class="ml-2">
-                    <a href="{{ route('dashboard') }}" class="text-lg font-semibold">DTFA</a>
-                </div>
+                <a href="{{ route('dashboard') }}" class="flex items-center gap-3">
+                    <div class="bg-gradient-to-br from-blue-500 to-indigo-600 rounded-lg p-2 shadow-lg">
+                        <img src="{{ asset('logo.jpeg') }}" alt="logo" class="w-8 h-8">
+                    </div>
+                    <div x-show="$store.layout.sidebarOpen" class="ml-2">
+                        <span class="text-lg font-semibold">DTFA</span>
+                    </div>
+                </a>
             </div>
 
             <div class="flex items-center space-x-2">
@@ -344,6 +346,16 @@
                     <a href="{{ route('reports.export.pdf') }}" aria-label="Export PDF" class="submenu-item flex items-center gap-3 px-3 py-2 rounded-md hover:bg-slate-800 transition">
                         <span class="sr-only">Export PDF</span>
                         <span>Export PDF</span>
+                    </a>
+                @endif
+                @if(Route::has('admin.imports.index'))
+                    <a href="{{ route('admin.imports.index') }}" aria-label="Import SQL" class="nav-item flex items-center gap-3 px-3 py-2 rounded-md hover:bg-slate-800 transition {{ request()->routeIs('admin.imports.*') ? 'active' : '' }}">
+                        <span class="icon flex-shrink-0 w-6 h-6 flex items-center justify-center text-slate-200">
+                            <!-- Heroicon: Upload -->
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v12m0 0l-4-4m4 4l4-4"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21H3"/></svg>
+                        </span>
+                        <span class="sr-only">Import SQL</span>
+                        <span x-show="$store.layout.sidebarOpen" x-transition class="truncate">Import SQL</span>
                     </a>
                 @endif
             </div>
