@@ -261,6 +261,22 @@
                         @endif
                     </a>
                 @endif
+
+                @role('super-admin|admin|CEO|Technical Director')
+                    @if(Route::has('admin.communications.index'))
+                        <a href="{{ route('admin.communications.index') }}" aria-label="Communications" class="nav-item flex items-center gap-3 px-3 py-2 rounded-md hover:bg-slate-800 transition {{ request()->routeIs('admin.communications.*') ? 'active' : '' }}">
+                            <span class="icon flex-shrink-0 w-6 h-6 flex items-center justify-center text-slate-200">
+                                <!-- Heroicon: Mail -->
+                                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+                            </span>
+                            <span class="sr-only">Communications</span>
+                            <span x-show="$store.layout.sidebarOpen" x-transition class="truncate">Communications</span>
+                            @if($unreadCommsCount > 0)
+                                <span class="ml-auto bg-blue-500 text-white text-xs rounded-full px-2 py-0.5">{{ $unreadCommsCount }}</span>
+                            @endif
+                        </a>
+                    @endif
+                @endrole
             </div>
 
             {{-- Reports --}}

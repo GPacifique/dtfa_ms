@@ -46,6 +46,9 @@
                     </svg>
                 </button>
                 @auth
+                @role('super-admin|admin|CEO|Technical Director')
+                    <a href="{{ route('admin.communications.create') }}" class="btn-secondary mr-2">Compose</a>
+                @endrole
                 <div class="mr-4 text-sm text-slate-700 dark:text-slate-200">
                     Hello, <span class="font-semibold">{{ Auth::user()->name }}</span>
                 </div>

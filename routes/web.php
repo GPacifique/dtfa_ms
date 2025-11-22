@@ -268,6 +268,11 @@ require __DIR__.'/auth.php';
 // Staff module routes (profiles, capacity building, attendances, communications, tasks)
 require __DIR__.'/staff.php';
 
+// Communications admin CRUD
+Route::middleware(['auth', 'role:admin|super-admin|CEO|Technical Director'])->prefix('admin')->group(function () {
+    Route::resource('communications', \App\Http\Controllers\Admin\CommunicationController::class, ['as' => 'admin'])->only(['index','create','store','show','destroy']);
+});
+
 // Capacity Building admin CRUD
 Route::middleware(['auth', 'role:admin|super-admin'])->prefix('admin')->group(function () {
     Route::resource('capacity-buildings', \App\Http\Controllers\Admin\CapacityBuildingController::class, ['as' => 'admin']);

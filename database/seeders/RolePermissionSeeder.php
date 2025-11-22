@@ -27,28 +27,28 @@ class RolePermissionSeeder extends Seeder
             'delete users',
             'restore users',
             'manage users',
-            
+
             // Student Management
             'view students',
             'create students',
             'edit students',
             'delete students',
             'manage students',
-            
+
             // Branch Management
             'view branches',
             'create branches',
             'edit branches',
             'delete branches',
             'manage branches',
-            
+
             // Group Management
             'view groups',
             'create groups',
             'edit groups',
             'delete groups',
             'manage groups',
-            
+
             // Training Session Management
             'view training sessions',
             'create training sessions',
@@ -56,28 +56,28 @@ class RolePermissionSeeder extends Seeder
             'delete training sessions',
             'manage training sessions',
             'view training schedule',
-            
+
             // Subscription Plan Management
             'view subscription plans',
             'create subscription plans',
             'edit subscription plans',
             'delete subscription plans',
             'manage subscription plans',
-            
+
             // Subscription Management
             'view subscriptions',
             'create subscriptions',
             'edit subscriptions',
             'delete subscriptions',
             'manage subscriptions',
-            
+
             // Invoice Management
             'view invoices',
             'create invoices',
             'edit invoices',
             'delete invoices',
             'manage invoices',
-            
+
             // Payment Management
             'view payments',
             'create payments',
@@ -85,13 +85,13 @@ class RolePermissionSeeder extends Seeder
             'delete payments',
             'manage payments',
             'record payments',
-            
+
             // Financial Management
             'view finances',
             'manage finances',
             'view financial reports',
             'export financial data',
-            
+
             // Expense Management
             'view expenses',
             'create expenses',
@@ -100,23 +100,23 @@ class RolePermissionSeeder extends Seeder
             'manage expenses',
             'approve expenses',
             'reject expenses',
-            
+
             // Equipment Management
             'view equipment',
             'create equipment',
             'edit equipment',
             'delete equipment',
             'manage equipment',
-            
+
             // Team Management
             'view teams',
             'manage teams',
-            
+
             // Parent/Child Access
             'view child info',
             'view own invoices',
             'make payments',
-            
+
             // Reports & Analytics
             'view reports',
             'view dashboard',
@@ -133,6 +133,9 @@ class RolePermissionSeeder extends Seeder
         $coach = Role::firstOrCreate(['name' => 'coach', 'guard_name' => 'web']);
         $accountant = Role::firstOrCreate(['name' => 'accountant', 'guard_name' => 'web']);
         $parent = Role::firstOrCreate(['name' => 'parent', 'guard_name' => 'web']);
+        // Organization leadership roles
+        $ceo = Role::firstOrCreate(['name' => 'CEO', 'guard_name' => 'web']);
+        $techDirector = Role::firstOrCreate(['name' => 'Technical Director', 'guard_name' => 'web']);
 
         // Get all permissions
         $allPermissions = Permission::where('guard_name', 'web')->get();
@@ -142,6 +145,22 @@ class RolePermissionSeeder extends Seeder
 
         // ADMIN: Grant ALL permissions
         $admin->syncPermissions($allPermissions);
+
+        // CEO: full access like admin/super-admin
+        $ceo->syncPermissions($allPermissions);
+
+        // Technical Director: broad operational permissions but not financial management
+        $techExcluded = [
+            'view finances','manage finances','view financial reports','export financial data',
+            'view invoices','create invoices','edit invoices','delete invoices','manage invoices',
+            'view payments','create payments','record payments','manage payments'
+        ];
+
+        $techPermissions = $allPermissions->filter(function ($p) use ($techExcluded) {
+            return !in_array($p->name, $techExcluded, true);
+        });
+
+        $techDirector->syncPermissions($techPermissions);
 
         // COACH: Training sessions, teams, equipment, and viewing schedules
         $coach->syncPermissions([
@@ -216,6 +235,22 @@ class RolePermissionSeeder extends Seeder
             ['name' => 'Admin User', 'password' => bcrypt('password')]
         );
         $adminUser->syncRoles(['admin']);
+
+        // Ensure there is a CEO user
+        $ceoEmail = 'ceo@example.com';
+        $ceoUser = User::firstOrCreate(
+            ['email' => $ceoEmail],
+            ['name' => 'CEO', 'password' => bcrypt('password')]
+        );
+        $ceoUser->syncRoles(['CEO']);
+
+        // Ensure there is a Technical Director user
+        $techEmail = 'techdir@example.com';
+        $techUser = User::firstOrCreate(
+            ['email' => $techEmail],
+            ['name' => 'Technical Director', 'password' => bcrypt('password')]
+        );
+        $techUser->syncRoles(['Technical Director']);
 
         // Clear cache again after seeding
         app(PermissionRegistrar::class)->forgetCachedPermissions();
