@@ -17,13 +17,15 @@ class StaffAttendanceFactory extends Factory
         $activities = StaffAttendance::activityOptions();
         $statuses = StaffAttendance::statusOptions();
 
-        // Use the global fake() helper to avoid cases where $this->faker is null
+        // Create a local Faker generator to ensure availability outside test helpers
+        $faker = \Faker\Factory::create();
+
         return [
             'staff_id' => $staff->id,
-            'activity_type' => \fake()->randomElement($activities),
-            'date' => \fake()->dateTimeBetween('-1 month', '+1 month')->format('Y-m-d'),
-            'status' => \fake()->randomElement($statuses),
-            'notes' => \fake()->optional()->sentence(),
+            'activity_type' => $faker->randomElement($activities),
+            'date' => $faker->dateTimeBetween('-1 month', '+1 month')->format('Y-m-d'),
+            'status' => $faker->randomElement($statuses),
+            'notes' => $faker->optional()->sentence(),
         ];
     }
 }
