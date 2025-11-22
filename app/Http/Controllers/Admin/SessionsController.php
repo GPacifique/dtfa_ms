@@ -35,17 +35,9 @@ class SessionsController extends Controller
         return view('admin.sessions.create', compact('branches', 'groups', 'coaches'));
     }
 
-    public function store(Request $request)
+    public function store(\App\Http\Requests\TrainingSessionRequest $request)
     {
-        $data = $request->validate([
-            'date' => ['required', 'date'],
-            'start_time' => ['required'],
-            'end_time' => ['required', 'after:start_time'],
-            'location' => ['required', 'string', 'max:255'],
-            'coach_user_id' => ['required', 'integer', 'exists:users,id'],
-            'branch_id' => ['required', 'integer', 'exists:branches,id'],
-            'group_id' => ['required', 'integer', 'exists:groups,id'],
-        ]);
+        $data = $request->validated();
 
         // Ensure the group belongs to the branch
         $group = Group::where('id', $data['group_id'])
@@ -79,17 +71,10 @@ class SessionsController extends Controller
         return view('admin.sessions.edit', compact('session', 'branches', 'groups', 'coaches'));
     }
 
-    public function update(Request $request, TrainingSession $session)
+    public function update(\App\Http\Requests\TrainingSessionRequest $request, TrainingSession $session)
     {
-        $data = $request->validate([
-            'date' => ['required', 'date'],
-            'start_time' => ['required'],
-            'end_time' => ['required', 'after:start_time'],
-            'location' => ['required', 'string', 'max:255'],
-            'coach_user_id' => ['required', 'integer', 'exists:users,id'],
-            'branch_id' => ['required', 'integer', 'exists:branches,id'],
-            'group_id' => ['required', 'integer', 'exists:groups,id'],
-        ]);
+        $this->authorize('update', $session);
+        $data = $request->validated();
 
         $group = Group::where('id', $data['group_id'])
             ->where('branch_id', $data['branch_id'])
