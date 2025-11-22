@@ -109,4 +109,38 @@ class SessionsController extends Controller
 
         return redirect()->route('admin.sessions.index')->with('status', 'Session deleted.');
     }
+
+    /**
+     * Mark attendance for every student in the session's branch+group as present.
+     * This is a convenience admin action for quickly recording attendance for all.
+     */
+    public function recordAllAttendance(TrainingSession $session)
+    {
+        $students = \App\Models\Student::where('branch_id', $session->branch_id)
+            ->where('group_id', $session->group_id)
+            ->pluck('id')
+            ->all();
+
+        if (empty($students)) {
+            return redirect()->route('admin.sessions.index')->with('status', 'No students found for this session.');
+        }
+
+        \DB::transaction(function () use ($students, $session) {
+            foreach ($students as $sid) {
+                \App\Models\StudentAttendance::updateOrCreate(
+                    ['student_id' => $sid, 'training_session_id' => $session->id],
+                    ['status' => 'present']
+                );
+            }
+            // Mark coach attendance present if a coach was assigned
+            if ($session->coach_user_id) {
+                \App\Models\CoachAttendance::updateOrCreate(
+                    ['coach_user_id' => $session->coach_user_id, 'training_session_id' => $session->id],
+                    ['status' => 'present']
+                );
+            }
+        });
+
+        return redirect()->route('admin.sessions.index')->with('status', 'Recorded attendance for all students as present.');
+    }
 }

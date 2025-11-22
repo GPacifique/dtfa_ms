@@ -104,6 +104,7 @@ Route::middleware(['auth', 'role:admin|super-admin'])->prefix('admin')->group(fu
     Route::get('/sessions/{session}/edit', [\App\Http\Controllers\Admin\SessionsController::class, 'edit'])->name('admin.sessions.edit');
     Route::put('/sessions/{session}', [\App\Http\Controllers\Admin\SessionsController::class, 'update'])->name('admin.sessions.update');
     Route::delete('/sessions/{session}', [\App\Http\Controllers\Admin\SessionsController::class, 'destroy'])->name('admin.sessions.destroy');
+    Route::post('/sessions/{session}/record-all-attendance', [\App\Http\Controllers\Admin\SessionsController::class, 'recordAllAttendance'])->name('admin.sessions.recordAllAttendance');
 
     // Students (admin-only routes moved to a dedicated middleware group below)
 
