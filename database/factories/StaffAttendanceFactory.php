@@ -20,10 +20,10 @@ class StaffAttendanceFactory extends Factory
         // Use the global fake() helper to avoid cases where $this->faker is null
         return [
             'staff_id' => $staff->id,
-            'activity_type' => fake()->randomElement($activities),
-            'date' => fake()->dateTimeBetween('-1 month', '+1 month')->format('Y-m-d'),
-            'status' => fake()->randomElement($statuses),
-            'notes' => fake()->optional()->sentence(),
+            'activity_type' => \fake()->randomElement($activities),
+            'date' => \fake()->dateTimeBetween('-1 month', '+1 month')->format('Y-m-d'),
+            'status' => \fake()->randomElement($statuses),
+            'notes' => \fake()->optional()->sentence(),
         ];
     }
 }
