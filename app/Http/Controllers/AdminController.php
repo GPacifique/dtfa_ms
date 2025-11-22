@@ -12,6 +12,7 @@ use App\Models\Payment;
 use App\Models\Subscription;
 use App\Models\Invoice;
 use App\Models\Expense;
+use App\Models\Income;
 use Illuminate\Support\Carbon;
 
 class AdminController extends Controller
@@ -75,9 +76,21 @@ class AdminController extends Controller
             'revenueThisMonth' => Payment::where('status', 'succeeded')
                 ->whereBetween('paid_at', [now()->startOfMonth(), now()->endOfMonth()])
                 ->sum('amount_cents'),
+            // Income totals
+            'incomeThisMonth' => Income::whereBetween('received_at', [now()->startOfMonth(), now()->endOfMonth()])->sum('amount_cents'),
+            'totalIncome' => Income::sum('amount_cents'),
+
+            // Subscription specific revenue (payments linked to subscriptions)
+            'subscriptionRevenueThisMonth' => Payment::whereNotNull('subscription_id')
+                ->where('status', 'succeeded')
+                ->whereBetween('paid_at', [now()->startOfMonth(), now()->endOfMonth()])
+                ->sum('amount_cents'),
+            'totalSubscriptionRevenue' => Payment::whereNotNull('subscription_id')
+                ->where('status', 'succeeded')
+                ->sum('amount_cents'),
             'pendingInvoices' => Invoice::whereIn('status', ['pending', 'overdue'])->count(),
             'totalRevenue' => Payment::where('status', 'succeeded')->sum('amount_cents'),
-            
+
             // Expenses
             'pendingExpenses' => Expense::where('status', 'pending')->count(),
             'totalExpensesThisMonth' => Expense::whereIn('status', ['approved', 'paid'])
@@ -87,7 +100,7 @@ class AdminController extends Controller
         ];
 
         // Calculate net profit
-        $netProfit = ($stats['revenueThisMonth'] ?? 0) - ($stats['totalExpensesThisMonth'] ?? 0);
+        $netProfit = (($stats['revenueThisMonth'] ?? 0) + ($stats['incomeThisMonth'] ?? 0)) - ($stats['totalExpensesThisMonth'] ?? 0);
 
         // Additional trend data for charts: last 8 weeks of sessions
         $weeklyTrends = [];
