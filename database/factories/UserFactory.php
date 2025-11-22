@@ -23,11 +23,20 @@ class UserFactory extends Factory
      */
     public function definition(): array
     {
-        $faker = \Faker\Factory::create();
+        $faker = $this->faker ?? (class_exists('\\Faker\\Factory') ? \Faker\Factory::create() : null);
+
+        if ($faker) {
+            $name = $faker->name();
+            $email = $faker->unique()->safeEmail();
+        } else {
+            // Fallback when Faker is not installed (e.g., prod without dev deps)
+            $name = 'User ' . Str::random(6);
+            $email = 'user+' . uniqid() . '@example.com';
+        }
 
         return [
-            'name' => $faker->name(),
-            'email' => $faker->unique()->safeEmail(),
+            'name' => $name,
+            'email' => $email,
             'email_verified_at' => now(),
             'password' => static::$password ??= Hash::make('password'),
             'remember_token' => Str::random(10),
