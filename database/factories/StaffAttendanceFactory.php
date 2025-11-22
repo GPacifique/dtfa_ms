@@ -12,16 +12,18 @@ class StaffAttendanceFactory extends Factory
 
     public function definition()
     {
-        $staff = User::inRandomOrder()->first();
+        // Ensure there's a staff user to reference (fallback to factory)
+        $staff = User::inRandomOrder()->first() ?? User::factory()->create();
         $activities = StaffAttendance::activityOptions();
         $statuses = StaffAttendance::statusOptions();
 
+        // Use the global fake() helper to avoid cases where $this->faker is null
         return [
-            'staff_id' => $staff?->id,
-            'activity_type' => $this->faker->randomElement($activities),
-            'date' => $this->faker->dateTimeBetween('-1 month', '+1 month')->format('Y-m-d'),
-            'status' => $this->faker->randomElement($statuses),
-            'notes' => $this->faker->optional()->sentence(),
+            'staff_id' => $staff->id,
+            'activity_type' => fake()->randomElement($activities),
+            'date' => fake()->dateTimeBetween('-1 month', '+1 month')->format('Y-m-d'),
+            'status' => fake()->randomElement($statuses),
+            'notes' => fake()->optional()->sentence(),
         ];
     }
 }
