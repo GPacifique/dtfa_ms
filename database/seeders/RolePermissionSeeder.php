@@ -133,6 +133,7 @@ class RolePermissionSeeder extends Seeder
         $coach = Role::firstOrCreate(['name' => 'coach', 'guard_name' => 'web']);
         $accountant = Role::firstOrCreate(['name' => 'accountant', 'guard_name' => 'web']);
         $parent = Role::firstOrCreate(['name' => 'parent', 'guard_name' => 'web']);
+        $staff = Role::firstOrCreate(['name' => 'staff', 'guard_name' => 'web']);
         // Organization leadership roles
         $ceo = Role::firstOrCreate(['name' => 'CEO', 'guard_name' => 'web']);
         $techDirector = Role::firstOrCreate(['name' => 'Technical Director', 'guard_name' => 'web']);

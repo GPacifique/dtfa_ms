@@ -105,16 +105,7 @@ Route::middleware(['auth', 'role:admin|super-admin'])->prefix('admin')->group(fu
     Route::put('/sessions/{session}', [\App\Http\Controllers\Admin\SessionsController::class, 'update'])->name('admin.sessions.update');
     Route::delete('/sessions/{session}', [\App\Http\Controllers\Admin\SessionsController::class, 'destroy'])->name('admin.sessions.destroy');
 
-    // Students
-    Route::get('/students', [\App\Http\Controllers\Admin\StudentsController::class, 'index'])->name('admin.students.index');
-    Route::get('/students/{student}', [\App\Http\Controllers\Admin\StudentsController::class, 'show'])->name('admin.students.show');
-    Route::get('/students/create', [\App\Http\Controllers\Admin\StudentsController::class, 'create'])->name('admin.students.create');
-    Route::post('/students', [\App\Http\Controllers\Admin\StudentsController::class, 'store'])->name('admin.students.store');
-    Route::get('/students/{student}/edit', [\App\Http\Controllers\Admin\StudentsController::class, 'edit'])->name('admin.students.edit');
-    Route::put('/students/{student}', [\App\Http\Controllers\Admin\StudentsController::class, 'update'])->name('admin.students.update');
-    Route::delete('/students/{student}', [\App\Http\Controllers\Admin\StudentsController::class, 'destroy'])->name('admin.students.destroy');
-    Route::get('/students/import/photos', [\App\Http\Controllers\Admin\StudentsController::class, 'importForm'])->name('admin.students.importForm');
-    Route::post('/students/import/photos', [\App\Http\Controllers\Admin\StudentsController::class, 'importProcess'])->name('admin.students.importProcess');
+    // Students (admin-only routes moved to a dedicated middleware group below)
 
     // Subscription Plans
     Route::get('/plans', [\App\Http\Controllers\Admin\SubscriptionPlansController::class, 'index'])->name('admin.plans.index');
@@ -286,6 +277,19 @@ Route::middleware(['auth', 'role:admin|super-admin|coach'])->prefix('admin')->gr
 // Staff Attendance admin CRUD - allow coaches
 Route::middleware(['auth', 'role:admin|super-admin|coach'])->prefix('admin')->group(function () {
     Route::resource('staff_attendances', \App\Http\Controllers\Admin\StaffAttendanceController::class, ['as' => 'admin']);
+});
+
+// Students management: allow admin, super-admin, coach, staff, accountant
+Route::middleware(['auth', 'role:admin|super-admin|coach|staff|accountant'])->prefix('admin')->group(function () {
+    Route::get('/students', [\App\Http\Controllers\Admin\StudentsController::class, 'index'])->name('admin.students.index');
+    Route::get('/students/{student}', [\App\Http\Controllers\Admin\StudentsController::class, 'show'])->name('admin.students.show');
+    Route::get('/students/create', [\App\Http\Controllers\Admin\StudentsController::class, 'create'])->name('admin.students.create');
+    Route::post('/students', [\App\Http\Controllers\Admin\StudentsController::class, 'store'])->name('admin.students.store');
+    Route::get('/students/{student}/edit', [\App\Http\Controllers\Admin\StudentsController::class, 'edit'])->name('admin.students.edit');
+    Route::put('/students/{student}', [\App\Http\Controllers\Admin\StudentsController::class, 'update'])->name('admin.students.update');
+    Route::delete('/students/{student}', [\App\Http\Controllers\Admin\StudentsController::class, 'destroy'])->name('admin.students.destroy');
+    Route::get('/students/import/photos', [\App\Http\Controllers\Admin\StudentsController::class, 'importForm'])->name('admin.students.importForm');
+    Route::post('/students/import/photos', [\App\Http\Controllers\Admin\StudentsController::class, 'importProcess'])->name('admin.students.importProcess');
 });
 
 // Local-only helper to grant admin role to current user for development
