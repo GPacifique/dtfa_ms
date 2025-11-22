@@ -14,6 +14,7 @@ use App\Models\Invoice;
 use App\Models\Expense;
 use App\Models\Income;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Cache;
 
 class AdminController extends Controller
 {
@@ -58,6 +59,30 @@ class AdminController extends Controller
         $sessionsCount = (clone $sessionListQuery)->count();
 
         // Stats
+        // Use cached heavyweight aggregates when possible to reduce DB load
+        $metrics = Cache::remember('dashboard.metrics', 30, function () {
+            return [
+                'revenueThisMonth' => Payment::where('status', 'succeeded')
+                    ->whereBetween('paid_at', [now()->startOfMonth(), now()->endOfMonth()])
+                    ->sum('amount_cents'),
+                'totalRevenue' => Payment::where('status', 'succeeded')->sum('amount_cents'),
+                'incomeThisMonth' => Income::whereBetween('received_at', [now()->startOfMonth(), now()->endOfMonth()])->sum('amount_cents'),
+                'totalIncome' => Income::sum('amount_cents'),
+                'subscriptionRevenueThisMonth' => Payment::whereNotNull('subscription_id')
+                    ->where('status', 'succeeded')
+                    ->whereBetween('paid_at', [now()->startOfMonth(), now()->endOfMonth()])
+                    ->sum('amount_cents'),
+                'totalSubscriptionRevenue' => Payment::whereNotNull('subscription_id')
+                    ->where('status', 'succeeded')
+                    ->sum('amount_cents'),
+                'pendingExpenses' => Expense::where('status', 'pending')->count(),
+                'totalExpensesThisMonth' => Expense::whereIn('status', ['approved', 'paid'])
+                    ->whereBetween('expense_date', [now()->startOfMonth(), now()->endOfMonth()])
+                    ->sum('amount_cents'),
+                'totalExpenses' => Expense::whereIn('status', ['approved', 'paid'])->sum('amount_cents'),
+            ];
+        });
+
         $stats = [
             'totalUsers' => User::count(),
             'totalBranches' => Branch::count(),
@@ -70,33 +95,21 @@ class AdminController extends Controller
                 now()->startOfWeek()->toDateString(),
                 now()->endOfWeek()->toDateString(),
             ])->count(),
-            // Payment & Subscription stats
+            // Payment & Subscription stats (from cache)
             'activeSubscriptions' => Subscription::where('status', 'active')->count(),
             'totalSubscriptions' => Subscription::count(),
-            'revenueThisMonth' => Payment::where('status', 'succeeded')
-                ->whereBetween('paid_at', [now()->startOfMonth(), now()->endOfMonth()])
-                ->sum('amount_cents'),
-            // Income totals
-            'incomeThisMonth' => Income::whereBetween('received_at', [now()->startOfMonth(), now()->endOfMonth()])->sum('amount_cents'),
-            'totalIncome' => Income::sum('amount_cents'),
-
-            // Subscription specific revenue (payments linked to subscriptions)
-            'subscriptionRevenueThisMonth' => Payment::whereNotNull('subscription_id')
-                ->where('status', 'succeeded')
-                ->whereBetween('paid_at', [now()->startOfMonth(), now()->endOfMonth()])
-                ->sum('amount_cents'),
-            'totalSubscriptionRevenue' => Payment::whereNotNull('subscription_id')
-                ->where('status', 'succeeded')
-                ->sum('amount_cents'),
+            'revenueThisMonth' => $metrics['revenueThisMonth'] ?? 0,
+            'incomeThisMonth' => $metrics['incomeThisMonth'] ?? 0,
+            'totalIncome' => $metrics['totalIncome'] ?? 0,
+            'subscriptionRevenueThisMonth' => $metrics['subscriptionRevenueThisMonth'] ?? 0,
+            'totalSubscriptionRevenue' => $metrics['totalSubscriptionRevenue'] ?? 0,
             'pendingInvoices' => Invoice::whereIn('status', ['pending', 'overdue'])->count(),
-            'totalRevenue' => Payment::where('status', 'succeeded')->sum('amount_cents'),
+            'totalRevenue' => $metrics['totalRevenue'] ?? 0,
 
-            // Expenses
-            'pendingExpenses' => Expense::where('status', 'pending')->count(),
-            'totalExpensesThisMonth' => Expense::whereIn('status', ['approved', 'paid'])
-                ->whereBetween('expense_date', [now()->startOfMonth(), now()->endOfMonth()])
-                ->sum('amount_cents'),
-            'totalExpenses' => Expense::whereIn('status', ['approved', 'paid'])->sum('amount_cents'),
+            // Expenses (from cache)
+            'pendingExpenses' => $metrics['pendingExpenses'] ?? 0,
+            'totalExpensesThisMonth' => $metrics['totalExpensesThisMonth'] ?? 0,
+            'totalExpenses' => $metrics['totalExpenses'] ?? 0,
         ];
 
         // Calculate net profit

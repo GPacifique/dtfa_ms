@@ -5,6 +5,13 @@ namespace App\Providers;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\View;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Carbon;
+use App\Models\Income;
+use App\Models\Payment;
+use App\Models\TrainingSession;
+use App\Models\Student;
+use App\Models\Branch;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Staff;
 use App\Models\StaffTask;
@@ -76,6 +83,62 @@ class AppServiceProvider extends ServiceProvider
             }
 
             $view->with($data);
+        });
+
+        // Dashboard metrics composer: cache heavyweight aggregates for short period
+        View::composer('admin.dashboard', function ($view) {
+            $metrics = Cache::remember('dashboard.metrics', 30, function () {
+                $m = [
+                    'revenueThisMonth' => 0,
+                    'totalRevenue' => 0,
+                    'incomeThisMonth' => 0,
+                    'totalIncome' => 0,
+                    'subscriptionRevenueThisMonth' => 0,
+                    'totalSubscriptionRevenue' => 0,
+                    'totalExpensesThisMonth' => 0,
+                    'totalExpenses' => 0,
+                    'pendingExpenses' => 0,
+                ];
+
+                try {
+                    if (Schema::hasTable('payments')) {
+                        $m['revenueThisMonth'] = Payment::where('status', 'succeeded')
+                            ->whereBetween('paid_at', [now()->startOfMonth(), now()->endOfMonth()])
+                            ->sum('amount_cents');
+
+                        $m['totalRevenue'] = Payment::where('status', 'succeeded')->sum('amount_cents');
+
+                        $m['subscriptionRevenueThisMonth'] = Payment::whereNotNull('subscription_id')
+                            ->where('status', 'succeeded')
+                            ->whereBetween('paid_at', [now()->startOfMonth(), now()->endOfMonth()])
+                            ->sum('amount_cents');
+
+                        $m['totalSubscriptionRevenue'] = Payment::whereNotNull('subscription_id')
+                            ->where('status', 'succeeded')
+                            ->sum('amount_cents');
+                    }
+
+                    if (Schema::hasTable('incomes')) {
+                        $m['incomeThisMonth'] = Income::whereBetween('received_at', [now()->startOfMonth(), now()->endOfMonth()])->sum('amount_cents');
+                        $m['totalIncome'] = Income::sum('amount_cents');
+                    }
+
+                    if (Schema::hasTable('expenses')) {
+                        $m['totalExpensesThisMonth'] = Expense::whereIn('status', ['approved', 'paid'])
+                            ->whereBetween('expense_date', [now()->startOfMonth(), now()->endOfMonth()])
+                            ->sum('amount_cents');
+
+                        $m['totalExpenses'] = Expense::whereIn('status', ['approved', 'paid'])->sum('amount_cents');
+                        $m['pendingExpenses'] = Expense::where('status', 'pending')->count();
+                    }
+                } catch (\Throwable $e) {
+                    // swallow and return defaults
+                }
+
+                return $m;
+            });
+
+            $view->with('cachedMetrics', $metrics);
         });
     }
 }
