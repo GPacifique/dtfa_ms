@@ -156,6 +156,17 @@
                             <span x-show="$store.layout.sidebarOpen" x-transition class="truncate">Manage Sessions</span>
                         </a>
                     @endif
+
+                    @if(Route::has('admin.games.index'))
+                        <a href="{{ route('admin.games.index') }}" aria-label="Matches" class="nav-item flex items-center gap-3 px-3 py-2 rounded-md hover:bg-slate-800 transition {{ request()->routeIs('admin.games.*') ? 'active' : '' }}">
+                            <span class="icon flex-shrink-0 w-6 h-6 flex items-center justify-center text-slate-200">
+                                <!-- Heroicon: Soccer Ball (simple circle) -->
+                                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><circle cx="12" cy="12" r="9" stroke-width="2"/><path d="M12 3v6l3 3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                            </span>
+                            <span class="sr-only">Matches</span>
+                            <span x-show="$store.layout.sidebarOpen" x-transition class="truncate">Matches</span>
+                        </a>
+                    @endif
                 @endrole
 
                 @if(Route::has('coach.attendance.index'))
