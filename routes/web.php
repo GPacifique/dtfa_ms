@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\ReportController;
+use App\Http\Controllers\GuestController;
 use App\Http\Controllers\Student\CheckinController;
 // Reports CRUD routes
 Route::resource('reports', ReportController::class);
@@ -27,6 +28,9 @@ Route::middleware(['auth'])->prefix('user')->group(function () {
 Route::get('/', function () {
     return view('welcome');
 });
+
+// Public guest dashboard
+Route::get('/guest', [GuestController::class, 'index'])->name('guest.dashboard');
 
 Route::get('/dashboard', function () {
     $user = Auth::user();
