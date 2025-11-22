@@ -25,7 +25,12 @@ class SessionsController extends Controller
     {
         $branches = Branch::orderBy('name')->get();
         $groups = Group::orderBy('name')->get();
-        $coaches = User::role('coach')->orderBy('name')->get();
+        // Some environments may not have Spatie roles configured. Fall back safely.
+        try {
+            $coaches = User::role('coach')->orderBy('name')->get();
+        } catch (\Throwable $e) {
+            $coaches = User::select('id', 'name')->orderBy('name')->get();
+        }
 
         return view('admin.sessions.create', compact('branches', 'groups', 'coaches'));
     }
@@ -65,7 +70,11 @@ class SessionsController extends Controller
     {
         $branches = Branch::orderBy('name')->get();
         $groups = Group::orderBy('name')->get();
-        $coaches = User::role('coach')->orderBy('name')->get();
+        try {
+            $coaches = User::role('coach')->orderBy('name')->get();
+        } catch (\Throwable $e) {
+            $coaches = User::select('id', 'name')->orderBy('name')->get();
+        }
 
         return view('admin.sessions.edit', compact('session', 'branches', 'groups', 'coaches'));
     }
