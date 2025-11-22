@@ -10,6 +10,55 @@
     </div>
 
     <div class="bg-white shadow overflow-hidden sm:rounded-md">
+        <div class="p-4 border-b">
+            <form method="GET" class="flex flex-wrap gap-3 items-end">
+                <div>
+                    <label class="block text-xs text-gray-500">Branch</label>
+                    <select name="branch" class="mt-1 block w-40 rounded-md border-gray-300 shadow-sm">
+                        <option value="">All</option>
+                        @if(!empty($branches))
+                            @foreach($branches as $b)
+                                <option value="{{ $b }}" {{ request('branch') === $b ? 'selected' : '' }}>{{ $b }}</option>
+                            @endforeach
+                        @endif
+                    </select>
+                </div>
+
+                <div>
+                    <label class="block text-xs text-gray-500">Pitch</label>
+                    <select name="training_pitch" class="mt-1 block w-40 rounded-md border-gray-300 shadow-sm">
+                        <option value="">All</option>
+                        @if(!empty($pitches))
+                            @foreach($pitches as $p)
+                                <option value="{{ $p }}" {{ request('training_pitch') === $p ? 'selected' : '' }}>{{ $p }}</option>
+                            @endforeach
+                        @endif
+                    </select>
+                </div>
+
+                <div>
+                    <label class="block text-xs text-gray-500">Coach</label>
+                    <select name="coach_id" class="mt-1 block w-48 rounded-md border-gray-300 shadow-sm">
+                        <option value="">All</option>
+                        @if(!empty($coaches))
+                            @foreach($coaches as $c)
+                                <option value="{{ $c->id }}" {{ request('coach_id') == $c->id ? 'selected' : '' }}>{{ $c->name }}</option>
+                            @endforeach
+                        @endif
+                    </select>
+                </div>
+
+                <div>
+                    <label class="block text-xs text-gray-500">Date</label>
+                    <input type="date" name="date" value="{{ request('date') }}" class="mt-1 block w-40 rounded-md border-gray-300 shadow-sm" />
+                </div>
+
+                <div class="ml-2">
+                    <button type="submit" class="px-3 py-1.5 bg-indigo-600 text-white rounded-md text-sm">Filter</button>
+                    <a href="{{ route('admin.training_session_records.index') }}" class="ml-2 px-3 py-1.5 border rounded-md text-sm">Reset</a>
+                </div>
+            </form>
+        </div>
         <table class="min-w-full divide-y divide-gray-200">
             <thead class="bg-gray-50">
                 <tr>

@@ -19,8 +19,42 @@ class TrainingSessionRecordController extends Controller
 
     public function index()
     {
-        $records = TrainingSessionRecord::orderBy('date', 'desc')->paginate(15);
-        return view('admin.training_session_records.index', compact('records'));
+        $query = TrainingSessionRecord::query();
+
+        // filters: branch, training_pitch, coach_id, date
+        if ($branch = request()->query('branch')) {
+            $query->where('branch', $branch);
+        }
+
+        if ($pitch = request()->query('training_pitch')) {
+            $query->where('training_pitch', $pitch);
+        }
+
+        if ($coachId = request()->query('coach_id')) {
+            $query->where('coach_id', $coachId)->orWhere('coach_name', function($q) use ($coachId) {
+                // if coach name stored, nothing to do here — keep for future enhancement
+            });
+        }
+
+        if ($date = request()->query('date')) {
+            $query->whereDate('date', $date);
+        }
+
+        $records = $query->orderBy('date', 'desc')->paginate(15)->withQueryString();
+
+        // prepare filter lists
+        $sessions = TrainingSession::orderBy('date', 'desc')->get(['id','date','location','group_name']);
+        $branches = $sessions->pluck('location')->filter()->unique()->values();
+        $pitches = $sessions->pluck('group_name')->filter()->unique()->values();
+
+        $coaches = [];
+        try {
+            $coaches = User::role('coach')->select('id','name')->orderBy('name')->get();
+        } catch (\Throwable $e) {
+            $coaches = User::select('id','name')->orderBy('name')->get();
+        }
+
+        return view('admin.training_session_records.index', compact('records', 'branches', 'pitches', 'coaches'));
     }
 
     public function create()
