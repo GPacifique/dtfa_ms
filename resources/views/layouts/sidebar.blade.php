@@ -223,6 +223,16 @@
                 @endif
 
                 @if(Route::has('admin.incomes.index'))
+                    @php
+                        // compute today's incomes total (stored in cents)
+                        $todayIncomeCents = 0;
+                        try {
+                            $todayIncomeCents = \App\Models\Income::whereDate('received_at', \Carbon\Carbon::today())->sum('amount_cents');
+                        } catch (\Throwable $e) {
+                            $todayIncomeCents = 0;
+                        }
+                    @endphp
+
                     <a href="{{ route('admin.incomes.index') }}" aria-label="Incomes" class="nav-item flex items-center gap-3 px-3 py-2 rounded-md hover:bg-slate-800 transition {{ request()->routeIs('admin.incomes.*') ? 'active' : '' }}">
                         <span class="icon flex-shrink-0 w-6 h-6 flex items-center justify-center text-slate-200">
                             <!-- Heroicon: Cash -->
@@ -230,6 +240,9 @@
                         </span>
                         <span class="sr-only">Incomes</span>
                         <span x-show="$store.layout.sidebarOpen" x-transition class="truncate">Incomes</span>
+                        @if($todayIncomeCents > 0)
+                            <span class="ml-auto bg-emerald-500 text-white text-xs rounded-full px-2 py-0.5">{{ number_format($todayIncomeCents/100, 2) }}</span>
+                        @endif
                     </a>
                 @endif
 
