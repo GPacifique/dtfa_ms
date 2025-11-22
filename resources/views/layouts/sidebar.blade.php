@@ -222,6 +222,17 @@
                     </a>
                 @endif
 
+                @if(Route::has('admin.incomes.index'))
+                    <a href="{{ route('admin.incomes.index') }}" aria-label="Incomes" class="nav-item flex items-center gap-3 px-3 py-2 rounded-md hover:bg-slate-800 transition {{ request()->routeIs('admin.incomes.*') ? 'active' : '' }}">
+                        <span class="icon flex-shrink-0 w-6 h-6 flex items-center justify-center text-slate-200">
+                            <!-- Heroicon: Cash -->
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3-.895 3-2-1.343-2-3-2z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 2v2m0 16v2m8-10h-2M6 12H4m15.364 6.364l-1.414-1.414M6.05 6.05L4.636 4.636"/></svg>
+                        </span>
+                        <span class="sr-only">Incomes</span>
+                        <span x-show="$store.layout.sidebarOpen" x-transition class="truncate">Incomes</span>
+                    </a>
+                @endif
+
                     @if(Route::has('admin.expenses.index'))
                     <a href="{{ route('admin.expenses.index') }}" aria-label="Expenses" class="nav-item flex items-center gap-3 px-3 py-2 rounded-md hover:bg-slate-800 transition {{ request()->routeIs('admin.expenses.*') ? 'active' : '' }}">
                         <span class="icon flex-shrink-0 w-6 h-6 flex items-center justify-center text-slate-200">
