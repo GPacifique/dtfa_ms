@@ -105,6 +105,8 @@ Route::middleware(['auth', 'role:admin|super-admin'])->prefix('admin')->group(fu
     Route::put('/sessions/{session}', [\App\Http\Controllers\Admin\SessionsController::class, 'update'])->name('admin.sessions.update');
     Route::delete('/sessions/{session}', [\App\Http\Controllers\Admin\SessionsController::class, 'destroy'])->name('admin.sessions.destroy');
     Route::post('/sessions/{session}/record-all-attendance', [\App\Http\Controllers\Admin\SessionsController::class, 'recordAllAttendance'])->name('admin.sessions.recordAllAttendance');
+    // Income management
+    Route::resource('incomes', \App\Http\Controllers\Admin\IncomeController::class, ['as' => 'admin']);
 
     // Students (admin-only routes moved to a dedicated middleware group below)
 
