@@ -1,0 +1,28 @@
+name: Check Assets
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  check-assets:
+    name: Verify public assets
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Verify required assets exist
+        run: |
+          echo "Checking for required public assets..."
+          if [ -f "public/logo.jpeg" ]; then
+            echo "OK: public/logo.jpeg exists."
+            exit 0
+          else
+            echo "ERROR: public/logo.jpeg not found in repository." >&2
+            ls -la public || true
+            exit 1
+          fi
