@@ -1,4 +1,26 @@
 @extends('layouts.app')
+@php($title = 'Edit Session')
+
+@section('content')
+<div class="container mx-auto px-6 py-8">
+    <div class="card">
+        <div class="card-body">
+            <h2 class="text-xl font-bold mb-4">Edit Training Session</h2>
+
+            <form method="POST" action="{{ route('admin.sessions.update', $session) }}">
+                @method('PUT')
+                @include('admin.sessions._form', ['session' => $session])
+
+                <div class="mt-4">
+                    <button type="submit" class="px-4 py-2 bg-indigo-600 text-white rounded">Save</button>
+                    <a href="{{ route('admin.sessions.index') }}" class="ml-2 text-sm text-slate-600">Cancel</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+@endsection
+@extends('layouts.app')
 
 @section('content')
 <div class="max-w-xl mx-auto p-6">
@@ -82,18 +104,18 @@
 
         function filterGroups() {
             const selectedBranch = branchSel.value;
-            
+
             // Preserve the first non-data option (placeholder if exists)
             const firstOption = allOptions[0];
-            
+
             // Clear and reset
             groupSel.innerHTML = '';
-            
+
             // Add placeholder/first option back
             if (firstOption && !firstOption.dataset.branch) {
                 groupSel.appendChild(firstOption.cloneNode(true));
             }
-            
+
             // Add filtered options based on selected branch
             if (selectedBranch) {
                 allOptions.forEach(opt => {
