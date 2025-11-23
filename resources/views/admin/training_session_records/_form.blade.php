@@ -120,13 +120,41 @@
     </div>
 
     <div>
-        <label class="block text-sm font-medium text-gray-700">Part 1 — Activities / Notes</label>
-        <textarea name="part1_activities" rows="3" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm">{{ $old('part1_activities') }}</textarea>
+        <label class="block text-sm font-medium text-gray-700">Part 1 — Introduction (Activities + Time)</label>
+        <div class="grid grid-cols-1 gap-3">
+            <div class="grid grid-cols-6 gap-2">
+                <input type="text" name="part1_a1_desc" placeholder="Activity 1 description" value="{{ $old('part1_a1_desc') }}" class="col-span-4 mt-1 block w-full rounded-md border-gray-300 shadow-sm" />
+                <input type="text" name="part1_a1_time" placeholder="Time (e.g. 10m)" value="{{ $old('part1_a1_time') }}" class="col-span-2 mt-1 block w-full rounded-md border-gray-300 shadow-sm" />
+            </div>
+            <div class="grid grid-cols-6 gap-2">
+                <input type="text" name="part1_a2_desc" placeholder="Activity 2 description" value="{{ $old('part1_a2_desc') }}" class="col-span-4 mt-1 block w-full rounded-md border-gray-300 shadow-sm" />
+                <input type="text" name="part1_a2_time" placeholder="Time" value="{{ $old('part1_a2_time') }}" class="col-span-2 mt-1 block w-full rounded-md border-gray-300 shadow-sm" />
+            </div>
+            <div class="grid grid-cols-6 gap-2">
+                <input type="text" name="part1_a3_desc" placeholder="Activity 3 description" value="{{ $old('part1_a3_desc') }}" class="col-span-4 mt-1 block w-full rounded-md border-gray-300 shadow-sm" />
+                <input type="text" name="part1_a3_time" placeholder="Time" value="{{ $old('part1_a3_time') }}" class="col-span-2 mt-1 block w-full rounded-md border-gray-300 shadow-sm" />
+            </div>
+            <textarea name="part1_activities" rows="2" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm" placeholder="Optional notes for Part 1">{{ $old('part1_activities') }}</textarea>
+        </div>
     </div>
 
     <div>
-        <label class="block text-sm font-medium text-gray-700">Part 2 — Activities / Notes</label>
-        <textarea name="part2_activities" rows="3" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm">{{ $old('part2_activities') }}</textarea>
+        <label class="block text-sm font-medium text-gray-700">Part 2 — Main Topic (Activities + Time)</label>
+        <div class="grid grid-cols-1 gap-3">
+            <div class="grid grid-cols-6 gap-2">
+                <input type="text" name="part2_a1_desc" placeholder="Activity 1 description" value="{{ $old('part2_a1_desc') }}" class="col-span-4 mt-1 block w-full rounded-md border-gray-300 shadow-sm" />
+                <input type="text" name="part2_a1_time" placeholder="Time" value="{{ $old('part2_a1_time') }}" class="col-span-2 mt-1 block w-full rounded-md border-gray-300 shadow-sm" />
+            </div>
+            <div class="grid grid-cols-6 gap-2">
+                <input type="text" name="part2_a2_desc" placeholder="Activity 2 description" value="{{ $old('part2_a2_desc') }}" class="col-span-4 mt-1 block w-full rounded-md border-gray-300 shadow-sm" />
+                <input type="text" name="part2_a2_time" placeholder="Time" value="{{ $old('part2_a2_time') }}" class="col-span-2 mt-1 block w-full rounded-md border-gray-300 shadow-sm" />
+            </div>
+            <div class="grid grid-cols-6 gap-2">
+                <input type="text" name="part2_a3_desc" placeholder="Activity 3 description" value="{{ $old('part2_a3_desc') }}" class="col-span-4 mt-1 block w-full rounded-md border-gray-300 shadow-sm" />
+                <input type="text" name="part2_a3_time" placeholder="Time" value="{{ $old('part2_a3_time') }}" class="col-span-2 mt-1 block w-full rounded-md border-gray-300 shadow-sm" />
+            </div>
+            <textarea name="part2_activities" rows="2" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm" placeholder="Optional notes for Part 2">{{ $old('part2_activities') }}</textarea>
+        </div>
     </div>
 
     <div>
@@ -153,5 +181,10 @@
     <div>
         <label class="block text-sm font-medium text-gray-700">Missed / Damaged Equipment</label>
         <textarea name="missed_damaged_equipment" rows="2" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm">{{ $old('missed_damaged_equipment') }}</textarea>
+    </div>
+
+    <div>
+        <label class="block text-sm font-medium text-gray-700">Comments / Improvements for next session</label>
+        <textarea name="comments" rows="3" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm">{{ $old('comments') }}</textarea>
     </div>
 </div>

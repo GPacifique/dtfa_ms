@@ -56,13 +56,51 @@
                 </div>
 
                 <div class="sm:col-span-2">
-                    <dt class="text-sm font-medium text-gray-500">Part 1 — Activities / Notes</dt>
-                    <dd class="mt-1 text-sm text-gray-900 whitespace-pre-wrap">{{ $trainingSessionRecord->part1_activities }}</dd>
+                    <dt class="text-sm font-medium text-gray-500">Part 1 — Introduction</dt>
+                    <dd class="mt-1 text-sm text-gray-900">
+                        @if($trainingSessionRecord->part1_a1_desc || $trainingSessionRecord->part1_a2_desc || $trainingSessionRecord->part1_a3_desc)
+                            <ul class="list-disc pl-5">
+                                @if($trainingSessionRecord->part1_a1_desc)
+                                    <li>{{ $trainingSessionRecord->part1_a1_desc }} @if($trainingSessionRecord->part1_a1_time) — <span class="text-sm text-gray-600">{{ $trainingSessionRecord->part1_a1_time }}</span>@endif</li>
+                                @endif
+                                @if($trainingSessionRecord->part1_a2_desc)
+                                    <li>{{ $trainingSessionRecord->part1_a2_desc }} @if($trainingSessionRecord->part1_a2_time) — <span class="text-sm text-gray-600">{{ $trainingSessionRecord->part1_a2_time }}</span>@endif</li>
+                                @endif
+                                @if($trainingSessionRecord->part1_a3_desc)
+                                    <li>{{ $trainingSessionRecord->part1_a3_desc }} @if($trainingSessionRecord->part1_a3_time) — <span class="text-sm text-gray-600">{{ $trainingSessionRecord->part1_a3_time }}</span>@endif</li>
+                                @endif
+                            </ul>
+                            @if($trainingSessionRecord->part1_activities)
+                                <div class="mt-2 text-sm text-gray-700 whitespace-pre-wrap">{{ $trainingSessionRecord->part1_activities }}</div>
+                            @endif
+                        @else
+                            <div class="text-sm text-gray-700 whitespace-pre-wrap">{{ $trainingSessionRecord->part1_activities }}</div>
+                        @endif
+                    </dd>
                 </div>
 
                 <div class="sm:col-span-2">
-                    <dt class="text-sm font-medium text-gray-500">Part 2 — Activities / Notes</dt>
-                    <dd class="mt-1 text-sm text-gray-900 whitespace-pre-wrap">{{ $trainingSessionRecord->part2_activities }}</dd>
+                    <dt class="text-sm font-medium text-gray-500">Part 2 — Main Topic</dt>
+                    <dd class="mt-1 text-sm text-gray-900">
+                        @if($trainingSessionRecord->part2_a1_desc || $trainingSessionRecord->part2_a2_desc || $trainingSessionRecord->part2_a3_desc)
+                            <ul class="list-disc pl-5">
+                                @if($trainingSessionRecord->part2_a1_desc)
+                                    <li>{{ $trainingSessionRecord->part2_a1_desc }} @if($trainingSessionRecord->part2_a1_time) — <span class="text-sm text-gray-600">{{ $trainingSessionRecord->part2_a1_time }}</span>@endif</li>
+                                @endif
+                                @if($trainingSessionRecord->part2_a2_desc)
+                                    <li>{{ $trainingSessionRecord->part2_a2_desc }} @if($trainingSessionRecord->part2_a2_time) — <span class="text-sm text-gray-600">{{ $trainingSessionRecord->part2_a2_time }}</span>@endif</li>
+                                @endif
+                                @if($trainingSessionRecord->part2_a3_desc)
+                                    <li>{{ $trainingSessionRecord->part2_a3_desc }} @if($trainingSessionRecord->part2_a3_time) — <span class="text-sm text-gray-600">{{ $trainingSessionRecord->part2_a3_time }}</span>@endif</li>
+                                @endif
+                            </ul>
+                            @if($trainingSessionRecord->part2_activities)
+                                <div class="mt-2 text-sm text-gray-700 whitespace-pre-wrap">{{ $trainingSessionRecord->part2_activities }}</div>
+                            @endif
+                        @else
+                            <div class="text-sm text-gray-700 whitespace-pre-wrap">{{ $trainingSessionRecord->part2_activities }}</div>
+                        @endif
+                    </dd>
                 </div>
 
                 <div class="sm:col-span-2">
