@@ -58,7 +58,7 @@
 
             {{-- Dashboard --}}
             @if(Route::has('dashboard'))
-                <a href="{{ route('dashboard') }}" aria-label="Dashboard" class="nav-item flex items-center gap-3 px-3 py-2 rounded-md hover:bg-slate-800 transition {{ request()->routeIs('dashboard') ? 'active' : '' }}">
+                <a href="{{ route('dashboard') }}" aria-label="Dashboard" title="Dashboard" class="nav-item flex items-center gap-3 px-3 py-2 rounded-md hover:bg-slate-800 transition {{ request()->routeIs('dashboard') ? 'active' : '' }}">
                     <span class="icon flex-shrink-0 w-6 h-6 flex items-center justify-center text-slate-200">
                         <!-- Heroicon: Home -->
                         <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9.75L12 3l9 6.75V20a1 1 0 01-1 1h-5v-6H9v6H4a1 1 0 01-1-1V9.75z"/></svg>
@@ -73,7 +73,7 @@
                 <p x-show="$store.layout.sidebarOpen" class="px-3 text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">People</p>
 
                 @if(Route::has('students.index'))
-                    <a href="{{ route('students.index') }}" aria-label="Students" class="nav-item flex items-center gap-3 px-3 py-2 rounded-md hover:bg-slate-800 transition {{ request()->routeIs('students.*') ? 'active' : '' }}">
+                    <a href="{{ route('students.index') }}" aria-label="Students" title="Students" class="nav-item flex items-center gap-3 px-3 py-2 rounded-md hover:bg-slate-800 transition {{ request()->routeIs('students.*') ? 'active' : '' }}">
                         <span class="icon flex-shrink-0 w-6 h-6 flex items-center justify-center text-slate-200">
                                 <!-- Heroicon: Users -->
                                 <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a4 4 0 00-5-4M9 20H4v-2a4 4 0 015-4m0 0a4 4 0 10-4-4 4 4 0 004 4z"/></svg>
@@ -85,7 +85,7 @@
 
                 @role('super-admin|admin|coach')
                     @if(Route::has('staff.index'))
-                    <a href="{{ route('staff.index') }}" aria-label="Staff Profiles" class="nav-item flex items-center gap-3 px-3 py-2 rounded-md hover:bg-slate-800 transition {{ request()->routeIs('staff.*') ? 'active' : '' }}">
+                    <a href="{{ route('staff.index') }}" aria-label="Staff Profiles" title="Staff Profiles" class="nav-item flex items-center gap-3 px-3 py-2 rounded-md hover:bg-slate-800 transition {{ request()->routeIs('staff.*') ? 'active' : '' }}">
                             <span class="icon flex-shrink-0 w-6 h-6 flex items-center justify-center text-slate-200">
                                 <!-- Heroicon: User Group -->
                                 <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a4 4 0 00-5-4M9 20H4v-2a4 4 0 015-4m3 0a4 4 0 10-4-4 4 4 0 004 4z"/></svg>
@@ -96,7 +96,7 @@
                     @endif
 
                     @if(Route::has('admin.capacity-buildings.index'))
-                        <a href="{{ route('admin.capacity-buildings.index') }}" aria-label="Capacity Building" class="nav-item flex items-center gap-3 px-3 py-2 rounded-md hover:bg-slate-800 transition {{ request()->routeIs('admin.capacity-buildings.*') ? 'active' : '' }}">
+                        <a href="{{ route('admin.capacity-buildings.index') }}" aria-label="Capacity Building" title="Capacity Building" class="nav-item flex items-center gap-3 px-3 py-2 rounded-md hover:bg-slate-800 transition {{ request()->routeIs('admin.capacity-buildings.*') ? 'active' : '' }}">
                             <span class="icon flex-shrink-0 w-6 h-6 flex items-center justify-center text-slate-200">
                                 <!-- Heroicon: Academic Cap -->
                                 <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l9-5-9-5-9 5 9 5z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l6.16-3.422M12 14v7"/></svg>
@@ -105,7 +105,7 @@
                             <span x-show="$store.layout.sidebarOpen" x-transition class="truncate">Capacity Building</span>
                         </a>
                         @if(Route::has('admin.capacity-buildings.stats'))
-                            <a href="{{ route('admin.capacity-buildings.stats') }}" aria-label="Capacity Stats" class="submenu-item flex items-center gap-3 px-3 py-2 rounded-md hover:bg-slate-800 transition {{ request()->routeIs('admin.capacity-buildings.stats') ? 'active' : '' }}">
+                            <a href="{{ route('admin.capacity-buildings.stats') }}" aria-label="Capacity Stats" title="Capacity Stats" class="submenu-item flex items-center gap-3 px-3 py-2 rounded-md hover:bg-slate-800 transition {{ request()->routeIs('admin.capacity-buildings.stats') ? 'active' : '' }}">
                                 <span class="sr-only">Capacity Stats</span>
                                 <span x-show="$store.layout.sidebarOpen" x-transition class="truncate">Capacity Stats</span>
                             </a>
@@ -113,7 +113,7 @@
                     @endif
 
                     @if(Route::has('admin.users.index'))
-                        <a href="{{ route('admin.users.index') }}" aria-label="Users" class="nav-item flex items-center gap-3 px-3 py-2 rounded-md hover:bg-slate-800 transition {{ request()->routeIs('admin.users.*') ? 'active' : '' }}">
+                        <a href="{{ route('admin.users.index') }}" aria-label="Users" title="Users" class="nav-item flex items-center gap-3 px-3 py-2 rounded-md hover:bg-slate-800 transition {{ request()->routeIs('admin.users.*') ? 'active' : '' }}">
                             <span class="icon flex-shrink-0 w-6 h-6 flex items-center justify-center text-slate-200">
                                 <svg class="w-5 h-5" aria-hidden="true" focusable="false" role="img" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 11c2.21 0 4-1.79 4-4S14.21 3 12 3 8 4.79 8 7s1.79 4 4 4zM6 21v-2a4 4 0 014-4h4a4 4 0 014 4v2"/></svg>
                             </span>
@@ -123,7 +123,7 @@
                     @endif
                     @role('super-admin')
                         @if(Route::has('admin.roles.index'))
-                            <a href="{{ route('admin.roles.index') }}" aria-label="Roles & Permissions" class="nav-item flex items-center gap-3 px-3 py-2 rounded-md hover:bg-slate-800 transition {{ request()->routeIs('admin.roles.*') ? 'active' : '' }}">
+                            <a href="{{ route('admin.roles.index') }}" aria-label="Roles & Permissions" title="Roles & Permissions" class="nav-item flex items-center gap-3 px-3 py-2 rounded-md hover:bg-slate-800 transition {{ request()->routeIs('admin.roles.*') ? 'active' : '' }}">
                                 <span class="icon flex-shrink-0 w-6 h-6 flex items-center justify-center text-slate-200">
                                     <!-- Heroicon: Shield Check -->
                                     <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 2l7 4v5c0 5-3.58 9.74-7 11-3.42-1.26-7-6-7-11V6l7-4z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4"/></svg>
@@ -141,9 +141,16 @@
                 <p x-show="$store.layout.sidebarOpen" class="px-3 text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">Training</p>
 
                 @if(Route::has('coach.sessions.index'))
-                    <a href="{{ route('coach.sessions.index') }}" aria-label="Training Sessions" class="nav-item flex items-center gap-3 px-3 py-2 rounded-md hover:bg-slate-800 transition {{ request()->routeIs('coach.sessions.*') ? 'active' : '' }}">
+                    <a href="{{ route('coach.sessions.index') }}" aria-label="Training Sessions" title="Training Sessions" class="nav-item flex items-center gap-3 px-3 py-2 rounded-md hover:bg-slate-800 transition {{ request()->routeIs('coach.sessions.*') ? 'active' : '' }}">
+                        <span class="icon flex-shrink-0 w-6 h-6 flex items-center justify-center text-slate-200">
+                            <!-- Heroicon: Calendar -->
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3M3 11h18M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+                        </span>
+                        <span class="sr-only">Training Sessions</span>
+                        <span x-show="$store.layout.sidebarOpen" x-transition class="truncate">Training Sessions</span>
+                    </a>
                 @elseif(Route::has('admin.sessions.index'))
-                    <a href="{{ route('admin.sessions.index') }}" aria-label="Training Sessions" class="nav-item flex items-center gap-3 px-3 py-2 rounded-md hover:bg-slate-800 transition {{ request()->routeIs('admin.sessions.*') ? 'active' : '' }}">
+                    <a href="{{ route('admin.sessions.index') }}" aria-label="Training Sessions" title="Training Sessions" class="nav-item flex items-center gap-3 px-3 py-2 rounded-md hover:bg-slate-800 transition {{ request()->routeIs('admin.sessions.*') ? 'active' : '' }}">
                         <span class="icon flex-shrink-0 w-6 h-6 flex items-center justify-center text-slate-200">
                             <!-- Heroicon: Calendar -->
                             <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3M3 11h18M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
@@ -155,9 +162,16 @@
 
                 @role('super-admin|admin|coach')
                     @if(Route::has('admin.sessions.index'))
-                        <a href="{{ route('admin.sessions.index') }}" aria-label="Manage Sessions" class="nav-item flex items-center gap-3 px-3 py-2 rounded-md hover:bg-slate-800 transition {{ request()->routeIs('admin.sessions.*') ? 'active' : '' }}">
+                        <a href="{{ route('admin.sessions.index') }}" aria-label="Manage Sessions" title="Manage Sessions" class="nav-item flex items-center gap-3 px-3 py-2 rounded-md hover:bg-slate-800 transition {{ request()->routeIs('admin.sessions.*') ? 'active' : '' }}">
+                            <span class="icon flex-shrink-0 w-6 h-6 flex items-center justify-center text-slate-200">
+                                <!-- Heroicon: Pencil/Calendar -->
+                                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3M3 11h18M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+                            </span>
+                            <span class="sr-only">Manage Sessions</span>
+                            <span x-show="$store.layout.sidebarOpen" x-transition class="truncate">Manage Sessions</span>
+                        </a>
                     @elseif(Route::has('coach.sessions.index'))
-                        <a href="{{ route('coach.sessions.index') }}" aria-label="Manage Sessions" class="nav-item flex items-center gap-3 px-3 py-2 rounded-md hover:bg-slate-800 transition {{ request()->routeIs('coach.sessions.*') ? 'active' : '' }}">
+                        <a href="{{ route('coach.sessions.index') }}" aria-label="Manage Sessions" title="Manage Sessions" class="nav-item flex items-center gap-3 px-3 py-2 rounded-md hover:bg-slate-800 transition {{ request()->routeIs('coach.sessions.*') ? 'active' : '' }}">
                             <span class="icon flex-shrink-0 w-6 h-6 flex items-center justify-center text-slate-200">
                                 <!-- Heroicon: Pencil/Calendar -->
                                 <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3M3 11h18M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
@@ -168,7 +182,7 @@
                     @endif
 
                     @if(Route::has('admin.games.index'))
-                        <a href="{{ route('admin.games.index') }}" aria-label="Matches" class="nav-item flex items-center gap-3 px-3 py-2 rounded-md hover:bg-slate-800 transition {{ request()->routeIs('admin.games.*') ? 'active' : '' }}">
+                        <a href="{{ route('admin.games.index') }}" aria-label="Matches" title="Matches" class="nav-item flex items-center gap-3 px-3 py-2 rounded-md hover:bg-slate-800 transition {{ request()->routeIs('admin.games.*') ? 'active' : '' }}">
                             <span class="icon flex-shrink-0 w-6 h-6 flex items-center justify-center text-slate-200">
                                 <!-- Heroicon: Soccer Ball (simple circle) -->
                                 <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><circle cx="12" cy="12" r="9" stroke-width="2"/><path d="M12 3v6l3 3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -180,7 +194,7 @@
                 @endrole
 
                 @if(Route::has('coach.attendance.index'))
-                    <a href="{{ route('coach.attendance.index') }}" aria-label="Attendance" class="nav-item flex items-center gap-3 px-3 py-2 rounded-md hover:bg-slate-800 transition {{ request()->routeIs('coach.attendance.*') ? 'active' : '' }}">
+                    <a href="{{ route('coach.attendance.index') }}" aria-label="Attendance" title="Attendance" class="nav-item flex items-center gap-3 px-3 py-2 rounded-md hover:bg-slate-800 transition {{ request()->routeIs('coach.attendance.*') ? 'active' : '' }}">
                         <span class="icon flex-shrink-0 w-6 h-6 flex items-center justify-center text-slate-200">
                             <!-- Heroicon: Check Circle -->
                             <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 22a10 10 0 100-20 10 10 0 000 20z"/></svg>
@@ -192,7 +206,7 @@
 
                 @role('super-admin|admin|coach')
                     @if(Route::has('admin.training_session_records.index'))
-                        <a href="{{ route('admin.training_session_records.index') }}" aria-label="Training Records" class="nav-item flex items-center gap-3 px-3 py-2 rounded-md hover:bg-slate-800 transition {{ request()->routeIs('admin.training_session_records.*') ? 'active' : '' }}">
+                        <a href="{{ route('admin.training_session_records.index') }}" aria-label="Training Records" title="Training Records" class="nav-item flex items-center gap-3 px-3 py-2 rounded-md hover:bg-slate-800 transition {{ request()->routeIs('admin.training_session_records.*') ? 'active' : '' }}">
                             <span class="icon flex-shrink-0 w-6 h-6 flex items-center justify-center text-slate-200">
                                 <!-- Heroicon: Document Text -->
                                 <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 8h10M7 12h10M7 16h6"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/></svg>
@@ -205,7 +219,7 @@
 
                 @role('super-admin|admin|coach')
                     @if(Route::has('admin.staff_attendances.index'))
-                        <a href="{{ route('admin.staff_attendances.index') }}" aria-label="Staff Attendance" class="nav-item flex items-center gap-3 px-3 py-2 rounded-md hover:bg-slate-800 transition {{ request()->routeIs('admin.staff_attendances.*') ? 'active' : '' }}">
+                        <a href="{{ route('admin.staff_attendances.index') }}" aria-label="Staff Attendance" title="Staff Attendance" class="nav-item flex items-center gap-3 px-3 py-2 rounded-md hover:bg-slate-800 transition {{ request()->routeIs('admin.staff_attendances.*') ? 'active' : '' }}">
                             <span class="icon flex-shrink-0 w-6 h-6 flex items-center justify-center text-slate-200">
                                 <!-- Heroicon: Clipboard Check -->
                                 <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 2h6a2 2 0 012 2v1H7V4a2 2 0 012-2zM7 8h10v12a2 2 0 01-2 2H9a2 2 0 01-2-2V8z"/></svg>
@@ -223,7 +237,7 @@
                 <p x-show="$store.layout.sidebarOpen" class="px-3 text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">Finance</p>
 
                 @if(Route::has('accountant.subscriptions.index'))
-                    <a href="{{ route('accountant.subscriptions.index') }}" aria-label="Subscriptions" class="nav-item flex items-center gap-3 px-3 py-2 rounded-md hover:bg-slate-800 transition {{ request()->routeIs('accountant.subscriptions.*') ? 'active' : '' }}">
+                    <a href="{{ route('accountant.subscriptions.index') }}" aria-label="Subscriptions" title="Subscriptions" class="nav-item flex items-center gap-3 px-3 py-2 rounded-md hover:bg-slate-800 transition {{ request()->routeIs('accountant.subscriptions.*') ? 'active' : '' }}">
                         <span class="icon flex-shrink-0 w-6 h-6 flex items-center justify-center text-slate-200">
                             <svg class="w-5 h-5" aria-hidden="true" focusable="false" role="img" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4"/></svg>
                         </span>
@@ -235,8 +249,19 @@
                     </a>
                 @endif
 
+                @if(Route::has('admin.plans.index'))
+                    <a href="{{ route('admin.plans.index') }}" aria-label="Plans" title="Subscription Plans" class="nav-item flex items-center gap-3 px-3 py-2 rounded-md hover:bg-slate-800 transition {{ request()->routeIs('admin.plans.*') ? 'active' : '' }}">
+                        <span class="icon flex-shrink-0 w-6 h-6 flex items-center justify-center text-slate-200">
+                            <!-- Heroicon: Template / Clipboard List -->
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6M9 16h6M7 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+                        </span>
+                        <span class="sr-only">Plans</span>
+                        <span x-show="$store.layout.sidebarOpen" x-transition class="truncate">Plans</span>
+                    </a>
+                @endif
+
                     @if(Route::has('accountant.invoices.index'))
-                    <a href="{{ route('accountant.invoices.index') }}" aria-label="Invoices" class="nav-item flex items-center gap-3 px-3 py-2 rounded-md hover:bg-slate-800 transition {{ request()->routeIs('accountant.invoices.*') ? 'active' : '' }}">
+                    <a href="{{ route('accountant.invoices.index') }}" aria-label="Invoices" title="Invoices" class="nav-item flex items-center gap-3 px-3 py-2 rounded-md hover:bg-slate-800 transition {{ request()->routeIs('accountant.invoices.*') ? 'active' : '' }}">
                         <span class="icon flex-shrink-0 w-6 h-6 flex items-center justify-center text-slate-200">
                             <svg class="w-5 h-5" aria-hidden="true" focusable="false" role="img" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6"/></svg>
                         </span>
@@ -249,7 +274,7 @@
                 @endif
 
                     @if(Route::has('accountant.payments.index'))
-                    <a href="{{ route('accountant.payments.index') }}" aria-label="Payments" class="nav-item flex items-center gap-3 px-3 py-2 rounded-md hover:bg-slate-800 transition {{ request()->routeIs('accountant.payments.*') ? 'active' : '' }}">
+                    <a href="{{ route('accountant.payments.index') }}" aria-label="Payments" title="Payments" class="nav-item flex items-center gap-3 px-3 py-2 rounded-md hover:bg-slate-800 transition {{ request()->routeIs('accountant.payments.*') ? 'active' : '' }}">
                         <span class="icon flex-shrink-0 w-6 h-6 flex items-center justify-center text-slate-200">
                             <svg class="w-5 h-5" aria-hidden="true" focusable="false" role="img" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18"/></svg>
                         </span>
@@ -269,7 +294,7 @@
                         }
                     @endphp
 
-                    <a href="{{ route('admin.incomes.index') }}" aria-label="Incomes" class="nav-item flex items-center gap-3 px-3 py-2 rounded-md hover:bg-slate-800 transition {{ request()->routeIs('admin.incomes.*') ? 'active' : '' }}">
+                    <a href="{{ route('admin.incomes.index') }}" aria-label="Incomes" title="Incomes" class="nav-item flex items-center gap-3 px-3 py-2 rounded-md hover:bg-slate-800 transition {{ request()->routeIs('admin.incomes.*') ? 'active' : '' }}">
                         <span class="icon flex-shrink-0 w-6 h-6 flex items-center justify-center text-slate-200">
                             <!-- Heroicon: Cash -->
                             <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3-.895 3-2-1.343-2-3-2z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 2v2m0 16v2m8-10h-2M6 12H4m15.364 6.364l-1.414-1.414M6.05 6.05L4.636 4.636"/></svg>
@@ -283,7 +308,7 @@
                 @endif
 
                     @if(Route::has('admin.expenses.index'))
-                    <a href="{{ route('admin.expenses.index') }}" aria-label="Expenses" class="nav-item flex items-center gap-3 px-3 py-2 rounded-md hover:bg-slate-800 transition {{ request()->routeIs('admin.expenses.*') ? 'active' : '' }}">
+                    <a href="{{ route('admin.expenses.index') }}" aria-label="Expenses" title="Expenses" class="nav-item flex items-center gap-3 px-3 py-2 rounded-md hover:bg-slate-800 transition {{ request()->routeIs('admin.expenses.*') ? 'active' : '' }}">
                         <span class="icon flex-shrink-0 w-6 h-6 flex items-center justify-center text-slate-200">
                             <svg class="w-5 h-5" aria-hidden="true" focusable="false" role="img" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2"/></svg>
                         </span>
@@ -302,7 +327,7 @@
                 <p x-show="$store.layout.sidebarOpen" class="px-3 text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">Resources</p>
 
                 @if(Route::has('admin.equipment.index'))
-                    <a href="{{ route('admin.equipment.index') }}" aria-label="Equipment" class="nav-item flex items-center gap-3 px-3 py-2 rounded-md hover:bg-slate-800 transition {{ request()->routeIs('admin.equipment.*') ? 'active' : '' }}">
+                    <a href="{{ route('admin.equipment.index') }}" aria-label="Equipment" title="Equipment" class="nav-item flex items-center gap-3 px-3 py-2 rounded-md hover:bg-slate-800 transition {{ request()->routeIs('admin.equipment.*') ? 'active' : '' }}">
                         <span class="icon flex-shrink-0 w-6 h-6 flex items-center justify-center text-slate-200">
                             <svg class="w-5 h-5" aria-hidden="true" focusable="false" role="img" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5"/></svg>
                         </span>
@@ -312,7 +337,7 @@
                 @endif
 
                 @if(Route::has('admin.branches.index'))
-                    <a href="{{ route('admin.branches.index') }}" aria-label="Branches" class="nav-item flex items-center gap-3 px-3 py-2 rounded-md hover:bg-slate-800 transition {{ request()->routeIs('admin.branches.*') ? 'active' : '' }}">
+                    <a href="{{ route('admin.branches.index') }}" aria-label="Branches" title="Branches" class="nav-item flex items-center gap-3 px-3 py-2 rounded-md hover:bg-slate-800 transition {{ request()->routeIs('admin.branches.*') ? 'active' : '' }}">
                         <span class="icon flex-shrink-0 w-6 h-6 flex items-center justify-center text-slate-200">
                             <svg class="w-5 h-5" aria-hidden="true" focusable="false" role="img" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7h18"/></svg>
                         </span>
@@ -322,7 +347,7 @@
                 @endif
 
                 @if(Route::has('tasks.index'))
-                    <a href="{{ route('tasks.index') }}" aria-label="Tasks" class="nav-item flex items-center gap-3 px-3 py-2 rounded-md hover:bg-slate-800 transition {{ request()->routeIs('tasks.*') ? 'active' : '' }}">
+                    <a href="{{ route('tasks.index') }}" aria-label="Tasks" title="Tasks" class="nav-item flex items-center gap-3 px-3 py-2 rounded-md hover:bg-slate-800 transition {{ request()->routeIs('tasks.*') ? 'active' : '' }}">
                         <span class="icon flex-shrink-0 w-6 h-6 flex items-center justify-center text-slate-200">
                             <svg class="w-5 h-5" aria-hidden="true" focusable="false" role="img" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 11l3 3L22 4"/></svg>
                         </span>
@@ -336,7 +361,7 @@
 
                 @role('super-admin|admin|CEO|Technical Director')
                     @if(Route::has('admin.communications.index'))
-                        <a href="{{ route('admin.communications.index') }}" aria-label="Communications" class="nav-item flex items-center gap-3 px-3 py-2 rounded-md hover:bg-slate-800 transition {{ request()->routeIs('admin.communications.*') ? 'active' : '' }}">
+                        <a href="{{ route('admin.communications.index') }}" aria-label="Communications" title="Communications" class="nav-item flex items-center gap-3 px-3 py-2 rounded-md hover:bg-slate-800 transition {{ request()->routeIs('admin.communications.*') ? 'active' : '' }}">
                             <span class="icon flex-shrink-0 w-6 h-6 flex items-center justify-center text-slate-200">
                                 <!-- Heroicon: Mail -->
                                 <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
@@ -355,7 +380,7 @@
             <div class="pt-4">
                 <p x-show="$store.layout.sidebarOpen" class="px-3 text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">Reports</p>
                 @if(Route::has('reports.index'))
-                    <a href="{{ route('reports.index') }}" aria-label="Reports" class="nav-item flex items-center gap-3 px-3 py-2 rounded-md hover:bg-slate-800 transition {{ request()->routeIs('reports.*') ? 'active' : '' }}">
+                    <a href="{{ route('reports.index') }}" aria-label="Reports" title="Reports" class="nav-item flex items-center gap-3 px-3 py-2 rounded-md hover:bg-slate-800 transition {{ request()->routeIs('reports.*') ? 'active' : '' }}">
                         <span class="icon flex-shrink-0 w-6 h-6 flex items-center justify-center text-slate-200">
                             <svg class="w-5 h-5" aria-hidden="true" focusable="false" role="img" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-6a2 2 0 012-2h2"/></svg>
                         </span>
@@ -364,13 +389,13 @@
                     </a>
                 @endif
                 @if(Route::has('reports.export.pdf'))
-                    <a href="{{ route('reports.export.pdf') }}" aria-label="Export PDF" class="submenu-item flex items-center gap-3 px-3 py-2 rounded-md hover:bg-slate-800 transition">
+                    <a href="{{ route('reports.export.pdf') }}" aria-label="Export PDF" title="Export PDF" class="submenu-item flex items-center gap-3 px-3 py-2 rounded-md hover:bg-slate-800 transition">
                         <span class="sr-only">Export PDF</span>
                         <span>Export PDF</span>
                     </a>
                 @endif
                 @if(Route::has('admin.imports.index'))
-                    <a href="{{ route('admin.imports.index') }}" aria-label="Import SQL" class="nav-item flex items-center gap-3 px-3 py-2 rounded-md hover:bg-slate-800 transition {{ request()->routeIs('admin.imports.*') ? 'active' : '' }}">
+                    <a href="{{ route('admin.imports.index') }}" aria-label="Import SQL" title="Import SQL" class="nav-item flex items-center gap-3 px-3 py-2 rounded-md hover:bg-slate-800 transition {{ request()->routeIs('admin.imports.*') ? 'active' : '' }}">
                         <span class="icon flex-shrink-0 w-6 h-6 flex items-center justify-center text-slate-200">
                             <!-- Heroicon: Upload -->
                             <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v12m0 0l-4-4m4 4l4-4"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21H3"/></svg>

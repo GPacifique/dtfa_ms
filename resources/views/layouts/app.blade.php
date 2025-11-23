@@ -14,12 +14,12 @@
     @stack('head')
 </head>
 <body class="font-sans antialiased">
-<div x-data="{}" class="min-h-screen flex">
+<div x-data="{}" x-effect="document.body.classList.toggle('overflow-hidden', $store.layout.mobileOpen)" @keydown.window.escape="$store.layout.mobileOpen = false" class="min-h-screen flex">
     <!-- Sidebar (shared partial) -->
     @include('layouts.sidebar')
 
     <!-- Main -->
-    <div id="main-content" :class="$store.layout.sidebarOpen ? 'lg:ml-64 ml-0' : 'lg:ml-20 ml-0'" class="flex-1 flex flex-col min-w-0 transition-all duration-200 relative z-0">
+    <div id="main-content" :class="$store.layout.sidebarOpen ? '' : 'lg:ml-20'" class="flex-1 flex flex-col min-w-0 min-h-screen transition-all duration-200 relative z-0 lg:ml-64">
         <!-- Topbar -->
         <header class="sticky top-0 h-16 bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 flex items-center px-4 sm:px-6 justify-between z-20">
             <div class="flex items-center gap-2">
@@ -40,7 +40,7 @@
             <div class="flex items-center gap-3">
                 @can('manage users')<span class="badge badge-slate">manage users</span>@endcan
                 @can('manage finances')<span class="badge badge-slate">manage finances</span>@endcan
-                <button type="button" class="btn-secondary" title="Toggle theme" onclick="toggleTheme()">
+                    <button type="button" id="theme-toggle" data-theme-toggle class="btn-secondary" title="Toggle theme" onclick="toggleTheme()">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="h-5 w-5">
                         <path d="M12 3a1 1 0 0 1 1 1v1a1 1 0 1 1-2 0V4a1 1 0 0 1 1-1Zm0 14a5 5 0 1 0 0-10 5 5 0 0 0 0 10Zm8-5a1 1 0 0 1-1 1h-1a1 1 0 1 1 0-2h1a1 1 0 0 1 1 1ZM5 12a1 1 0 0 1-1 1H3a1 1 0 1 1 0-2h1a1 1 0 0 1 1 1Zm11.657 6.657a1 1 0 0 1-1.414 0L14.1 17.514a1 1 0 0 1 1.414-1.415l1.142 1.143a1 1 0 0 1 0 1.415Zm0-13.314a1 1 0 0 1 0 1.414L15.515 7.9A1 1 0 1 1 14.1 6.485l1.143-1.142a1 1 0 0 1 1.414 0ZM6.485 14.1a1 1 0 0 1 0 1.414l-1.142 1.143a1 1 0 0 1-1.415-1.414L5.07 14.1A1 1 0 0 1 6.485 14.1Zm0-7.071L5.343 5.886A1 1 0 1 1 6.757 4.47l1.143 1.143A1 1 0 1 1 6.485 7.03Z"/>
                     </svg>
@@ -63,7 +63,7 @@
         </header>
 
         <!-- Content -->
-        <main class="flex-1">
+        <main class="flex-1 overflow-auto" :aria-hidden="$store.layout.mobileOpen ? 'true' : 'false'">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
                 <!-- Ensure content sits below sticky header and has consistent gutters -->
                 <div class="pt-2">

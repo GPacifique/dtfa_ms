@@ -195,7 +195,6 @@
         </div>
 
         {{-- Secondary Stats --}}
-        {{-- Secondary Stats --}}
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
             <div class="card">
                 <div class="card-body">
@@ -280,7 +279,7 @@
                                 <div>Max Cost: {{ number_format(($stats['capacityMaxCost'] ?? 0)/100, 2) }} RWF</div>
                             </div>
                             <div class="mt-3">
-                                <canvas id="capacitySpendChart" style="height:54px;width:100%"></canvas>
+                                <canvas id="capacitySpendChart" class="h-48 w-full"></canvas>
                             </div>
                             @if(Route::has('admin.capacity-buildings.stats'))
                                 <div class="mt-4">
@@ -429,126 +428,40 @@
             </div>
         </div>
 
-        <!-- Analytics & Insights Section (polished layout) -->
+        <!-- Analytics & Insights Section -->
         <div>
-
             <h2 class="text-xl font-bold text-slate-900 mb-4">📈 Analytics & Insights</h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <!-- Weekly Session Trends (fixed small card) -->
-                <div class="card" style="min-width:180px;max-width:260px;width:100%;height:140px;display:flex;align-items:center;justify-content:center;">
-                    <div class="card-body p-1 flex flex-col items-center justify-center w-full h-full">
-                        <h3 class="font-bold text-slate-900 mb-1 text-xs">📊 Weekly Session Trends (Last 8 Weeks)</h3>
-                        <canvas id="sessionTrendsChart" class="card-chart" style="height:70px;width:100%"></canvas>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div class="card">
+                    <div class="card-body p-4">
+                        <h3 class="font-semibold text-slate-900 mb-2 text-sm">📊 Weekly Session Trends (Last 8 Weeks)</h3>
+                        <div class="h-48">
+                            <canvas id="sessionTrendsChart" class="w-full h-full"></canvas>
+                        </div>
                     </div>
                 </div>
-                <!-- Coach Workload (fixed small card) -->
-                <div class="card" style="min-width:180px;max-width:260px;width:100%;height:140px;display:flex;align-items:center;justify-content:center;">
-                    <div class="card-body p-1 flex flex-col items-center justify-center w-full h-full">
-                        <h3 class="font-bold text-slate-900 mb-1 text-xs">👨‍🏫 Coach Workload (This Month)</h3>
-                        <canvas id="coachWorkloadChart" class="card-chart" style="height:70px;width:100%"></canvas>
+
+                <div class="card">
+                    <div class="card-body p-4">
+                        <h3 class="font-semibold text-slate-900 mb-2 text-sm">👨‍🏫 Coach Workload (This Month)</h3>
+                        <div class="h-48">
+                            <canvas id="coachWorkloadChart" class="w-full h-full"></canvas>
+                        </div>
                     </div>
                 </div>
-                <!-- Finance Flow (compact) -->
-                <div class="lg:col-span-1 md:col-span-2 mt-2">
-                    <div class="card">
-                        <div class="card-body p-2">
-                            <h3 class="font-semibold text-slate-900 mb-1 text-xs">💸 Income / Expenses / Netflow (12m)</h3>
-                            <canvas id="financeFlowChart" style="height:64px;width:100%"></canvas>
+
+                <div class="card">
+                    <div class="card-body p-4">
+                        <h3 class="font-semibold text-slate-900 mb-2 text-sm">💸 Income / Expenses / Netflow (12m)</h3>
+                        <div class="h-48">
+                            <canvas id="financeFlowChart" class="w-full h-full"></canvas>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <script>
-            const capCtx = document.getElementById('capacitySpendChart');
-            if (capCtx) {
-                const capLabels = @json($capacityMonthlyLabels ?? []);
-                const capTotals = @json($capacityMonthlyTotals ?? []);
-                new Chart(capCtx, {
-                    type: 'line',
-                    data: {
-                        labels: capLabels,
-                        datasets: [{
-                            label: 'Capacity Spend (RWF)',
-                            data: capTotals,
-                            borderColor: '#0ea5e9',
-                            backgroundColor: 'rgba(14,165,233,0.08)',
-                            fill: true,
-                            tension: 0.35,
-                            pointRadius: 0
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        plugins: { legend: { display: false } },
-                        scales: { x: { display: false }, y: { display: false } }
-                    }
-                });
-            }
-
-            // Finance flow chart (income vs expenses, netflow line)
-            const financeCtx = document.getElementById('financeFlowChart');
-            if (financeCtx) {
-                const financeLabels = @json($financeLabels ?? []);
-                const incomeData = @json($incomeTotals ?? []);
-                const expenseData = @json($expenseTotals ?? []);
-                const netflowData = @json($netflowTotals ?? []);
-
-                new Chart(financeCtx, {
-                    type: 'bar',
-                    data: {
-                        labels: financeLabels,
-                        datasets: [
-                            {
-                                type: 'bar',
-                                label: 'Income (RWF)',
-                                data: incomeData,
-                                backgroundColor: 'rgba(16,185,129,0.7)'
-                            },
-                            {
-                                type: 'bar',
-                                label: 'Expenses (RWF)',
-                                data: expenseData,
-                                backgroundColor: 'rgba(239,68,68,0.7)'
-                            },
-                            {
-                                type: 'line',
-                                label: 'Netflow (RWF)',
-                                data: netflowData,
-                                borderColor: '#2563eb',
-                                backgroundColor: 'rgba(37,99,235,0.08)',
-                                tension: 0.35,
-                                fill: false,
-                                yAxisID: 'y'
-                            }
-                        ]
-                    },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        plugins: {
-                            legend: { position: 'top' },
-                            tooltip: {
-                                mode: 'index',
-                                intersect: false,
-                                callbacks: {
-                                    label: function(context) {
-                                        let val = context.raw ?? 0;
-                                        return context.dataset.label + ': ' + Number(val).toLocaleString() + ' RWF';
-                                    }
-                                }
-                            }
-                        },
-                        scales: {
-                            x: { stacked: true },
-                            y: { stacked: false, beginAtZero: true, ticks: { callback: function(v){ return Number(v).toLocaleString(); } } }
-                        }
-                    }
-                });
-            }
-        }
-    })();</script>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mt-6">
                 <div class="card">
                     <div class="card-body p-5">
                         <div class="text-xs text-slate-500 font-semibold">Equipment Utilization</div>
@@ -556,6 +469,7 @@
                         <div class="text-xs text-slate-400 mt-1">Assets in use</div>
                     </div>
                 </div>
+
                 <div class="card">
                     <div class="card-body p-5">
                         <div class="text-xs text-slate-500 font-semibold">Net Profit (Month)</div>
@@ -570,6 +484,7 @@
                         </div>
                     </div>
                 </div>
+
                 <div class="card">
                     <div class="card-body p-5">
                         <div class="text-xs text-slate-500 font-semibold">Groups / Coaches</div>
@@ -577,6 +492,7 @@
                         <div class="text-xs text-slate-400 mt-1">Active groupings</div>
                     </div>
                 </div>
+
                 <div class="card">
                     <div class="card-body p-5">
                         <div class="text-xs text-slate-500 font-semibold">Sessions This Week</div>
@@ -586,8 +502,8 @@
                 </div>
             </div>
 
-            <!-- System Health -->
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
+            <!-- System Health & Performance -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-6">
                 <div class="card">
                     <div class="card-body p-6">
                         <h3 class="font-bold text-indigo-900 mb-4">⚙️ System Health</h3>
@@ -612,7 +528,7 @@
                     </div>
                 </div>
 
-                <div class="lg:col-span-2 card">
+                <div class="md:col-span-2 card">
                     <div class="card-body p-6">
                         <h3 class="font-bold text-slate-900 mb-4">🎯 Performance Metrics</h3>
                         <div class="space-y-4">
@@ -636,157 +552,51 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
         (function(){
-            // Session trends chart (last 8 weeks)
-            const trendsCtx = document.getElementById('sessionTrendsChart');
-            if (trendsCtx) {
-                const trendsData = @json($weeklyTrends ?? []);
-                const labels = trendsData.map(t => t.label);
-                const data = trendsData.map(t => t.sessions);
-                new Chart(trendsCtx, {
-                    type: 'line',
-                    data: {
-                        labels: labels,
-                        datasets: [{
-                            label: 'Sessions',
-                            data: data,
-                            borderColor: '#4f46e5',
-                            backgroundColor: 'rgba(79,70,229,0.1)',
-                            fill: true,
-                            tension: 0.3,
-                            pointRadius: 4,
-                            pointBackgroundColor: '#4f46e5',
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        plugins: {
-                            legend: { display: false },
-                            tooltip: { mode: 'index', intersect: false }
-                        },
-                        scales: {
-                            x: { grid: { display: false } },
-                            y: { beginAtZero: true, ticks: { precision: 0 } }
-                        }
-                    }
-                });
-            }
+            if (typeof Chart === 'undefined') { console.error('Chart.js not found. Skipping chart initialization.'); return; }
 
-            // Coach workload bar chart
-            const coachCtx = document.getElementById('coachWorkloadChart');
-            if (coachCtx) {
-                const workloadData = @json($coachWorkload ?? []);
-                const coaches = workloadData.map(c => c.coach);
-                const sessions = workloadData.map(c => c.sessions);
-                new Chart(coachCtx, {
-                    type: 'bar',
-                    data: {
-                        labels: coaches,
-                        datasets: [{
-                            label: 'Sessions',
-                            data: sessions,
-                            backgroundColor: ['#3b82f6','#10b981','#f59e0b','#ef4444','#8b5cf6'],
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        plugins: { legend: { display: false } },
-                        scales: {
-                            x: { grid: { display: false } },
-                            y: { beginAtZero: true, ticks: { precision: 0 } }
-                        }
-                    }
-                });
-            }
+            // Session trends chart
+            try {
+                const trendsCtx = document.getElementById('sessionTrendsChart');
+                if (trendsCtx) {
+                    const trendsData = @json($weeklyTrends ?? []);
+                    const labels = trendsData.map(t => t.label);
+                    const data = trendsData.map(t => t.sessions);
+                    new Chart(trendsCtx, { type: 'line', data: { labels, datasets:[{ label:'Sessions', data, borderColor:'#4f46e5', backgroundColor:'rgba(79,70,229,0.08)', fill:true, tension:0.3, pointRadius:3 }] }, options:{ responsive:true, maintainAspectRatio:false, plugins:{legend:{display:false}} } });
+                }
+            } catch (err) { console.error('sessionTrendsChart init error', err); }
 
-            // Capacity spend monthly sparkline
-            const capCtx = document.getElementById('capacitySpendChart');
-            if (capCtx) {
-                const capLabels = @json($capacityMonthlyLabels ?? []);
-                const capTotals = @json($capacityMonthlyTotals ?? []);
-                new Chart(capCtx, {
-                    type: 'line',
-                    data: {
-                        labels: capLabels,
-                        datasets: [{
-                            label: 'Capacity Spend (RWF)',
-                            data: capTotals,
-                            borderColor: '#0ea5e9',
-                            backgroundColor: 'rgba(14,165,233,0.08)',
-                            fill: true,
-                            tension: 0.35,
-                            pointRadius: 0
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        plugins: { legend: { display: false } },
-                        scales: { x: { display: false }, y: { display: false } }
-                    }
-                });
-            }
+            // Coach workload
+            try {
+                const coachCtx = document.getElementById('coachWorkloadChart');
+                if (coachCtx) {
+                    const workloadData = @json($coachWorkload ?? []);
+                    const labels = workloadData.map(c => c.coach);
+                    const data = workloadData.map(c => c.sessions);
+                    new Chart(coachCtx, { type:'bar', data:{ labels, datasets:[{ label:'Sessions', data, backgroundColor:'#60a5fa' }] }, options:{ responsive:true, maintainAspectRatio:false, plugins:{legend:{display:false}} } });
+                }
+            } catch (err) { console.error('coachWorkloadChart init error', err); }
 
-            // Finance flow chart (income vs expenses, netflow line)
-            const financeCtx = document.getElementById('financeFlowChart');
-            if (financeCtx) {
-                const financeLabels = @json($financeLabels ?? []);
-                const incomeData = @json($incomeTotals ?? []);
-                const expenseData = @json($expenseTotals ?? []);
-                const netflowData = @json($netflowTotals ?? []);
+            // Capacity sparkline
+            try {
+                const capCtx = document.getElementById('capacitySpendChart');
+                if (capCtx) {
+                    const capLabels = @json($capacityMonthlyLabels ?? []);
+                    const capTotals = @json($capacityMonthlyTotals ?? []);
+                    new Chart(capCtx, { type:'line', data:{ labels:capLabels, datasets:[{ data:capTotals, borderColor:'#0ea5e9', backgroundColor:'rgba(14,165,233,0.08)', fill:true, pointRadius:0 }] }, options:{ responsive:true, maintainAspectRatio:false, plugins:{legend:{display:false}}, scales:{ x:{display:false}, y:{display:false} } } });
+                }
+            } catch (err) { console.error('capacitySpendChart init error', err); }
 
-                new Chart(financeCtx, {
-                    type: 'bar',
-                    data: {
-                        labels: financeLabels,
-                        datasets: [
-                            {
-                                type: 'bar',
-                                label: 'Income (RWF)',
-                                data: incomeData,
-                                backgroundColor: 'rgba(16,185,129,0.7)'
-                            },
-                            {
-                                type: 'bar',
-                                label: 'Expenses (RWF)',
-                                data: expenseData,
-                                backgroundColor: 'rgba(239,68,68,0.7)'
-                            },
-                            {
-                                type: 'line',
-                                label: 'Netflow (RWF)',
-                                data: netflowData,
-                                borderColor: '#2563eb',
-                                backgroundColor: 'rgba(37,99,235,0.08)',
-                                tension: 0.35,
-                                fill: false
-                            }
-                        ]
-                    },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        plugins: {
-                            legend: { position: 'top' },
-                            tooltip: {
-                                mode: 'index',
-                                intersect: false,
-                                callbacks: {
-                                    label: function(context) {
-                                        let val = context.raw ?? 0;
-                                        return context.dataset.label + ': ' + Number(val).toLocaleString() + ' RWF';
-                                    }
-                                }
-                            }
-                        },
-                        scales: {
-                            x: { stacked: true },
-                            y: { beginAtZero: true, ticks: { callback: function(v){ return Number(v).toLocaleString(); } } }
-                        }
-                    }
-                });
-            }
+            // Finance flow
+            try {
+                const financeCtx = document.getElementById('financeFlowChart');
+                if (financeCtx) {
+                    const financeLabels = @json($financeLabels ?? []);
+                    const incomeData = @json($incomeTotals ?? []);
+                    const expenseData = @json($expenseTotals ?? []);
+                    const netflowData = @json($netflowTotals ?? []);
+                    new Chart(financeCtx, { type:'bar', data:{ labels:financeLabels, datasets:[ { type:'bar', label:'Income', data:incomeData, backgroundColor:'rgba(16,185,129,0.7)' }, { type:'bar', label:'Expenses', data:expenseData, backgroundColor:'rgba(239,68,68,0.7)' }, { type:'line', label:'Netflow', data:netflowData, borderColor:'#2563eb', backgroundColor:'rgba(37,99,235,0.08)', fill:false } ] }, options:{ responsive:true, maintainAspectRatio:false, plugins:{ tooltip:{ mode:'index', intersect:false } }, scales:{ x:{ stacked:true }, y:{ beginAtZero:true } } });
+                }
+            } catch (err) { console.error('financeFlowChart init error', err); }
 
         })();
     </script>
