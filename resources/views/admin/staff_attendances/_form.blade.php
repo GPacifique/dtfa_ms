@@ -19,8 +19,8 @@
     <div>
         <label class="block text-sm font-medium text-gray-700">Activity</label>
         <select name="activity_type" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm">
-            @foreach($activityOptions as $opt)
-                <option value="{{ $opt }}" {{ $get('activity_type') === $opt ? 'selected' : '' }}>{{ $opt }}</option>
+            @foreach($activityOptions as $key => $label)
+                <option value="{{ $key }}" {{ $get('activity_type') === $key ? 'selected' : '' }}>{{ $label }}</option>
             @endforeach
         </select>
     </div>
@@ -33,8 +33,8 @@
     <div>
         <label class="block text-sm font-medium text-gray-700">Status</label>
         <select name="status" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm">
-            @foreach($statusOptions as $sopt)
-                <option value="{{ $sopt }}" {{ $get('status') === $sopt ? 'selected' : '' }}>{{ $sopt }}</option>
+            @foreach($statusOptions as $key => $label)
+                <option value="{{ $key }}" {{ $get('status') === $key ? 'selected' : '' }}>{{ $label }}</option>
             @endforeach
         </select>
     </div>

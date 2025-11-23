@@ -24,12 +24,12 @@
 
                 <div>
                     <dt class="text-sm font-medium text-gray-500">Activity</dt>
-                    <dd class="mt-1 text-sm text-gray-900">{{ $attendance->activity_type }}</dd>
+                    <dd class="mt-1 text-sm text-gray-900">{{ \App\Models\StaffAttendance::activityLabel($attendance->activity_type) }}</dd>
                 </div>
 
                 <div>
                     <dt class="text-sm font-medium text-gray-500">Status</dt>
-                    <dd class="mt-1 text-sm text-gray-900">{{ $attendance->status }}</dd>
+                    <dd class="mt-1 text-sm text-gray-900">{{ \App\Models\StaffAttendance::statusLabel($attendance->status) }}</dd>
                 </div>
 
                 <div class="sm:col-span-2">

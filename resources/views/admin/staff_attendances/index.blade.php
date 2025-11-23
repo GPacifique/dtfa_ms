@@ -23,8 +23,8 @@
                     <tr>
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ optional($r->date)->format('Y-m-d') ?? $r->date }}</td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ optional(App\Models\User::find($r->staff_id))->name }}</td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ $r->activity_type }}</td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ $r->status }}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ \App\Models\StaffAttendance::activityLabel($r->activity_type) }}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ \App\Models\StaffAttendance::statusLabel($r->status) }}</td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-right">
                             <a href="{{ route('admin.staff_attendances.show', $r) }}" class="text-indigo-600 mr-3">View</a>
                             <a href="{{ route('admin.staff_attendances.edit', $r) }}" class="text-yellow-600 mr-3">Edit</a>

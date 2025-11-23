@@ -26,22 +26,44 @@ class StaffAttendance extends Model
     public static function activityOptions(): array
     {
         return [
-            'Training Session',
-            'In House Training',
-            'Outside Training',
-            'Meeting',
-            'Event',
-            'Trip',
+            'training_session' => 'Training Session',
+            'in_house_training' => 'In House Training',
+            'outside_training' => 'Outside Training',
+            'meeting' => 'Meeting',
+            'event' => 'Event',
+            'trip' => 'Trip',
         ];
     }
 
     public static function statusOptions(): array
     {
         return [
-            'Available',
-            'Not available',
-            'Will be late',
+            'available' => 'Available',
+            'not_available' => 'Not available',
+            'will_be_late' => 'Will be late',
         ];
+    }
+
+    public static function activityKeys(): array
+    {
+        return array_keys(static::activityOptions());
+    }
+
+    public static function statusKeys(): array
+    {
+        return array_keys(static::statusOptions());
+    }
+
+    public static function activityLabel(?string $key): ?string
+    {
+        if (!$key) return null;
+        return static::activityOptions()[$key] ?? $key;
+    }
+
+    public static function statusLabel(?string $key): ?string
+    {
+        if (!$key) return null;
+        return static::statusOptions()[$key] ?? $key;
     }
 
     public function staff()

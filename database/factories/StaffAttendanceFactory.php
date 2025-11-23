@@ -17,9 +17,12 @@ class StaffAttendanceFactory extends Factory
         $activities = StaffAttendance::activityOptions();
         $statuses = StaffAttendance::statusOptions();
 
-        // Use simple PHP randomization to avoid depending on Faker at runtime
-        $activity = count($activities) ? $activities[array_rand($activities)] : null;
-        $status = count($statuses) ? $statuses[array_rand($statuses)] : 'present';
+        // pick random keys (stored values) from the options
+        $activityKeys = array_keys($activities);
+        $statusKeys = array_keys($statuses);
+
+        $activity = count($activityKeys) ? $activityKeys[array_rand($activityKeys)] : null;
+        $status = count($statusKeys) ? $statusKeys[array_rand($statusKeys)] : 'available';
         $date = \Carbon\Carbon::now()->subDays(rand(0, 30))->format('Y-m-d');
         $notes = rand(0, 4) === 0 ? 'Auto-generated attendance note' : null;
 

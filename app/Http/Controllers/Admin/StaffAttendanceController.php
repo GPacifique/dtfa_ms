@@ -31,9 +31,9 @@ class StaffAttendanceController extends Controller
     {
         $data = $request->validate([
             'staff_id' => 'nullable|exists:users,id',
-            'activity_type' => 'required|string',
+            'activity_type' => ['required', 'string', 'in:' . implode(',', \App\Models\StaffAttendance::activityKeys())],
             'date' => 'required|date',
-            'status' => 'required|string',
+            'status' => ['required', 'string', 'in:' . implode(',', \App\Models\StaffAttendance::statusKeys())],
             'notes' => 'nullable|string',
         ]);
 
@@ -57,9 +57,9 @@ class StaffAttendanceController extends Controller
     {
         $data = $request->validate([
             'staff_id' => 'nullable|exists:users,id',
-            'activity_type' => 'required|string',
+            'activity_type' => ['required', 'string', 'in:' . implode(',', \App\Models\StaffAttendance::activityKeys())],
             'date' => 'required|date',
-            'status' => 'required|string',
+            'status' => ['required', 'string', 'in:' . implode(',', \App\Models\StaffAttendance::statusKeys())],
             'notes' => 'nullable|string',
         ]);
 
