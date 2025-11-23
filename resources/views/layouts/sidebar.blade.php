@@ -95,6 +95,17 @@
                         </a>
                     @endif
 
+                    @if(Route::has('admin.players.index'))
+                        <a href="{{ route('admin.players.index') }}" aria-label="Players" title="Players" class="nav-item flex items-center gap-3 px-3 py-2 rounded-md hover:bg-slate-800 transition {{ request()->routeIs('admin.players.*') ? 'active' : '' }}">
+                            <span class="icon flex-shrink-0 w-6 h-6 flex items-center justify-center text-slate-200">
+                                <!-- Heroicon: Users / Players -->
+                                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a4 4 0 00-5-4M9 20H4v-2a4 4 0 015-4m3 0a4 4 0 10-4-4 4 4 0 004 4z"/></svg>
+                            </span>
+                            <span class="sr-only">Players</span>
+                            <span x-show="$store.layout.sidebarOpen" x-transition class="truncate">Players</span>
+                        </a>
+                    @endif
+
                     @if(Route::has('admin.capacity-buildings.index'))
                         <a href="{{ route('admin.capacity-buildings.index') }}" aria-label="Capacity Building" title="Capacity Building" class="nav-item flex items-center gap-3 px-3 py-2 rounded-md hover:bg-slate-800 transition {{ request()->routeIs('admin.capacity-buildings.*') ? 'active' : '' }}">
                             <span class="icon flex-shrink-0 w-6 h-6 flex items-center justify-center text-slate-200">
