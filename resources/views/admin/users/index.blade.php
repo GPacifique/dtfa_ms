@@ -84,6 +84,10 @@
                                     @csrf
                                     <button class="text-green-700 hover:underline px-2" type="submit">Restore</button>
                                 </form>
+                                <form method="POST" action="{{ route('admin.users.forceDelete', $user->id) }}" class="inline" onsubmit="return confirm('Permanently delete this user? This cannot be undone.');">
+                                    @csrf
+                                    <button class="text-red-700 hover:underline px-2" type="submit">Delete permanently</button>
+                                </form>
                             @endif
                         </td>
                     </tr>

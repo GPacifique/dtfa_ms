@@ -103,6 +103,7 @@ Route::middleware(['auth', 'role:admin|super-admin'])->prefix('admin')->group(fu
     Route::post('/users/{user}/send-reset', [\App\Http\Controllers\Admin\UsersController::class, 'sendReset'])->name('admin.users.sendReset');
     Route::delete('/users/{user}', [\App\Http\Controllers\Admin\UsersController::class, 'destroy'])->name('admin.users.destroy');
     Route::post('/users/{user}/restore', [\App\Http\Controllers\Admin\UsersController::class, 'restore'])->name('admin.users.restore');
+    Route::post('/users/{user}/force-delete', [\App\Http\Controllers\Admin\UsersController::class, 'forceDelete'])->name('admin.users.forceDelete');
     // Session management
     Route::get('/sessions', [\App\Http\Controllers\Admin\SessionsController::class, 'index'])->name('admin.sessions.index');
     Route::get('/sessions/create', [\App\Http\Controllers\Admin\SessionsController::class, 'create'])->name('admin.sessions.create');

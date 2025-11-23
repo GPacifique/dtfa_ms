@@ -237,6 +237,27 @@ class UsersController extends Controller
         return redirect()->route('admin.users.index')->with('status', 'User restored.');
     }
 
+    // Permanently remove a soft-deleted user
+    public function forceDelete($id)
+    {
+        $user = User::withTrashed()->findOrFail($id);
+        if ($user->id === auth()->id()) {
+            return redirect()->back()->withErrors('You cannot delete your own account.');
+        }
+        if (!$user->trashed()) {
+            return redirect()->back()->withErrors('User must be deactivated first before permanent deletion.');
+        }
+        $user->forceDelete();
+        AuditLog::create([
+            'user_id' => auth()->id(),
+            'action' => 'user.permanently_deleted',
+            'target_type' => User::class,
+            'target_id' => $user->id,
+            'meta' => ['email' => $user->email],
+        ]);
+        return redirect()->route('admin.users.index')->with('status', 'User permanently deleted.');
+    }
+
     // Send password reset link to user
     public function sendReset(User $user)
     {
