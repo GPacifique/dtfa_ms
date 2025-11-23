@@ -23,11 +23,11 @@
             <div>
                 @if($student->photo_path || $student->image_path)
                     @php $legacy = $student->photo_path ?? $student->image_path; @endphp
-                    <a href="{{ \Illuminate\Support\Facades\Storage::disk('public')->url(ltrim($legacy, '/')) }}" target="_blank">
-                        <img src="{{ $student->photo_url }}" alt="{{ $student->first_name }} {{ $student->second_name }}" class="w-24 h-24 rounded-lg object-cover ring-2 ring-white shadow-md">
+                    <a id="student-photo-link" href="{{ \Illuminate\Support\Facades\Storage::disk('public')->url(ltrim($legacy, '/')) }}" target="_blank">
+                        <img id="student-photo-preview" src="{{ $student->photo_url }}" alt="{{ $student->first_name }} {{ $student->second_name }}" class="w-24 h-24 rounded-lg object-cover ring-2 ring-white shadow-md">
                     </a>
                 @else
-                    <div class="w-24 h-24 rounded-lg bg-slate-100 flex items-center justify-center text-slate-400">
+                    <div id="student-photo-preview" class="w-24 h-24 rounded-lg bg-slate-100 flex items-center justify-center text-slate-400">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" viewBox="0 0 20 20" fill="currentColor">
                           <path d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm6 4a3 3 0 110 6 3 3 0 010-6z" />
                         </svg>
@@ -40,9 +40,10 @@
                     @method('PUT')
                     <label class="text-xs text-slate-600">Change photo</label>
                     <div class="flex items-center gap-2 mt-1">
-                        <input type="file" name="photo" accept="image/*" class="block text-sm text-slate-600 file:mr-4 file:py-1 file:px-3 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-slate-100 file:text-slate-700" />
+                        <input id="photo-input-admin" type="file" name="photo" accept="image/*" class="block text-sm text-slate-600 file:mr-4 file:py-1 file:px-3 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-slate-100 file:text-slate-700" />
                         <button type="submit" class="px-3 py-1 bg-indigo-600 text-white rounded text-sm">Upload</button>
                     </div>
+                    <div id="photo-upload-status" class="mt-2 text-sm text-amber-700"></div>
                 </form>
             </div>
             <div class="flex-1">
@@ -189,3 +190,48 @@
     </div>
 </div>
 @endsection
+
+@push('scripts')
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const input = document.getElementById('photo-input-admin');
+    const preview = document.getElementById('student-photo-preview');
+    const link = document.getElementById('student-photo-link');
+    const status = document.getElementById('photo-upload-status');
+
+    if (!input || !preview) return;
+
+    input.addEventListener('change', function (e) {
+        status.textContent = '';
+        const file = input.files && input.files[0];
+        if (!file) return;
+
+        // Validate size (2MB)
+        const maxBytes = 2 * 1024 * 1024;
+        if (file.size > maxBytes) {
+            status.textContent = 'Selected file is larger than 2MB. Please choose a smaller image.';
+            input.value = '';
+            return;
+        }
+
+        const url = URL.createObjectURL(file);
+        // If preview is an <img>, update src; else replace innerHTML
+        if (preview.tagName && preview.tagName.toLowerCase() === 'img') {
+            preview.src = url;
+        } else {
+            preview.innerHTML = '';
+            const img = document.createElement('img');
+            img.src = url;
+            img.className = 'w-24 h-24 rounded-lg object-cover ring-2 ring-white shadow-md';
+            preview.appendChild(img);
+        }
+
+        // Update link href if present
+        if (link) {
+            // link should point to the blob until upload; remove href to avoid broken links
+            link.removeAttribute('href');
+        }
+    });
+});
+</script>
+@endpush
