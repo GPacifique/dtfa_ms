@@ -17,15 +17,55 @@ class PhotoController extends Controller
      */
     public function showStudent(Student $student)
     {
+        // Prefer configured default disk so controller works both locally and in cloud (S3)
+        $disk = config('filesystems.default', 'public');
         $path = $student->photo_path ?? $student->image_path ?? null;
-        if (!$path || !Storage::disk('public')->exists($path)) {
+
+        if (!$path || !Storage::disk($disk)->exists($path)) {
             abort(404);
         }
 
-        $full = Storage::disk('public')->path($path);
-        $mime = Storage::disk('public')->mimeType($path) ?: 'application/octet-stream';
+        // If disk is local (public) we can return the file directly from disk path
+        $adapter = Storage::disk($disk)->getDriver();
 
-        return response()->file($full, [
+        // Quick check: local filesystems typically support ->path()
+        try {
+            $localPath = Storage::disk($disk)->path($path);
+            if ($localPath && is_file($localPath)) {
+                $mime = Storage::disk($disk)->mimeType($path) ?: 'application/octet-stream';
+                return response()->file($localPath, [
+                    'Content-Type' => $mime,
+                    'Cache-Control' => 'public, max-age=31536000, immutable',
+                ]);
+            }
+        } catch (\Exception $e) {
+            // fall through to streaming/redirect for non-local disks
+        }
+
+        // For remote disks (S3-like) return a redirect to the storage URL if available
+        // or stream the file via the Storage read stream as a fallback.
+        try {
+            $url = Storage::disk($disk)->url($path);
+            if ($url) {
+                return redirect()->away($url);
+            }
+        } catch (\Exception $e) {
+            // ignore and fall back to stream
+        }
+
+        // Stream fallback
+        $stream = Storage::disk($disk)->readStream($path);
+        if ($stream === false) {
+            abort(404);
+        }
+
+        $mime = Storage::disk($disk)->mimeType($path) ?? 'application/octet-stream';
+        return response()->stream(function () use ($stream) {
+            fpassthru($stream);
+            if (is_resource($stream)) {
+                fclose($stream);
+            }
+        }, 200, [
             'Content-Type' => $mime,
             'Cache-Control' => 'public, max-age=31536000, immutable',
         ]);
