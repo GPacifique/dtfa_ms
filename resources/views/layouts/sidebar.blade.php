@@ -277,7 +277,7 @@
                         <span class="sr-only">Incomes</span>
                         <span x-show="$store.layout.sidebarOpen" x-transition class="truncate">Incomes</span>
                         @if($todayIncomeCents > 0)
-                            <span class="ml-auto bg-emerald-500 text-white text-xs rounded-full px-2 py-0.5">{{ number_format($todayIncomeCents/100, 2) }}</span>
+                            <span class="ml-auto bg-emerald-500 text-white text-xs rounded-full px-2 py-0.5">{{ number_format($todayIncomeCents/100, 2) }} RWF</span>
                         @endif
                     </a>
                 @endif

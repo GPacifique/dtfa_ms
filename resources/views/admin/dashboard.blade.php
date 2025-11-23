@@ -95,7 +95,7 @@
                         <div class="flex-1">
                             <p class="text-sm font-medium text-slate-600 dark:text-slate-400 mb-1">Revenue (This Month)</p>
                             <h3 class="text-3xl font-bold text-teal-600 dark:text-teal-400" data-animate-count>
-                                {{ number_format((($stats['revenueThisMonth'] ?? 0) + ($stats['incomeThisMonth'] ?? 0))/100, 2) }}
+                                {{ number_format((($stats['revenueThisMonth'] ?? 0) + ($stats['incomeThisMonth'] ?? 0))/100, 2) }} RWF
                             </h3>
                             <p class="text-xs text-slate-500 dark:text-slate-400 mt-2">
                                 RWF
@@ -123,7 +123,7 @@
                         <div class="flex-1">
                             <p class="text-sm font-medium text-slate-600 dark:text-slate-400 mb-1">Income (This Month)</p>
                             <h3 class="text-3xl font-bold text-emerald-600 dark:text-emerald-400" data-animate-count>
-                                {{ number_format(($stats['incomeThisMonth'] ?? 0)/100, 2) }}
+                                {{ number_format(($stats['incomeThisMonth'] ?? 0)/100, 2) }} RWF
                             </h3>
                             <p class="text-xs text-slate-500 dark:text-slate-400 mt-2">RWF</p>
                         </div>
@@ -142,7 +142,7 @@
                         <div class="flex-1">
                             <p class="text-sm font-medium text-slate-600 dark:text-slate-400 mb-1">Total Income</p>
                             <h3 class="text-3xl font-bold text-slate-900" data-animate-count>
-                                {{ number_format(($stats['totalIncome'] ?? 0)/100, 2) }}
+                                {{ number_format(($stats['totalIncome'] ?? 0)/100, 2) }} RWF
                             </h3>
                             <p class="text-xs text-slate-500 dark:text-slate-400 mt-2">All time</p>
                         </div>
