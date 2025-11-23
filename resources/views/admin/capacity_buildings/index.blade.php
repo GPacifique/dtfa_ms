@@ -14,6 +14,7 @@
             <thead class="bg-slate-50">
                 <tr>
                     <th class="p-3 text-left">Name</th>
+                    <th class="p-3 text-left">Discipline</th>
                     <th class="p-3 text-left">Training</th>
                     <th class="p-3 text-left">Start</th>
                     <th class="p-3 text-left">End</th>
@@ -26,6 +27,7 @@
                 @foreach($items as $item)
                     <tr class="border-t">
                         <td class="p-3">{{ $item->first_name }} {{ $item->second_name }}</td>
+                        <td class="p-3">{{ $item->discipline }}</td>
                         <td class="p-3">{{ $item->training_name }}</td>
                         <td class="p-3">{{ optional($item->start_date)->format('Y-m-d') }}</td>
                         <td class="p-3">{{ optional($item->end_date)->format('Y-m-d') }}</td>

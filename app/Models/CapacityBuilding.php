@@ -13,6 +13,7 @@ class CapacityBuilding extends Model
 
     protected $fillable = [
         'first_name',
+        'discipline',
         'second_name',
         'gender',
         'branch',

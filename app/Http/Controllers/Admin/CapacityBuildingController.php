@@ -170,6 +170,7 @@ class CapacityBuildingController extends Controller
     {
         return $request->validate([
             'first_name' => 'required|string|max:255',
+            'discipline' => 'nullable|string|max:255',
             'second_name' => 'nullable|string|max:255',
             'gender' => 'nullable|string|max:50',
             'branch' => 'nullable|string|max:255',

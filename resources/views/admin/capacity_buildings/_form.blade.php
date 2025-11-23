@@ -15,6 +15,11 @@
     </div>
 
     <div>
+        <label class="block text-sm font-medium text-slate-700">Discipline</label>
+        <input name="discipline" value="{{ old('discipline', $item->discipline ?? '') }}" class="mt-1 block w-full rounded border-slate-200 shadow-sm" />
+    </div>
+
+    <div>
         <label class="block text-sm font-medium text-slate-700">Gender</label>
         <select name="gender" class="mt-1 block w-full rounded border-slate-200 shadow-sm">
             <option value="">-- Select --</option>
