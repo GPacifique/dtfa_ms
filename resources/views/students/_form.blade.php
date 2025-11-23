@@ -5,7 +5,7 @@
 </div>
 <div class="mb-4">
     <label class="block font-semibold mb-1">Last Name</label>
-    <input type="text" name="last_name" class="w-full border rounded px-3 py-2" value="{{ old('last_name', $student->last_name ?? '') }}" required>
+    <input type="text" name="second_name" class="w-full border rounded px-3 py-2" value="{{ old('second_name', $student->second_name ?? '') }}" required>
 </div>
 <div class="mb-4">
     <label class="block font-semibold mb-1">Date of Birth</label>
@@ -45,10 +45,10 @@
 </div>
 <div class="mb-4">
     <label class="block font-semibold mb-1">Profile Image</label>
-    <input type="file" name="image" accept="image/*" class="w-full border rounded px-3 py-2">
-    @if(!empty($student->image_path ?? null))
+    <input type="file" name="photo" accept="image/*" class="w-full border rounded px-3 py-2">
+    @if(!empty($student->photo_path ?? null))
         <div class="mt-2">
-            <img src="{{ asset('storage/' . $student->image_path) }}" alt="Profile Image" class="h-20 rounded">
+            <img src="{{ $student->photo_url }}" alt="Profile Image" class="h-20 rounded object-cover">
         </div>
     @endif
 </div>
