@@ -448,12 +448,12 @@
                         <canvas id="coachWorkloadChart" class="card-chart" style="height:70px;width:100%"></canvas>
                     </div>
                 </div>
-                <!-- Finance Flow Chart (Income / Expenses / Netflow) -->
-                <div class="lg:col-span-2 mt-4">
+                <!-- Finance Flow (compact) -->
+                <div class="lg:col-span-1 md:col-span-2 mt-2">
                     <div class="card">
-                        <div class="card-body p-4">
-                            <h3 class="font-bold text-slate-900 mb-2 text-sm">💸 Income, Expenses & Netflow (Last 12 months)</h3>
-                            <canvas id="financeFlowChart" style="height:120px;width:100%"></canvas>
+                        <div class="card-body p-2">
+                            <h3 class="font-semibold text-slate-900 mb-1 text-xs">💸 Income / Expenses / Netflow (12m)</h3>
+                            <canvas id="financeFlowChart" style="height:64px;width:100%"></canvas>
                         </div>
                     </div>
                 </div>
