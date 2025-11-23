@@ -45,7 +45,18 @@ class SendCommunicationChunk implements ShouldQueue
             }
 
             // Send synchronously inside the queued job so each chunk is processed by the worker.
-            Mail::to($email)->send(new CommunicationSent($this->communication));
+            try {
+                // Queue each mailable separately so mail delivery is decoupled from chunk processing.
+                Mail::to($email)->queue(new CommunicationSent($this->communication));
+            } catch (\Throwable $e) {
+                // Log and continue so one failing address doesn't stop the chunk
+                \Log::error('Failed to queue communication email', [
+                    'email' => $email,
+                    'communication_id' => $this->communication->id ?? null,
+                    'error' => $e->getMessage(),
+                ]);
+                continue;
+            }
         }
     }
 }

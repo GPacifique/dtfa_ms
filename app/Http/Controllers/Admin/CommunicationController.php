@@ -44,7 +44,8 @@ class CommunicationController extends Controller
         $communication = Communication::create($data);
 
         // send emails to those in `staff` table (or to both users+staff if audience=all)
-        $audience = $communication->audience ?? 'staff';
+        // Default to 'all' so pressing Send without choosing still targets everyone.
+        $audience = $communication->audience ?? 'all';
         $emails = collect();
 
         if ($audience === 'staff' || $audience === 'all') {
@@ -63,11 +64,23 @@ class CommunicationController extends Controller
         $chunkSize = 100;
         $chunks = array_chunk($emails, $chunkSize);
 
+        $dispatched = 0;
+
+        // If the app is running with a synchronous queue driver or running locally,
+        // dispatch synchronously so pressing Send performs the send immediately.
+        $forceSync = config('queue.default') === 'sync' || app()->environment('local') || env('COMMUNICATION_FORCE_SEND_SYNC', false);
+
         foreach ($chunks as $chunk) {
-            SendCommunicationChunk::dispatch($communication, $chunk);
+            if ($forceSync) {
+                // dispatchSync ensures the job is executed immediately in the current process.
+                SendCommunicationChunk::dispatchSync($communication, $chunk);
+            } else {
+                SendCommunicationChunk::dispatch($communication, $chunk);
+            }
+            $dispatched += count($chunk);
         }
 
-        return redirect()->route('admin.communications.index')->with('success', 'Communication sent.');
+        return redirect()->route('admin.communications.index')->with('success', "Communication queued for sending to {$dispatched} recipients.");
     }
 
     public function show(Communication $communication)

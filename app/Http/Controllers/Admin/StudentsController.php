@@ -10,13 +10,16 @@ use Illuminate\Validation\Rule;
 use App\Models\Branch;
 use App\Models\Group;
 use App\Models\User;
+use App\Models\StudentAttendance;
+use Illuminate\Http\Response;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class StudentsController extends Controller
 {
     public function index(Request $request)
     {
         $q = trim((string) $request->get('q'));
-        
+
         $students = Student::with(['branch', 'group', 'parent'])
             ->when($q !== '', function ($query) use ($q) {
                 $query->where(function ($sub) use ($q) {
@@ -256,6 +259,71 @@ class StudentsController extends Controller
                 'missing' => $missing,
                 'notfound' => $notfound,
             ],
+        ]);
+    }
+
+    /**
+     * Show full attendance history for a student (admin view).
+     */
+    public function attendance(Student $student)
+    {
+        $records = StudentAttendance::query()
+            ->where('student_attendances.student_id', $student->id)
+            ->join('training_sessions', 'student_attendances.training_session_id', '=', 'training_sessions.id')
+            ->orderByDesc('training_sessions.date')
+            ->orderByDesc('training_sessions.start_time')
+            ->select(
+                'student_attendances.*',
+                'training_sessions.date as session_date',
+                'training_sessions.start_time as session_start',
+                'training_sessions.end_time as session_end',
+                'training_sessions.location as session_location',
+                'training_sessions.group_name as session_group',
+                'training_sessions.coach_user_id as session_coach_id'
+            )
+            ->paginate(20);
+
+        return view('admin.students.attendance', compact('student', 'records'));
+    }
+
+    /**
+     * Export attendance for a student as CSV.
+     */
+    public function exportAttendanceCsv(Student $student)
+    {
+        $fileName = 'attendance_student_'.$student->id.'_'.now()->format('Ymd_His').'.csv';
+
+        $callback = function () use ($student) {
+            $handle = fopen('php://output', 'w');
+            fputcsv($handle, ['student_id','student_name','session_id','session_date','start_time','end_time','status','notes','location','group','coach_id']);
+
+            $rows = StudentAttendance::where('student_id', $student->id)
+                ->join('training_sessions', 'student_attendances.training_session_id', '=', 'training_sessions.id')
+                ->orderByDesc('training_sessions.date')
+                ->select('student_attendances.*', 'training_sessions.date as session_date', 'training_sessions.start_time as start_time', 'training_sessions.end_time as end_time', 'training_sessions.location as location', 'training_sessions.group_name as group_name', 'training_sessions.coach_user_id as coach_id')
+                ->get();
+
+            foreach ($rows as $r) {
+                fputcsv($handle, [
+                    $student->id,
+                    $student->first_name.' '.$student->second_name,
+                    $r->training_session_id,
+                    optional($r->session_date)->format('Y-m-d'),
+                    $r->start_time,
+                    $r->end_time,
+                    $r->status,
+                    $r->notes,
+                    $r->location,
+                    $r->group_name,
+                    $r->coach_id,
+                ]);
+            }
+            fclose($handle);
+        };
+
+        return new StreamedResponse($callback, 200, [
+            'Content-Type' => 'text/csv',
+            'Content-Disposition' => "attachment; filename=\"$fileName\"",
         ]);
     }
 }

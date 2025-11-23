@@ -23,7 +23,7 @@
             <img src="{{ $student->photo_url }}" alt="{{ $student->first_name }} {{ $student->second_name }}" class="w-24 h-24 rounded-lg object-cover ring-2 ring-white shadow-md">
             <div class="flex-1">
                 <h2 class="text-2xl font-bold text-slate-900">{{ $student->first_name }} {{ $student->second_name }}</h2>
-                
+
                 <!-- Jersey Info -->
                 @if($student->jersey_number || $student->jersey_name)
                     <div class="flex items-center gap-2 mt-3">
@@ -159,6 +159,8 @@
                 @method('DELETE')
                 <button type="submit" class="px-4 py-2 bg-red-100 text-red-700 hover:bg-red-200 rounded-lg font-semibold transition">🗑️ Delete</button>
             </form>
+            <a href="{{ route('admin.students.attendance', $student) }}" class="px-4 py-2 bg-emerald-100 text-emerald-700 hover:bg-emerald-200 rounded-lg font-semibold transition">📅 Attendance History</a>
+            <a href="{{ route('admin.students.attendance.export', $student) }}" class="px-4 py-2 bg-amber-100 text-amber-700 hover:bg-amber-200 rounded-lg font-semibold transition">⬇️ Export CSV</a>
         </div>
     </div>
 </div>

@@ -42,6 +42,8 @@ Route::get('/dashboard', function () {
 
     // Resolve user roles without relying on IDE-unknown trait methods
     $roles = DB::table('model_has_roles')
+
+
         ->join('roles', 'model_has_roles.role_id', '=', 'roles.id')
     ->where('model_has_roles.model_id', $user->id)
         ->where('model_has_roles.model_type', get_class($user))
@@ -109,8 +111,18 @@ Route::middleware(['auth', 'role:admin|super-admin'])->prefix('admin')->group(fu
     Route::put('/sessions/{session}', [\App\Http\Controllers\Admin\SessionsController::class, 'update'])->name('admin.sessions.update');
     Route::delete('/sessions/{session}', [\App\Http\Controllers\Admin\SessionsController::class, 'destroy'])->name('admin.sessions.destroy');
     Route::post('/sessions/{session}/record-all-attendance', [\App\Http\Controllers\Admin\SessionsController::class, 'recordAllAttendance'])->name('admin.sessions.recordAllAttendance');
+    // Admin: per-session attendance management (view & save individual statuses)
+    Route::get('/sessions/{session}/attendance', [\App\Http\Controllers\Admin\SessionsController::class, 'attendance'])->name('admin.sessions.attendance');
+    Route::post('/sessions/{session}/attendance', [\App\Http\Controllers\Admin\SessionsController::class, 'storeAttendance'])->name('admin.sessions.attendance.store');
+    // Export attendance CSV for a session
+    Route::get('/sessions/{session}/attendance/export', [\App\Http\Controllers\Admin\SessionsController::class, 'exportAttendanceCsv'])->name('admin.sessions.attendance.export');
     // Income management
     Route::resource('incomes', \App\Http\Controllers\Admin\IncomeController::class, ['as' => 'admin']);
+
+    // Teams / Players / Games (matches)
+    Route::resource('teams', \App\Http\Controllers\Admin\TeamController::class, ['as' => 'admin']);
+    Route::resource('players', \App\Http\Controllers\Admin\PlayerController::class, ['as' => 'admin']);
+    Route::resource('games', \App\Http\Controllers\Admin\GameController::class, ['as' => 'admin'])->names('games');
 
     // Students (admin-only routes moved to a dedicated middleware group below)
 
@@ -290,6 +302,8 @@ Route::middleware(['auth', 'role:admin|super-admin|coach'])->prefix('admin')->gr
 Route::middleware(['auth', 'role:admin|super-admin|coach|staff|accountant'])->prefix('admin')->group(function () {
     Route::get('/students', [\App\Http\Controllers\Admin\StudentsController::class, 'index'])->name('admin.students.index');
     Route::get('/students/{student}', [\App\Http\Controllers\Admin\StudentsController::class, 'show'])->name('admin.students.show');
+    Route::get('/students/{student}/attendance', [\App\Http\Controllers\Admin\StudentsController::class, 'attendance'])->name('admin.students.attendance');
+    Route::get('/students/{student}/attendance/export', [\App\Http\Controllers\Admin\StudentsController::class, 'exportAttendanceCsv'])->name('admin.students.attendance.export');
     Route::get('/students/create', [\App\Http\Controllers\Admin\StudentsController::class, 'create'])->name('admin.students.create');
     Route::post('/students', [\App\Http\Controllers\Admin\StudentsController::class, 'store'])->name('admin.students.store');
     Route::get('/students/{student}/edit', [\App\Http\Controllers\Admin\StudentsController::class, 'edit'])->name('admin.students.edit');
