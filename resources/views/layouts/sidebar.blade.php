@@ -104,6 +104,12 @@
                             <span class="sr-only">Capacity Building</span>
                             <span x-show="$store.layout.sidebarOpen" x-transition class="truncate">Capacity Building</span>
                         </a>
+                        @if(Route::has('admin.capacity-buildings.stats'))
+                            <a href="{{ route('admin.capacity-buildings.stats') }}" aria-label="Capacity Stats" class="submenu-item flex items-center gap-3 px-3 py-2 rounded-md hover:bg-slate-800 transition {{ request()->routeIs('admin.capacity-buildings.stats') ? 'active' : '' }}">
+                                <span class="sr-only">Capacity Stats</span>
+                                <span x-show="$store.layout.sidebarOpen" x-transition class="truncate">Capacity Stats</span>
+                            </a>
+                        @endif
                     @endif
 
                     @if(Route::has('admin.users.index'))

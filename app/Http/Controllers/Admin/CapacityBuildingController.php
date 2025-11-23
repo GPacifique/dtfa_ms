@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\CapacityBuilding;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 
 class CapacityBuildingController extends Controller
 {
@@ -78,7 +80,90 @@ class CapacityBuildingController extends Controller
             ->orderByDesc('total')
             ->get();
 
-        return view('admin.capacity_buildings.stats', compact('count','total','average','min','max','byCostType','byCategory'));
+        // Breakdown by branch
+        $byBranch = CapacityBuilding::selectRaw('branch, COUNT(*) as count, SUM(cost_amount) as total')
+            ->groupBy('branch')
+            ->orderByDesc('total')
+            ->get();
+
+        // Time series by month (YYYY-MM)
+        $byMonth = CapacityBuilding::selectRaw("DATE_FORMAT(start_date, '%Y-%m') as month, COUNT(*) as count, SUM(cost_amount) as total")
+            ->whereNotNull('start_date')
+            ->groupBy('month')
+            ->orderBy('month')
+            ->get();
+
+        // Time series by quarter (e.g., 2025 Q1)
+        $byQuarter = CapacityBuilding::selectRaw("CONCAT(YEAR(start_date),' Q', QUARTER(start_date)) as quarter, COUNT(*) as count, SUM(cost_amount) as total")
+            ->whereNotNull('start_date')
+            ->groupBy('quarter')
+            ->orderBy('quarter')
+            ->get();
+
+        return view('admin.capacity_buildings.stats', compact(
+            'count','total','average','min','max','byCostType','byCategory','byBranch','byMonth','byQuarter'
+        ));
+    }
+
+    /**
+     * Export stats as CSV.
+     */
+    public function exportStats()
+    {
+        $filename = 'capacity_building_stats_' . date('Ymd_His') . '.csv';
+
+        $callback = function () {
+            $out = fopen('php://output', 'w');
+
+            // Top-level summary
+            fputcsv($out, ['Metric', 'Value']);
+            fputcsv($out, ['Records', CapacityBuilding::count()]);
+            fputcsv($out, ['Total Cost', CapacityBuilding::sum('cost_amount')]);
+            fputcsv($out, ['Average Cost', CapacityBuilding::avg('cost_amount')]);
+            fputcsv($out, ['Min Cost', CapacityBuilding::min('cost_amount')]);
+            fputcsv($out, ['Max Cost', CapacityBuilding::max('cost_amount')]);
+            fputcsv($out, []);
+
+            // By cost type
+            fputcsv($out, ['By Cost Type']);
+            fputcsv($out, ['Cost Type', 'Count', 'Total']);
+            $rows = CapacityBuilding::selectRaw('cost_type, COUNT(*) as count, SUM(cost_amount) as total')
+                ->groupBy('cost_type')
+                ->get();
+            foreach ($rows as $r) {
+                fputcsv($out, [$r->cost_type, $r->count, $r->total]);
+            }
+            fputcsv($out, []);
+
+            // By branch
+            fputcsv($out, ['By Branch']);
+            fputcsv($out, ['Branch', 'Count', 'Total']);
+            $branches = CapacityBuilding::selectRaw('branch, COUNT(*) as count, SUM(cost_amount) as total')
+                ->groupBy('branch')
+                ->get();
+            foreach ($branches as $b) {
+                fputcsv($out, [$b->branch, $b->count, $b->total]);
+            }
+            fputcsv($out, []);
+
+            // By month
+            fputcsv($out, ['By Month']);
+            fputcsv($out, ['Month', 'Count', 'Total']);
+            $months = CapacityBuilding::selectRaw("DATE_FORMAT(start_date, '%Y-%m') as month, COUNT(*) as count, SUM(cost_amount) as total")
+                ->whereNotNull('start_date')
+                ->groupBy('month')
+                ->orderBy('month')
+                ->get();
+            foreach ($months as $m) {
+                fputcsv($out, [$m->month, $m->count, $m->total]);
+            }
+
+            fclose($out);
+        };
+
+        return response()->streamDownload($callback, $filename, [
+            'Content-Type' => 'text/csv',
+        ]);
     }
 
     protected function validateRequest(Request $request)
