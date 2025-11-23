@@ -27,7 +27,22 @@
                 </div>
                 <div>
                     <dt class="text-sm font-medium text-gray-500">Branch / Pitch</dt>
-                    <dd class="mt-1 text-sm text-gray-900">{{ $trainingSessionRecord->branch }} — {{ $trainingSessionRecord->training_pitch }}</dd>
+                    <dd class="mt-1 text-sm text-gray-900">{{ $trainingSessionRecord->branch }} — {{ $trainingSessionRecord->training_pitch }} @if($trainingSessionRecord->other_training_pitch) ({{ $trainingSessionRecord->other_training_pitch }}) @endif</dd>
+                </div>
+
+                <div>
+                    <dt class="text-sm font-medium text-gray-500">Country / City</dt>
+                    <dd class="mt-1 text-sm text-gray-900">{{ $trainingSessionRecord->country }} — {{ $trainingSessionRecord->city }}</dd>
+                </div>
+
+                <div>
+                    <dt class="text-sm font-medium text-gray-500">Sport Discipline</dt>
+                    <dd class="mt-1 text-sm text-gray-900">{{ $trainingSessionRecord->sport_discipline }}</dd>
+                </div>
+
+                <div class="sm:col-span-2">
+                    <dt class="text-sm font-medium text-gray-500">Training Objective</dt>
+                    <dd class="mt-1 text-sm text-gray-900 whitespace-pre-wrap">{{ $trainingSessionRecord->training_objective }}</dd>
                 </div>
 
                 <div class="sm:col-span-2">

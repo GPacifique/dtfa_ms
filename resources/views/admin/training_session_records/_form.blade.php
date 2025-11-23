@@ -64,6 +64,40 @@
         </div>
     </div>
 
+    <div class="grid grid-cols-2 gap-4">
+        <div>
+            <label class="block text-sm font-medium text-gray-700">Country</label>
+            <select name="country" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm">
+                <option value="">-- Select country --</option>
+                <option value="Rwanda" {{ old('country', $isEdit ? ($trainingSessionRecord->country ?? '') : '') === 'Rwanda' ? 'selected' : '' }}>Rwanda</option>
+                <option value="Tanzania" {{ old('country', $isEdit ? ($trainingSessionRecord->country ?? '') : '') === 'Tanzania' ? 'selected' : '' }}>Tanzania</option>
+            </select>
+        </div>
+        <div>
+            <label class="block text-sm font-medium text-gray-700">City</label>
+            <select name="city" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm">
+                <option value="">-- Select city --</option>
+                <option value="Kigali" {{ old('city', $isEdit ? ($trainingSessionRecord->city ?? '') : '') === 'Kigali' ? 'selected' : '' }}>Kigali</option>
+                <option value="Mwanza" {{ old('city', $isEdit ? ($trainingSessionRecord->city ?? '') : '') === 'Mwanza' ? 'selected' : '' }}>Mwanza</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="grid grid-cols-2 gap-4">
+        <div>
+            <label class="block text-sm font-medium text-gray-700">Sport Discipline</label>
+            <select name="sport_discipline" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm">
+                <option value="">-- Select discipline --</option>
+                <option value="Football" {{ old('sport_discipline', $isEdit ? ($trainingSessionRecord->sport_discipline ?? '') : '') === 'Football' ? 'selected' : '' }}>Football</option>
+                <option value="Basketball" {{ old('sport_discipline', $isEdit ? ($trainingSessionRecord->sport_discipline ?? '') : '') === 'Basketball' ? 'selected' : '' }}>Basketball</option>
+            </select>
+        </div>
+        <div>
+            <label class="block text-sm font-medium text-gray-700">Other Training Pitch</label>
+            <input type="text" name="other_training_pitch" value="{{ $old('other_training_pitch') }}" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm" />
+        </div>
+    </div>
+
     <div>
         <label class="block text-sm font-medium text-gray-700">Main Topic</label>
         <input type="text" name="main_topic" value="{{ $old('main_topic') }}" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm" />
@@ -71,7 +105,18 @@
 
     <div>
         <label class="block text-sm font-medium text-gray-700">Area of Performance</label>
-        <input type="text" name="area_performance" value="{{ $old('area_performance') }}" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm" />
+        <select name="area_performance" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm">
+            <option value="">-- Select area --</option>
+            <option value="Physical" {{ old('area_performance', $isEdit ? ($trainingSessionRecord->area_performance ?? '') : '') === 'Physical' ? 'selected' : '' }}>Physical</option>
+            <option value="Technical" {{ old('area_performance', $isEdit ? ($trainingSessionRecord->area_performance ?? '') : '') === 'Technical' ? 'selected' : '' }}>Technical</option>
+            <option value="Tactical" {{ old('area_performance', $isEdit ? ($trainingSessionRecord->area_performance ?? '') : '') === 'Tactical' ? 'selected' : '' }}>Tactical</option>
+            <option value="Mental" {{ old('area_performance', $isEdit ? ($trainingSessionRecord->area_performance ?? '') : '') === 'Mental' ? 'selected' : '' }}>Mental</option>
+        </select>
+    </div>
+
+    <div>
+        <label class="block text-sm font-medium text-gray-700">Training Objective</label>
+        <textarea name="training_objective" rows="2" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm">{{ $old('training_objective') }}</textarea>
     </div>
 
     <div>
