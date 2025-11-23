@@ -459,7 +459,7 @@
                 </div>
             </div>
 
-            // Capacity spend monthly sparkline
+            <script>
             const capCtx = document.getElementById('capacitySpendChart');
             if (capCtx) {
                 const capLabels = @json($capacityMonthlyLabels ?? []);
@@ -548,7 +548,7 @@
                 });
             }
         }
-    })();
+    })();</script>
                 <div class="card">
                     <div class="card-body p-5">
                         <div class="text-xs text-slate-500 font-semibold">Equipment Utilization</div>
