@@ -286,6 +286,8 @@ Route::middleware(['auth', 'role:admin|super-admin|CEO|Technical Director'])->pr
 // Capacity Building admin CRUD
 Route::middleware(['auth', 'role:admin|super-admin'])->prefix('admin')->group(function () {
     Route::resource('capacity-buildings', \App\Http\Controllers\Admin\CapacityBuildingController::class, ['as' => 'admin']);
+    // Stats
+    Route::get('/capacity-buildings/stats', [\App\Http\Controllers\Admin\CapacityBuildingController::class, 'stats'])->name('admin.capacity-buildings.stats');
 });
 
 // Training Session Records admin CRUD - allow coaches as well

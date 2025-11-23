@@ -49,6 +49,38 @@ class CapacityBuildingController extends Controller
         return redirect()->route('admin.capacity-buildings.index')->with('status', 'Record deleted');
     }
 
+    /**
+     * Display summary statistics for capacity building costs.
+     */
+    public function stats()
+    {
+        $query = CapacityBuilding::query();
+
+        $count = (int) $query->count();
+        $total = (float) CapacityBuilding::sum('cost_amount');
+        $average = $count ? (float) CapacityBuilding::avg('cost_amount') : 0.0;
+        $min = CapacityBuilding::min('cost_amount');
+        $max = CapacityBuilding::max('cost_amount');
+
+        $byCostType = CapacityBuilding::selectRaw('cost_type, COUNT(*) as count, SUM(cost_amount) as total')
+            ->groupBy('cost_type')
+            ->get()
+            ->map(function ($row) {
+                return [
+                    'cost_type' => $row->cost_type,
+                    'count' => (int) $row->count,
+                    'total' => (float) $row->total,
+                ];
+            });
+
+        $byCategory = CapacityBuilding::selectRaw('training_category, COUNT(*) as count, SUM(cost_amount) as total')
+            ->groupBy('training_category')
+            ->orderByDesc('total')
+            ->get();
+
+        return view('admin.capacity_buildings.stats', compact('count','total','average','min','max','byCostType','byCategory'));
+    }
+
     protected function validateRequest(Request $request)
     {
         return $request->validate([
