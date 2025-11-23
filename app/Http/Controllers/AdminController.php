@@ -170,6 +170,59 @@ class AdminController extends Controller
         // convert to RWF (assumes stored in cents)
         $capacityMonthlyTotals = $capacityByMonth->pluck('total')->map(fn($v) => (float) ($v / 100))->toArray();
 
+        // Finance time series (last 12 months): incomes, expenses, netflow
+        $financeStart = now()->subMonths(11)->startOfMonth()->toDateString();
+        $financeEnd = now()->endOfMonth()->toDateString();
+
+        // Payments (succeeded)
+        $paymentsByMonth = \App\Models\Payment::selectRaw("DATE_FORMAT(paid_at, '%Y-%m') as month, SUM(amount_cents) as total")
+            ->where('status', 'succeeded')
+            ->whereNotNull('paid_at')
+            ->whereBetween('paid_at', [$financeStart, $financeEnd])
+            ->groupBy('month')
+            ->orderBy('month')
+            ->get()
+            ->keyBy('month');
+
+        // Other incomes (Income model)
+        $otherIncomeByMonth = \App\Models\Income::selectRaw("DATE_FORMAT(received_at, '%Y-%m') as month, SUM(amount_cents) as total")
+            ->whereNotNull('received_at')
+            ->whereBetween('received_at', [$financeStart, $financeEnd])
+            ->groupBy('month')
+            ->orderBy('month')
+            ->get()
+            ->keyBy('month');
+
+        // Expenses (approved/paid)
+        $expensesByMonth = \App\Models\Expense::selectRaw("DATE_FORMAT(expense_date, '%Y-%m') as month, SUM(amount_cents) as total")
+            ->whereIn('status', ['approved', 'paid'])
+            ->whereNotNull('expense_date')
+            ->whereBetween('expense_date', [$financeStart, $financeEnd])
+            ->groupBy('month')
+            ->orderBy('month')
+            ->get()
+            ->keyBy('month');
+
+        // Build 12-month label array (YYYY-MM)
+        $financeLabels = [];
+        $period = now()->subMonths(11);
+        for ($i = 0; $i < 12; $i++) {
+            $financeLabels[] = $period->copy()->addMonths($i)->format('Y-m');
+        }
+
+        $incomeTotals = [];
+        $expenseTotals = [];
+        foreach ($financeLabels as $m) {
+            $payments = isset($paymentsByMonth[$m]) ? $paymentsByMonth[$m]->total : 0;
+            $other = isset($otherIncomeByMonth[$m]) ? $otherIncomeByMonth[$m]->total : 0;
+            $income = ($payments + $other) / 100.0; // to RWF
+            $expense = (isset($expensesByMonth[$m]) ? $expensesByMonth[$m]->total : 0) / 100.0;
+            $incomeTotals[] = (float) $income;
+            $expenseTotals[] = (float) $expense;
+        }
+
+        $netflowTotals = array_map(fn($inc, $exp) => round($inc - $exp, 2), $incomeTotals, $expenseTotals);
+
         return view('admin.dashboard', [
             'todaysSessions' => $sessionsForRange,
             'sessions' => $sessionsForRange,
@@ -184,6 +237,11 @@ class AdminController extends Controller
             'equipmentUtilization' => $equipmentUtilization,
             'capacityMonthlyLabels' => $capacityMonthlyLabels ?? [],
             'capacityMonthlyTotals' => $capacityMonthlyTotals ?? [],
+            // Finance chart data
+            'financeLabels' => $financeLabels ?? [],
+            'incomeTotals' => $incomeTotals ?? [],
+            'expenseTotals' => $expenseTotals ?? [],
+            'netflowTotals' => $netflowTotals ?? [],
         ]);
     }
 }
