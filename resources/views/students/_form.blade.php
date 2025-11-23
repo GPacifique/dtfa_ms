@@ -45,13 +45,45 @@
 </div>
 <div class="mb-4">
     <label class="block font-semibold mb-1">Profile Image</label>
-    <input type="file" name="photo" accept="image/*" class="w-full border rounded px-3 py-2">
-    @if(!empty($student->photo_path ?? null))
-        <div class="mt-2">
-            <img src="{{ $student->photo_url }}" alt="Profile Image" class="h-20 rounded object-cover">
-        </div>
-    @endif
+    <input type="file" name="photo" accept="image/*" class="w-full border rounded px-3 py-2 js-photo-input">
+    <div class="mt-2 js-photo-preview">
+        @if(!empty($student->photo_path ?? null))
+            <img src="{{ $student->photo_url }}" alt="Profile Image" class="h-20 rounded object-cover js-photo-img">
+        @else
+            <img src="" alt="Profile Image" class="h-20 rounded object-cover js-photo-img hidden">
+        @endif
+    </div>
 </div>
+
+@push('scripts')
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const input = document.querySelector('.js-photo-input');
+    const img = document.querySelector('.js-photo-img');
+    const previewWrap = document.querySelector('.js-photo-preview');
+    if (!input) return;
+
+    input.addEventListener('change', function (e) {
+        const file = e.target.files && e.target.files[0];
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = function (ev) {
+            if (img) {
+                img.src = ev.target.result;
+                img.classList.remove('hidden');
+            } else if (previewWrap) {
+                const newImg = document.createElement('img');
+                newImg.src = ev.target.result;
+                newImg.className = 'h-20 rounded object-cover';
+                previewWrap.innerHTML = '';
+                previewWrap.appendChild(newImg);
+            }
+        };
+        reader.readAsDataURL(file);
+    });
+});
+</script>
+@endpush
 
 <div class="flex items-center">
     <button type="submit" class="bg-indigo-600 text-white px-6 py-2 rounded font-semibold">{{ $buttonText ?? 'Save' }}</button>

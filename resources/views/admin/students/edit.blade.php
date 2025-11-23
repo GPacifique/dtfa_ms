@@ -70,11 +70,33 @@
                     <div class="md:col-span-2">
                         <label class="label mb-1">Photo</label>
                         <div class="flex items-center gap-4">
-                            <img src="{{ $student->photo_url }}" class="w-16 h-16 rounded-full object-cover ring-1 ring-slate-200 dark:ring-slate-800" alt="">
-                            <input type="file" name="photo" accept="image/*" class="block w-full text-sm text-slate-600 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-slate-100 file:text-slate-700 hover:file:bg-slate-200">
+                            <img src="{{ $student->photo_url }}" class="w-16 h-16 rounded-full object-cover ring-1 ring-slate-200 dark:ring-slate-800 js-photo-img" alt="">
+                            <input type="file" name="photo" accept="image/*" class="block w-full text-sm text-slate-600 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-slate-100 file:text-slate-700 hover:file:bg-slate-200 js-photo-input">
                         </div>
                         <x-input-error :messages="$errors->get('photo')" class="mt-1" />
                     </div>
+
+                    @push('scripts')
+                    <script>
+                    document.addEventListener('DOMContentLoaded', function () {
+                        const input = document.querySelector('.js-photo-input');
+                        const img = document.querySelector('.js-photo-img');
+                        if (!input) return;
+                        input.addEventListener('change', function (e) {
+                            const file = e.target.files && e.target.files[0];
+                            if (!file) return;
+                            const reader = new FileReader();
+                            reader.onload = function (ev) {
+                                if (img) {
+                                    img.src = ev.target.result;
+                                    img.classList.remove('hidden');
+                                }
+                            };
+                            reader.readAsDataURL(file);
+                        });
+                    });
+                    </script>
+                    @endpush
                 </div>
                 <div class="flex items-center justify-between">
                     <div></div>
