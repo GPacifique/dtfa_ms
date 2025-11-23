@@ -1,21 +1,23 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="bg-white shadow rounded-lg p-6">
-        <div class="flex items-center justify-between mb-4">
-            <a href="{{ url()->previous() ?? route('admin.capacity-buildings.index') }}" class="btn-secondary">&larr; Back</a>
-            <h2 class="text-lg font-semibold">Edit Capacity Building Record</h2>
-            <div></div>
-        </div>
-        <form action="{{ route('admin.capacity-buildings.update', $item) }}" method="POST">
-            @csrf
-            @method('PUT')
-            @include('admin.capacity_buildings._form')
+<div class="container">
 
-            <div class="mt-6 flex items-center justify-end gap-3">
-                <a href="{{ route('admin.capacity-buildings.index') }}" class="btn-secondary">Cancel</a>
-                <button class="btn-primary">Update</button>
-            </div>
-        </form>
+    <h2>Training Details</h2>
+
+    <div class="card p-4">
+
+        <p><strong>Name:</strong> {{ $training->training_name }}</p>
+        <p><strong>First Name:</strong> {{ $training->first_name }}</p>
+        <p><strong>Discipline:</strong> {{ $training->discipline }}</p>
+        <p><strong>Country:</strong> {{ $training->country }}</p>
+        <p><strong>Start:</strong> {{ $training->start }}</p>
+        <p><strong>End:</strong> {{ $training->end }}</p>
+        <p><strong>Branch:</strong> {{ $training->branch->name }}</p>
+
+        <a href="{{ route('trainings.index') }}" class="btn btn-secondary mt-3">Back</a>
+
     </div>
+
+</div>
 @endsection

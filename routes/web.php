@@ -8,6 +8,65 @@ use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\GuestController;
 use App\Http\Controllers\Student\CheckinController;
+use App\Http\Controllers\Admin\CapacityBuildingController;
+use App\Http\Controllers\Admin\InhouseTrainingController;
+use App\Http\Controllers\Admin\GameController;
+use App\Http\Controllers\Admin\MatchController;
+use App\Http\Controllers\Admin\TeamController;
+use App\Http\Controllers\Admin\GroupsController;
+Route::prefix('admin')->name('admin.')->middleware(['auth'])->group(function () {
+
+    Route::resource('users', App\Http\Controllers\Admin\UsersController::class);
+
+    Route::post('users/{id}/restore', [UsersController::class, 'restore'])
+        ->name('users.restore');
+
+    Route::delete('users/{id}/force-delete', [UsersController::class, 'forceDelete'])
+        ->name('users.forceDelete');   // ← THIS fixes the error
+});
+Route::middleware(['auth', 'role:admin|super-admin|accountant'])
+    ->prefix('admin')
+    ->name('admin.')
+    ->group(function () {
+        Route::resource('inhousetrainings', App\Http\Controllers\Admin\InhouseTrainingController::class);
+    });
+
+Route::middleware(['auth', 'role:admin|super-admin|accountant'])
+    ->prefix('admin')
+    ->name('admin.')
+    ->group(function () {
+        Route::resource('tasks', App\Http\Controllers\Admin\TaskController::class);
+    });
+    Route::middleware(['auth', 'role:admin|super-admin|accountant'])
+    ->prefix('admin')
+    ->name('admin.')
+    ->group(function () {
+        Route::resource('teams', App\Http\Controllers\Admin\TeamController::class);
+    });
+    Route::middleware(['auth', 'role:admin|super-admin|accountant'])
+    ->prefix('admin')
+    ->name('admin.')
+    ->group(function () {
+        Route::resource('groups', App\Http\Controllers\Admin\GroupsController::class);
+    });
+
+Route::prefix('admin')->name('admin.')->group(function () {
+    Route::resource('games', MatchController::class);
+});
+
+//public routes
+
+Route::prefix('admin')->name('admin.')->middleware(['auth'])->group(function () {
+    Route::resource('capacity_buildings', \App\Http\Controllers\Admin\CapacityBuildingController::class);
+});
+
+
+
+// For all users
+Route::resource('trainings', App\Http\Controllers\admin\TrainingSessionRecordController::class);
+Route::resource('groups', App\Http\Controllers\admin\GroupsController::class);
+Route::resource('teams', App\Http\Controllers\admin\TeamController::class);
+
 // Reports CRUD routes
 Route::resource('reports', ReportController::class);
 Route::get('reports-export/pdf', [ReportController::class, 'exportPdf'])->name('reports.export.pdf');
@@ -103,7 +162,6 @@ Route::middleware(['auth', 'role:admin|super-admin'])->prefix('admin')->group(fu
     Route::post('/users/{user}/send-reset', [\App\Http\Controllers\Admin\UsersController::class, 'sendReset'])->name('admin.users.sendReset');
     Route::delete('/users/{user}', [\App\Http\Controllers\Admin\UsersController::class, 'destroy'])->name('admin.users.destroy');
     Route::post('/users/{user}/restore', [\App\Http\Controllers\Admin\UsersController::class, 'restore'])->name('admin.users.restore');
-    Route::post('/users/{user}/force-delete', [\App\Http\Controllers\Admin\UsersController::class, 'forceDelete'])->name('admin.users.forceDelete');
     // Session management
     Route::get('/sessions', [\App\Http\Controllers\Admin\SessionsController::class, 'index'])->name('admin.sessions.index');
     Route::get('/sessions/create', [\App\Http\Controllers\Admin\SessionsController::class, 'create'])->name('admin.sessions.create');
@@ -276,10 +334,6 @@ Route::post('/webhooks/stripe', [\App\Http\Controllers\WebhooksController::class
 
 require __DIR__.'/auth.php';
 
-// Serve student photos through a controller route (allows ACL or transformations later)
-use App\Http\Controllers\PhotoController;
-Route::get('/photos/students/{student}', [PhotoController::class, 'showStudent'])->name('photos.students.show');
-
 // Staff module routes (profiles, capacity building, attendances, communications, tasks)
 require __DIR__.'/staff.php';
 
@@ -312,7 +366,6 @@ Route::middleware(['auth', 'role:admin|super-admin|coach|staff|accountant'])->pr
     Route::get('/students/{student}', [\App\Http\Controllers\Admin\StudentsController::class, 'show'])->name('admin.students.show');
     Route::get('/students/{student}/attendance', [\App\Http\Controllers\Admin\StudentsController::class, 'attendance'])->name('admin.students.attendance');
     Route::get('/students/{student}/attendance/export', [\App\Http\Controllers\Admin\StudentsController::class, 'exportAttendanceCsv'])->name('admin.students.attendance.export');
-    Route::post('/students/{student}/attendance', [\App\Http\Controllers\Admin\StudentsController::class, 'recordAttendance'])->name('admin.students.attendance.store');
     Route::get('/students/create', [\App\Http\Controllers\Admin\StudentsController::class, 'create'])->name('admin.students.create');
     Route::post('/students', [\App\Http\Controllers\Admin\StudentsController::class, 'store'])->name('admin.students.store');
     Route::get('/students/{student}/edit', [\App\Http\Controllers\Admin\StudentsController::class, 'edit'])->name('admin.students.edit');

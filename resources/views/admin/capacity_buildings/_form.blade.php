@@ -1,107 +1,62 @@
-@php
-    $item = $item ?? null;
-    $costType = old('cost_type', $item->cost_type ?? 'free');
-@endphp
-
-<div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+@csrf
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
     <div>
-        <label class="block text-sm font-medium text-slate-700">First Name</label>
-        <input name="first_name" value="{{ old('first_name', $item->first_name ?? '') }}" class="mt-1 block w-full rounded border-slate-200 shadow-sm" />
+        <label class="block text-sm font-medium text-slate-700">Date</label>
+        <input type="date" name="date" value="{{ old('date', optional(optional($session)->date)->toDateString() ?? '') }}" class="mt-1 block w-full rounded-md border-gray-200 shadow-sm" required>
     </div>
 
     <div>
-        <label class="block text-sm font-medium text-slate-700">Second Name</label>
-        <input name="second_name" value="{{ old('second_name', $item->second_name ?? '') }}" class="mt-1 block w-full rounded border-slate-200 shadow-sm" />
+        <label class="block text-sm font-medium text-slate-700">Start Time</label>
+        <input type="time" name="start_time" value="{{ old('start_time', $session->start_time ?? '') }}" class="mt-1 block w-full rounded-md border-gray-200 shadow-sm" required>
     </div>
 
     <div>
-        <label class="block text-sm font-medium text-slate-700">Discipline</label>
-        <input name="discipline" value="{{ old('discipline', $item->discipline ?? '') }}" class="mt-1 block w-full rounded border-slate-200 shadow-sm" />
+        <label class="block text-sm font-medium text-slate-700">End Time</label>
+        <input type="time" name="end_time" value="{{ old('end_time', $session->end_time ?? '') }}" class="mt-1 block w-full rounded-md border-gray-200 shadow-sm" required>
     </div>
 
     <div>
-        <label class="block text-sm font-medium text-slate-700">Gender</label>
-        <select name="gender" class="mt-1 block w-full rounded border-slate-200 shadow-sm">
-            <option value="">-- Select --</option>
-            <option value="Male" {{ (old('gender', $item->gender ?? '') === 'Male') ? 'selected' : '' }}>Male</option>
-            <option value="Female" {{ (old('gender', $item->gender ?? '') === 'Female') ? 'selected' : '' }}>Female</option>
-            <option value="Other" {{ (old('gender', $item->gender ?? '') === 'Other') ? 'selected' : '' }}>Other</option>
+        <label class="block text-sm font-medium text-slate-700">Location</label>
+        <input type="text" name="location" value="{{ old('location', $session->location ?? '') }}" class="mt-1 block w-full rounded-md border-gray-200 shadow-sm" required>
+    </div>
+
+    <div>
+        <label class="block text-sm font-medium text-slate-700">Branch</label>
+            <select name="branch_id" class="mt-1 block w-full rounded-md border-gray-200 shadow-sm" required>
+            <option value="">-- Select branch --</option>
+            @foreach($branches as $b)
+                <option value="{{ $b->id }}" {{ (old('branch_id', optional($session)->branch_id ?? '') == $b->id) ? 'selected' : '' }}>{{ $b->name }}</option>
+            @endforeach
         </select>
     </div>
 
     <div>
-        <label class="block text-sm font-medium text-slate-700">DTFA Branch</label>
-        <input name="branch" value="{{ old('branch', $item->branch ?? '') }}" class="mt-1 block w-full rounded border-slate-200 shadow-sm" />
-    </div>
-
-    <div class="sm:col-span-2">
-        <label class="block text-sm font-medium text-slate-700">Role/Function</label>
-        <input name="role_function" value="{{ old('role_function', $item->role_function ?? '') }}" class="mt-1 block w-full rounded border-slate-200 shadow-sm" />
-    </div>
-
-    <div>
-        <label class="block text-sm font-medium text-slate-700">Training Name</label>
-        <input name="training_name" value="{{ old('training_name', $item->training_name ?? '') }}" class="mt-1 block w-full rounded border-slate-200 shadow-sm" required />
-    </div>
-
-    <div>
-        <label class="block text-sm font-medium text-slate-700">Institution Name</label>
-        <input name="institution_name" value="{{ old('institution_name', $item->institution_name ?? '') }}" class="mt-1 block w-full rounded border-slate-200 shadow-sm" />
-    </div>
-
-    <div>
-        <label class="block text-sm font-medium text-slate-700">Start Date</label>
-        <input type="date" name="start_date" value="{{ old('start_date', isset($item->start_date) ? $item->start_date->format('Y-m-d') : '') }}" class="mt-1 block w-full rounded border-slate-200 shadow-sm" />
-    </div>
-
-    <div>
-        <label class="block text-sm font-medium text-slate-700">End Date</label>
-        <input type="date" name="end_date" value="{{ old('end_date', isset($item->end_date) ? $item->end_date->format('Y-m-d') : '') }}" class="mt-1 block w-full rounded border-slate-200 shadow-sm" />
-    </div>
-
-    <div>
-        <label class="block text-sm font-medium text-slate-700">Channel</label>
-        <select name="channel" class="mt-1 block w-full rounded border-slate-200 shadow-sm">
-            <option value="">-- Select --</option>
-            <option value="Face to face" {{ (old('channel', $item->channel ?? '') === 'Face to face') ? 'selected' : '' }}>Face to face</option>
-            <option value="Virtual" {{ (old('channel', $item->channel ?? '') === 'Virtual') ? 'selected' : '' }}>Virtual</option>
+        <label class="block text-sm font-medium text-slate-700">Group</label>
+            <select name="group_id" class="mt-1 block w-full rounded-md border-gray-200 shadow-sm" required>
+            <option value="">-- Select group --</option>
+            @foreach($groups as $g)
+                <option value="{{ $g->id }}" {{ (old('group_id', optional($session)->group_id ?? '') == $g->id) ? 'selected' : '' }}>{{ $g->name }}</option>
+            @endforeach
         </select>
     </div>
 
     <div>
-        <label class="block text-sm font-medium text-slate-700">Cost Type</label>
-        <select name="cost_type" id="cost_type" class="mt-1 block w-full rounded border-slate-200 shadow-sm">
-            <option value="free" {{ $costType === 'free' ? 'selected' : '' }}>Free</option>
-            <option value="paid" {{ $costType === 'paid' ? 'selected' : '' }}>Paid</option>
+        <label class="block text-sm font-medium text-slate-700">Coach</label>
+            <select name="coach_user_id" class="mt-1 block w-full rounded-md border-gray-200 shadow-sm" required>
+            <option value="">-- Select coach --</option>
+            @foreach($coaches as $c)
+                <option value="{{ $c->id }}" {{ (old('coach_user_id', optional($session)->coach_user_id ?? '') == $c->id) ? 'selected' : '' }}>{{ $c->name }}</option>
+            @endforeach
         </select>
-    </div>
-
-    <div>
-        <label class="block text-sm font-medium text-slate-700">Cost Amount (RWF)</label>
-        <input name="cost_amount" type="number" step="0.01" value="{{ old('cost_amount', $item->cost_amount ?? '') }}" class="mt-1 block w-full rounded border-slate-200 shadow-sm" />
-    </div>
-
-    <div>
-        <label class="block text-sm font-medium text-slate-700">Training Category</label>
-        <select name="training_category" class="mt-1 block w-full rounded border-slate-200 shadow-sm">
-            <option value="">-- Select --</option>
-            <option value="In house" {{ (old('training_category', $item->training_category ?? '') === 'In house') ? 'selected' : '' }}>In house</option>
-            <option value="Outside DTFA" {{ (old('training_category', $item->training_category ?? '') === 'Outside DTFA') ? 'selected' : '' }}>Outside DTFA</option>
-        </select>
-    </div>
-
-    <div>
-        <label class="block text-sm font-medium text-slate-700">Venue</label>
-        <input name="venue" value="{{ old('venue', $item->venue ?? '') }}" class="mt-1 block w-full rounded border-slate-200 shadow-sm" />
-    </div>
-
-    <div>
-        <label class="block text-sm font-medium text-slate-700">City</label>
-        <input name="city" value="{{ old('city', $item->city ?? '') }}" class="mt-1 block w-full rounded border-slate-200 shadow-sm" />
-    </div>
-
-    <div>
-        <label class="block text-sm font-medium text-slate-700">Country</label>
-        <input name="country" value="{{ old('country', $item->country ?? '') }}" class="mt-1 block w-full rounded border-slate-200 shadow-sm" />
     </div>
 </div>
+
+@if($errors->any())
+    <div class="mt-4 text-sm text-rose-600">
+        <ul>
+            @foreach($errors->all() as $err)
+                <li>{{ $err }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif

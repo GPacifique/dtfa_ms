@@ -1,4 +1,4 @@
-@extends('layouts.app-sidebar')
+@extends('layouts.app')
 
 @section('content')
     <div class="flex items-center justify-between mb-4">

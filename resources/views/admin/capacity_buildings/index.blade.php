@@ -1,51 +1,53 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="flex items-center justify-between mb-6">
-        <div class="flex items-center gap-3">
-            <a href="{{ url()->previous() ?? route('admin.dashboard') }}" class="btn-secondary">&larr; Back</a>
-            <h1 class="text-2xl font-bold">Capacity Building Records</h1>
-        </div>
-        <a href="{{ route('admin.capacity-buildings.create') }}" class="btn-primary">New Record</a>
-    </div>
+<div class="container">
 
-    <div class="bg-white shadow rounded-lg overflow-hidden">
-        <table class="min-w-full">
-            <thead class="bg-slate-50">
-                <tr>
-                    <th class="p-3 text-left">Name</th>
-                    <th class="p-3 text-left">Discipline</th>
-                    <th class="p-3 text-left">Training</th>
-                    <th class="p-3 text-left">Start</th>
-                    <th class="p-3 text-left">End</th>
-                    <th class="p-3 text-left">Channel</th>
-                    <th class="p-3 text-left">Cost</th>
-                    <th class="p-3 text-left">Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach($items as $item)
-                    <tr class="border-t">
-                        <td class="p-3">{{ $item->first_name }} {{ $item->second_name }}</td>
-                        <td class="p-3">{{ $item->discipline }}</td>
-                        <td class="p-3">{{ $item->training_name }}</td>
-                        <td class="p-3">{{ optional($item->start_date)->format('Y-m-d') }}</td>
-                        <td class="p-3">{{ optional($item->end_date)->format('Y-m-d') }}</td>
-                        <td class="p-3">{{ $item->channel }}</td>
-                        <td class="p-3">{{ $item->cost_type }} {{ $item->cost_amount ? number_format($item->cost_amount,2) : '' }}</td>
-                        <td class="p-3">
-                            <a href="{{ route('admin.capacity-buildings.edit', $item) }}" class="text-blue-600">Edit</a>
-                            <form action="{{ route('admin.capacity-buildings.destroy', $item) }}" method="POST" style="display:inline-block;" onsubmit="return confirm('Delete record?')">
-                                @csrf
-                                @method('DELETE')
-                                <button class="text-red-600 ml-3">Delete</button>
-                            </form>
-                        </td>
-                    </tr>
-                @endforeach
-            </tbody>
-        </table>
-    </div>
+    <h2 class="mb-4">In-House Trainings</h2>
 
-    <div class="mt-4">{{ $items->links() }}</div>
+    <a href="{{ route('trainings.create') }}" class="btn btn-primary mb-3">
+        + Add New Training
+    </a>
+
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Training Name</th>
+                <th>Discipline</th>
+                <th>Country</th>
+                <th>Start</th>
+                <th>Branch</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach ($trainings as $t)
+            <tr>
+                <td>{{ $t->id }}</td>
+                <td>{{ $t->training_name }}</td>
+                <td>{{ $t->discipline }}</td>
+                <td>{{ $t->country }}</td>
+                <td>{{ $t->start }}</td>
+                <td>{{ $t->branch->name ?? '' }}</td>
+
+                <td>
+                    <a href="{{ route('trainings.show', $t->id) }}" class="btn btn-info btn-sm">View</a>
+                    <a href="{{ route('trainings.edit', $t->id) }}" class="btn btn-warning btn-sm">Edit</a>
+
+                    <form action="{{ route('trainings.destroy', $t->id) }}" method="POST" class="d-inline">
+                        @csrf
+                        @method('DELETE')
+                        <button class="btn btn-danger btn-sm">Delete</button>
+                    </form>
+
+                </td>
+            </tr>
+            @endforeach
+        </tbody>
+    </table>
+
+    {{ $trainings->links() }}
+</div>
 @endsection

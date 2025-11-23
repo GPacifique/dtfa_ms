@@ -11,8 +11,9 @@ class TeamController extends Controller
 {
     public function index()
     {
+        $teamscount = Team::count();
         $teams = Team::orderBy('name')->paginate(20);
-        return view('admin.teams.index', compact('teams'));
+        return view('admin.teams.index', compact('teamscount','teams'));
     }
 
     public function create()

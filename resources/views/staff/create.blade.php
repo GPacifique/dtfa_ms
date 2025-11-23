@@ -1,4 +1,4 @@
-@extends('layouts.app-sidebar')
+@extends('layouts.app')
 
 @section('content')
     <h2 class="text-xl font-semibold">New Staff Profile</h2>

@@ -1,37 +1,41 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="container mx-auto p-4">
-        <div class="flex justify-between items-center mb-4">
-            <h2 class="text-xl font-semibold">Games</h2>
-            <a href="{{ route('admin.games.create') }}" class="btn btn-primary">Schedule Game</a>
-        </div>
+<h1>Matches</h1>
+<a href="{{ route('admin.games.create') }}" class="btn btn-primary">Create New Match</a>
 
-        <div class="bg-white shadow rounded p-4">
-            <table class="w-full table-auto">
-                <thead>
-                    <tr>
-                        <th>When</th>
-                        <th>Match</th>
-                        <th>Venue</th>
-                        <th class="text-right">Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                @foreach($games as $game)
-                    <tr class="border-t">
-                        <td>{{ optional($game->scheduled_at)->format('Y-m-d H:i') ?? 'TBD' }}</td>
-                        <td>{{ $game->homeTeam->name }} vs {{ $game->awayTeam->name }}</td>
-                        <td>{{ $game->venue }}</td>
-                        <td class="text-right">
-                            <a href="{{ route('admin.games.edit', $game) }}" class="text-indigo-600">Edit</a>
-                        </td>
-                    </tr>
-                @endforeach
-                </tbody>
-            </table>
-        </div>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Date</th>
+            <th>Discipline</th>
+            <th>Home Team</th>
+            <th>Away Team</th>
+            <th>Score</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach($games as $game)
+        <tr>
+            <td>{{ $game->date }}</td>
+            <td>{{ $game->discipline }}</td>
+            <td>{{ $game->home_team }}</td>
+            <td>{{ $game->away_team }}</td>
+            <td>{{ $game->home_score ?? '-' }} - {{ $game->away_score ?? '-' }}</td>
+            <td>
+                <a href="{{ route('admin.games.show', $game) }}" class="btn btn-info btn-sm">View</a>
+                <a href="{{ route('admin.games.edit', $game) }}" class="btn btn-warning btn-sm">Edit</a>
+                <form action="{{ route('admin.games.destroy', $game) }}" method="POST" style="display:inline;">
+                    @csrf
+                    @method('DELETE')
+                    <button class="btn btn-danger btn-sm" onclick="return confirm('Delete match?')">Delete</button>
+                </form>
+            </td>
+        </tr>
+        @endforeach
+    </tbody>
+</table>
 
-        <div class="mt-4">{{ $games->links() }}</div>
-    </div>
+{{ $games->links() }}
 @endsection

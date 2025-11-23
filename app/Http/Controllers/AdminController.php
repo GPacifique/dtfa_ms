@@ -1,7 +1,8 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\Http\Controllers\Controller;
+use App\Models\Team;
 use Illuminate\Http\Request;
 use App\Models\TrainingSession;
 use App\Models\User;
@@ -23,7 +24,7 @@ class AdminController extends Controller
         $today = now()->toDateString();
         $range = $request->query('range', 'today'); // today|week|month|all
         $branchId = $request->query('branch_id');
-
+ $totalteams = Team::count();
         // Determine date window
         $start = null; $end = null; $rangeLabel = 'Today';
         switch ($range) {
@@ -90,7 +91,20 @@ class AdminController extends Controller
         });
 
         $stats = [
+            'gameSessionsToday' => TrainingSession::where('date', $today)->count(),
+            'upcomingSessions' => TrainingSession::where('date', '>=', $today)->count(),
+            'completedSessions' => TrainingSession::where('date', '<', $today)->count(),
             'totalUsers' => User::count(),
+            'totalCoaches' => User::role('coach')->count(),
+            'totalAdmins' => User::role('admin')->count(),
+            'totalPayments' => Payment::where('status', 'succeeded')->count(),
+            'totalIncomeRecords' => Income::count(),
+            'totalExpensesRecords' => Expense::count(),
+            'totalSessions' => TrainingSession::count(),
+
+             'totalteams' => Team::count(),
+
+            'totalStudents' => Student::count(),
             'totalBranches' => Branch::count(),
             'activeStudents' => Student::where('status', 'active')->count(),
             'todaySessions' => $sessionsCount,
@@ -224,6 +238,7 @@ class AdminController extends Controller
         $netflowTotals = array_map(fn($inc, $exp) => round($inc - $exp, 2), $incomeTotals, $expenseTotals);
 
         return view('admin.dashboard', [
+            'totalteams' => $totalteams,
             'todaysSessions' => $sessionsForRange,
             'sessions' => $sessionsForRange,
             'rangeLabel' => $rangeLabel,

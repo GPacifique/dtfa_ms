@@ -3,189 +3,85 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use App\Models\CapacityBuilding;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Str;
+use App\Models\Branch;
+use App\Models\Role;
+use Illuminate\Http\Request;
 
 class CapacityBuildingController extends Controller
 {
     public function index()
     {
-        $items = CapacityBuilding::latest()->paginate(20);
-        return view('admin.capacity_buildings.index', compact('items'));
+        $trainings = CapacityBuilding::latest()->paginate(10);
+
+        return view('capacity_buildings.index', compact('trainings'));
     }
 
     public function create()
     {
-        return view('admin.capacity_buildings.create');
+        $branches = Branch::all();
+        $roles = Role::all();
+
+        return view('capacity_buildings.create', compact('branches', 'roles'));
     }
 
     public function store(Request $request)
     {
-        $data = $this->validateRequest($request);
-        CapacityBuilding::create($data);
-        return redirect()->route('admin.capacity-buildings.index')->with('status', 'Capacity building record created');
+        $request->validate([
+            'first_name'     => 'required|string',
+            'second_name'    => 'nullable|string',
+            'gender'         => 'nullable|string',
+            'country'        => 'required|string',
+            'city'           => 'required|string',
+            'discipline'     => 'required|string',
+            'branch_id'      => 'required|exists:branches,id',
+            'role_id'        => 'required|exists:roles,id',
+            'training_name'  => 'nullable|string',
+            'start'          => 'nullable|date',
+            'end'            => 'nullable|date',
+        ]);
+
+        CapacityBuilding::create($request->all());
+
+        return redirect()
+            ->route('capacity_buildings.index')
+            ->with('success', 'Training created successfully.');
     }
 
     public function show(CapacityBuilding $capacity_building)
     {
-        return view('admin.capacity_buildings.show', ['item' => $capacity_building]);
+        return view('capacity_buildings.show', [
+            'training' => $capacity_building
+        ]);
     }
 
     public function edit(CapacityBuilding $capacity_building)
     {
-        return view('admin.capacity_buildings.edit', ['item' => $capacity_building]);
+        $branches = Branch::all();
+        $roles = Role::all();
+
+        return view('capacity_buildings.edit', [
+            'training'  => $capacity_building,
+            'branches'  => $branches,
+            'roles'     => $roles,
+        ]);
     }
 
     public function update(Request $request, CapacityBuilding $capacity_building)
     {
-        $data = $this->validateRequest($request);
-        $capacity_building->update($data);
-        return redirect()->route('admin.capacity-buildings.index')->with('status', 'Capacity building record updated');
+        $capacity_building->update($request->all());
+
+        return redirect()
+            ->route('capacity_buildings.index')
+            ->with('success', 'Training updated successfully.');
     }
 
     public function destroy(CapacityBuilding $capacity_building)
     {
         $capacity_building->delete();
-        return redirect()->route('admin.capacity-buildings.index')->with('status', 'Record deleted');
-    }
 
-    /**
-     * Display summary statistics for capacity building costs.
-     */
-    public function stats()
-    {
-        $query = CapacityBuilding::query();
-
-        $count = (int) $query->count();
-        $total = (float) CapacityBuilding::sum('cost_amount');
-        $average = $count ? (float) CapacityBuilding::avg('cost_amount') : 0.0;
-        $min = CapacityBuilding::min('cost_amount');
-        $max = CapacityBuilding::max('cost_amount');
-
-        $byCostType = CapacityBuilding::selectRaw('cost_type, COUNT(*) as count, SUM(cost_amount) as total')
-            ->groupBy('cost_type')
-            ->get()
-            ->map(function ($row) {
-                return [
-                    'cost_type' => $row->cost_type,
-                    'count' => (int) $row->count,
-                    'total' => (float) $row->total,
-                ];
-            });
-
-        $byCategory = CapacityBuilding::selectRaw('training_category, COUNT(*) as count, SUM(cost_amount) as total')
-            ->groupBy('training_category')
-            ->orderByDesc('total')
-            ->get();
-
-        // Breakdown by branch
-        $byBranch = CapacityBuilding::selectRaw('branch, COUNT(*) as count, SUM(cost_amount) as total')
-            ->groupBy('branch')
-            ->orderByDesc('total')
-            ->get();
-
-        // Time series by month (YYYY-MM)
-        $byMonth = CapacityBuilding::selectRaw("DATE_FORMAT(start_date, '%Y-%m') as month, COUNT(*) as count, SUM(cost_amount) as total")
-            ->whereNotNull('start_date')
-            ->groupBy('month')
-            ->orderBy('month')
-            ->get();
-
-        // Time series by quarter (e.g., 2025 Q1)
-        $byQuarter = CapacityBuilding::selectRaw("CONCAT(YEAR(start_date),' Q', QUARTER(start_date)) as quarter, COUNT(*) as count, SUM(cost_amount) as total")
-            ->whereNotNull('start_date')
-            ->groupBy('quarter')
-            ->orderBy('quarter')
-            ->get();
-
-        return view('admin.capacity_buildings.stats', compact(
-            'count','total','average','min','max','byCostType','byCategory','byBranch','byMonth','byQuarter'
-        ));
-    }
-
-    /**
-     * Export stats as CSV.
-     */
-    public function exportStats()
-    {
-        $filename = 'capacity_building_stats_' . date('Ymd_His') . '.csv';
-
-        $callback = function () {
-            $out = fopen('php://output', 'w');
-
-            // Top-level summary
-            fputcsv($out, ['Metric', 'Value']);
-            fputcsv($out, ['Records', CapacityBuilding::count()]);
-            fputcsv($out, ['Total Cost', CapacityBuilding::sum('cost_amount')]);
-            fputcsv($out, ['Average Cost', CapacityBuilding::avg('cost_amount')]);
-            fputcsv($out, ['Min Cost', CapacityBuilding::min('cost_amount')]);
-            fputcsv($out, ['Max Cost', CapacityBuilding::max('cost_amount')]);
-            fputcsv($out, []);
-
-            // By cost type
-            fputcsv($out, ['By Cost Type']);
-            fputcsv($out, ['Cost Type', 'Count', 'Total']);
-            $rows = CapacityBuilding::selectRaw('cost_type, COUNT(*) as count, SUM(cost_amount) as total')
-                ->groupBy('cost_type')
-                ->get();
-            foreach ($rows as $r) {
-                fputcsv($out, [$r->cost_type, $r->count, $r->total]);
-            }
-            fputcsv($out, []);
-
-            // By branch
-            fputcsv($out, ['By Branch']);
-            fputcsv($out, ['Branch', 'Count', 'Total']);
-            $branches = CapacityBuilding::selectRaw('branch, COUNT(*) as count, SUM(cost_amount) as total')
-                ->groupBy('branch')
-                ->get();
-            foreach ($branches as $b) {
-                fputcsv($out, [$b->branch, $b->count, $b->total]);
-            }
-            fputcsv($out, []);
-
-            // By month
-            fputcsv($out, ['By Month']);
-            fputcsv($out, ['Month', 'Count', 'Total']);
-            $months = CapacityBuilding::selectRaw("DATE_FORMAT(start_date, '%Y-%m') as month, COUNT(*) as count, SUM(cost_amount) as total")
-                ->whereNotNull('start_date')
-                ->groupBy('month')
-                ->orderBy('month')
-                ->get();
-            foreach ($months as $m) {
-                fputcsv($out, [$m->month, $m->count, $m->total]);
-            }
-
-            fclose($out);
-        };
-
-        return response()->streamDownload($callback, $filename, [
-            'Content-Type' => 'text/csv',
-        ]);
-    }
-
-    protected function validateRequest(Request $request)
-    {
-        return $request->validate([
-            'first_name' => 'required|string|max:255',
-            'discipline' => 'nullable|string|max:255',
-            'second_name' => 'nullable|string|max:255',
-            'gender' => 'nullable|string|max:50',
-            'branch' => 'nullable|string|max:255',
-            'role_function' => 'nullable|string|max:255',
-            'training_name' => 'required|string|max:255',
-            'institution_name' => 'nullable|string|max:255',
-            'start_date' => 'nullable|date',
-            'end_date' => 'nullable|date|after_or_equal:start_date',
-            'channel' => 'nullable|string|max:100',
-            'cost_type' => 'nullable|string|in:free,paid',
-            'cost_amount' => 'nullable|numeric|min:0',
-            'training_category' => 'nullable|string|max:100',
-            'venue' => 'nullable|string|max:255',
-            'city' => 'nullable|string|max:255',
-            'country' => 'nullable|string|max:255',
-        ]);
+        return redirect()
+            ->route('capacity_buildings.index')
+            ->with('success', 'Training deleted successfully.');
     }
 }

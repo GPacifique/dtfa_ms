@@ -261,41 +261,7 @@
             </div>
         </div>
 
-        {{-- Capacity Trainings Summary --}}
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-            <div class="card group hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1">
-                <div class="card-body">
-                    <div class="flex items-start justify-between">
-                        <div class="flex-1">
-                            <p class="text-sm font-medium text-slate-600 dark:text-slate-400 mb-1">Capacity Trainings</p>
-                            <h3 class="text-3xl font-bold text-sky-600 dark:text-sky-400" data-animate-count>
-                                {{ $stats['capacityCount'] ?? 0 }}
-                            </h3>
-                            <p class="text-xs text-slate-500 dark:text-slate-400 mt-2">Total trainings recorded</p>
-                            <div class="text-xs text-slate-500 dark:text-slate-400 mt-2 space-y-1">
-                                <div>Total Cost: {{ number_format(($stats['capacityTotalCost'] ?? 0)/100, 2) }} RWF</div>
-                                <div>Average Cost: {{ number_format(($stats['capacityAverageCost'] ?? 0)/100, 2) }} RWF</div>
-                                <div>Min Cost: {{ number_format(($stats['capacityMinCost'] ?? 0)/100, 2) }} RWF</div>
-                                <div>Max Cost: {{ number_format(($stats['capacityMaxCost'] ?? 0)/100, 2) }} RWF</div>
-                            </div>
-                            <div class="mt-3">
-                                <canvas id="capacitySpendChart" style="height:54px;width:100%"></canvas>
-                            </div>
-                            @if(Route::has('admin.capacity-buildings.stats'))
-                                <div class="mt-4">
-                                    <a href="{{ route('admin.capacity-buildings.stats') }}" class="inline-block px-3 py-1 text-xs font-semibold bg-sky-600 text-white rounded hover:bg-sky-700">View Capacity Stats</a>
-                                </div>
-                            @endif
-                        </div>
-                        <div class="w-12 h-12 bg-gradient-to-br from-sky-500 to-sky-600 rounded-xl flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
-                            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m1-6h.01M12 20v-6"/>
-                            </svg>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+        {{-- Capacity Trainings Summary removed per request --}}
 
         {{-- Quick Actions Grid --}}
         <div class="mb-8">
@@ -431,12 +397,49 @@
         <!-- Analytics & Insights Section -->
         <div>
             <h2 class="text-xl font-bold text-slate-900 mb-4">📈 Analytics & Insights</h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <!-- Weekly Session Trends (fixed small card) -->
-                <div class="card" style="min-width:180px;max-width:260px;width:100%;height:140px;display:flex;align-items:center;justify-content:center;">
-                    <div class="card-body p-1 flex flex-col items-center justify-center w-full h-full">
-                        <h3 class="font-bold text-slate-900 mb-1 text-xs">📊 Weekly Session Trends (Last 8 Weeks)</h3>
-                        <canvas id="sessionTrendsChart" class="card-chart" style="height:70px;width:100%"></canvas>
+
+        <!-- Recent Students -->
+        <div class="mt-6">
+            <h3 class="text-lg font-semibold text-slate-900 mb-3">🆕 Recent Students</h3>
+            <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-4">
+                @if(($recentStudents ?? collect())->isEmpty())
+                    <div class="text-center py-6 text-slate-500">No recent students</div>
+                @else
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-sm text-left">
+                            <thead>
+                                <tr class="text-slate-600">
+                                    <th class="px-3 py-2">Name</th>
+                                    <th class="px-3 py-2">Group</th>
+                                    <th class="px-3 py-2">Branch</th>
+                                    <th class="px-3 py-2">Enrolled</th>
+                                    <th class="px-3 py-2">Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach($recentStudents as $student)
+                                    <tr class="border-t">
+                                        <td class="px-3 py-2">{{ $student->first_name }} {{ $student->last_name }}</td>
+                                        <td class="px-3 py-2">{{ optional($student->group)->name ?? '—' }}</td>
+                                        <td class="px-3 py-2">{{ optional($student->branch)->name ?? '—' }}</td>
+                                        <td class="px-3 py-2">{{ $student->created_at ? $student->created_at->format('M d, Y') : '—' }}</td>
+                                        <td class="px-3 py-2">{{ ucfirst($student->status ?? '—') }}</td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                @endif
+            </div>
+        </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div class="card">
+                    <div class="card-body p-4">
+                        <h3 class="font-semibold text-slate-900 mb-2 text-sm">📊 Weekly Session Trends (Last 8 Weeks)</h3>
+                        <div class="h-48">
+                            <canvas id="sessionTrendsChart" class="w-full h-full"></canvas>
+                        </div>
                     </div>
                 </div>
 

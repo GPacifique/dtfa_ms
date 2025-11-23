@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -9,29 +8,22 @@ class Game extends Model
 {
     use HasFactory;
 
-    protected $table = 'matches';
-
     protected $fillable = [
-        'home_team_id',
-        'away_team_id',
-        'venue',
-        'scheduled_at',
-        'status',
-        'score_home',
-        'score_away',
+        'discipline', 'home_team', 'home_color', 'away_team', 'away_color',
+        'objective', 'date', 'time', 'departure_time', 'expected_finish_time',
+        'category', 'transport', 'venue', 'age_group', 'country', 'city',
+        'base', 'gender', 'staff_ids', 'notify_staff', 'player_ids',
+        'home_score', 'away_score', 'yellow_cards_players', 'red_cards_players',
+        'yellow_cards_staff', 'red_cards_staff', 'incidence', 'technical_feedback'
     ];
 
     protected $casts = [
-        'scheduled_at' => 'datetime',
+        'staff_ids' => 'array',
+        'player_ids' => 'array',
+        'yellow_cards_players' => 'array',
+        'red_cards_players' => 'array',
+        'yellow_cards_staff' => 'array',
+        'red_cards_staff' => 'array',
+        'notify_staff' => 'boolean',
     ];
-
-    public function homeTeam()
-    {
-        return $this->belongsTo(Team::class, 'home_team_id');
-    }
-
-    public function awayTeam()
-    {
-        return $this->belongsTo(Team::class, 'away_team_id');
-    }
 }

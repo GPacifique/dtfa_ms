@@ -1,48 +1,83 @@
 <?php
-
 namespace App\Http\Controllers\Admin;
-
 use App\Http\Controllers\Controller;
 use App\Models\Game;
-use App\Models\Team;
-use App\Http\Requests\GameRequest;
+use App\Models\Staff;
+use App\Models\Player;
+use Illuminate\Http\Request;
 
 class GameController extends Controller
 {
-    public function index()
-    {
-        $games = Game::with(['homeTeam','awayTeam'])->orderBy('scheduled_at','desc')->paginate(20);
-        return view('admin.games.index', compact('games'));
-    }
+   public function index()
+{
+    $games = Game::latest()->paginate(10);
+    return view('admin.games.index', compact('games'));
+}
 
     public function create()
     {
-        $teams = Team::orderBy('name')->get();
-        return view('admin.games.create', compact('teams'));
+        $staffs = Staff::all();
+        $players = Player::all();
+        return view('admin.games.create', compact('staffs','players'));
     }
 
-    public function store(GameRequest $request)
+    public function store(Request $request)
     {
-        $data = $request->validated();
+        $data = $request->validate([
+            'discipline' => 'required',
+            'home_team' => 'required',
+            'away_team' => 'required',
+            'date' => 'required|date',
+            'time' => 'required',
+            'category' => 'required',
+            'venue' => 'required',
+            'staff_ids' => 'array',
+            'player_ids' => 'array',
+        ]);
+
+        $data['notify_staff'] = $request->has('notify_staff');
+
         Game::create($data);
-        return redirect()->route('admin.games.index')->with('success','Game scheduled.');
+
+        return redirect()->route('admin.games.index')->with('success', 'Match created successfully.');
     }
 
     public function edit(Game $game)
     {
-        $teams = Team::orderBy('name')->get();
-        return view('admin.games.edit', compact('game','teams'));
+        $staffs = Staff::all();
+        $players = Player::all();
+        return view('admin.games.edit', compact('game', 'staffs', 'players'));
     }
 
-    public function update(GameRequest $request, Game $game)
+    public function update(Request $request, Game $game)
     {
-        $game->update($request->validated());
-        return redirect()->route('admin.games.index')->with('success','Game updated.');
+        $data = $request->validate([
+            'discipline' => 'required',
+            'home_team' => 'required',
+            'away_team' => 'required',
+            'date' => 'required|date',
+            'time' => 'required',
+            'category' => 'required',
+            'venue' => 'required',
+            'staff_ids' => 'array',
+            'player_ids' => 'array',
+        ]);
+
+        $data['notify_staff'] = $request->has('notify_staff');
+
+        $game->update($data);
+
+        return redirect()->route('admin.matches.index')->with('success', 'Match updated successfully.');
     }
 
     public function destroy(Game $game)
     {
-        $game->delete();
-        return redirect()->route('admin.games.index')->with('success','Game removed.');
+        $match->delete();
+        return redirect()->route('admin.games.index')->with('success', 'Match deleted successfully.');
+    }
+
+    public function show(Game $game)
+    {
+        return view('admin.games.show', compact('game'));
     }
 }
