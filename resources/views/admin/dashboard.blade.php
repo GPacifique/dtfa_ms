@@ -458,8 +458,6 @@
                     </div>
                 </div>
             </div>
-                    }
-                });
 
             // Capacity spend monthly sparkline
             const capCtx = document.getElementById('capacitySpendChart');
@@ -699,39 +697,97 @@
                             y: { beginAtZero: true, ticks: { precision: 0 } }
                         }
                     }
+                });
+            }
 
-                    // Capacity spend monthly sparkline
-                    const capCtx = document.getElementById('capacitySpendChart');
-                    if (capCtx) {
-                        const capLabels = @json($capacityMonthlyLabels ?? []);
-                        const capTotals = @json($capacityMonthlyTotals ?? []);
-                        new Chart(capCtx, {
-                            type: 'line',
-                            data: {
-                                labels: capLabels,
-                                datasets: [{
-                                    label: 'Capacity Spend (RWF)',
-                                    data: capTotals,
-                                    borderColor: '#0ea5e9',
-                                    backgroundColor: 'rgba(14,165,233,0.08)',
-                                    fill: true,
-                                    tension: 0.35,
-                                    pointRadius: 0
-                                }]
-                            },
-                            options: {
-                                responsive: true,
-                                maintainAspectRatio: false,
-                                plugins: { legend: { display: false } },
-                                scales: {
-                                    x: { display: false },
-                                    y: { display: false }
-                                }
-                            }
-                        });
+            // Capacity spend monthly sparkline
+            const capCtx = document.getElementById('capacitySpendChart');
+            if (capCtx) {
+                const capLabels = @json($capacityMonthlyLabels ?? []);
+                const capTotals = @json($capacityMonthlyTotals ?? []);
+                new Chart(capCtx, {
+                    type: 'line',
+                    data: {
+                        labels: capLabels,
+                        datasets: [{
+                            label: 'Capacity Spend (RWF)',
+                            data: capTotals,
+                            borderColor: '#0ea5e9',
+                            backgroundColor: 'rgba(14,165,233,0.08)',
+                            fill: true,
+                            tension: 0.35,
+                            pointRadius: 0
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: { legend: { display: false } },
+                        scales: { x: { display: false }, y: { display: false } }
                     }
                 });
             }
+
+            // Finance flow chart (income vs expenses, netflow line)
+            const financeCtx = document.getElementById('financeFlowChart');
+            if (financeCtx) {
+                const financeLabels = @json($financeLabels ?? []);
+                const incomeData = @json($incomeTotals ?? []);
+                const expenseData = @json($expenseTotals ?? []);
+                const netflowData = @json($netflowTotals ?? []);
+
+                new Chart(financeCtx, {
+                    type: 'bar',
+                    data: {
+                        labels: financeLabels,
+                        datasets: [
+                            {
+                                type: 'bar',
+                                label: 'Income (RWF)',
+                                data: incomeData,
+                                backgroundColor: 'rgba(16,185,129,0.7)'
+                            },
+                            {
+                                type: 'bar',
+                                label: 'Expenses (RWF)',
+                                data: expenseData,
+                                backgroundColor: 'rgba(239,68,68,0.7)'
+                            },
+                            {
+                                type: 'line',
+                                label: 'Netflow (RWF)',
+                                data: netflowData,
+                                borderColor: '#2563eb',
+                                backgroundColor: 'rgba(37,99,235,0.08)',
+                                tension: 0.35,
+                                fill: false
+                            }
+                        ]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: { position: 'top' },
+                            tooltip: {
+                                mode: 'index',
+                                intersect: false,
+                                callbacks: {
+                                    label: function(context) {
+                                        let val = context.raw ?? 0;
+                                        return context.dataset.label + ': ' + Number(val).toLocaleString() + ' RWF';
+                                    }
+                                }
+                            }
+                        },
+                        scales: {
+                            x: { stacked: true },
+                            y: { beginAtZero: true, ticks: { callback: function(v){ return Number(v).toLocaleString(); } } }
+                        }
+                    }
+                });
+            }
+
         })();
     </script>
 @endpush
