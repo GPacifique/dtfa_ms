@@ -120,6 +120,18 @@
                         <div class="px-4 pb-4 sm:px-6 flex flex-col gap-2 text-sm">
                             <a href="{{ route('admin.students.show', $student) }}" class="text-center px-3 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg font-semibold transition">👁️ View Details</a>
                             <a href="{{ route('admin.students.edit', $student) }}" class="text-center px-3 py-2 bg-indigo-100 hover:bg-indigo-200 text-indigo-700 rounded-lg font-semibold transition">✏️ Edit</a>
+                            @if(!empty($sessions) && $sessions->count())
+                                <form action="{{ route('admin.students.attendance.store', $student) }}" method="POST" class="flex gap-2 mt-1">
+                                    @csrf
+                                    <select name="training_session_id" class="px-2 py-1 border rounded text-sm">
+                                        @foreach($sessions as $s)
+                                            <option value="{{ $s->id }}">{{ optional($s->date)->format('M d') }} {{ $s->start_time }} — {{ $s->location ?? '—' }}</option>
+                                        @endforeach
+                                    </select>
+                                    <input type="hidden" name="status" value="present">
+                                    <button type="submit" class="px-3 py-1 bg-green-600 hover:bg-green-700 text-white rounded text-sm">Mark Present</button>
+                                </form>
+                            @endif
                         </div>
                     </div>
                 @endforeach
@@ -194,6 +206,18 @@
                                     <a class="text-indigo-700 hover:underline px-2 font-semibold text-sm" href="{{ route('admin.students.show', $student) }}">View</a>
                                     <a class="text-indigo-700 hover:underline px-2 font-semibold text-sm" href="{{ route('admin.students.edit', $student) }}">Edit</a>
                                     <a class="text-slate-700 hover:underline px-2 font-semibold text-sm" href="{{ url('/admin/students/' . $student->id . '/attendance') }}">Attendance</a>
+                                    @if(!empty($sessions) && $sessions->count())
+                                        <form action="{{ route('admin.students.attendance.store', $student) }}" method="POST" class="inline-block">
+                                            @csrf
+                                            <select name="training_session_id" class="text-sm px-1 py-1 border rounded">
+                                                @foreach($sessions as $s)
+                                                    <option value="{{ $s->id }}">{{ optional($s->date)->format('M d') }} {{ $s->start_time }}</option>
+                                                @endforeach
+                                            </select>
+                                            <input type="hidden" name="status" value="present">
+                                            <button type="submit" class="text-green-700 hover:underline px-2 font-semibold text-sm">Mark Present</button>
+                                        </form>
+                                    @endif
                                     <a class="text-slate-700 hover:underline px-2 font-semibold text-sm" href="{{ url('/admin/students/' . $student->id . '/payments') }}">Payments</a>
                                     <a class="text-slate-700 hover:underline px-2 font-semibold text-sm" href="{{ url('/admin/students/' . $student->id . '/export') }}">Export</a>
                                     <form action="{{ route('admin.students.destroy', $student) }}" method="POST" class="inline-block" onsubmit="return confirm('Delete this student?');">

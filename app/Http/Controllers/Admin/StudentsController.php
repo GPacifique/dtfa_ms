@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Student;
+use App\Models\TrainingSession;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rule;
@@ -36,7 +37,33 @@ class StudentsController extends Controller
             ->paginate(15)
             ->appends($request->query());
 
-        return view('admin.students.index', compact('students', 'q'));
+        // Provide a short list of recent/upcoming sessions for quick attendance recording
+        $sessions = TrainingSession::orderBy('date')->orderBy('start_time')
+            ->limit(12)
+            ->get();
+
+        return view('admin.students.index', compact('students', 'q', 'sessions'));
+    }
+
+    /**
+     * Quick record attendance for a single student for a given session.
+     */
+    public function recordAttendance(Request $request, Student $student)
+    {
+        $data = $request->validate([
+            'training_session_id' => ['required', 'integer', 'exists:training_sessions,id'],
+            'status' => ['nullable', \Illuminate\Validation\Rule::in(['present','absent','late','excused'])],
+            'notes' => ['nullable','string','max:1000'],
+        ]);
+
+        $status = $data['status'] ?? 'present';
+
+        \App\Models\StudentAttendance::updateOrCreate(
+            ['student_id' => $student->id, 'training_session_id' => $data['training_session_id']],
+            ['status' => $status, 'notes' => $data['notes'] ?? null]
+        );
+
+        return back()->with('status', 'Attendance recorded.');
     }
 
     public function show(Student $student)

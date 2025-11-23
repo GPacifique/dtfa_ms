@@ -308,6 +308,7 @@ Route::middleware(['auth', 'role:admin|super-admin|coach|staff|accountant'])->pr
     Route::get('/students/{student}', [\App\Http\Controllers\Admin\StudentsController::class, 'show'])->name('admin.students.show');
     Route::get('/students/{student}/attendance', [\App\Http\Controllers\Admin\StudentsController::class, 'attendance'])->name('admin.students.attendance');
     Route::get('/students/{student}/attendance/export', [\App\Http\Controllers\Admin\StudentsController::class, 'exportAttendanceCsv'])->name('admin.students.attendance.export');
+    Route::post('/students/{student}/attendance', [\App\Http\Controllers\Admin\StudentsController::class, 'recordAttendance'])->name('admin.students.attendance.store');
     Route::get('/students/create', [\App\Http\Controllers\Admin\StudentsController::class, 'create'])->name('admin.students.create');
     Route::post('/students', [\App\Http\Controllers\Admin\StudentsController::class, 'store'])->name('admin.students.store');
     Route::get('/students/{student}/edit', [\App\Http\Controllers\Admin\StudentsController::class, 'edit'])->name('admin.students.edit');
