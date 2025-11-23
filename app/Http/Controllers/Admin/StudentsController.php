@@ -98,7 +98,7 @@ class StudentsController extends Controller
             'branch_id' => ['nullable', Rule::exists('branches','id')],
             'group_id' => ['nullable', Rule::exists('groups','id')],
             'parent_user_id' => ['nullable', Rule::exists('users','id')],
-            'photo' => ['nullable','image','max:2048'],
+            'photo' => ['nullable|image|mimes:jpeg,png,jpg,gif|max:2048'],
             'sport_discipline' => ['nullable','string','max:255'],
             'jersey_number' => ['nullable','string','max:50'],
             'jersey_name' => ['nullable','string','max:255'],
