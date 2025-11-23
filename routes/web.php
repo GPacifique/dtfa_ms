@@ -276,6 +276,10 @@ Route::post('/webhooks/stripe', [\App\Http\Controllers\WebhooksController::class
 
 require __DIR__.'/auth.php';
 
+// Serve student photos through a controller route (allows ACL or transformations later)
+use App\Http\Controllers\PhotoController;
+Route::get('/photos/students/{student}', [PhotoController::class, 'showStudent'])->name('photos.students.show');
+
 // Staff module routes (profiles, capacity building, attendances, communications, tasks)
 require __DIR__.'/staff.php';
 
