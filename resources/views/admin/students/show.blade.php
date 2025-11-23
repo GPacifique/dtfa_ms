@@ -20,7 +20,31 @@
     <div class="bg-white rounded-lg shadow-sm border border-slate-200 overflow-hidden">
         <!-- Card Header with Photo -->
         <div class="bg-gradient-to-r from-indigo-50 to-blue-50 px-6 py-8 flex items-start gap-6">
-            <img src="{{ $student->photo_url }}" alt="{{ $student->first_name }} {{ $student->second_name }}" class="w-24 h-24 rounded-lg object-cover ring-2 ring-white shadow-md">
+            <div>
+                @if($student->photo_path || $student->image_path)
+                    @php $legacy = $student->photo_path ?? $student->image_path; @endphp
+                    <a href="{{ \Illuminate\Support\Facades\Storage::disk('public')->url(ltrim($legacy, '/')) }}" target="_blank">
+                        <img src="{{ $student->photo_url }}" alt="{{ $student->first_name }} {{ $student->second_name }}" class="w-24 h-24 rounded-lg object-cover ring-2 ring-white shadow-md">
+                    </a>
+                @else
+                    <div class="w-24 h-24 rounded-lg bg-slate-100 flex items-center justify-center text-slate-400">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" viewBox="0 0 20 20" fill="currentColor">
+                          <path d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm6 4a3 3 0 110 6 3 3 0 010-6z" />
+                        </svg>
+                    </div>
+                @endif
+
+                <!-- Inline photo upload form -->
+                <form action="{{ route('admin.students.update', $student) }}" method="POST" enctype="multipart/form-data" class="mt-3">
+                    @csrf
+                    @method('PUT')
+                    <label class="text-xs text-slate-600">Change photo</label>
+                    <div class="flex items-center gap-2 mt-1">
+                        <input type="file" name="photo" accept="image/*" class="block text-sm text-slate-600 file:mr-4 file:py-1 file:px-3 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-slate-100 file:text-slate-700" />
+                        <button type="submit" class="px-3 py-1 bg-indigo-600 text-white rounded text-sm">Upload</button>
+                    </div>
+                </form>
+            </div>
             <div class="flex-1">
                 <h2 class="text-2xl font-bold text-slate-900">{{ $student->first_name }} {{ $student->second_name }}</h2>
 
