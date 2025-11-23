@@ -5,9 +5,7 @@
     <!-- Header -->
     <div class="flex items-start justify-between">
         <div class="flex items-center gap-4">
-            @if($student->image_path)
-                <img src="{{ asset('storage/' . $student->image_path) }}" alt="Profile Image" class="h-16 w-16 rounded-full object-cover border-2 border-slate-200 shadow">
-            @endif
+            <img src="{{ $student->photo_url }}" alt="Profile Image" class="h-16 w-16 rounded-full object-cover border-2 border-slate-200 shadow">
             <div>
                 <h1 class="text-3xl font-bold text-slate-900">📋 Attendance History</h1>
                 <p class="text-slate-600 mt-1">

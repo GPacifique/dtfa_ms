@@ -8,11 +8,9 @@
     </div>
 
     <div class="bg-white dark:bg-neutral-900 shadow rounded-lg p-6">
-        @if($student->image_path)
-            <div class="flex justify-center mb-6">
-                <img src="{{ asset('storage/' . $student->image_path) }}" alt="Profile Image" class="h-32 w-32 rounded-full object-cover border-2 border-slate-200 shadow">
-            </div>
-        @endif
+        <div class="flex justify-center mb-6">
+            <img src="{{ $student->photo_url }}" alt="Profile Image" class="h-32 w-32 rounded-full object-cover border-2 border-slate-200 shadow">
+        </div>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
                 <div class="text-sm text-neutral-500">Name</div>
