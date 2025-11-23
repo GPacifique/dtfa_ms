@@ -55,13 +55,15 @@ class Student extends Model
 
     public function getPhotoUrlAttribute(): string
     {
-        if ($this->photo_path) {
+        // Support both `photo_path` (canonical) and legacy `image_path`
+        $path = $this->photo_path ?? $this->image_path ?? null;
+        if ($path) {
             // Prefer the storage disk URL (works whether or not storage:link exists)
             try {
-                return \Illuminate\Support\Facades\Storage::disk('public')->url(ltrim($this->photo_path, '/'));
+                return \Illuminate\Support\Facades\Storage::disk('public')->url(ltrim($path, '/'));
             } catch (\Throwable $e) {
                 // Fallback to asset path if Storage driver cannot produce a URL
-                return asset('storage/' . ltrim($this->photo_path, '/'));
+                return asset('storage/' . ltrim($path, '/'));
             }
         }
         // Fallback avatar (SVG data URI or a generic placeholder)

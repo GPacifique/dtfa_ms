@@ -20,7 +20,7 @@ class StudentService
 
         $student = new Student();
         $student->first_name = $data['first_name'];
-        $student->last_name = $data['last_name'];
+        $student->second_name = $data['second_name'];
         $student->dob = $data['dob'] ?? null;
         $student->gender = $data['gender'] ?? null;
         $student->phone = $data['phone'] ?? null;
@@ -29,8 +29,8 @@ class StudentService
         $student->group_id = $coach->group_id ?? null;
         $student->parent_user_id = $data['parent_user_id'] ?? null;
 
-        if ($request->hasFile('image')) {
-            $student->image_path = $request->file('image')->store('students', 'public');
+        if ($request->hasFile('photo')) {
+            $student->photo_path = $request->file('photo')->store('photos/students', 'public');
         }
 
         $student->save();
@@ -49,14 +49,14 @@ class StudentService
         $data = $this->validatePayload($request);
 
         $student->first_name = $data['first_name'];
-        $student->last_name = $data['last_name'];
+        $student->second_name = $data['second_name'];
         $student->dob = $data['dob'] ?? null;
         $student->gender = $data['gender'] ?? null;
         $student->phone = $data['phone'] ?? null;
         $student->status = $data['status'];
 
-        if ($request->hasFile('image')) {
-            $student->image_path = $request->file('image')->store('students', 'public');
+        if ($request->hasFile('photo')) {
+            $student->photo_path = $request->file('photo')->store('photos/students', 'public');
         }
 
         $student->save();
@@ -68,12 +68,12 @@ class StudentService
     {
         return $request->validate([
             'first_name' => 'required|string|max:255',
-            'last_name' => 'required|string|max:255',
+            'second_name' => 'required|string|max:255',
             'dob' => 'nullable|date',
             'gender' => 'nullable|string|max:10',
             'phone' => 'nullable|string|max:255',
             'status' => 'required|string',
-            'image' => 'nullable|image|max:2048',
+            'photo' => 'nullable|image|max:2048',
             'parent_user_id' => 'nullable|integer',
         ]);
     }
