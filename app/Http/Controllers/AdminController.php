@@ -83,9 +83,9 @@ class AdminController extends Controller
                 // Capacity building aggregates
                 'capacityCount' => \App\Models\CapacityBuilding::count(),
                 'capacityTotalCost' => \App\Models\CapacityBuilding::sum('cost_amount'),
-                'capacityAverageCost' => (int) optional(\App\Models\CapacityBuilding::avg('cost_amount')) ?: 0,
-                'capacityMinCost' => (int) optional(\App\Models\CapacityBuilding::min('cost_amount')) ?: 0,
-                'capacityMaxCost' => (int) optional(\App\Models\CapacityBuilding::max('cost_amount')) ?: 0,
+                'capacityAverageCost' => (int) (\App\Models\CapacityBuilding::avg('cost_amount') ?? 0),
+                'capacityMinCost' => (int) (\App\Models\CapacityBuilding::min('cost_amount') ?? 0),
+                'capacityMaxCost' => (int) (\App\Models\CapacityBuilding::max('cost_amount') ?? 0),
             ];
         });
 
@@ -158,6 +158,18 @@ class AdminController extends Controller
         $equipmentInUse = \App\Models\Equipment::where('status', 'in_use')->count();
         $equipmentUtilization = $equipmentCount > 0 ? round(($equipmentInUse / $equipmentCount) * 100, 1) : 0;
 
+        // Capacity building monthly totals (last 12 months)
+        $capacityByMonth = \App\Models\CapacityBuilding::selectRaw("DATE_FORMAT(start_date, '%Y-%m') as month, SUM(cost_amount) as total")
+            ->whereNotNull('start_date')
+            ->whereBetween('start_date', [now()->subMonths(11)->startOfMonth()->toDateString(), now()->endOfMonth()->toDateString()])
+            ->groupBy('month')
+            ->orderBy('month')
+            ->get();
+
+        $capacityMonthlyLabels = $capacityByMonth->pluck('month')->toArray();
+        // convert to RWF (assumes stored in cents)
+        $capacityMonthlyTotals = $capacityByMonth->pluck('total')->map(fn($v) => (float) ($v / 100))->toArray();
+
         return view('admin.dashboard', [
             'todaysSessions' => $sessionsForRange,
             'sessions' => $sessionsForRange,
@@ -170,6 +182,8 @@ class AdminController extends Controller
             'weeklyTrends' => $weeklyTrends,
             'coachWorkload' => $coachWorkload,
             'equipmentUtilization' => $equipmentUtilization,
+            'capacityMonthlyLabels' => $capacityMonthlyLabels ?? [],
+            'capacityMonthlyTotals' => $capacityMonthlyTotals ?? [],
         ]);
     }
 }

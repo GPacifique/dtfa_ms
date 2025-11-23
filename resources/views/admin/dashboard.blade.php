@@ -279,6 +279,9 @@
                                 <div>Min Cost: {{ number_format(($stats['capacityMinCost'] ?? 0)/100, 2) }} RWF</div>
                                 <div>Max Cost: {{ number_format(($stats['capacityMaxCost'] ?? 0)/100, 2) }} RWF</div>
                             </div>
+                            <div class="mt-3">
+                                <canvas id="capacitySpendChart" style="height:54px;width:100%"></canvas>
+                            </div>
                             @if(Route::has('admin.capacity-buildings.stats'))
                                 <div class="mt-4">
                                     <a href="{{ route('admin.capacity-buildings.stats') }}" class="inline-block px-3 py-1 text-xs font-semibold bg-sky-600 text-white rounded hover:bg-sky-700">View Capacity Stats</a>
@@ -596,6 +599,37 @@
                             x: { grid: { display: false } },
                             y: { beginAtZero: true, ticks: { precision: 0 } }
                         }
+                    }
+
+                    // Capacity spend monthly sparkline
+                    const capCtx = document.getElementById('capacitySpendChart');
+                    if (capCtx) {
+                        const capLabels = @json($capacityMonthlyLabels ?? []);
+                        const capTotals = @json($capacityMonthlyTotals ?? []);
+                        new Chart(capCtx, {
+                            type: 'line',
+                            data: {
+                                labels: capLabels,
+                                datasets: [{
+                                    label: 'Capacity Spend (RWF)',
+                                    data: capTotals,
+                                    borderColor: '#0ea5e9',
+                                    backgroundColor: 'rgba(14,165,233,0.08)',
+                                    fill: true,
+                                    tension: 0.35,
+                                    pointRadius: 0
+                                }]
+                            },
+                            options: {
+                                responsive: true,
+                                maintainAspectRatio: false,
+                                plugins: { legend: { display: false } },
+                                scales: {
+                                    x: { display: false },
+                                    y: { display: false }
+                                }
+                            }
+                        });
                     }
                 });
             }
