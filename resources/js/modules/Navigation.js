@@ -206,7 +206,8 @@ class NavigationModule {
      * Setup sidebar toggle
      */
     setupSidebarToggle() {
-        const toggleButtons = document.querySelectorAll('[data-sidebar-toggle]');
+        // Accept both legacy `data-sidebar-toggle` and Blade's `data-toggle-sidebar`
+        const toggleButtons = document.querySelectorAll('[data-sidebar-toggle], [data-toggle-sidebar]');
 
         toggleButtons.forEach(button => {
             button.addEventListener('click', () => this.toggleSidebar());
@@ -214,9 +215,10 @@ class NavigationModule {
 
         // Auto-collapse on mobile when clicking outside
         document.addEventListener('click', (e) => {
+            const isToggleTarget = e.target.matches('[data-sidebar-toggle]') || e.target.matches('[data-toggle-sidebar]');
             if (this.isMobile &&
                 !this.sidebar.contains(e.target) &&
-                !e.target.matches('[data-sidebar-toggle]')) {
+                !isToggleTarget) {
                 this.collapseSidebar();
             }
         });
@@ -258,7 +260,7 @@ class NavigationModule {
         this.sidebar.classList.toggle('collapsed', this.isCollapsed);
 
         // Update toggle button icons
-        const toggleIcons = document.querySelectorAll('[data-sidebar-toggle] svg');
+        const toggleIcons = document.querySelectorAll('[data-sidebar-toggle] svg, [data-toggle-sidebar] svg');
         toggleIcons.forEach(icon => {
             icon.style.transform = this.isCollapsed ? 'rotate(180deg)' : 'rotate(0deg)';
         });
