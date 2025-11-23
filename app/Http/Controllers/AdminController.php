@@ -242,6 +242,7 @@ class AdminController extends Controller
             'incomeTotals' => $incomeTotals ?? [],
             'expenseTotals' => $expenseTotals ?? [],
             'netflowTotals' => $netflowTotals ?? [],
+            'recentStudents' => Student::orderBy('created_at', 'desc')->limit(10)->get(),
         ]);
     }
 }

@@ -398,6 +398,41 @@
         <div>
             <h2 class="text-xl font-bold text-slate-900 mb-4">📈 Analytics & Insights</h2>
 
+        <!-- Recent Students -->
+        <div class="mt-6">
+            <h3 class="text-lg font-semibold text-slate-900 mb-3">🆕 Recent Students</h3>
+            <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-4">
+                @if(($recentStudents ?? collect())->isEmpty())
+                    <div class="text-center py-6 text-slate-500">No recent students</div>
+                @else
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-sm text-left">
+                            <thead>
+                                <tr class="text-slate-600">
+                                    <th class="px-3 py-2">Name</th>
+                                    <th class="px-3 py-2">Group</th>
+                                    <th class="px-3 py-2">Branch</th>
+                                    <th class="px-3 py-2">Enrolled</th>
+                                    <th class="px-3 py-2">Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach($recentStudents as $student)
+                                    <tr class="border-t">
+                                        <td class="px-3 py-2">{{ $student->first_name }} {{ $student->last_name }}</td>
+                                        <td class="px-3 py-2">{{ optional($student->group)->name ?? '—' }}</td>
+                                        <td class="px-3 py-2">{{ optional($student->branch)->name ?? '—' }}</td>
+                                        <td class="px-3 py-2">{{ $student->created_at ? $student->created_at->format('M d, Y') : '—' }}</td>
+                                        <td class="px-3 py-2">{{ ucfirst($student->status ?? '—') }}</td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                @endif
+            </div>
+        </div>
+
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div class="card">
                     <div class="card-body p-4">
