@@ -50,7 +50,8 @@ class StudentsController extends Controller
         $branches = Branch::orderBy('name')->get();
         $groups = Group::orderBy('name')->get();
         $parents = User::role('parent')->orderBy('name')->get(['id','name','email']);
-        return view('admin.students.create', compact('branches','groups','parents'));
+        $coaches = User::role('coach')->orderBy('name')->get(['id','name','email']);
+        return view('admin.students.create', compact('branches','groups','parents','coaches'));
     }
 
     public function store(Request $request)
@@ -101,7 +102,8 @@ class StudentsController extends Controller
         $branches = Branch::orderBy('name')->get();
         $groups = Group::orderBy('name')->get();
         $parents = User::role('parent')->orderBy('name')->get(['id','name','email']);
-        return view('admin.students.edit', compact('student','branches','groups','parents'));
+        $coaches = User::role('coach')->orderBy('name')->get(['id','name','email']);
+        return view('admin.students.edit', compact('student','branches','groups','parents','coaches'));
     }
 
     public function update(Request $request, Student $student)

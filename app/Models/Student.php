@@ -10,7 +10,7 @@ class Student extends Model
     use HasFactory;
 
     protected $fillable = [
-        'first_name', 'second_name', 'dob', 'gender', 'parent_user_id', 'phone', 'status', 'joined_at', 'branch_id', 'group_id', 'photo_path'
+        'first_name', 'second_name', 'dob', 'gender', 'parent_user_id', 'phone', 'status', 'joined_at', 'branch_id', 'group_id', 'photo_path', 'coach'
     ];
 
     protected $casts = [

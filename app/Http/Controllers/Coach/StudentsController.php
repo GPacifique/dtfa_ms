@@ -7,6 +7,7 @@ use App\Models\Student;
 use App\Services\StudentService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
+use App\Models\User;
 
 
 class StudentsController extends Controller {
@@ -21,7 +22,8 @@ class StudentsController extends Controller {
 
     public function create()
     {
-        return view('coach.students.create');
+        $coaches = User::role('coach')->orderBy('name')->get(['id','name','email']);
+        return view('coach.students.create', compact('coaches'));
     }
 
     public function store(Request $request)
@@ -35,7 +37,8 @@ class StudentsController extends Controller {
     {
         $coach = Auth::user();
         abort_unless($student->branch_id === $coach->branch_id && $student->group_id === $coach->group_id, 403);
-        return view('coach.students.edit', compact('student'));
+        $coaches = User::role('coach')->orderBy('name')->get(['id','name','email']);
+        return view('coach.students.edit', compact('student','coaches'));
     }
 
     public function update(Request $request, Student $student)

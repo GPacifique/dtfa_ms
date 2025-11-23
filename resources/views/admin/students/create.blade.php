@@ -50,7 +50,12 @@
                     <x-form.input label="Sport Discipline" name="sport_discipline" placeholder="e.g., Football, Basketball" />
                     <x-form.input label="Name of the School" name="school_name" />
                     <x-form.input label="Position" name="position" placeholder="e.g., Forward, Midfielder" />
-                    <x-form.input label="Coach" name="coach" />
+                    <x-form.select label="Coach" name="coach">
+                        <option value="">—</option>
+                        @foreach($coaches as $c)
+                            <option value="{{ $c->name }}" @selected(old('coach')===$c->name)>{{ $c->name }} ({{ $c->email }})</option>
+                        @endforeach
+                    </x-form.select>
                     <x-form.input label="Program" name="program" placeholder="e.g., Youth Development" />
                     <x-form.input label="Joined At" name="joined_at" type="date" />
                     <x-form.select label="Status" name="status">

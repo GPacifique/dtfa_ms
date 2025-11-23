@@ -31,6 +31,19 @@
     </select>
 </div>
 <div class="mb-4">
+    <label class="block font-semibold mb-1">Coach</label>
+    @if(isset($coaches) && $coaches->isNotEmpty())
+        <select name="coach" class="w-full border rounded px-3 py-2">
+            <option value="">—</option>
+            @foreach($coaches as $c)
+                <option value="{{ $c->name }}" @if(old('coach', $student->coach ?? '')===$c->name) selected @endif>{{ $c->name }} ({{ $c->email }})</option>
+            @endforeach
+        </select>
+    @else
+        <input type="text" name="coach" class="w-full border rounded px-3 py-2" value="{{ old('coach', $student->coach ?? '') }}">
+    @endif
+</div>
+<div class="mb-4">
     <label class="block font-semibold mb-1">Profile Image</label>
     <input type="file" name="image" accept="image/*" class="w-full border rounded px-3 py-2">
     @if(!empty($student->image_path ?? null))
