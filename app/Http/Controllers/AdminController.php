@@ -80,6 +80,12 @@ class AdminController extends Controller
                     ->whereBetween('expense_date', [now()->startOfMonth(), now()->endOfMonth()])
                     ->sum('amount_cents'),
                 'totalExpenses' => Expense::whereIn('status', ['approved', 'paid'])->sum('amount_cents'),
+                // Capacity building aggregates
+                'capacityCount' => \App\Models\CapacityBuilding::count(),
+                'capacityTotalCost' => \App\Models\CapacityBuilding::sum('cost_amount'),
+                'capacityAverageCost' => (int) optional(\App\Models\CapacityBuilding::avg('cost_amount')) ?: 0,
+                'capacityMinCost' => (int) optional(\App\Models\CapacityBuilding::min('cost_amount')) ?: 0,
+                'capacityMaxCost' => (int) optional(\App\Models\CapacityBuilding::max('cost_amount')) ?: 0,
             ];
         });
 
@@ -110,6 +116,12 @@ class AdminController extends Controller
             'pendingExpenses' => $metrics['pendingExpenses'] ?? 0,
             'totalExpensesThisMonth' => $metrics['totalExpensesThisMonth'] ?? 0,
             'totalExpenses' => $metrics['totalExpenses'] ?? 0,
+            // Capacity building summary (costs stored as cents)
+            'capacityCount' => $metrics['capacityCount'] ?? 0,
+            'capacityTotalCost' => $metrics['capacityTotalCost'] ?? 0,
+            'capacityAverageCost' => $metrics['capacityAverageCost'] ?? 0,
+            'capacityMinCost' => $metrics['capacityMinCost'] ?? 0,
+            'capacityMaxCost' => $metrics['capacityMaxCost'] ?? 0,
         ];
 
         // Calculate net profit

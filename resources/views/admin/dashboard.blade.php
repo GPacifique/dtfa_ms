@@ -262,6 +262,39 @@
             </div>
         </div>
 
+        {{-- Capacity Trainings Summary --}}
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+            <div class="card group hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1">
+                <div class="card-body">
+                    <div class="flex items-start justify-between">
+                        <div class="flex-1">
+                            <p class="text-sm font-medium text-slate-600 dark:text-slate-400 mb-1">Capacity Trainings</p>
+                            <h3 class="text-3xl font-bold text-sky-600 dark:text-sky-400" data-animate-count>
+                                {{ $stats['capacityCount'] ?? 0 }}
+                            </h3>
+                            <p class="text-xs text-slate-500 dark:text-slate-400 mt-2">Total trainings recorded</p>
+                            <div class="text-xs text-slate-500 dark:text-slate-400 mt-2 space-y-1">
+                                <div>Total Cost: {{ number_format(($stats['capacityTotalCost'] ?? 0)/100, 2) }} RWF</div>
+                                <div>Average Cost: {{ number_format(($stats['capacityAverageCost'] ?? 0)/100, 2) }} RWF</div>
+                                <div>Min Cost: {{ number_format(($stats['capacityMinCost'] ?? 0)/100, 2) }} RWF</div>
+                                <div>Max Cost: {{ number_format(($stats['capacityMaxCost'] ?? 0)/100, 2) }} RWF</div>
+                            </div>
+                            @if(Route::has('admin.capacity-buildings.stats'))
+                                <div class="mt-4">
+                                    <a href="{{ route('admin.capacity-buildings.stats') }}" class="inline-block px-3 py-1 text-xs font-semibold bg-sky-600 text-white rounded hover:bg-sky-700">View Capacity Stats</a>
+                                </div>
+                            @endif
+                        </div>
+                        <div class="w-12 h-12 bg-gradient-to-br from-sky-500 to-sky-600 rounded-xl flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
+                            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m1-6h.01M12 20v-6"/>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         {{-- Quick Actions Grid --}}
         <div class="mb-8">
             <h2 class="text-xl font-bold text-slate-900 dark:text-white mb-4">⚡ Quick Actions</h2>
