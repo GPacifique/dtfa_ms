@@ -279,7 +279,7 @@
                                 <div>Max Cost: {{ number_format(($stats['capacityMaxCost'] ?? 0)/100, 2) }} RWF</div>
                             </div>
                             <div class="mt-3">
-                                <canvas id="capacitySpendChart" class="h-48 w-full"></canvas>
+                                <canvas id="capacitySpendChart" style="height:54px;width:100%"></canvas>
                             </div>
                             @if(Route::has('admin.capacity-buildings.stats'))
                                 <div class="mt-4">
@@ -431,14 +431,12 @@
         <!-- Analytics & Insights Section -->
         <div>
             <h2 class="text-xl font-bold text-slate-900 mb-4">📈 Analytics & Insights</h2>
-
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <div class="card">
-                    <div class="card-body p-4">
-                        <h3 class="font-semibold text-slate-900 mb-2 text-sm">📊 Weekly Session Trends (Last 8 Weeks)</h3>
-                        <div class="h-48">
-                            <canvas id="sessionTrendsChart" class="w-full h-full"></canvas>
-                        </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <!-- Weekly Session Trends (fixed small card) -->
+                <div class="card" style="min-width:180px;max-width:260px;width:100%;height:140px;display:flex;align-items:center;justify-content:center;">
+                    <div class="card-body p-1 flex flex-col items-center justify-center w-full h-full">
+                        <h3 class="font-bold text-slate-900 mb-1 text-xs">📊 Weekly Session Trends (Last 8 Weeks)</h3>
+                        <canvas id="sessionTrendsChart" class="card-chart" style="height:70px;width:100%"></canvas>
                     </div>
                 </div>
 
