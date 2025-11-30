@@ -28,9 +28,12 @@
                     <td class="p-3">{{ $s->discipline }}</td>
                     <td class="p-3">{{ $s->role_function }}</td>
                     <td class="p-3">{{ $s->email }}</td>
-                    <td class="p-3 space-x-2">
+                    <td class="p-3 space-x-2 flex flex-wrap gap-2">
                         <a href="{{ route('staff.show', $s) }}" class="text-gray-600 hover:text-gray-900 font-medium">View</a>
                         <a href="{{ route('staff.edit', $s) }}" class="text-blue-600 hover:underline font-medium">Edit</a>
+                        <a href="{{ route('staff.attendances.create') }}" class="text-green-600 hover:underline font-medium" title="Record attendance for {{ $s->first_name }}">
+                            📋 Attendance
+                        </a>
                         <form action="{{ route('staff.destroy', $s) }}" method="POST" class="inline" onsubmit="return confirmDelete()">
                             @csrf
                             @method('DELETE')

@@ -157,6 +157,7 @@
                         <div class="px-4 pb-4 sm:px-6 flex flex-col gap-2 text-sm">
                             <a href="{{ route('admin.students.show', $student) }}" class="text-center px-3 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg font-semibold transition">👁️ View Details</a>
                             <a href="{{ route('admin.students.edit', $student) }}" class="text-center px-3 py-2 bg-indigo-100 hover:bg-indigo-200 text-indigo-700 rounded-lg font-semibold transition">✏️ Edit</a>
+                            <a href="{{ url('/admin/students/' . $student->id . '/attendance') }}" class="text-center px-3 py-2 bg-green-100 hover:bg-green-200 text-green-700 rounded-lg font-semibold transition">📋 Attendance</a>
                             @if(!empty($sessions) && $sessions->count())
                                 <form action="{{ route('admin.students.attendance.store', $student) }}" method="POST" class="flex gap-2 mt-1">
                                     @csrf
@@ -166,7 +167,7 @@
                                         @endforeach
                                     </select>
                                     <input type="hidden" name="status" value="present">
-                                    <button type="submit" class="px-3 py-1 bg-green-600 hover:bg-green-700 text-white rounded text-sm">Mark Present</button>
+                                    <button type="submit" class="px-3 py-1 bg-blue-600 hover:bg-blue-700 text-white rounded text-sm">✓ Present</button>
                                 </form>
                             @endif
                         </div>
