@@ -78,7 +78,44 @@
                 @endif
             </div>
         @else
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            <!-- Photo Grid View -->
+            <div class="mb-8">
+                <h2 class="text-xl font-bold text-slate-900 mb-4">📸 Student Photos</h2>
+                <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4">
+                    @foreach ($students as $student)
+                        <a href="{{ route('admin.students.show', $student) }}" class="group relative overflow-hidden rounded-lg shadow-md hover:shadow-xl transition-all duration-300 transform hover:scale-105">
+                            <!-- Photo Container -->
+                            <div class="aspect-square bg-slate-100 relative">
+                                <img src="{{ $student->photo_url }}" alt="{{ $student->first_name }} {{ $student->second_name }}" class="w-full h-full object-cover group-hover:brightness-75 transition-all">
+                                <!-- Overlay on Hover -->
+                                <div class="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-all flex items-end opacity-0 group-hover:opacity-100">
+                                    <div class="w-full p-2 bg-gradient-to-t from-black/80 to-transparent text-white">
+                                        <p class="text-xs font-semibold truncate">{{ $student->first_name }} {{ $student->second_name }}</p>
+                                        @if($student->jersey_number)
+                                            <p class="text-xs text-yellow-300">Jersey #{{ $student->jersey_number }}</p>
+                                        @endif
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Jersey Badge -->
+                            @if($student->jersey_number)
+                                <div class="absolute top-2 right-2 bg-blue-600 text-white text-xs font-bold rounded-full w-8 h-8 flex items-center justify-center shadow-lg group-hover:bg-blue-700">
+                                    #{{ $student->jersey_number }}
+                                </div>
+                            @endif
+                            <!-- Status Badge -->
+                            @if($student->status === 'active')
+                                <div class="absolute top-2 left-2 bg-emerald-500 text-white text-xs font-bold rounded-full w-6 h-6 flex items-center justify-center shadow-lg">✓</div>
+                            @endif
+                        </a>
+                    @endforeach
+                </div>
+            </div>
+
+            <!-- Card Grid View -->
+            <div class="mb-8">
+                <h2 class="text-xl font-bold text-slate-900 mb-4">📋 Detailed View</h2>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
                 @foreach ($students as $student)
                     <div class="card overflow-hidden hover:shadow-lg transition">
                         <div class="bg-gradient-to-r from-indigo-50 to-blue-50 px-4 py-3 border-b border-slate-200">
@@ -135,6 +172,7 @@
                         </div>
                     </div>
                 @endforeach
+                </div>
             </div>
             <div class="mt-4">{{ $students->appends(request()->query())->links() }}</div>
         @endif
