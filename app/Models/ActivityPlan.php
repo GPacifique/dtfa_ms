@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class ActivityPlan extends Model
 {
+    protected $table = 'activity_plans';
+
     protected $fillable = [
         'year',
         'country',
