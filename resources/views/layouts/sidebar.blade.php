@@ -223,6 +223,17 @@
                             <span x-show="$store.layout.sidebarOpen" x-transition class="truncate">Minutes</span>
                         </a>
                     @endif
+
+                    @if(Route::has('admin.upcoming-events.index'))
+                        <a href="{{ route('admin.upcoming-events.index') }}" aria-label="Upcoming Events" title="Upcoming Events" class="nav-item flex items-center gap-3 px-3 py-2 rounded-md hover:bg-slate-800 transition {{ request()->routeIs('admin.upcoming-events.*') ? 'active' : '' }}">
+                            <span class="icon flex-shrink-0 w-6 h-6 flex items-center justify-center text-slate-200">
+                                <!-- Heroicon: Calendar -->
+                                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+                            </span>
+                            <span class="sr-only">Upcoming Events</span>
+                            <span x-show="$store.layout.sidebarOpen" x-transition class="truncate">Upcoming Events</span>
+                        </a>
+                    @endif
                 @endrole
 
 

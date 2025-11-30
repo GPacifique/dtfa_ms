@@ -196,6 +196,15 @@ Route::middleware(['auth', 'role:admin|super-admin'])->prefix('admin')->group(fu
     Route::post('minutes/{minute}/mark-cancelled', [App\Http\Controllers\Admin\MinuteController::class, 'markCancelled'])->name('admin.minutes.markCancelled');
     Route::post('minutes/{minute}/reschedule', [App\Http\Controllers\Admin\MinuteController::class, 'reschedule'])->name('admin.minutes.reschedule');
 
+    // Upcoming Events
+    Route::resource('upcoming-events', \App\Http\Controllers\Admin\UpcomingEventController::class, ['as' => 'admin'])->names('upcoming-events');
+
+    // Upcoming Events Status Transitions
+    Route::post('upcoming-events/{upcomingEvent}/mark-ongoing', [App\Http\Controllers\Admin\UpcomingEventController::class, 'markOngoing'])->name('admin.upcoming-events.markOngoing');
+    Route::post('upcoming-events/{upcomingEvent}/mark-completed', [App\Http\Controllers\Admin\UpcomingEventController::class, 'markCompleted'])->name('admin.upcoming-events.markCompleted');
+    Route::post('upcoming-events/{upcomingEvent}/mark-cancelled', [App\Http\Controllers\Admin\UpcomingEventController::class, 'markCancelled'])->name('admin.upcoming-events.markCancelled');
+    Route::post('upcoming-events/{upcomingEvent}/reschedule', [App\Http\Controllers\Admin\UpcomingEventController::class, 'reschedule'])->name('admin.upcoming-events.reschedule');
+
     // Students (admin-only routes moved to a dedicated middleware group below)
 
     // Subscription Plans
