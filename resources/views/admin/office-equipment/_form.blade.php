@@ -107,7 +107,7 @@
 
         <div>
             <label class="block text-sm font-semibold text-slate-700 mb-2">Purchase Date *</label>
-            <input type="date" name="purchase_date" value="{{ old('purchase_date', $office_equipment->purchase_date?->format('Y-m-d') ?? '') }}" required class="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 @error('purchase_date') border-red-500 @enderror">
+            <input type="date" name="purchase_date" value="{{ old('purchase_date', isset($office_equipment) && $office_equipment?->purchase_date ? $office_equipment->purchase_date->format('Y-m-d') : '') }}" required class="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 @error('purchase_date') border-red-500 @enderror">
             @error('purchase_date')
                 <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
             @enderror
@@ -153,7 +153,7 @@
 
         <div>
             <label class="block text-sm font-semibold text-slate-700 mb-2">Warranty Expiry</label>
-            <input type="date" name="warranty_expiry" value="{{ old('warranty_expiry', $office_equipment->warranty_expiry?->format('Y-m-d') ?? '') }}" class="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 @error('warranty_expiry') border-red-500 @enderror">
+            <input type="date" name="warranty_expiry" value="{{ old('warranty_expiry', isset($office_equipment) && $office_equipment?->warranty_expiry ? $office_equipment->warranty_expiry->format('Y-m-d') : '') }}" class="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 @error('warranty_expiry') border-red-500 @enderror">
             @error('warranty_expiry')
                 <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
             @enderror
@@ -175,7 +175,7 @@
     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div>
             <label class="block text-sm font-semibold text-slate-700 mb-2">Maintenance Date</label>
-            <input type="date" name="maintenance_date" value="{{ old('maintenance_date', $office_equipment->maintenance_date?->format('Y-m-d') ?? '') }}" class="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 @error('maintenance_date') border-red-500 @enderror">
+            <input type="date" name="maintenance_date" value="{{ old('maintenance_date', isset($office_equipment) && $office_equipment?->maintenance_date ? $office_equipment->maintenance_date->format('Y-m-d') : '') }}" class="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 @error('maintenance_date') border-red-500 @enderror">
             @error('maintenance_date')
                 <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
             @enderror
