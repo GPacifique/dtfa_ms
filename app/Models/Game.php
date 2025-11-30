@@ -18,6 +18,7 @@ class Game extends Model
     ];
 
     protected $casts = [
+        'date' => 'date',
         'staff_ids' => 'array',
         'player_ids' => 'array',
         'yellow_cards_players' => 'array',
