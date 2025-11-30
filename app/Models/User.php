@@ -36,6 +36,7 @@ class User extends Authenticatable
         'password',
         'branch_id',
         'group_id',
+        'profile_picture_path',
     ];
 
     /**
@@ -69,5 +70,22 @@ class User extends Authenticatable
     public function group()
     {
         return $this->belongsTo(Group::class);
+    }
+
+    public function getProfilePictureUrlAttribute(): string
+    {
+        if ($this->profile_picture_path) {
+            try {
+                return \Illuminate\Support\Facades\Storage::disk('public')->url(ltrim($this->profile_picture_path, '/'));
+            } catch (\Throwable $e) {
+                return asset('storage/' . ltrim($this->profile_picture_path, '/'));
+            }
+        }
+
+        // Fallback to ui-avatars.com with initials
+        $initials = strtoupper(mb_substr($this->name ?? 'U', 0, 1));
+        $bg = '3b82f6'; // blue-600
+        $fg = 'ffffff';
+        return "https://ui-avatars.com/api/?name=" . urlencode($initials) . "&background={$bg}&color={$fg}&size=128&bold=true";
     }
 }

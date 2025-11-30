@@ -254,7 +254,7 @@ Route::middleware(['auth', 'role:admin|super-admin'])->prefix('admin')->group(fu
 Route::get('/students', [\App\Http\Controllers\Coach\StudentsController::class, 'index'])->name('students.index');
 Route::get('/students/{student}', [\App\Http\Controllers\Coach\StudentsController::class, 'show'])->name('students.show');
 
-// Student management (create/edit/delete) requires authentication
+// Student management (create/edit/delete): fully accessible to all authenticated users
 Route::middleware('auth')->group(function () {
     Route::get('/students/create', [\App\Http\Controllers\Coach\StudentsController::class, 'create'])->name('students.create');
     Route::post('/students', [\App\Http\Controllers\Coach\StudentsController::class, 'store'])->name('students.store');
@@ -360,8 +360,8 @@ Route::middleware(['auth', 'role:admin|super-admin|coach'])->prefix('admin')->gr
     Route::resource('staff_attendances', \App\Http\Controllers\Admin\StaffAttendanceController::class, ['as' => 'admin']);
 });
 
-// Students management: allow admin, super-admin, coach, staff, accountant
-Route::middleware(['auth', 'role:admin|super-admin|coach|staff|accountant'])->prefix('admin')->group(function () {
+// Students management: fully accessible to all authenticated users
+Route::middleware(['auth'])->prefix('admin')->group(function () {
     Route::get('/students', [\App\Http\Controllers\Admin\StudentsController::class, 'index'])->name('admin.students.index');
     Route::get('/students/{student}', [\App\Http\Controllers\Admin\StudentsController::class, 'show'])->name('admin.students.show');
     Route::get('/students/{student}/attendance', [\App\Http\Controllers\Admin\StudentsController::class, 'attendance'])->name('admin.students.attendance');

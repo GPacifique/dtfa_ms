@@ -35,28 +35,20 @@ class StudentsController extends Controller {
 
     public function edit(Student $student)
     {
-        $coach = Auth::user();
-        abort_unless($student->branch_id === $coach->branch_id && $student->group_id === $coach->group_id, 403);
         $coaches = User::role('coach')->orderBy('name')->get(['id','name','email']);
         return view('coach.students.edit', compact('student','coaches'));
     }
 
     public function update(Request $request, Student $student)
     {
-        $coach = Auth::user();
-        abort_unless($student->branch_id === $coach->branch_id && $student->group_id === $coach->group_id, 403);
         $this->studentService->updateFromRequest($student, $request);
         return redirect()->route('coach.students.show', $student)->with('status', 'Student updated successfully.');
     }
     public function index(Request $request)
     {
-        $coach = Auth::user();
-
         $q = trim((string) $request->get('q'));
 
         $students = Student::with(['parent', 'group'])
-            ->where('branch_id', $coach->branch_id)
-            ->where('group_id', $coach->group_id)
             ->when($q !== '', function ($query) use ($q) {
                 $query->where(function ($sub) use ($q) {
                     $sub->where('first_name', 'like', "%$q%")
@@ -77,9 +69,6 @@ class StudentsController extends Controller {
 
     public function show(Student $student)
     {
-        $coach = Auth::user();
-        abort_unless($student->branch_id === $coach->branch_id && $student->group_id === $coach->group_id, 403);
-
         $student->load(['parent', 'branch', 'group']);
 
         return view('coach.students.show', compact('student'));
@@ -87,14 +76,10 @@ class StudentsController extends Controller {
 
     public function attendance(Student $student)
     {
-        $coach = Auth::user();
-        abort_unless($student->branch_id === $coach->branch_id && $student->group_id === $coach->group_id, 403);
-
-        // Join sessions to filter to this coach's sessions and sort by session date/time
+        // Show all attendance records for this student
         $records = \App\Models\StudentAttendance::query()
             ->where('student_id', $student->id)
             ->join('training_sessions', 'student_attendances.training_session_id', '=', 'training_sessions.id')
-            ->where('training_sessions.coach_user_id', $coach->id)
             ->orderByDesc('training_sessions.date')
             ->orderByDesc('training_sessions.start_time')
             ->select('student_attendances.*',
