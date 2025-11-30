@@ -213,6 +213,12 @@ Route::middleware(['auth', 'role:admin|super-admin'])->prefix('admin')->group(fu
     Route::post('activity-plans/{activityPlan}/mark-ongoing', [App\Http\Controllers\Admin\ActivityPlanController::class, 'markOngoing'])->name('admin.activity-plans.markOngoing');
     Route::post('activity-plans/{activityPlan}/mark-achieved', [App\Http\Controllers\Admin\ActivityPlanController::class, 'markAchieved'])->name('admin.activity-plans.markAchieved');
 
+    // Sports Equipment
+    Route::resource('sports-equipment', \App\Http\Controllers\Admin\SportsEquipmentController::class, ['as' => 'admin'])->names('sports-equipment');
+
+    // Office Equipment
+    Route::resource('office-equipment', \App\Http\Controllers\Admin\OfficeEquipmentController::class, ['as' => 'admin'])->names('office-equipment');
+
     // Students (admin-only routes moved to a dedicated middleware group below)
 
     // Subscription Plans

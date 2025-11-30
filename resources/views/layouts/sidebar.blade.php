@@ -245,6 +245,28 @@
                             <span x-show="$store.layout.sidebarOpen" x-transition class="truncate">Activity Plans</span>
                         </a>
                     @endif
+
+                    @if(Route::has('admin.sports-equipment.index'))
+                        <a href="{{ route('admin.sports-equipment.index') }}" aria-label="Sports Equipment" title="Sports Equipment" class="nav-item flex items-center gap-3 px-3 py-2 rounded-md hover:bg-slate-800 transition {{ request()->routeIs('admin.sports-equipment.*') ? 'active' : '' }}">
+                            <span class="icon flex-shrink-0 w-6 h-6 flex items-center justify-center text-slate-200">
+                                <!-- Heroicon: Sports (Dumbbell) -->
+                                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 7a4 4 0 00-4 4v6a4 4 0 004 4h12a4 4 0 004-4v-6a4 4 0 00-4-4M3 11h6M15 11h6M3 17h6M15 17h6"/></svg>
+                            </span>
+                            <span class="sr-only">Sports Equipment</span>
+                            <span x-show="$store.layout.sidebarOpen" x-transition class="truncate">Sports Equipment</span>
+                        </a>
+                    @endif
+
+                    @if(Route::has('admin.office-equipment.index'))
+                        <a href="{{ route('admin.office-equipment.index') }}" aria-label="Office Equipment" title="Office Equipment" class="nav-item flex items-center gap-3 px-3 py-2 rounded-md hover:bg-slate-800 transition {{ request()->routeIs('admin.office-equipment.*') ? 'active' : '' }}">
+                            <span class="icon flex-shrink-0 w-6 h-6 flex items-center justify-center text-slate-200">
+                                <!-- Heroicon: Briefcase -->
+                                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m0 0L4 7m8 4v10l8-4v-10m-8 14l-8-4v-10"/></svg>
+                            </span>
+                            <span class="sr-only">Office Equipment</span>
+                            <span x-show="$store.layout.sidebarOpen" x-transition class="truncate">Office Equipment</span>
+                        </a>
+                    @endif
                 @endrole
 
 
