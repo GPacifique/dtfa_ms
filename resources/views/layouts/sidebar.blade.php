@@ -234,6 +234,17 @@
                             <span x-show="$store.layout.sidebarOpen" x-transition class="truncate">Upcoming Events</span>
                         </a>
                     @endif
+
+                    @if(Route::has('admin.activity-plans.index'))
+                        <a href="{{ route('admin.activity-plans.index') }}" aria-label="Activity Plans" title="Activity Plans" class="nav-item flex items-center gap-3 px-3 py-2 rounded-md hover:bg-slate-800 transition {{ request()->routeIs('admin.activity-plans.*') ? 'active' : '' }}">
+                            <span class="icon flex-shrink-0 w-6 h-6 flex items-center justify-center text-slate-200">
+                                <!-- Heroicon: Clipboard -->
+                                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>
+                            </span>
+                            <span class="sr-only">Activity Plans</span>
+                            <span x-show="$store.layout.sidebarOpen" x-transition class="truncate">Activity Plans</span>
+                        </a>
+                    @endif
                 @endrole
 
 

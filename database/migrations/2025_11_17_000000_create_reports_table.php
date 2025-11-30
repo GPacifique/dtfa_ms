@@ -9,15 +9,17 @@ return new class extends Migration {
      */
     public function up(): void
     {
-        Schema::create('reports', function (Blueprint $table) {
-            $table->bigIncrements('id'); // Laravel default primary key
-            $table->integer('no')->unique();
-            $table->enum('workstream', ['SPORTING', 'BUSINESS', 'ADMINISTRATION', 'TECHNOLOGY']);
-            $table->string('activity');
-            $table->enum('status', ['RED', 'YELLOW', 'GREEN']);
-            $table->text('comments')->nullable();
-            $table->timestamps();
-        });
+        if (!Schema::hasTable('reports')) {
+            Schema::create('reports', function (Blueprint $table) {
+                $table->bigIncrements('id'); // Laravel default primary key
+                $table->integer('no')->unique();
+                $table->enum('workstream', ['SPORTING', 'BUSINESS', 'ADMINISTRATION', 'TECHNOLOGY']);
+                $table->string('activity');
+                $table->enum('status', ['RED', 'YELLOW', 'GREEN']);
+                $table->text('comments')->nullable();
+                $table->timestamps();
+            });
+        }
     }
 };
 

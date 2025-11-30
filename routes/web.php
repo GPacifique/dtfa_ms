@@ -205,6 +205,14 @@ Route::middleware(['auth', 'role:admin|super-admin'])->prefix('admin')->group(fu
     Route::post('upcoming-events/{upcomingEvent}/mark-cancelled', [App\Http\Controllers\Admin\UpcomingEventController::class, 'markCancelled'])->name('admin.upcoming-events.markCancelled');
     Route::post('upcoming-events/{upcomingEvent}/reschedule', [App\Http\Controllers\Admin\UpcomingEventController::class, 'reschedule'])->name('admin.upcoming-events.reschedule');
 
+    // Activity Plans
+    Route::resource('activity-plans', \App\Http\Controllers\Admin\ActivityPlanController::class, ['as' => 'admin'])->names('activity-plans');
+
+    // Activity Plans Status Transitions
+    Route::post('activity-plans/{activityPlan}/mark-not-achieved', [App\Http\Controllers\Admin\ActivityPlanController::class, 'markNotAchieved'])->name('admin.activity-plans.markNotAchieved');
+    Route::post('activity-plans/{activityPlan}/mark-ongoing', [App\Http\Controllers\Admin\ActivityPlanController::class, 'markOngoing'])->name('admin.activity-plans.markOngoing');
+    Route::post('activity-plans/{activityPlan}/mark-achieved', [App\Http\Controllers\Admin\ActivityPlanController::class, 'markAchieved'])->name('admin.activity-plans.markAchieved');
+
     // Students (admin-only routes moved to a dedicated middleware group below)
 
     // Subscription Plans
