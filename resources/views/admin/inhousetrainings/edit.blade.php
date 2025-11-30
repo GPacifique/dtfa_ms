@@ -1,23 +1,149 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
-
-    <h2>Training Details</h2>
-
-    <div class="card p-4">
-
-        <p><strong>Name:</strong> {{ $training->training_name }}</p>
-        <p><strong>First Name:</strong> {{ $training->first_name }}</p>
-        <p><strong>Discipline:</strong> {{ $training->discipline }}</p>
-        <p><strong>Country:</strong> {{ $training->country }}</p>
-        <p><strong>Start:</strong> {{ $training->start }}</p>
-        <p><strong>End:</strong> {{ $training->end }}</p>
-        <p><strong>Branch:</strong> {{ $training->branch->name }}</p>
-
-        <a href="{{ route('trainings.index') }}" class="btn btn-secondary mt-3">Back</a>
-
+<div class="max-w-4xl mx-auto p-6">
+    <div class="mb-6">
+        <h1 class="text-3xl font-bold text-gray-900 dark:text-white">Edit In-House Training</h1>
+        <p class="text-gray-600 dark:text-gray-400 mt-1">Update training session details</p>
     </div>
 
+    <form action="{{ route('admin.inhousetrainings.update', $training->id) }}" method="POST" class="bg-white dark:bg-neutral-900 shadow rounded-lg p-6">
+        @csrf
+        @method('PUT')
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+            <div>
+                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">First Name</label>
+                <input type="text" name="first_name" value="{{ old('first_name', $training->first_name) }}" class="w-full border rounded-lg px-3 py-2 dark:bg-neutral-800 dark:border-neutral-700">
+                @error('first_name')<span class="text-red-600 text-sm">{{ $message }}</span>@enderror
+            </div>
+
+            <div>
+                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Second Name</label>
+                <input type="text" name="second_name" value="{{ old('second_name', $training->second_name) }}" class="w-full border rounded-lg px-3 py-2 dark:bg-neutral-800 dark:border-neutral-700">
+                @error('second_name')<span class="text-red-600 text-sm">{{ $message }}</span>@enderror
+            </div>
+
+            <div>
+                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Gender</label>
+                <select name="gender" class="w-full border rounded-lg px-3 py-2 dark:bg-neutral-800 dark:border-neutral-700">
+                    <option value="">Select Gender</option>
+                    <option value="Male" @selected(old('gender', $training->gender) === 'Male')>Male</option>
+                    <option value="Female" @selected(old('gender', $training->gender) === 'Female')>Female</option>
+                </select>
+                @error('gender')<span class="text-red-600 text-sm">{{ $message }}</span>@enderror
+            </div>
+
+            <div>
+                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Country</label>
+                <select name="country" class="w-full border rounded-lg px-3 py-2 dark:bg-neutral-800 dark:border-neutral-700">
+                    <option value="Rwanda" @selected(old('country', $training->country) === 'Rwanda')>Rwanda</option>
+                    <option value="Tanzania" @selected(old('country', $training->country) === 'Tanzania')>Tanzania</option>
+                </select>
+                @error('country')<span class="text-red-600 text-sm">{{ $message }}</span>@enderror
+            </div>
+
+            <div>
+                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">City</label>
+                <select name="city" class="w-full border rounded-lg px-3 py-2 dark:bg-neutral-800 dark:border-neutral-700">
+                    <option value="Kigali" @selected(old('city', $training->city) === 'Kigali')>Kigali</option>
+                    <option value="Mwanza" @selected(old('city', $training->city) === 'Mwanza')>Mwanza</option>
+                </select>
+                @error('city')<span class="text-red-600 text-sm">{{ $message }}</span>@enderror
+            </div>
+
+            <div>
+                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Discipline</label>
+                <select name="discipline" class="w-full border rounded-lg px-3 py-2 dark:bg-neutral-800 dark:border-neutral-700">
+                    <option value="Football" @selected(old('discipline', $training->discipline) === 'Football')>Football</option>
+                    <option value="Basketball" @selected(old('discipline', $training->discipline) === 'Basketball')>Basketball</option>
+                </select>
+                @error('discipline')<span class="text-red-600 text-sm">{{ $message }}</span>@enderror
+            </div>
+
+            <div>
+                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Branch</label>
+                <select name="branch_id" class="w-full border rounded-lg px-3 py-2 dark:bg-neutral-800 dark:border-neutral-700">
+                    <option value="">Select Branch</option>
+                    @foreach ($branches as $b)
+                        <option value="{{ $b->id }}" @selected(old('branch_id', $training->branch_id) == $b->id)>{{ $b->name }}</option>
+                    @endforeach
+                </select>
+                @error('branch_id')<span class="text-red-600 text-sm">{{ $message }}</span>@enderror
+            </div>
+
+            <div>
+                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Role</label>
+                <select name="role_id" class="w-full border rounded-lg px-3 py-2 dark:bg-neutral-800 dark:border-neutral-700">
+                    <option value="">Select Role</option>
+                    @foreach ($roles as $r)
+                        <option value="{{ $r->id }}" @selected(old('role_id', $training->role_id) == $r->id)>{{ $r->name }}</option>
+                    @endforeach
+                </select>
+                @error('role_id')<span class="text-red-600 text-sm">{{ $message }}</span>@enderror
+            </div>
+
+            <div>
+                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Training Name</label>
+                <input type="text" name="training_name" value="{{ old('training_name', $training->training_name) }}" class="w-full border rounded-lg px-3 py-2 dark:bg-neutral-800 dark:border-neutral-700" required>
+                @error('training_name')<span class="text-red-600 text-sm">{{ $message }}</span>@enderror
+            </div>
+
+            <div>
+                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Start Date</label>
+                <input type="datetime-local" name="start" value="{{ old('start', $training->start?->format('Y-m-d\TH:i')) }}" class="w-full border rounded-lg px-3 py-2 dark:bg-neutral-800 dark:border-neutral-700">
+                @error('start')<span class="text-red-600 text-sm">{{ $message }}</span>@enderror
+            </div>
+
+            <div>
+                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">End Date</label>
+                <input type="datetime-local" name="end" value="{{ old('end', $training->end?->format('Y-m-d\TH:i')) }}" class="w-full border rounded-lg px-3 py-2 dark:bg-neutral-800 dark:border-neutral-700">
+                @error('end')<span class="text-red-600 text-sm">{{ $message }}</span>@enderror
+            </div>
+
+            <div>
+                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Cost Type</label>
+                <select name="cost" class="w-full border rounded-lg px-3 py-2 dark:bg-neutral-800 dark:border-neutral-700">
+                    <option value="Paid" @selected(old('cost', $training->cost) === 'Paid')>Paid</option>
+                    <option value="Free" @selected(old('cost', $training->cost) === 'Free')>Free</option>
+                </select>
+                @error('cost')<span class="text-red-600 text-sm">{{ $message }}</span>@enderror
+            </div>
+
+            <div>
+                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Training Category</label>
+                <select name="training_category" class="w-full border rounded-lg px-3 py-2 dark:bg-neutral-800 dark:border-neutral-700">
+                    <option value="In house" @selected(old('training_category', $training->training_category) === 'In house')>In House</option>
+                    <option value="Outside DTFA" @selected(old('training_category', $training->training_category) === 'Outside DTFA')>Outside DTFA</option>
+                </select>
+                @error('training_category')<span class="text-red-600 text-sm">{{ $message }}</span>@enderror
+            </div>
+
+            <div>
+                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Venue</label>
+                <input type="text" name="venue" value="{{ old('venue', $training->venue) }}" class="w-full border rounded-lg px-3 py-2 dark:bg-neutral-800 dark:border-neutral-700">
+                @error('venue')<span class="text-red-600 text-sm">{{ $message }}</span>@enderror
+            </div>
+
+            <div>
+                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Location</label>
+                <input type="text" name="location" value="{{ old('location', $training->location) }}" class="w-full border rounded-lg px-3 py-2 dark:bg-neutral-800 dark:border-neutral-700">
+                @error('location')<span class="text-red-600 text-sm">{{ $message }}</span>@enderror
+            </div>
+
+            <div class="md:col-span-2">
+                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Notes</label>
+                <textarea name="notes" rows="4" class="w-full border rounded-lg px-3 py-2 dark:bg-neutral-800 dark:border-neutral-700">{{ old('notes', $training->notes) }}</textarea>
+                @error('notes')<span class="text-red-600 text-sm">{{ $message }}</span>@enderror
+            </div>
+
+        </div>
+
+        <div class="flex items-center justify-end gap-2 pt-6 border-t border-gray-200 dark:border-neutral-700">
+            <a href="{{ route('admin.inhousetrainings.index') }}" class="px-4 py-2 border rounded-lg hover:bg-gray-100 dark:hover:bg-neutral-800 font-medium">Cancel</a>
+            <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 font-medium transition">Update Training</button>
+        </div>
+    </form>
 </div>
 @endsection
