@@ -36,6 +36,7 @@ class GameController extends Controller
         ]);
 
         $data['notify_staff'] = $request->has('notify_staff');
+        $data['status'] = 'scheduled'; // New matches start as scheduled
 
         Game::create($data);
 
