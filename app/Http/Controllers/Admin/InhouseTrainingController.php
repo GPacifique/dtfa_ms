@@ -13,7 +13,7 @@ class InhouseTrainingController extends Controller
     public function index()
     {
         $inhousetrainings = InhouseTraining::latest()->paginate(10);
-        return view('admin\inhousetrainings.index', compact('inhousetrainings'));
+        return view('admin.inhousetrainings.index', compact('inhousetrainings'));
     }
 
     public function create()
@@ -21,7 +21,7 @@ class InhouseTrainingController extends Controller
         $branches = Branch::all();
         $roles = Role::all();
 
-        return view('admin\inhousetrainings.create', compact('branches', 'roles'));
+        return view('admin.inhousetrainings.create', compact('branches', 'roles'));
     }
 
     public function store(Request $request)
@@ -42,13 +42,13 @@ class InhouseTrainingController extends Controller
 
         InhouseTraining::create($request->all());
 
-        return redirect()->route('inhousetrainings.index')
+        return redirect()->route('admin.inhousetrainings.index')
             ->with('success', 'Training created successfully.');
     }
 
     public function show(InhouseTraining $inhousetraining)
     {
-        return view('admin\inhousetrainings.show', compact('inhousetrainings'));
+        return view('admin.inhousetrainings.show', compact('inhousetraining'));
     }
 
     public function edit(InhouseTraining $inhousetraining)
@@ -56,20 +56,20 @@ class InhouseTrainingController extends Controller
         $branches = Branch::all();
         $roles = Role::all();
 
-        return view('admin\inhouse trainings.edit', compact('inhousetrainings','branches','roles'));
+        return view('admin.inhousetrainings.edit', compact('inhousetraining','branches','roles'));
     }
 
     public function update(Request $request, InhouseTraining $inhousetraining)
     {
         $inhousetraining->update($request->all());
-        return redirect()->route('inhousetrainings.index')
+        return redirect()->route('admin.inhousetrainings.index')
             ->with('success', 'Training updated successfully.');
     }
 
     public function destroy(InhouseTraining $inhousetraining)
     {
         $inhousetraining->delete();
-        return redirect()->route('inhousetrainings.index')
+        return redirect()->route('admin.inhousetrainings.index')
             ->with('success', 'Training deleted successfully.');
     }
 }

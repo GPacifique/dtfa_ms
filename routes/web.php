@@ -24,7 +24,7 @@ Route::prefix('admin')->name('admin.')->middleware(['auth'])->group(function () 
     Route::delete('users/{id}/force-delete', [App\Http\Controllers\Admin\UsersController::class, 'forceDelete'])
         ->name('users.forceDelete');   // ← THIS fixes the error
 });
-Route::middleware(['auth', 'role:admin|super-admin|accountant'])
+Route::middleware(['auth'])
     ->prefix('admin')
     ->name('admin.')
     ->group(function () {
