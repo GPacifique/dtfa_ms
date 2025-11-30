@@ -38,9 +38,31 @@ php artisan view:cache
 # Contact Namecheap support if you need to restart Apache/Nginx
 ```
 
-## Immediate Troubleshooting
+## Game CRUD 500 Error Specific Fix
 
-If views still don't update, try this nuclear option:
+If you're getting "500 Server Error" when accessing Game CRUD pages (`/admin/games`, `/admin/games/create`, `/admin/games/1`, etc.):
+
+```bash
+cd ~/sportacademyms
+
+# This is almost always a cached view issue
+echo "Clearing all view caches..."
+php artisan view:clear
+
+echo "Clearing all application caches..."
+php artisan cache:clear
+
+echo "Clearing config cache..."
+php artisan config:clear
+
+echo "Fixing permissions..."
+chmod -R 755 storage
+chmod -R 755 bootstrap/cache
+
+echo "✅ Done! Try accessing /admin/games again"
+```
+
+**If still failing**, use the nuclear option:
 
 ```bash
 cd ~/sportacademyms
