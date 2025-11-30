@@ -188,6 +188,14 @@ Route::middleware(['auth', 'role:admin|super-admin'])->prefix('admin')->group(fu
     Route::post('games/{game}/start', [App\Http\Controllers\Admin\GameController::class, 'startMatch'])->name('admin.games.start');
     Route::post('games/{game}/complete', [App\Http\Controllers\Admin\GameController::class, 'completeMatch'])->name('admin.games.complete');
 
+    // Minutes (Meeting Minutes)
+    Route::resource('minutes', \App\Http\Controllers\Admin\MinuteController::class, ['as' => 'admin'])->names('minutes');
+
+    // Minutes Status Transitions
+    Route::post('minutes/{minute}/mark-completed', [App\Http\Controllers\Admin\MinuteController::class, 'markCompleted'])->name('admin.minutes.markCompleted');
+    Route::post('minutes/{minute}/mark-cancelled', [App\Http\Controllers\Admin\MinuteController::class, 'markCancelled'])->name('admin.minutes.markCancelled');
+    Route::post('minutes/{minute}/reschedule', [App\Http\Controllers\Admin\MinuteController::class, 'reschedule'])->name('admin.minutes.reschedule');
+
     // Students (admin-only routes moved to a dedicated middleware group below)
 
     // Subscription Plans
