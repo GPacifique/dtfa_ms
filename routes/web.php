@@ -154,6 +154,7 @@ Route::middleware(['auth', 'role:admin|super-admin'])->prefix('admin')->group(fu
     Route::get('/dashboard', [\App\Http\Controllers\AdminController::class, 'index'])->name('admin.dashboard');
     // User role management
     Route::get('/users', [\App\Http\Controllers\Admin\UsersController::class, 'index'])->name('admin.users.index');
+    Route::get('/users/{user}', [\App\Http\Controllers\Admin\UsersController::class, 'show'])->name('admin.users.show');
     Route::get('/users/create', [\App\Http\Controllers\Admin\UsersController::class, 'create'])->name('admin.users.create');
     Route::post('/users', [\App\Http\Controllers\Admin\UsersController::class, 'store'])->name('admin.users.store');
     Route::get('/users/{user}/edit', [\App\Http\Controllers\Admin\UsersController::class, 'edit'])->name('admin.users.edit');

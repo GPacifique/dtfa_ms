@@ -43,12 +43,12 @@
             </thead>
             <tbody>
                 @foreach ($users as $user)
-                    <tr @class(['bg-red-50 dark:bg-red-900/30' => $user->deleted_at])>
-                        <td class="px-4 py-3">{{ $user->name }}</td>
-                        <td class="px-4 py-3">{{ $user->email }}</td>
-                        <td class="px-4 py-3">{{ $user->branch?->name ?? '—' }}</td>
-                        <td class="px-4 py-3">{{ $user->group?->name ?? '—' }}</td>
-                        <td class="px-4 py-3">
+                    <tr @class(['bg-red-50 dark:bg-red-900/30 hover:bg-gray-100 dark:hover:bg-neutral-800 cursor-pointer transition' => !$user->deleted_at, 'bg-red-50 dark:bg-red-900/30' => $user->deleted_at])>
+                        <td class="px-4 py-3"><a href="{{ route('admin.users.show', $user) }}" class="block">{{ $user->name }}</a></td>
+                        <td class="px-4 py-3"><a href="{{ route('admin.users.show', $user) }}" class="block">{{ $user->email }}</a></td>
+                        <td class="px-4 py-3"><a href="{{ route('admin.users.show', $user) }}" class="block">{{ $user->branch?->name ?? '—' }}</a></td>
+                        <td class="px-4 py-3"><a href="{{ route('admin.users.show', $user) }}" class="block">{{ $user->group?->name ?? '—' }}</a></td>
+                        <td class="px-4 py-3" onclick="event.stopPropagation()">
                             <form method="POST" action="{{ route('admin.users.update', $user) }}" class="flex items-center gap-3">
                                 @csrf
                                 @method('PATCH')
@@ -61,13 +61,15 @@
                             </form>
                         </td>
                         <td class="px-4 py-3">
-                            @if($user->deleted_at)
-                                <span class="badge badge-red">Deactivated</span>
-                            @else
-                                <span class="badge badge-green">Active</span>
-                            @endif
+                            <a href="{{ route('admin.users.show', $user) }}" class="block">
+                                @if($user->deleted_at)
+                                    <span class="badge badge-red">Deactivated</span>
+                                @else
+                                    <span class="badge badge-green">Active</span>
+                                @endif
+                            </a>
                         </td>
-                        <td class="px-4 py-3 text-right">
+                        <td class="px-4 py-3 text-right" onclick="event.stopPropagation()">
                             <a href="{{ route('admin.users.edit', $user) }}" @class(['text-indigo-700 hover:underline px-2','opacity-50 pointer-events-none' => $user->deleted_at])>Edit</a>
                             <form method="POST" action="{{ route('admin.users.sendReset', $user) }}" class="inline">
                                 @csrf

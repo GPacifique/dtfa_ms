@@ -117,6 +117,13 @@ class UsersController extends Controller
         return redirect()->route('admin.users.index')->with('status', 'User created.');
     }
 
+    // Show user details
+    public function show(User $user)
+    {
+        $user->load(['roles', 'branch', 'group']);
+        return view('admin.users.show', compact('user'));
+    }
+
     // Show edit form
     public function edit(User $user)
     {
