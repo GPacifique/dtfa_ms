@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Staff\StaffController;
-use App\Http\Controllers\Staff\CapacityBuildingController;
+use App\Http\Controllers\Admin\CapacityBuildingController;
 use App\Http\Controllers\Staff\TrainingSessionRecordController;
 use App\Http\Controllers\Staff\StaffAttendanceController;
 use App\Http\Controllers\Staff\CommunicationController;

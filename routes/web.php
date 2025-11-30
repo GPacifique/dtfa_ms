@@ -18,10 +18,10 @@ Route::prefix('admin')->name('admin.')->middleware(['auth'])->group(function () 
 
     Route::resource('users', App\Http\Controllers\Admin\UsersController::class);
 
-    Route::post('users/{id}/restore', [UsersController::class, 'restore'])
+    Route::post('users/{id}/restore', [App\Http\Controllers\Admin\UsersController::class, 'restore'])
         ->name('users.restore');
 
-    Route::delete('users/{id}/force-delete', [UsersController::class, 'forceDelete'])
+    Route::delete('users/{id}/force-delete', [App\Http\Controllers\Admin\UsersController::class, 'forceDelete'])
         ->name('users.forceDelete');   // ← THIS fixes the error
 });
 Route::middleware(['auth', 'role:admin|super-admin|accountant'])
