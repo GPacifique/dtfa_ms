@@ -8,11 +8,18 @@ use Illuminate\Http\Request;
 
 class GameController extends Controller
 {
-   public function index()
-{
-    $games = Game::latest()->paginate(10);
-    return view('admin.games.index', compact('games'));
-}
+    public function index()
+    {
+        $query = Game::latest();
+
+        // Filter by status if requested
+        if (request('status')) {
+            $query->where('status', request('status'));
+        }
+
+        $games = $query->paginate(10);
+        return view('admin.games.index', compact('games'));
+    }
 
     public function create()
     {
@@ -68,12 +75,12 @@ class GameController extends Controller
 
         $game->update($data);
 
-        return redirect()->route('admin.matches.index')->with('success', 'Match updated successfully.');
+        return redirect()->route('admin.games.index')->with('success', 'Match updated successfully.');
     }
 
     public function destroy(Game $game)
     {
-        $match->delete();
+        $game->delete();
         return redirect()->route('admin.games.index')->with('success', 'Match deleted successfully.');
     }
 
@@ -81,4 +88,31 @@ class GameController extends Controller
     {
         return view('admin.games.show', compact('game'));
     }
-}
+
+    /**
+     * Start a match (transition from scheduled to in_progress)
+     */
+    public function startMatch(Game $game)
+    {
+        if (!$game->isScheduled()) {
+            return back()->with('error', 'Only scheduled matches can be started.');
+        }
+
+        $game->startMatch();
+
+        return back()->with('success', 'Match started! You can now record events and results.');
+    }
+
+    /**
+     * Complete a match (transition from in_progress to completed)
+     */
+    public function completeMatch(Game $game)
+    {
+        if ($game->isCompleted()) {
+            return back()->with('error', 'This match is already completed.');
+        }
+
+        $game->completeMatch();
+
+        return back()->with('success', 'Match marked as completed.');
+    }

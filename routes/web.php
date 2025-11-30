@@ -184,6 +184,10 @@ Route::middleware(['auth', 'role:admin|super-admin'])->prefix('admin')->group(fu
     Route::resource('players', \App\Http\Controllers\Admin\PlayerController::class, ['as' => 'admin']);
     Route::resource('games', \App\Http\Controllers\Admin\GameController::class, ['as' => 'admin'])->names('games');
 
+    // Game Status Transitions
+    Route::post('games/{game}/start', [App\Http\Controllers\Admin\GameController::class, 'startMatch'])->name('admin.games.start');
+    Route::post('games/{game}/complete', [App\Http\Controllers\Admin\GameController::class, 'completeMatch'])->name('admin.games.complete');
+
     // Students (admin-only routes moved to a dedicated middleware group below)
 
     // Subscription Plans
