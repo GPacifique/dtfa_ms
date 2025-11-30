@@ -116,3 +116,4 @@ class GameController extends Controller
 
         return back()->with('success', 'Match marked as completed.');
     }
+}
