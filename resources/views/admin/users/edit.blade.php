@@ -13,9 +13,25 @@
         </div>
     </div>
 
-    <form method="POST" action="{{ route('admin.users.updateFull', $user) }}" class="bg-white dark:bg-neutral-900 shadow rounded-lg p-6 space-y-4">
+    <form method="POST" action="{{ route('admin.users.updateFull', $user) }}" class="bg-white dark:bg-neutral-900 shadow rounded-lg p-6 space-y-4" enctype="multipart/form-data">
         @csrf
         @method('PUT')
+
+        <!-- Profile Picture Section -->
+        <div class="border-b border-slate-200 dark:border-slate-700 pb-4">
+            <h3 class="text-sm font-semibold mb-4">Profile Picture</h3>
+            <div class="flex items-start gap-4">
+                <div>
+                    <img src="{{ $user->profile_picture_url }}" alt="{{ $user->name }}" class="w-16 h-16 rounded-full object-cover ring-2 ring-slate-200 dark:ring-slate-700" id="picture-preview">
+                </div>
+                <div class="flex-1">
+                    <input type="file" name="profile_picture" accept="image/*" class="block w-full text-sm text-slate-600 file:mr-3 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-blue-50 dark:file:bg-blue-900/30 file:text-blue-700 dark:file:text-blue-400" id="picture-input">
+                    <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">JPEG, PNG, GIF • Max 2MB</p>
+                    @error('profile_picture')<p class="text-sm text-red-600 mt-1">{{ $message }}</p>@enderror
+                </div>
+            </div>
+        </div>
+
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
                 <label class="block text-sm font-medium mb-1">Name</label>
@@ -90,6 +106,22 @@
         }
         branchSel.addEventListener('change', filterGroups);
         filterGroups();
+
+        // Picture preview on file selection
+        const pictureInput = document.getElementById('picture-input');
+        const picturePreview = document.getElementById('picture-preview');
+        if (pictureInput) {
+            pictureInput.addEventListener('change', function(e) {
+                const file = e.target.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function(event) {
+                        picturePreview.src = event.target.result;
+                    };
+                    reader.readAsDataURL(file);
+                }
+            });
+        }
     </script>
 </div>
 @endsection

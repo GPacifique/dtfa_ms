@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 use App\Models\Branch;
@@ -151,6 +152,7 @@ class UsersController extends Controller
                 if ($request->filled('branch_id')) { $q->where('branch_id', $request->input('branch_id')); }
             })],
             'password' => ['nullable','string','min:8'],
+            'profile_picture' => ['nullable','image','mimes:jpeg,png,jpg,gif','max:2048'],
         ]);
 
         $dirty = false;
@@ -158,8 +160,19 @@ class UsersController extends Controller
         if ($user->email !== $data['email']) { $user->email = $data['email']; $dirty = true; }
         if (array_key_exists('branch_id', $data) && $user->branch_id !== ($data['branch_id'] ?? null)) { $user->branch_id = $data['branch_id'] ?? null; $dirty = true; }
         if (array_key_exists('group_id', $data) && $user->group_id !== ($data['group_id'] ?? null)) { $user->group_id = $data['group_id'] ?? null; $dirty = true; }
-    if (!empty($data['password'])) { $user->password = Hash::make($data['password']); $dirty = true; }
-    if ($dirty) { $user->save(); }
+        if (!empty($data['password'])) { $user->password = Hash::make($data['password']); $dirty = true; }
+
+        // Handle profile picture upload
+        if ($request->hasFile('profile_picture')) {
+            if ($user->profile_picture_path && \Illuminate\Support\Facades\Storage::disk('public')->exists($user->profile_picture_path)) {
+                \Illuminate\Support\Facades\Storage::disk('public')->delete($user->profile_picture_path);
+            }
+            $path = $request->file('profile_picture')->store('photos/users', 'public');
+            $user->profile_picture_path = $path;
+            $dirty = true;
+        }
+
+        if ($dirty) { $user->save(); }
 
         if (array_key_exists('roles', $data)) {
             $user->syncRoles($data['roles'] ?? []);

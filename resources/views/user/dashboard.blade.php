@@ -4,8 +4,9 @@
     <div class="max-w-4xl mx-auto mt-10 bg-white dark:bg-neutral-900 p-8 rounded shadow space-y-6">
         <div class="flex items-center justify-between">
             <h1 class="text-3xl font-bold text-indigo-700 dark:text-indigo-300 flex items-center gap-2"> User Dashboard</h1>
-            <div>
-                <a href="{{ route('profile.edit') }}" class="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded">Edit Profile</a>
+            <div class="flex items-center gap-2">
+                <a href="{{ route('user.profile.show', Auth::user()) }}" class="inline-flex items-center px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded">👤 My Profile</a>
+                <a href="{{ route('profile.edit') }}" class="inline-flex items-center px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded">⚙️ Edit Profile</a>
             </div>
         </div>
 

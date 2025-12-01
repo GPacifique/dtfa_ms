@@ -8,6 +8,7 @@
             <p class="text-gray-600 dark:text-gray-400">{{ $user->email }}</p>
         </div>
         <div class="flex items-center gap-2">
+            <a href="{{ route('user.profile.show', $user) }}" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">👤 View Profile</a>
             <a href="{{ route('admin.users.edit', $user) }}" class="px-4 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700">Edit User</a>
             <a href="{{ route('admin.users.index') }}" class="px-4 py-2 border rounded hover:bg-gray-100 dark:hover:bg-neutral-800">Back to Users</a>
         </div>
