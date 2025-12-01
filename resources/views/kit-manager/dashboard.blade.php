@@ -85,7 +85,7 @@
             </div>
         </div>
     </div>
-@section('content')
+
     <!-- Status & Condition Cards -->
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
         <!-- Sports Equipment Condition -->
@@ -313,4 +313,4 @@
     </div>
 </div>
 
-@endsection
+
