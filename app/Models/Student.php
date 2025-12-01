@@ -55,8 +55,8 @@ class Student extends Model
 
     public function getPhotoUrlAttribute(): string
     {
-        // Support both `photo_path` (canonical) and legacy `image_path`
-        $path = $this->photo_path ?? $this->image_path ?? null;
+        // Use consolidated photo_path field
+        $path = $this->photo_path;
         if ($path) {
             // Prefer the storage disk URL (works whether or not storage:link exists)
             try {
