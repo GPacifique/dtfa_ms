@@ -4,7 +4,10 @@
 <div class="max-w-3xl mx-auto p-6 space-y-6">
     <div class="flex items-center justify-between">
         <h1 class="text-2xl font-bold">Student Profile</h1>
-        <a href="{{ url()->previous() }}" class="text-sm underline">← Back</a>
+        <div class="flex items-center gap-2">
+            <a href="{{ route('student.profile.show', $student) }}" class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-semibold transition">👤 My Profile</a>
+            <a href="{{ url()->previous() }}" class="text-sm underline">← Back</a>
+        </div>
     </div>
 
     <div class="bg-white dark:bg-neutral-900 shadow rounded-lg p-6">

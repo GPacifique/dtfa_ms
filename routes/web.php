@@ -77,6 +77,13 @@ Route::middleware(['auth'])->group(function () {
     Route::get('student/checkin', [CheckinController::class, 'index'])->name('student.checkin.index');
     Route::post('student/checkin', [CheckinController::class, 'store'])->name('student.checkin.store');
 });
+
+// Student profile routes (update own profile and photo)
+Route::middleware(['auth'])->group(function () {
+    Route::get('student/{student}/profile', [\App\Http\Controllers\Student\ProfileController::class, 'show'])->name('student.profile.show');
+    Route::put('student/{student}/profile', [\App\Http\Controllers\Student\ProfileController::class, 'update'])->name('student.profile.update');
+    Route::delete('student/{student}/profile/photo', [\App\Http\Controllers\Student\ProfileController::class, 'deletePhoto'])->name('student.profile.deletePhoto');
+});
 // User dashboard route for all authenticated users
 Route::middleware(['auth'])->prefix('user')->group(function () {
     Route::get('/dashboard', function () {

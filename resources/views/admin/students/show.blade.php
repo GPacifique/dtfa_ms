@@ -11,6 +11,7 @@
             </p>
         </div>
         <div class="flex items-center gap-2">
+            <a href="{{ route('student.profile.show', $student) }}" class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-semibold transition">👤 My Profile</a>
             <a href="{{ route('admin.students.edit', $student) }}" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg font-semibold transition">✏️ Edit</a>
             <a href="{{ route('admin.students.index') }}" class="px-4 py-2 border border-slate-300 text-slate-700 rounded-lg hover:bg-slate-50 font-semibold transition">← Back</a>
         </div>
