@@ -3,17 +3,9 @@
 @section('content')
 @section('hide-back')@endsection
 <div class="min-h-screen">
-    <div class="footer-like-hero relative overflow-hidden">
-        <div class="hero-blob-layer">
-            <div class="hero-blob blob-1"></div>
-            <div class="hero-blob blob-2"></div>
-            <div class="hero-blob blob-3"></div>
-        </div>
-        <div class="relative z-10 container mx-auto px-6 py-8">
-            <h1 class="text-3xl md:text-4xl font-bold text-white mb-2">Students</h1>
-            <p class="text-emerald-100">Clean, filterable list with responsive table</p>
-        </div>
-    </div>
+    @section('hero')
+        <x-hero title="Students" subtitle="Clean, filterable list with responsive table" />
+    @endsection
 
     <div class="container mx-auto px-6 mt-8 relative z-20">
         @if(session('status'))

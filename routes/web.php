@@ -313,6 +313,41 @@ Route::middleware(['auth'])->group(function () {
     Route::post('students-modern/{student}/send-confirmation', [\App\Http\Controllers\Email\StudentRegistrationController::class, 'send'])->name('students-modern.send-confirmation');
 });
 
+// Backward-compatible aliases for legacy admin student URLs
+Route::middleware(['auth', 'role:admin|super-admin'])
+    ->prefix('admin')
+    ->group(function () {
+        // Index and create
+        Route::get('/students', function () {
+            return redirect()->route('students-modern.index');
+        })->name('admin.students.index');
+        Route::get('/students/create', function () {
+            return redirect()->route('students-modern.create');
+        })->name('admin.students.create');
+
+        // Store
+        Route::post('/students', function () {
+            return redirect()->route('students-modern.store');
+        })->name('admin.students.store');
+
+        // Show, edit, update, destroy
+        Route::get('/students/{student}', function ($student) {
+            return redirect()->route('students-modern.show', $student);
+        })->name('admin.students.show');
+        Route::get('/students/{student}/edit', function ($student) {
+            return redirect()->route('students-modern.edit', $student);
+        })->name('admin.students.edit');
+        Route::put('/students/{student}', function ($student) {
+            return redirect()->route('students-modern.update', $student);
+        })->name('admin.students.update');
+        Route::patch('/students/{student}', function ($student) {
+            return redirect()->route('students-modern.update', $student);
+        })->name('admin.students.updatePartial');
+        Route::delete('/students/{student}', function ($student) {
+            return redirect()->route('students-modern.destroy', $student);
+        })->name('admin.students.destroy');
+    });
+
 // Role-based dashboards
 Route::middleware(['auth', 'role:coach|admin|super-admin'])->prefix('coach')->group(function () {
     Route::get('/dashboard', [\App\Http\Controllers\CoachController::class, 'index'])->name('coach.dashboard');
@@ -410,17 +445,17 @@ Route::middleware(['auth', 'role:admin|super-admin|coach'])->prefix('admin')->gr
 
 // Students management: fully accessible to all authenticated users
 Route::middleware(['auth'])->prefix('admin')->group(function () {
-    Route::get('/students', [\App\Http\Controllers\Admin\StudentsController::class, 'index'])->name('admin.students.index');
-    Route::get('/students/{student}', [\App\Http\Controllers\Admin\StudentsController::class, 'show'])->name('admin.students.show');
-    Route::get('/students/{student}/attendance', [\App\Http\Controllers\Admin\StudentsController::class, 'attendance'])->name('admin.students.attendance');
-    Route::get('/students/{student}/attendance/export', [\App\Http\Controllers\Admin\StudentsController::class, 'exportAttendanceCsv'])->name('admin.students.attendance.export');
-    Route::get('/students/create', [\App\Http\Controllers\Admin\StudentsController::class, 'create'])->name('admin.students.create');
-    Route::post('/students', [\App\Http\Controllers\Admin\StudentsController::class, 'store'])->name('admin.students.store');
-    Route::get('/students/{student}/edit', [\App\Http\Controllers\Admin\StudentsController::class, 'edit'])->name('admin.students.edit');
-    Route::put('/students/{student}', [\App\Http\Controllers\Admin\StudentsController::class, 'update'])->name('admin.students.update');
-    Route::delete('/students/{student}', [\App\Http\Controllers\Admin\StudentsController::class, 'destroy'])->name('admin.students.destroy');
-    Route::get('/students/import/photos', [\App\Http\Controllers\Admin\StudentsController::class, 'importForm'])->name('admin.students.importForm');
-    Route::post('/students/import/photos', [\App\Http\Controllers\Admin\StudentsController::class, 'importProcess'])->name('admin.students.importProcess');
+    Route::get('/students', function () { return redirect()->route('students-modern.index'); })->name('admin.students.index');
+    Route::get('/students/{student}', function ($student) { return redirect()->route('students-modern.show', $student); })->name('admin.students.show');
+    Route::get('/students/{student}/attendance', function ($student) { return redirect()->route('students-modern.show', $student); })->name('admin.students.attendance');
+    Route::get('/students/{student}/attendance/export', function ($student) { return redirect()->route('students-modern.show', $student); })->name('admin.students.attendance.export');
+    Route::get('/students/create', function () { return redirect()->route('students-modern.create'); })->name('admin.students.create');
+    Route::post('/students', function () { return redirect()->route('students-modern.store'); })->name('admin.students.store');
+    Route::get('/students/{student}/edit', function ($student) { return redirect()->route('students-modern.edit', $student); })->name('admin.students.edit');
+    Route::put('/students/{student}', function ($student) { return redirect()->route('students-modern.update', $student); })->name('admin.students.update');
+    Route::delete('/students/{student}', function ($student) { return redirect()->route('students-modern.destroy', $student); })->name('admin.students.destroy');
+    Route::get('/students/import/photos', function () { return redirect()->route('students-modern.index'); })->name('admin.students.importForm');
+    Route::post('/students/import/photos', function () { return redirect()->route('students-modern.index'); })->name('admin.students.importProcess');
 });
 
 // Local-only helper to grant admin role to current user for development

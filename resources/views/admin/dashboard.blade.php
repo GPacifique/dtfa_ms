@@ -27,12 +27,12 @@
                 <div class="card-body">
                     <div class="flex items-start justify-between">
                         <div class="flex-1">
-                            <p class="text-sm font-medium text-slate-600 dark:text-slate-400 mb-1">Total Users</p>
+                            <p class="text-sm font-medium text-slate-600 dark:text-slate-400 mb-1">Students</p>
                             <h3 class="text-3xl font-bold text-blue-600 dark:text-blue-400" data-animate-count>
-                                {{ $stats['totalUsers'] ?? 0 }}
+                                {{ $stats['totalStudents'] ?? 0 }}
                             </h3>
                             <p class="text-xs text-slate-500 dark:text-slate-400 mt-2">
-                                Active accounts
+                                All time registered
                             </p>
                         </div>
                         <div class="w-12 h-12 bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">

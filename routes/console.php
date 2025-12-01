@@ -19,9 +19,9 @@ Artisan::command('send-mail', function () {
             return 1;
         }
 
-        $to = env('MAILTRAP_TO', 'you@example.com');
-        $from = env('MAIL_FROM_ADDRESS', 'hello@sportacademyms.app.avanciafitness.com');
-        $fromName = env('MAIL_FROM_NAME', 'Mailtrap Test');
+        $to = env('MAILTRAP_TO', 'gashumba@gmail.com');
+        $from = env('MAIL_FROM_ADDRESS', 'gashumbaaimable@gmail.com');
+        $fromName = env('MAIL_FROM_NAME', 'DTFA');
 
         $email = (new \Mailtrap\Mime\MailtrapEmail())
             ->from(new \Symfony\Component\Mime\Address($from, $fromName))

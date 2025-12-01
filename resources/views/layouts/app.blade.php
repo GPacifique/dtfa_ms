@@ -126,6 +126,11 @@
 
         <!-- Content -->
         <main class="flex-1 overflow-auto" :aria-hidden="$store.layout.mobileOpen ? 'true' : 'false'">
+            @if (View::hasSection('hero'))
+                @yield('hero')
+            @elseif(isset($heroTitle))
+                <x-hero :title="$heroTitle" :subtitle="$heroSubtitle ?? null" />
+            @endif
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
                 <!-- Ensure content sits below sticky header and has consistent gutters -->
                 <div class="pt-2">

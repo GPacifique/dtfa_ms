@@ -41,4 +41,22 @@ class StoreStudentRequest extends FormRequest
             'photo' => ['nullable','image','mimes:jpg,jpeg,png,webp','max:2048'],
         ];
     }
+
+    protected function prepareForValidation(): void
+    {
+        $data = $this->all();
+        // Allow branch/group selection by name strings; map to IDs if needed
+        if (isset($data['branch_id']) && !is_numeric($data['branch_id']) && is_string($data['branch_id'])) {
+            $branch = \App\Models\Branch::where('name', $data['branch_id'])->first();
+            if ($branch) {
+                $this->merge(['branch_id' => $branch->id]);
+            }
+        }
+        if (isset($data['group_id']) && !is_numeric($data['group_id']) && is_string($data['group_id'])) {
+            $group = \App\Models\Group::where('name', $data['group_id'])->first();
+            if ($group) {
+                $this->merge(['group_id' => $group->id]);
+            }
+        }
+    }
 }
