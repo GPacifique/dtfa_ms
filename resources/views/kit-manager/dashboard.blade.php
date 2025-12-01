@@ -130,9 +130,7 @@
                                         <p class="font-medium text-slate-900 dark:text-white text-sm">{{ $equipment->name }}</p>
                                         <p class="text-slate-600 dark:text-slate-400 text-xs">Type: {{ $equipment->equipment_type }}</p>
                                     </div>
-                                    <a href="{{ route('admin.sports_equipment.edit', $equipment) }}" class="text-blue-600 dark:text-blue-400 hover:underline text-sm">
-                                        Edit
-                                    </a>
+                                    <a href="{{ route('admin.sports_equipment.edit', $equipment) }}" class="text-blue-600 dark:text-blue-400 hover:underline text-sm">Edit</a>
                                 </div>
                             @endforeach
                         </div>
@@ -148,9 +146,7 @@
                                         <p class="font-medium text-slate-900 dark:text-white text-sm">{{ $equipment->name }}</p>
                                         <p class="text-slate-600 dark:text-slate-400 text-xs">Assigned to: {{ $equipment->assigned_to ?? 'Unassigned' }}</p>
                                     </div>
-                                    <a href="{{ route('admin.office_equipment.edit', $equipment) }}" class="text-blue-600 dark:text-blue-400 hover:underline text-sm">
-                                        Edit
-                                    </a>
+                                    <a href="{{ route('admin.office_equipment.edit', $equipment) }}" class="text-blue-600 dark:text-blue-400 hover:underline text-sm">Edit</a>
                                 </div>
                             @endforeach
                         </div>
@@ -161,7 +157,7 @@
     @endif
 
     <!-- Recent Updates -->
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
         <!-- Recent Sports Equipment Updates -->
         <div class="bg-white dark:bg-slate-800 rounded-lg shadow p-6">
             <h3 class="text-lg font-semibold text-slate-900 dark:text-white mb-4">Recent Sports Equipment Updates</h3>
@@ -172,9 +168,7 @@
                             <p class="font-medium text-slate-900 dark:text-white text-sm truncate">{{ $equipment->name }}</p>
                             <p class="text-slate-600 dark:text-slate-400 text-xs">{{ $equipment->updated_at->format('M d, Y') }}</p>
                         </div>
-                        <a href="{{ route('admin.sports_equipment.show', $equipment) }}" class="ml-2 text-blue-600 dark:text-blue-400 hover:underline text-sm whitespace-nowrap">
-                            View
-                        </a>
+                        <a href="{{ route('admin.sports_equipment.show', $equipment) }}" class="ml-2 text-blue-600 dark:text-blue-400 hover:underline text-sm whitespace-nowrap">View</a>
                     </div>
                 @empty
                     <p class="text-slate-500 dark:text-slate-400 text-sm">No sports equipment yet</p>
@@ -192,9 +186,7 @@
                             <p class="font-medium text-slate-900 dark:text-white text-sm truncate">{{ $equipment->name }}</p>
                             <p class="text-slate-600 dark:text-slate-400 text-xs">{{ $equipment->updated_at->format('M d, Y') }}</p>
                         </div>
-                        <a href="{{ route('admin.office_equipment.show', $equipment) }}" class="ml-2 text-blue-600 dark:text-blue-400 hover:underline text-sm whitespace-nowrap">
-                            View
-                        </a>
+                        <a href="{{ route('admin.office_equipment.show', $equipment) }}" class="ml-2 text-blue-600 dark:text-blue-400 hover:underline text-sm whitespace-nowrap">View</a>
                     </div>
                 @empty
                     <p class="text-slate-500 dark:text-slate-400 text-sm">No office equipment yet</p>
@@ -203,9 +195,9 @@
         </div>
     </div>
 
-    <!-- Equipment Types Breakdown (if applicable) -->
+    <!-- Equipment Types Breakdown -->
     @if($equipmentTypes->count() > 0)
-        <div class="bg-white dark:bg-slate-800 rounded-lg shadow p-6 mt-6">
+        <div class="bg-white dark:bg-slate-800 rounded-lg shadow p-6">
             <h3 class="text-lg font-semibold text-slate-900 dark:text-white mb-4">Sports Equipment by Type</h3>
             <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
                 @foreach($equipmentTypes as $type)
