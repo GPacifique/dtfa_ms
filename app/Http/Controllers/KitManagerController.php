@@ -76,7 +76,8 @@ class KitManagerController extends Controller
             ? round(($sportsEquipmentInUse / $sportsEquipmentTotal) * 100, 1)
             : 0;
 
-        return view('kit-manager.dashboard', [
+        return view('kit-manager.dashboard2', [
+            'title' => 'Kit Manager Dashboard',
             'sportsEquipmentTotal' => $sportsEquipmentTotal,
             'officeEquipmentTotal' => $officeEquipmentTotal,
             'sportsEquipmentByCondition' => $sportsEquipmentByCondition,
