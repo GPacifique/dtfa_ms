@@ -49,13 +49,75 @@
                 @role('super-admin|admin|CEO|Technical Director')
                     <a href="{{ route('admin.communications.create') }}" class="btn-secondary mr-2">Compose</a>
                 @endrole
-                <div class="mr-4 text-sm text-slate-700 dark:text-slate-200">
-                    Hello, <span class="font-semibold">{{ Auth::user()->name }}</span>
+
+                <!-- User Profile Dropdown -->
+                <div x-data="{ open: false }" class="relative">
+                    <button @click="open = !open" @click.away="open = false" class="flex items-center gap-2 p-1 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors" title="User menu">
+                        <img
+                            src="{{ Auth::user()->profile_picture_url }}"
+                            alt="{{ Auth::user()->name }}"
+                            class="w-8 h-8 rounded-full object-cover ring-2 ring-slate-200 dark:ring-slate-700"
+                        >
+                        <span class="text-sm font-semibold text-slate-700 dark:text-slate-200 hidden sm:inline">{{ Auth::user()->name }}</span>
+                    </button>
+
+                    <!-- Dropdown Menu -->
+                    <div
+                        x-show="open"
+                        x-transition
+                        @click.away="open = false"
+                        class="absolute right-0 mt-2 w-48 bg-white dark:bg-slate-800 rounded-lg shadow-lg border border-slate-200 dark:border-slate-700 z-50"
+                    >
+                        <div class="p-3 border-b border-slate-200 dark:border-slate-700">
+                            <div class="flex items-center gap-3">
+                                <img
+                                    src="{{ Auth::user()->profile_picture_url }}"
+                                    alt="{{ Auth::user()->name }}"
+                                    class="w-10 h-10 rounded-full object-cover ring-2 ring-slate-200 dark:ring-slate-700"
+                                >
+                                <div>
+                                    <p class="font-semibold text-slate-900 dark:text-white">{{ Auth::user()->name }}</p>
+                                    <p class="text-xs text-slate-600 dark:text-slate-400">{{ Auth::user()->email }}</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="py-2">
+                            <a
+                                href="{{ route('user.profile.show', Auth::user()) }}"
+                                @click="open = false"
+                                class="block px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700"
+                            >
+                                👤 My Profile
+                            </a>
+                            @if(auth()->user()->hasRole(['admin', 'super-admin']))
+                                <a
+                                    href="{{ route('admin.dashboard') }}"
+                                    @click="open = false"
+                                    class="block px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700"
+                                >
+                                    ⚙️ Admin Panel
+                                </a>
+                            @endif
+                            <a
+                                href="{{ route('user.dashboard') }}"
+                                @click="open = false"
+                                class="block px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700"
+                            >
+                                📊 Dashboard
+                            </a>
+                            <div class="border-t border-slate-200 dark:border-slate-700 my-1"></div>
+                            <form action="{{ route('logout') }}" method="POST" class="block">
+                                @csrf
+                                <button
+                                    type="submit"
+                                    class="w-full text-left px-4 py-2 text-sm text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20"
+                                >
+                                    🚪 Logout
+                                </button>
+                            </form>
+                        </div>
+                    </div>
                 </div>
-                <form action="{{ route('logout') }}" method="POST">
-                    @csrf
-                    <button class="btn-primary">Logout</button>
-                </form>
                 @else
                 <a class="btn-primary" href="{{ route('login') }}">Login</a>
                 @endauth
