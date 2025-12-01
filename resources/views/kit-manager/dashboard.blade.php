@@ -6,248 +6,306 @@
 <div class="py-6 px-4 sm:px-6">
     <!-- Page Header -->
     <div class="mb-8">
-        <h1 class="text-3xl font-bold text-slate-900 dark:text-white">Equipment Management Dashboard</h1>
-        <p class="text-slate-600 dark:text-slate-400 mt-2">Monitor and manage all sports and office equipment</p>
+        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between">
+            <div>
+                <h1 class="text-3xl font-bold text-slate-900 dark:text-white">Equipment Dashboard</h1>
+                <p class="text-slate-600 dark:text-slate-400 mt-1">Real-time equipment inventory and status overview</p>
+            </div>
+            <div class="mt-4 sm:mt-0 flex gap-2">
+                <a href="{{ route('admin.sports_equipment.index') }}" class="btn btn-secondary">Sports Equipment</a>
+                <a href="{{ route('admin.office_equipment.index') }}" class="btn btn-secondary">Office Equipment</a>
+            </div>
+        </div>
     </div>
 
-    <!-- Overall Stats -->
+    <!-- Key Metrics Overview -->
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
         <!-- Total Sports Equipment -->
-        <div class="bg-white dark:bg-slate-800 rounded-lg shadow p-6 border-l-4 border-blue-500">
-            <div class="flex items-center justify-between">
-                <div>
-                    <p class="text-sm font-medium text-slate-600 dark:text-slate-400">Total Sports Equipment</p>
-                    <p class="text-3xl font-bold text-slate-900 dark:text-white mt-1">{{ $sportsEquipmentTotal }}</p>
+        <div class="bg-white dark:bg-slate-800 rounded-lg shadow-md p-6 border-l-4 border-blue-500 hover:shadow-lg transition-shadow">
+            <div class="flex items-start justify-between">
+                <div class="flex-1">
+                    <p class="text-sm font-medium text-slate-600 dark:text-slate-400">Sports Equipment</p>
+                    <p class="text-4xl font-bold text-blue-600 dark:text-blue-400 mt-2">{{ $sportsEquipmentTotal }}</p>
+                    <p class="text-xs text-slate-500 dark:text-slate-500 mt-2">Total inventory</p>
                 </div>
-                <svg class="w-12 h-12 text-blue-500 opacity-20" fill="currentColor" viewBox="0 0 20 20">
-                    <path fill-rule="evenodd" d="M4 4a2 2 0 00-2 2v4a2 2 0 002 2V6h10a2 2 0 00-2-2H4zm2 6a2 2 0 012-2h8a2 2 0 012 2v4a2 2 0 01-2 2H8a2 2 0 01-2-2v-4zm6 4a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd" />
-                </svg>
+                <div class="bg-blue-100 dark:bg-blue-900/30 p-3 rounded-lg">
+                    <svg class="w-8 h-8 text-blue-600" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M4 4a2 2 0 00-2 2v4a2 2 0 002 2V6h10a2 2 0 00-2-2H4zm2 6a2 2 0 012-2h8a2 2 0 012 2v4a2 2 0 01-2 2H8a2 2 0 01-2-2v-4zm6 4a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd" />
+                    </svg>
+                </div>
             </div>
         </div>
 
         <!-- Total Office Equipment -->
-        <div class="bg-white dark:bg-slate-800 rounded-lg shadow p-6 border-l-4 border-emerald-500">
-            <div class="flex items-center justify-between">
-                <div>
-                    <p class="text-sm font-medium text-slate-600 dark:text-slate-400">Total Office Equipment</p>
-                    <p class="text-3xl font-bold text-slate-900 dark:text-white mt-1">{{ $officeEquipmentTotal }}</p>
+        <div class="bg-white dark:bg-slate-800 rounded-lg shadow-md p-6 border-l-4 border-emerald-500 hover:shadow-lg transition-shadow">
+            <div class="flex items-start justify-between">
+                <div class="flex-1">
+                    <p class="text-sm font-medium text-slate-600 dark:text-slate-400">Office Equipment</p>
+                    <p class="text-4xl font-bold text-emerald-600 dark:text-emerald-400 mt-2">{{ $officeEquipmentTotal }}</p>
+                    <p class="text-xs text-slate-500 dark:text-slate-500 mt-2">Total inventory</p>
                 </div>
-                <svg class="w-12 h-12 text-emerald-500 opacity-20" fill="currentColor" viewBox="0 0 20 20">
-                    <path d="M3 4a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1V4zm0 6a1 1 0 011-1h12a1 1 0 011 1v6a1 1 0 01-1 1H4a1 1 0 01-1-1v-6zm0 8a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1v-2z" />
-                </svg>
+                <div class="bg-emerald-100 dark:bg-emerald-900/30 p-3 rounded-lg">
+                    <svg class="w-8 h-8 text-emerald-600" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M3 4a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1V4zm0 6a1 1 0 011-1h12a1 1 0 011 1v6a1 1 0 01-1 1H4a1 1 0 01-1-1v-6zm0 8a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1v-2z" />
+                    </svg>
+                </div>
             </div>
         </div>
 
-        <!-- Sports Equipment in Use -->
-        <div class="bg-white dark:bg-slate-800 rounded-lg shadow p-6 border-l-4 border-green-500">
-            <div class="flex items-center justify-between">
-                <div>
-                    <p class="text-sm font-medium text-slate-600 dark:text-slate-400">Sports Equipment In Use</p>
-                    <p class="text-3xl font-bold text-green-600 dark:text-green-400 mt-1">{{ $sportsEquipmentInUse }}</p>
-                    <p class="text-xs text-slate-500 dark:text-slate-400 mt-2">{{ $sportsEquipmentUtilizationRate }}% utilization</p>
+        <!-- Equipment In Use -->
+        <div class="bg-white dark:bg-slate-800 rounded-lg shadow-md p-6 border-l-4 border-green-500 hover:shadow-lg transition-shadow">
+            <div class="flex items-start justify-between">
+                <div class="flex-1">
+                    <p class="text-sm font-medium text-slate-600 dark:text-slate-400">In Active Use</p>
+                    <p class="text-4xl font-bold text-green-600 dark:text-green-400 mt-2">{{ $sportsEquipmentInUse + $officeEquipmentInUse }}</p>
+                    <p class="text-xs text-slate-500 dark:text-slate-500 mt-2">{{ round((($sportsEquipmentInUse + $officeEquipmentInUse) / ($sportsEquipmentTotal + $officeEquipmentTotal)) * 100, 1) }}% utilization</p>
                 </div>
-                <svg class="w-12 h-12 text-green-500 opacity-20" fill="currentColor" viewBox="0 0 20 20">
-                    <path fill-rule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-2.77 3.066 3.066 0 00-3.58 3.03A3.066 3.066 0 006.267 3.455zm9.8 6.32a3.066 3.066 0 001.745-2.77 3.066 3.066 0 00-3.58 3.03 3.066 3.066 0 001.835-.26zM9 13a3 3 0 11-6 0 3 3 0 016 0zm7 0a3 3 0 11-6 0 3 3 0 016 0z" clip-rule="evenodd" />
-                </svg>
+                <div class="bg-green-100 dark:bg-green-900/30 p-3 rounded-lg">
+                    <svg class="w-8 h-8 text-green-600" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-2.77 3.066 3.066 0 00-3.58 3.03A3.066 3.066 0 006.267 3.455zm9.8 6.32a3.066 3.066 0 001.745-2.77 3.066 3.066 0 00-3.58 3.03 3.066 3.066 0 001.835-.26zM9 13a3 3 0 11-6 0 3 3 0 016 0zm7 0a3 3 0 11-6 0 3 3 0 016 0z" clip-rule="evenodd" />
+                    </svg>
+                </div>
             </div>
         </div>
 
-        <!-- Equipment Needing Repair -->
-        <div class="bg-white dark:bg-slate-800 rounded-lg shadow p-6 border-l-4 border-red-500">
-            <div class="flex items-center justify-between">
-                <div>
-                    <p class="text-sm font-medium text-slate-600 dark:text-slate-400">Equipment Needing Repair</p>
-                    <p class="text-3xl font-bold text-red-600 dark:text-red-400 mt-1">{{ count($damageSportsEquipment) + count($damageOfficeEquipment) }}</p>
+        <!-- Attention Required -->
+        <div class="bg-white dark:bg-slate-800 rounded-lg shadow-md p-6 border-l-4 border-amber-500 hover:shadow-lg transition-shadow">
+            <div class="flex items-start justify-between">
+                <div class="flex-1">
+                    <p class="text-sm font-medium text-slate-600 dark:text-slate-400">Needs Attention</p>
+                    <p class="text-4xl font-bold text-amber-600 dark:text-amber-400 mt-2">{{ count($damageSportsEquipment) + count($damageOfficeEquipment) + $warrantyExpiringCount }}</p>
+                    <p class="text-xs text-slate-500 dark:text-slate-500 mt-2">Damaged + Warranty expiring</p>
                 </div>
-                <svg class="w-12 h-12 text-red-500 opacity-20" fill="currentColor" viewBox="0 0 20 20">
-                    <path fill-rule="evenodd" d="M13.477 14.89A6 6 0 15 2.05 9.991L3.464 8.05A6 6 0 1113.476 14.89z" clip-rule="evenodd" />
-                </svg>
+                <div class="bg-amber-100 dark:bg-amber-900/30 p-3 rounded-lg">
+                    <svg class="w-8 h-8 text-amber-600" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd" />
+                    </svg>
+                </div>
             </div>
         </div>
     </div>
 
-    <!-- Secondary Stats -->
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6 mb-8">
-        <!-- Good Condition -->
-        <div class="bg-white dark:bg-slate-800 rounded-lg shadow p-4 border-t-2 border-green-400">
-            <p class="text-xs font-semibold text-slate-600 dark:text-slate-400 uppercase tracking-wider">Good Condition</p>
-            <p class="text-2xl font-bold text-slate-900 dark:text-white mt-2">{{ $sportsEquipmentInGoodCondition }}</p>
-            <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">Sports Equipment</p>
-        </div>
-
-        <!-- Stored -->
-        <div class="bg-white dark:bg-slate-800 rounded-lg shadow p-4 border-t-2 border-blue-400">
-            <p class="text-xs font-semibold text-slate-600 dark:text-slate-400 uppercase tracking-wider">Stored</p>
-            <p class="text-2xl font-bold text-slate-900 dark:text-white mt-2">{{ $sportsEquipmentStored }}</p>
-            <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">Sports Equipment</p>
-        </div>
-
-        <!-- Assigned -->
-        <div class="bg-white dark:bg-slate-800 rounded-lg shadow p-4 border-t-2 border-purple-400">
-            <p class="text-xs font-semibold text-slate-600 dark:text-slate-400 uppercase tracking-wider">Assigned</p>
-            <p class="text-2xl font-bold text-slate-900 dark:text-white mt-2">{{ $officeEquipmentAssigned }}</p>
-            <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">Office Equipment</p>
-        </div>
-
-        <!-- In Use -->
-        <div class="bg-white dark:bg-slate-800 rounded-lg shadow p-4 border-t-2 border-emerald-400">
-            <p class="text-xs font-semibold text-slate-600 dark:text-slate-400 uppercase tracking-wider">In Use</p>
-            <p class="text-2xl font-bold text-slate-900 dark:text-white mt-2">{{ $officeEquipmentInUse }}</p>
-            <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">Office Equipment</p>
-        </div>
-
-        <!-- Warranty Expiring -->
-        <div class="bg-white dark:bg-slate-800 rounded-lg shadow p-4 border-t-2 border-amber-400">
-            <p class="text-xs font-semibold text-slate-600 dark:text-slate-400 uppercase tracking-wider">Expiring Soon</p>
-            <p class="text-2xl font-bold text-slate-900 dark:text-white mt-2">{{ $warrantyExpiringCount }}</p>
-            <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">Warranty (30d)</p>
-        </div>
-    </div>
-
-    <!-- Equipment Conditions Overview -->
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
-        <!-- Sports Equipment by Condition -->
-        <div class="bg-white dark:bg-slate-800 rounded-lg shadow p-6">
-            <h3 class="text-lg font-semibold text-slate-900 dark:text-white mb-4">Sports Equipment Condition</h3>
+    <!-- Status & Condition Cards -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
+        <!-- Sports Equipment Condition -->
+        <div class="bg-white dark:bg-slate-800 rounded-lg shadow-md p-6 h-full">
+            <h3 class="text-lg font-semibold text-slate-900 dark:text-white mb-4 flex items-center gap-2">
+                <span class="w-1 h-6 bg-blue-500 rounded"></span>
+                Sports Equipment Condition
+            </h3>
             <div class="space-y-3">
                 @php
                     $conditionColors = [
-                        'excellent' => 'text-green-600 dark:text-green-400 bg-green-100 dark:bg-green-900',
-                        'good' => 'text-blue-600 dark:text-blue-400 bg-blue-100 dark:bg-blue-900',
-                        'fair' => 'text-yellow-600 dark:text-yellow-400 bg-yellow-100 dark:bg-yellow-900',
-                        'damaged' => 'text-red-600 dark:text-red-400 bg-red-100 dark:bg-red-900',
+                        'excellent' => 'bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-300',
+                        'good' => 'bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-300',
+                        'fair' => 'bg-yellow-100 dark:bg-yellow-900/30 text-yellow-800 dark:text-yellow-300',
+                        'damaged' => 'bg-red-100 dark:bg-red-900/30 text-red-800 dark:text-red-300',
                     ];
                 @endphp
                 @forelse($sportsEquipmentByCondition as $condition => $count)
-                    <div class="flex items-center justify-between">
-                        <span class="text-slate-700 dark:text-slate-300 capitalize">{{ $condition }}</span>
-                        <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium {{ $conditionColors[$condition] ?? 'text-slate-600 bg-slate-100' }}">
+                    <div class="flex items-center justify-between p-3 bg-slate-50 dark:bg-slate-700/50 rounded-lg">
+                        <div class="flex items-center gap-3">
+                            <div class="w-2 h-2 rounded-full {{ $condition === 'excellent' ? 'bg-green-500' : ($condition === 'good' ? 'bg-blue-500' : ($condition === 'fair' ? 'bg-yellow-500' : 'bg-red-500')) }}"></div>
+                            <span class="text-slate-700 dark:text-slate-300 capitalize font-medium">{{ $condition }}</span>
+                        </div>
+                        <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-bold {{ $conditionColors[$condition] ?? 'bg-slate-100 text-slate-800' }}">
                             {{ $count }}
                         </span>
                     </div>
                 @empty
-                    <p class="text-slate-500 dark:text-slate-400 text-sm">No sports equipment yet</p>
+                    <p class="text-slate-500 dark:text-slate-400 text-sm text-center py-4">No equipment recorded</p>
                 @endforelse
             </div>
         </div>
 
-        <!-- Office Equipment by Condition -->
-        <div class="bg-white dark:bg-slate-800 rounded-lg shadow p-6">
-            <h3 class="text-lg font-semibold text-slate-900 dark:text-white mb-4">Office Equipment Condition</h3>
+        <!-- Office Equipment Condition -->
+        <div class="bg-white dark:bg-slate-800 rounded-lg shadow-md p-6 h-full">
+            <h3 class="text-lg font-semibold text-slate-900 dark:text-white mb-4 flex items-center gap-2">
+                <span class="w-1 h-6 bg-emerald-500 rounded"></span>
+                Office Equipment Condition
+            </h3>
             <div class="space-y-3">
                 @forelse($officeEquipmentByCondition as $condition => $count)
-                    <div class="flex items-center justify-between">
-                        <span class="text-slate-700 dark:text-slate-300 capitalize">{{ $condition }}</span>
-                        <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium {{ $conditionColors[$condition] ?? 'text-slate-600 bg-slate-100' }}">
+                    <div class="flex items-center justify-between p-3 bg-slate-50 dark:bg-slate-700/50 rounded-lg">
+                        <div class="flex items-center gap-3">
+                            <div class="w-2 h-2 rounded-full {{ $condition === 'excellent' ? 'bg-green-500' : ($condition === 'good' ? 'bg-blue-500' : ($condition === 'fair' ? 'bg-yellow-500' : 'bg-red-500')) }}"></div>
+                            <span class="text-slate-700 dark:text-slate-300 capitalize font-medium">{{ $condition }}</span>
+                        </div>
+                        <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-bold {{ $conditionColors[$condition] ?? 'bg-slate-100 text-slate-800' }}">
                             {{ $count }}
                         </span>
                     </div>
                 @empty
-                    <p class="text-slate-500 dark:text-slate-400 text-sm">No office equipment yet</p>
+                    <p class="text-slate-500 dark:text-slate-400 text-sm text-center py-4">No equipment recorded</p>
                 @endforelse
             </div>
         </div>
-    </div>
 
-    <!-- Equipment Needing Repair Section -->
-    @if(count($damageSportsEquipment) > 0 || count($damageOfficeEquipment) > 0)
-        <div class="bg-red-50 dark:bg-red-900/20 rounded-lg shadow p-6 mb-8 border border-red-200 dark:border-red-900">
-            <h3 class="text-lg font-semibold text-red-900 dark:text-red-400 mb-4 flex items-center">
-                <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
-                    <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd" />
-                </svg>
-                Equipment Needing Attention
+        <!-- Storage Status -->
+        <div class="bg-white dark:bg-slate-800 rounded-lg shadow-md p-6 h-full">
+            <h3 class="text-lg font-semibold text-slate-900 dark:text-white mb-4 flex items-center gap-2">
+                <span class="w-1 h-6 bg-purple-500 rounded"></span>
+                Storage Status
             </h3>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                @if(count($damageSportsEquipment) > 0)
-                    <div>
-                        <h4 class="font-semibold text-slate-900 dark:text-white mb-3">Sports Equipment ({{ count($damageSportsEquipment) }})</h4>
-                        <div class="space-y-2">
-                            @foreach($damageSportsEquipment as $equipment)
-                                <div class="bg-white dark:bg-slate-800 rounded p-3 flex items-center justify-between">
-                                    <div>
-                                        <p class="font-medium text-slate-900 dark:text-white text-sm">{{ $equipment->name }}</p>
-                                        <p class="text-slate-600 dark:text-slate-400 text-xs">Type: {{ $equipment->equipment_type }}</p>
-                                    </div>
-                                    <a href="{{ route('admin.sports_equipment.edit', $equipment) }}" class="text-blue-600 dark:text-blue-400 hover:underline text-sm">Edit</a>
-                                </div>
-                            @endforeach
-                        </div>
-                    </div>
-                @endif
-                @if(count($damageOfficeEquipment) > 0)
-                    <div>
-                        <h4 class="font-semibold text-slate-900 dark:text-white mb-3">Office Equipment ({{ count($damageOfficeEquipment) }})</h4>
-                        <div class="space-y-2">
-                            @foreach($damageOfficeEquipment as $equipment)
-                                <div class="bg-white dark:bg-slate-800 rounded p-3 flex items-center justify-between">
-                                    <div>
-                                        <p class="font-medium text-slate-900 dark:text-white text-sm">{{ $equipment->name }}</p>
-                                        <p class="text-slate-600 dark:text-slate-400 text-xs">Assigned to: {{ $equipment->assigned_to ?? 'Unassigned' }}</p>
-                                    </div>
-                                    <a href="{{ route('admin.office_equipment.edit', $equipment) }}" class="text-blue-600 dark:text-blue-400 hover:underline text-sm">Edit</a>
-                                </div>
-                            @endforeach
-                        </div>
-                    </div>
-                @endif
-            </div>
-        </div>
-    @endif
-
-    <!-- Recent Updates -->
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
-        <!-- Recent Sports Equipment Updates -->
-        <div class="bg-white dark:bg-slate-800 rounded-lg shadow p-6">
-            <h3 class="text-lg font-semibold text-slate-900 dark:text-white mb-4">Recent Sports Equipment Updates</h3>
             <div class="space-y-3">
-                @forelse($recentSportsEquipment as $equipment)
-                    <div class="flex items-center justify-between p-3 bg-slate-50 dark:bg-slate-700 rounded">
-                        <div class="flex-1 min-w-0">
-                            <p class="font-medium text-slate-900 dark:text-white text-sm truncate">{{ $equipment->name }}</p>
-                            <p class="text-slate-600 dark:text-slate-400 text-xs">{{ $equipment->updated_at->format('M d, Y') }}</p>
-                        </div>
-                        <a href="{{ route('admin.sports_equipment.show', $equipment) }}" class="ml-2 text-blue-600 dark:text-blue-400 hover:underline text-sm whitespace-nowrap">View</a>
+                <div class="p-3 bg-slate-50 dark:bg-slate-700/50 rounded-lg">
+                    <div class="flex justify-between items-center">
+                        <span class="text-slate-700 dark:text-slate-300">Sports - Stored</span>
+                        <span class="font-bold text-slate-900 dark:text-white">{{ $sportsEquipmentStored }}</span>
                     </div>
-                @empty
-                    <p class="text-slate-500 dark:text-slate-400 text-sm">No sports equipment yet</p>
-                @endforelse
-            </div>
-        </div>
-
-        <!-- Recent Office Equipment Updates -->
-        <div class="bg-white dark:bg-slate-800 rounded-lg shadow p-6">
-            <h3 class="text-lg font-semibold text-slate-900 dark:text-white mb-4">Recent Office Equipment Updates</h3>
-            <div class="space-y-3">
-                @forelse($recentOfficeEquipment as $equipment)
-                    <div class="flex items-center justify-between p-3 bg-slate-50 dark:bg-slate-700 rounded">
-                        <div class="flex-1 min-w-0">
-                            <p class="font-medium text-slate-900 dark:text-white text-sm truncate">{{ $equipment->name }}</p>
-                            <p class="text-slate-600 dark:text-slate-400 text-xs">{{ $equipment->updated_at->format('M d, Y') }}</p>
-                        </div>
-                        <a href="{{ route('admin.office_equipment.show', $equipment) }}" class="ml-2 text-blue-600 dark:text-blue-400 hover:underline text-sm whitespace-nowrap">View</a>
+                </div>
+                <div class="p-3 bg-slate-50 dark:bg-slate-700/50 rounded-lg">
+                    <div class="flex justify-between items-center">
+                        <span class="text-slate-700 dark:text-slate-300">Office - Assigned</span>
+                        <span class="font-bold text-slate-900 dark:text-white">{{ $officeEquipmentAssigned }}</span>
                     </div>
-                @empty
-                    <p class="text-slate-500 dark:text-slate-400 text-sm">No office equipment yet</p>
-                @endforelse
+                </div>
+                <div class="p-3 bg-slate-50 dark:bg-slate-700/50 rounded-lg">
+                    <div class="flex justify-between items-center">
+                        <span class="text-slate-700 dark:text-slate-300">Sports - Good Condition</span>
+                        <span class="font-bold text-slate-900 dark:text-white">{{ $sportsEquipmentInGoodCondition }}</span>
+                    </div>
+                </div>
+                <div class="p-3 bg-blue-50 dark:bg-blue-900/20 rounded-lg border border-blue-200 dark:border-blue-900">
+                    <div class="flex justify-between items-center">
+                        <span class="text-blue-700 dark:text-blue-300 font-medium">Warranty Expiring (30d)</span>
+                        <span class="font-bold text-blue-600 dark:text-blue-400">{{ $warrantyExpiringCount }}</span>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 
-    <!-- Equipment Types Breakdown -->
-    @if($equipmentTypes->count() > 0)
-        <div class="bg-white dark:bg-slate-800 rounded-lg shadow p-6">
-            <h3 class="text-lg font-semibold text-slate-900 dark:text-white mb-4">Sports Equipment by Type</h3>
-            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
-                @foreach($equipmentTypes as $type)
-                    <div class="text-center p-4 bg-slate-50 dark:bg-slate-700 rounded">
-                        <p class="font-semibold text-slate-900 dark:text-white text-lg">{{ $type->count }}</p>
-                        <p class="text-slate-600 dark:text-slate-400 text-sm capitalize">{{ str_replace('_', ' ', $type->equipment_type) }}</p>
+    <!-- Equipment Needing Attention Alert -->
+    @if(count($damageSportsEquipment) > 0 || count($damageOfficeEquipment) > 0)
+        <div class="mb-8 bg-gradient-to-r from-red-50 to-amber-50 dark:from-red-900/20 dark:to-amber-900/20 rounded-lg shadow-md p-6 border-l-4 border-red-500">
+            <div class="flex items-start gap-4">
+                <div class="flex-shrink-0">
+                    <svg class="w-6 h-6 text-red-600 dark:text-red-400" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd" />
+                    </svg>
+                </div>
+                <div class="flex-1">
+                    <h3 class="text-lg font-semibold text-red-900 dark:text-red-400 mb-2">Equipment Requiring Maintenance</h3>
+                    <p class="text-red-700 dark:text-red-300 text-sm mb-4">{{ count($damageSportsEquipment) + count($damageOfficeEquipment) }} items need immediate attention</p>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        @if(count($damageSportsEquipment) > 0)
+                            <div class="bg-white dark:bg-slate-800/70 rounded p-4 border border-red-200 dark:border-red-900">
+                                <h4 class="font-semibold text-slate-900 dark:text-white mb-3 flex items-center gap-2">
+                                    <span class="w-2 h-2 bg-red-500 rounded-full"></span>
+                                    Sports Equipment ({{ count($damageSportsEquipment) }})
+                                </h4>
+                                <div class="space-y-2">
+                                    @foreach($damageSportsEquipment as $equipment)
+                                        <div class="flex items-center justify-between text-sm">
+                                            <div>
+                                                <p class="font-medium text-slate-900 dark:text-white">{{ $equipment->name }}</p>
+                                                <p class="text-slate-600 dark:text-slate-400 text-xs">{{ $equipment->equipment_type }}</p>
+                                            </div>
+                                            <a href="{{ route('admin.sports_equipment.edit', $equipment) }}" class="text-blue-600 dark:text-blue-400 hover:underline text-xs whitespace-nowrap ml-2">Repair</a>
+                                        </div>
+                                    @endforeach
+                                </div>
+                            </div>
+                        @endif
+                        @if(count($damageOfficeEquipment) > 0)
+                            <div class="bg-white dark:bg-slate-800/70 rounded p-4 border border-red-200 dark:border-red-900">
+                                <h4 class="font-semibold text-slate-900 dark:text-white mb-3 flex items-center gap-2">
+                                    <span class="w-2 h-2 bg-red-500 rounded-full"></span>
+                                    Office Equipment ({{ count($damageOfficeEquipment) }})
+                                </h4>
+                                <div class="space-y-2">
+                                    @foreach($damageOfficeEquipment as $equipment)
+                                        <div class="flex items-center justify-between text-sm">
+                                            <div>
+                                                <p class="font-medium text-slate-900 dark:text-white">{{ $equipment->name }}</p>
+                                                <p class="text-slate-600 dark:text-slate-400 text-xs">{{ $equipment->assigned_to ?? 'Unassigned' }}</p>
+                                            </div>
+                                            <a href="{{ route('admin.office_equipment.edit', $equipment) }}" class="text-blue-600 dark:text-blue-400 hover:underline text-xs whitespace-nowrap ml-2">Repair</a>
+                                        </div>
+                                    @endforeach
+                                </div>
+                            </div>
+                        @endif
                     </div>
-                @endforeach
+                </div>
             </div>
         </div>
     @endif
+
+    <!-- Recent Activity & Equipment Types -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <!-- Recent Updates -->
+        <div class="space-y-6">
+            <!-- Recent Sports Equipment Updates -->
+            <div class="bg-white dark:bg-slate-800 rounded-lg shadow-md p-6">
+                <h3 class="text-lg font-semibold text-slate-900 dark:text-white mb-4 flex items-center gap-2">
+                    <span class="w-1 h-6 bg-blue-500 rounded"></span>
+                    Recent Sports Equipment
+                </h3>
+                <div class="space-y-2">
+                    @forelse($recentSportsEquipment as $equipment)
+                        <a href="{{ route('admin.sports_equipment.show', $equipment) }}" class="block p-3 bg-slate-50 dark:bg-slate-700/50 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-lg transition group">
+                            <div class="flex items-start justify-between">
+                                <div class="flex-1 min-w-0">
+                                    <p class="font-medium text-slate-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition">{{ $equipment->name }}</p>
+                                    <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">Updated {{ $equipment->updated_at->diffForHumans() }}</p>
+                                </div>
+                                <svg class="w-4 h-4 text-slate-400 group-hover:text-blue-600 ml-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                                </svg>
+                            </div>
+                        </a>
+                    @empty
+                        <p class="text-slate-500 dark:text-slate-400 text-sm text-center py-4">No equipment yet</p>
+                    @endforelse
+                </div>
+            </div>
+
+            <!-- Recent Office Equipment Updates -->
+            <div class="bg-white dark:bg-slate-800 rounded-lg shadow-md p-6">
+                <h3 class="text-lg font-semibold text-slate-900 dark:text-white mb-4 flex items-center gap-2">
+                    <span class="w-1 h-6 bg-emerald-500 rounded"></span>
+                    Recent Office Equipment
+                </h3>
+                <div class="space-y-2">
+                    @forelse($recentOfficeEquipment as $equipment)
+                        <a href="{{ route('admin.office_equipment.show', $equipment) }}" class="block p-3 bg-slate-50 dark:bg-slate-700/50 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-lg transition group">
+                            <div class="flex items-start justify-between">
+                                <div class="flex-1 min-w-0">
+                                    <p class="font-medium text-slate-900 dark:text-white group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition">{{ $equipment->name }}</p>
+                                    <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">Updated {{ $equipment->updated_at->diffForHumans() }}</p>
+                                </div>
+                                <svg class="w-4 h-4 text-slate-400 group-hover:text-emerald-600 ml-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                                </svg>
+                            </div>
+                        </a>
+                    @empty
+                        <p class="text-slate-500 dark:text-slate-400 text-sm text-center py-4">No equipment yet</p>
+                    @endforelse
+                </div>
+            </div>
+        </div>
+
+        <!-- Equipment Types Breakdown -->
+        @if($equipmentTypes->count() > 0)
+            <div class="bg-white dark:bg-slate-800 rounded-lg shadow-md p-6">
+                <h3 class="text-lg font-semibold text-slate-900 dark:text-white mb-6 flex items-center gap-2">
+                    <span class="w-1 h-6 bg-indigo-500 rounded"></span>
+                    Equipment Types Distribution
+                </h3>
+                <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                    @foreach($equipmentTypes as $type)
+                        <div class="bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-700 dark:to-slate-800 rounded-lg p-4 text-center border border-slate-200 dark:border-slate-700 hover:shadow-md transition">
+                            <p class="text-3xl font-bold text-indigo-600 dark:text-indigo-400">{{ $type->count }}</p>
+                            <p class="text-xs text-slate-600 dark:text-slate-400 mt-2 capitalize line-clamp-2">{{ str_replace('_', ' ', $type->equipment_type) }}</p>
+                        </div>
+                    @endforeach
+                </div>
+            </div>
+        @endif
+    </div>
 </div>
 
 @endsection
