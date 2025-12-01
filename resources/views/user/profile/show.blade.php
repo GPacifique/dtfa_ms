@@ -27,7 +27,7 @@
                 </div>
             @endif
 
-            <form method="POST" action="{{ route('user.profile.update', $user) }}" enctype="multipart/form-data" class="space-y-6">
+            <form method="POST" action="{{ route('profile.update', $user) }}" enctype="multipart/form-data" class="space-y-6">
                 @csrf
                 @method('PUT')
 
@@ -187,7 +187,7 @@
 <form
     id="delete-picture-form"
     method="POST"
-    action="{{ route('user.profile.deletePicture', $user) }}"
+    action="{{ route('profile.deletePicture', $user) }}"
     style="display: none;"
 >
     @csrf
