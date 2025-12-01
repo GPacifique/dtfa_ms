@@ -159,8 +159,6 @@
             </div>
         </div>
     @endif
-
-    <!-- Recent Updates -->
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <!-- Recent Sports Equipment Updates -->
         <div class="bg-white dark:bg-slate-800 rounded-lg shadow p-6">
