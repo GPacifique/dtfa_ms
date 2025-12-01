@@ -66,9 +66,9 @@ class CommunicationController extends Controller
 
         $dispatched = 0;
 
-        // If the app is running with a synchronous queue driver or running locally,
+        // If 'Send now' is checked OR the app is running with a synchronous queue driver or running locally,
         // dispatch synchronously so pressing Send performs the send immediately.
-        $forceSync = config('queue.default') === 'sync' || app()->environment('local') || env('COMMUNICATION_FORCE_SEND_SYNC', false);
+        $forceSync = $request->boolean('send_now') || config('queue.default') === 'sync' || app()->environment('local') || env('COMMUNICATION_FORCE_SEND_SYNC', false);
 
         foreach ($chunks as $chunk) {
             if ($forceSync) {

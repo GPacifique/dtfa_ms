@@ -27,4 +27,12 @@
             </select>
         </div>
     </div>
+
+    <div class="pt-2">
+        <label class="inline-flex items-center gap-2">
+            <input type="checkbox" name="send_now" value="1" {{ old('send_now') ? 'checked' : '' }} class="rounded border-slate-300">
+            <span class="text-sm text-slate-700">Send now (bypass queue)</span>
+        </label>
+        <p class="text-xs text-slate-500 mt-1">Checked: deliver immediately in this request. Unchecked: queue and deliver via worker.</p>
+    </div>
 </div>
