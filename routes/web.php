@@ -91,9 +91,9 @@ Route::middleware(['auth'])->prefix('user')->group(function () {
     })->name('user.dashboard');
 
     // User profile routes (update own profile and picture)
-    Route::get('{user}/profile', [\App\Http\Controllers\UserProfileController::class, 'show'])->name('profile.show');
-    Route::put('{user}/profile', [\App\Http\Controllers\UserProfileController::class, 'update'])->name('profile.update');
-    Route::delete('{user}/profile/picture', [\App\Http\Controllers\UserProfileController::class, 'deletePicture'])->name('profile.deletePicture');
+    Route::get('{user}/profile', [\App\Http\Controllers\UserProfileController::class, 'show'])->name('user.profile.show');
+    Route::put('{user}/profile', [\App\Http\Controllers\UserProfileController::class, 'update'])->name('user.profile.update');
+    Route::delete('{user}/profile/picture', [\App\Http\Controllers\UserProfileController::class, 'deletePicture'])->name('user.profile.deletePicture');
 });
 
 Route::get('/', function () {
