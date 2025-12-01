@@ -78,4 +78,50 @@ class Student extends Model
     {
         return $this->dob ? \Carbon\Carbon::parse($this->dob)->age : null;
     }
+
+    // Scopes
+    public function scopeActive($query)
+    {
+        return $query->where('status', 'active');
+    }
+
+    public function scopeStatus($query, ?string $status)
+    {
+        return $status ? $query->where('status', $status) : $query;
+    }
+
+    public function scopeByBranch($query, $branchId)
+    {
+        return $branchId ? $query->where('branch_id', $branchId) : $query;
+    }
+
+    public function scopeByGroup($query, $groupId)
+    {
+        return $groupId ? $query->where('group_id', $groupId) : $query;
+    }
+
+    public function scopeJoinedBetween($query, ?string $from, ?string $to)
+    {
+        if ($from && $to) return $query->whereBetween('joined_at', [$from, $to]);
+        if ($from) return $query->where('joined_at', '>=', $from);
+        if ($to) return $query->where('joined_at', '<=', $to);
+        return $query;
+    }
+
+    public function scopeSearch($query, ?string $q)
+    {
+        if (!$q) return $query;
+        $q = trim($q);
+        return $query->where(function ($qq) use ($q) {
+            $qq->where('first_name', 'like', "%$q%")
+               ->orWhere('second_name', 'like', "%$q%")
+               ->orWhere('email', 'like', "%$q%")
+               ->orWhere('phone', 'like', "%$q%")
+               ->orWhere('jersey_name', 'like', "%$q%")
+               ->orWhere('jersey_number', 'like', "%$q%")
+               ->orWhere('school_name', 'like', "%$q%")
+               ->orWhere('coach', 'like', "%$q%")
+               ->orWhere('sport_discipline', 'like', "%$q%");
+        });
+    }
 }

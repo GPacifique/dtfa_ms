@@ -11,8 +11,8 @@
                 <p class="text-sm sm:text-base text-slate-600 dark:text-slate-400 mt-1">Real-time equipment inventory and status overview</p>
             </div>
             <div class="flex flex-col xs:flex-row gap-2 flex-shrink-0">
-                <a href="{{ route('admin.sports_equipment.index') }}" class="btn btn-secondary text-xs sm:text-sm px-3 sm:px-4 py-2">Sports Equip</a>
-                <a href="{{ route('admin.office_equipment.index') }}" class="btn btn-secondary text-xs sm:text-sm px-3 sm:px-4 py-2">Office Equip</a>
+                <a href="{{ route('admin.sports-equipment.index') }}" class="btn btn-secondary text-xs sm:text-sm px-3 sm:px-4 py-2">Sports Equip</a>
+                <a href="{{ route('admin.office-equipment.index') }}" class="btn btn-secondary text-xs sm:text-sm px-3 sm:px-4 py-2">Office Equip</a>
             </div>
         </div>
     </div>
@@ -57,7 +57,11 @@
                 <div class="flex-1 min-w-0">
                     <p class="text-xs sm:text-sm font-medium text-slate-600 dark:text-slate-400 truncate">In Active Use</p>
                     <p class="text-2xl sm:text-3xl md:text-4xl font-bold text-green-600 dark:text-green-400 mt-1 sm:mt-2">{{ $sportsEquipmentInUse + $officeEquipmentInUse }}</p>
-                    <p class="text-xs text-slate-500 dark:text-slate-500 mt-1 sm:mt-2 truncate">{{ round((($sportsEquipmentInUse + $officeEquipmentInUse) / ($sportsEquipmentTotal + $officeEquipmentTotal)) * 100, 1) }}% utilization</p>
+                    <p class="text-xs text-slate-500 dark:text-slate-500 mt-1 sm:mt-2 truncate">
+                        {{ ($sportsEquipmentTotal + $officeEquipmentTotal) > 0
+                            ? round((($sportsEquipmentInUse + $officeEquipmentInUse) / ($sportsEquipmentTotal + $officeEquipmentTotal)) * 100, 1)
+                            : 0 }}% utilization
+                    </p>
                 </div>
                 <div class="bg-green-100 dark:bg-green-900/30 p-2 sm:p-3 rounded-lg flex-shrink-0">
                     <svg class="w-6 sm:w-8 h-6 sm:h-8 text-green-600" fill="currentColor" viewBox="0 0 20 20">
@@ -201,7 +205,7 @@
                                                 <p class="font-medium text-slate-900 dark:text-white truncate">{{ $equipment->name }}</p>
                                                 <p class="text-slate-600 dark:text-slate-400 text-xs">{{ $equipment->equipment_type }}</p>
                                             </div>
-                                            <a href="{{ route('admin.sports_equipment.edit', $equipment) }}" class="text-blue-600 dark:text-blue-400 hover:underline text-xs sm:text-xs whitespace-nowrap font-medium flex-shrink-0">Repair</a>
+                                            <a href="{{ route('admin.sports-equipment.edit', $equipment) }}" class="text-blue-600 dark:text-blue-400 hover:underline text-xs sm:text-xs whitespace-nowrap font-medium flex-shrink-0">Repair</a>
                                         </div>
                                     @endforeach
                                 </div>
@@ -220,7 +224,7 @@
                                                 <p class="font-medium text-slate-900 dark:text-white truncate">{{ $equipment->name }}</p>
                                                 <p class="text-slate-600 dark:text-slate-400 text-xs">{{ $equipment->assigned_to ?? 'Unassigned' }}</p>
                                             </div>
-                                            <a href="{{ route('admin.office_equipment.edit', $equipment) }}" class="text-blue-600 dark:text-blue-400 hover:underline text-xs sm:text-xs whitespace-nowrap font-medium flex-shrink-0">Repair</a>
+                                            <a href="{{ route('admin.office-equipment.edit', $equipment) }}" class="text-blue-600 dark:text-blue-400 hover:underline text-xs sm:text-xs whitespace-nowrap font-medium flex-shrink-0">Repair</a>
                                         </div>
                                     @endforeach
                                 </div>
@@ -244,7 +248,7 @@
                 </h3>
                 <div class="space-y-2">
                     @forelse($recentSportsEquipment as $equipment)
-                        <a href="{{ route('admin.sports_equipment.show', $equipment) }}" class="block p-2 sm:p-3 bg-slate-50 dark:bg-slate-700/50 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-lg transition group">
+                        <a href="{{ route('admin.sports-equipment.show', $equipment) }}" class="block p-2 sm:p-3 bg-slate-50 dark:bg-slate-700/50 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-lg transition group">
                             <div class="flex items-start justify-between gap-2">
                                 <div class="flex-1 min-w-0">
                                     <p class="font-medium text-xs sm:text-sm text-slate-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition truncate">{{ $equipment->name }}</p>
@@ -269,7 +273,7 @@
                 </h3>
                 <div class="space-y-2">
                     @forelse($recentOfficeEquipment as $equipment)
-                        <a href="{{ route('admin.office_equipment.show', $equipment) }}" class="block p-2 sm:p-3 bg-slate-50 dark:bg-slate-700/50 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-lg transition group">
+                        <a href="{{ route('admin.office-equipment.show', $equipment) }}" class="block p-2 sm:p-3 bg-slate-50 dark:bg-slate-700/50 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-lg transition group">
                             <div class="flex items-start justify-between gap-2">
                                 <div class="flex-1 min-w-0">
                                     <p class="font-medium text-xs sm:text-sm text-slate-900 dark:text-white group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition truncate">{{ $equipment->name }}</p>

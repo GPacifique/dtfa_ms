@@ -245,11 +245,13 @@ class AdminController extends Controller
             'currentRange' => $range,
             'currentBranchId' => $branchId,
             'branches' => Branch::orderBy('name')->get(),
-            'stats' => $stats,
             'netProfit' => $netProfit,
             'weeklyTrends' => $weeklyTrends,
             'coachWorkload' => $coachWorkload,
             'equipmentUtilization' => $equipmentUtilization,
+            'stats' => array_merge($stats, [
+                'totalEquipment' => $equipmentCount,
+            ]),
             'capacityMonthlyLabels' => $capacityMonthlyLabels ?? [],
             'capacityMonthlyTotals' => $capacityMonthlyTotals ?? [],
             // Finance chart data

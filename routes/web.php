@@ -92,9 +92,7 @@ Route::middleware(['auth', 'role:kit-manager|admin|super-admin'])->group(functio
 
 // User dashboard route for all authenticated users
 Route::middleware(['auth'])->prefix('user')->group(function () {
-    Route::get('/dashboard', function () {
-        return view('user.dashboard');
-    })->name('user.dashboard');
+    Route::get('/dashboard', [\App\Http\Controllers\UserController::class, 'index'])->name('user.dashboard');
 
     // User profile routes (update own profile and picture)
     Route::get('{user}/profile', [\App\Http\Controllers\UserProfileController::class, 'show'])->name('user.profile.show');
@@ -132,6 +130,10 @@ Route::get('/dashboard', function () {
         return redirect()->route('admin.dashboard');
     }
 
+    if (in_array('CEO', $roles, true)) {
+        return redirect()->route('ceo.dashboard');
+    }
+
     if (in_array('admin', $roles, true)) {
         return redirect()->route('admin.dashboard');
     }
@@ -163,9 +165,7 @@ Route::get('/admin-only', function () {
     return 'Hello admin — you have access.';
 })->middleware(['auth', 'role:admin']);
 
-// Make student creation endpoints public (no auth required)
-Route::get('/admin/students/create', [\App\Http\Controllers\Admin\StudentsController::class, 'create'])->name('admin.students.create.public');
-Route::post('/admin/students', [\App\Http\Controllers\Admin\StudentsController::class, 'store'])->name('admin.students.store.public');
+// Legacy admin student public endpoints removed in favor of modern CRUD
 
 // Admin and User dashboards
 Route::middleware(['auth', 'role:admin|super-admin'])->prefix('admin')->group(function () {
@@ -304,17 +304,13 @@ Route::middleware(['auth', 'role:admin|super-admin'])->prefix('admin')->group(fu
 });
 
 
-// Student listing and profile: public (view-only)
-Route::get('/students', [\App\Http\Controllers\Coach\StudentsController::class, 'index'])->name('students.index');
-Route::get('/students/{student}', [\App\Http\Controllers\Coach\StudentsController::class, 'show'])->name('students.show');
+// Legacy students CRUD removed; using students-modern resource instead
 
-// Student management (create/edit/delete): fully accessible to all authenticated users
-Route::middleware('auth')->group(function () {
-    Route::get('/students/create', [\App\Http\Controllers\Coach\StudentsController::class, 'create'])->name('students.create');
-    Route::post('/students', [\App\Http\Controllers\Coach\StudentsController::class, 'store'])->name('students.store');
-    Route::get('/students/{student}/edit', [\App\Http\Controllers\Coach\StudentsController::class, 'edit'])->name('students.edit');
-    Route::put('/students/{student}', [\App\Http\Controllers\Coach\StudentsController::class, 'update'])->name('students.update');
-    Route::delete('/students/{student}', [\App\Http\Controllers\Coach\StudentsController::class, 'destroy'])->name('students.destroy');
+// Modern Student CRUD (scaffolded with Tailwind + components)
+Route::middleware(['auth'])->group(function () {
+    Route::resource('students-modern', \App\Http\Controllers\StudentController::class);
+    // Re-send registration confirmation email
+    Route::post('students-modern/{student}/send-confirmation', [\App\Http\Controllers\Email\StudentRegistrationController::class, 'send'])->name('students-modern.send-confirmation');
 });
 
 // Role-based dashboards
@@ -332,14 +328,7 @@ Route::middleware(['auth', 'role:coach|admin|super-admin'])->prefix('coach')->gr
     Route::get('/sessions/{session}/edit', [\App\Http\Controllers\Coach\SessionController::class, 'edit'])->name('coach.sessions.edit');
     Route::put('/sessions/{session}', [\App\Http\Controllers\Coach\SessionController::class, 'update'])->name('coach.sessions.update');
     Route::delete('/sessions/{session}', [\App\Http\Controllers\Coach\SessionController::class, 'destroy'])->name('coach.sessions.destroy');
-    // Students (coach scope)
-    Route::get('/students', [\App\Http\Controllers\Coach\StudentsController::class, 'index'])->name('coach.students.index');
-    Route::get('/students/create', [\App\Http\Controllers\Coach\StudentsController::class, 'create'])->name('coach.students.create');
-    Route::post('/students', [\App\Http\Controllers\Coach\StudentsController::class, 'store'])->name('coach.students.store');
-    Route::get('/students/{student}/edit', [\App\Http\Controllers\Coach\StudentsController::class, 'edit'])->name('coach.students.edit');
-    Route::put('/students/{student}', [\App\Http\Controllers\Coach\StudentsController::class, 'update'])->name('coach.students.update');
-    Route::get('/students/{student}', [\App\Http\Controllers\Coach\StudentsController::class, 'show'])->name('coach.students.show');
-    Route::get('/students/{student}/attendance', [\App\Http\Controllers\Coach\StudentsController::class, 'attendance'])->name('coach.students.attendance');
+    // Coach students routes removed; coaches should use students-modern or dedicated attendance pages
     // Equipment (view only)
     Route::get('/equipment', [\App\Http\Controllers\Admin\EquipmentController::class, 'index'])->name('coach.equipment.index');
     Route::get('/equipment/{equipment}', [\App\Http\Controllers\Admin\EquipmentController::class, 'show'])->name('coach.equipment.show');
@@ -390,6 +379,11 @@ require __DIR__.'/auth.php';
 
 // Staff module routes (profiles, capacity building, attendances, communications, tasks)
 require __DIR__.'/staff.php';
+
+// CEO dashboard
+Route::middleware(['auth', 'role:CEO|admin|super-admin'])->prefix('ceo')->group(function () {
+    Route::get('/dashboard', [\App\Http\Controllers\CeoController::class, 'index'])->name('ceo.dashboard');
+});
 
 // Communications admin CRUD
 Route::middleware(['auth', 'role:admin|super-admin|CEO|Technical Director'])->prefix('admin')->group(function () {

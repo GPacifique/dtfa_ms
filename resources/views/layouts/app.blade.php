@@ -132,6 +132,9 @@
                     @if (session('status'))
                         <div data-flash="success" class="hidden">{{ session('status') }}</div>
                     @endif
+                    @if (!View::hasSection('hide-back'))
+                        @include('components.back-button', ['fallback' => route('dashboard')])
+                    @endif
 
                     @yield('content')
                 </div>

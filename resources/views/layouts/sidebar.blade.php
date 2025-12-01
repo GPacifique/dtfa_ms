@@ -81,27 +81,22 @@
                 <p x-show="$store.layout.sidebarOpen" class="px-3 text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">People</p>
 
 
-                @if(Route::has('students.index'))
-                    <a href="{{ route('students.index') }}" aria-label="Students" title="Students" class="nav-item flex items-center gap-3 px-3 py-2 rounded-md hover:bg-slate-800 transition {{ request()->routeIs('students.*') ? 'active' : '' }}">
-                        <span class="icon flex-shrink-0 w-6 h-6 flex items-center justify-center text-slate-200">
-                                <!-- Heroicon: Users -->
-                                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a4 4 0 00-5-4M9 20H4v-2a4 4 0 015-4m0 0a4 4 0 10-4-4 4 4 0 004 4z"/></svg>
-                            </span>
-                        <span class="sr-only">Students</span>
-                        <span x-show="$store.layout.sidebarOpen" x-transition class="truncate">Students</span>
-                    </a>
-                @endif
+                {{-- Legacy Students link removed; using Students (Modern) --}}
 
-                @if(Route::has('admin.students.index'))
-                    <a href="{{ route('admin.students.index') }}" aria-label="Students Management" title="Students Management" class="nav-item flex items-center gap-3 px-3 py-2 rounded-md hover:bg-slate-800 transition {{ request()->routeIs('admin.students.*') ? 'active' : '' }}">
-                        <span class="icon flex-shrink-0 w-6 h-6 flex items-center justify-center text-slate-200">
+                @role('super-admin|admin|coach|accountant|CEO')
+                    @if(Route::has('students-modern.index'))
+                        <a href="{{ route('students-modern.index') }}" aria-label="Students (Modern)" title="Students (Modern)" class="nav-item flex items-center gap-3 px-3 py-2 rounded-md hover:bg-slate-800 transition {{ request()->routeIs('students-modern.*') ? 'active' : '' }}">
+                            <span class="icon flex-shrink-0 w-6 h-6 flex items-center justify-center text-slate-200">
                                 <!-- Heroicon: Users -->
                                 <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a4 4 0 00-5-4M9 20H4v-2a4 4 0 015-4m0 0a4 4 0 10-4-4 4 4 0 004 4z"/></svg>
                             </span>
-                        <span class="sr-only">Students Management</span>
-                        <span x-show="$store.layout.sidebarOpen" x-transition class="truncate">Students Management</span>
-                    </a>
-                @endif
+                            <span class="sr-only">Students (Modern)</span>
+                            <span x-show="$store.layout.sidebarOpen" x-transition class="truncate">Students (Modern)</span>
+                        </a>
+                    @endif
+                @endrole
+
+                {{-- Legacy Admin Students Management link removed --}}
 
 
                 @role('super-admin|admin|accountant')
