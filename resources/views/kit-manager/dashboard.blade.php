@@ -38,6 +38,20 @@
             </div>
         </div>
 
+        <!-- Sports Equipment in Use -->
+        <div class="bg-white dark:bg-slate-800 rounded-lg shadow p-6 border-l-4 border-green-500">
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="text-sm font-medium text-slate-600 dark:text-slate-400">Sports Equipment In Use</p>
+                    <p class="text-3xl font-bold text-green-600 dark:text-green-400 mt-1">{{ $sportsEquipmentInUse }}</p>
+                    <p class="text-xs text-slate-500 dark:text-slate-400 mt-2">{{ $sportsEquipmentUtilizationRate }}% utilization</p>
+                </div>
+                <svg class="w-12 h-12 text-green-500 opacity-20" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-2.77 3.066 3.066 0 00-3.58 3.03A3.066 3.066 0 006.267 3.455zm9.8 6.32a3.066 3.066 0 001.745-2.77 3.066 3.066 0 00-3.58 3.03 3.066 3.066 0 001.835-.26zM9 13a3 3 0 11-6 0 3 3 0 016 0zm7 0a3 3 0 11-6 0 3 3 0 016 0z" clip-rule="evenodd" />
+                </svg>
+            </div>
+        </div>
+
         <!-- Equipment Needing Repair -->
         <div class="bg-white dark:bg-slate-800 rounded-lg shadow p-6 border-l-4 border-red-500">
             <div class="flex items-center justify-between">
@@ -50,18 +64,43 @@
                 </svg>
             </div>
         </div>
+    </div>
 
-        <!-- Quick Action -->
-        <div class="bg-white dark:bg-slate-800 rounded-lg shadow p-6 border-l-4 border-purple-500">
-            <div class="flex flex-col justify-between h-full">
-                <p class="text-sm font-medium text-slate-600 dark:text-slate-400">Quick Action</p>
-                <a href="{{ route('admin.sports_equipment.create') }}" class="inline-flex items-center px-3 py-2 mt-2 text-sm font-medium rounded-md bg-purple-500 text-white hover:bg-purple-600 transition">
-                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
-                    </svg>
-                    Add Equipment
-                </a>
-            </div>
+    <!-- Secondary Stats -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6 mb-8">
+        <!-- Sports Equipment in Good Condition -->
+        <div class="bg-white dark:bg-slate-800 rounded-lg shadow p-4 border-t-2 border-green-400">
+            <p class="text-xs font-semibold text-slate-600 dark:text-slate-400 uppercase tracking-wider">Good Condition</p>
+            <p class="text-2xl font-bold text-slate-900 dark:text-white mt-2">{{ $sportsEquipmentInGoodCondition }}</p>
+            <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">Sports Equipment</p>
+        </div>
+
+        <!-- Sports Equipment Stored -->
+        <div class="bg-white dark:bg-slate-800 rounded-lg shadow p-4 border-t-2 border-blue-400">
+            <p class="text-xs font-semibold text-slate-600 dark:text-slate-400 uppercase tracking-wider">Stored</p>
+            <p class="text-2xl font-bold text-slate-900 dark:text-white mt-2">{{ $sportsEquipmentStored }}</p>
+            <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">Sports Equipment</p>
+        </div>
+
+        <!-- Office Equipment Assigned -->
+        <div class="bg-white dark:bg-slate-800 rounded-lg shadow p-4 border-t-2 border-purple-400">
+            <p class="text-xs font-semibold text-slate-600 dark:text-slate-400 uppercase tracking-wider">Assigned</p>
+            <p class="text-2xl font-bold text-slate-900 dark:text-white mt-2">{{ $officeEquipmentAssigned }}</p>
+            <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">Office Equipment</p>
+        </div>
+
+        <!-- Office Equipment in Use -->
+        <div class="bg-white dark:bg-slate-800 rounded-lg shadow p-4 border-t-2 border-emerald-400">
+            <p class="text-xs font-semibold text-slate-600 dark:text-slate-400 uppercase tracking-wider">In Use</p>
+            <p class="text-2xl font-bold text-slate-900 dark:text-white mt-2">{{ $officeEquipmentInUse }}</p>
+            <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">Office Equipment</p>
+        </div>
+
+        <!-- Warranty Expiring -->
+        <div class="bg-white dark:bg-slate-800 rounded-lg shadow p-4 border-t-2 border-amber-400">
+            <p class="text-xs font-semibold text-slate-600 dark:text-slate-400 uppercase tracking-wider">Expiring Soon</p>
+            <p class="text-2xl font-bold text-slate-900 dark:text-white mt-2">{{ $warrantyExpiringCount }}</p>
+            <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">Warranty (30d)</p>
         </div>
     </div>
 

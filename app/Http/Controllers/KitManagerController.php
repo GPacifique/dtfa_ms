@@ -57,6 +57,25 @@ class KitManagerController extends Controller
             ->orderByRaw('count DESC')
             ->get();
 
+        // Additional detailed stats
+        $sportsEquipmentInUse = SportsEquipment::where('status', 'in use')->count();
+        $sportsEquipmentStored = SportsEquipment::where('status', 'stored')->count();
+        $sportsEquipmentInGoodCondition = SportsEquipment::where('condition', 'excellent')->orWhere('condition', 'good')->count();
+
+        $officeEquipmentInUse = OfficeEquipment::where('status', 'in use')->count();
+        $officeEquipmentStored = OfficeEquipment::where('status', 'stored')->count();
+        $officeEquipmentAssigned = OfficeEquipment::whereNotNull('assigned_to')->count();
+
+        // Count equipment with warranty expiring soon (within 30 days)
+        $warrantyExpiringCount = OfficeEquipment::whereNotNull('warranty_expiry')
+            ->whereDate('warranty_expiry', '<=', now()->addDays(30))
+            ->count();
+
+        // Equipment utilization rate (percentage of sports equipment in use)
+        $sportsEquipmentUtilizationRate = $sportsEquipmentTotal > 0
+            ? round(($sportsEquipmentInUse / $sportsEquipmentTotal) * 100, 1)
+            : 0;
+
         return view('kit-manager.dashboard', [
             'sportsEquipmentTotal' => $sportsEquipmentTotal,
             'officeEquipmentTotal' => $officeEquipmentTotal,
@@ -70,6 +89,14 @@ class KitManagerController extends Controller
             'damageSportsEquipment' => $damageSportsEquipment,
             'damageOfficeEquipment' => $damageOfficeEquipment,
             'equipmentTypes' => $equipmentTypes,
+            'sportsEquipmentInUse' => $sportsEquipmentInUse,
+            'sportsEquipmentStored' => $sportsEquipmentStored,
+            'sportsEquipmentInGoodCondition' => $sportsEquipmentInGoodCondition,
+            'officeEquipmentInUse' => $officeEquipmentInUse,
+            'officeEquipmentStored' => $officeEquipmentStored,
+            'officeEquipmentAssigned' => $officeEquipmentAssigned,
+            'warrantyExpiringCount' => $warrantyExpiringCount,
+            'sportsEquipmentUtilizationRate' => $sportsEquipmentUtilizationRate,
         ]);
     }
 }
