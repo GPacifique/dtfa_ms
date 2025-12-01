@@ -68,28 +68,28 @@
 
     <!-- Secondary Stats -->
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6 mb-8">
-        <!-- Sports Equipment in Good Condition -->
+        <!-- Good Condition -->
         <div class="bg-white dark:bg-slate-800 rounded-lg shadow p-4 border-t-2 border-green-400">
             <p class="text-xs font-semibold text-slate-600 dark:text-slate-400 uppercase tracking-wider">Good Condition</p>
             <p class="text-2xl font-bold text-slate-900 dark:text-white mt-2">{{ $sportsEquipmentInGoodCondition }}</p>
             <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">Sports Equipment</p>
         </div>
 
-        <!-- Sports Equipment Stored -->
+        <!-- Stored -->
         <div class="bg-white dark:bg-slate-800 rounded-lg shadow p-4 border-t-2 border-blue-400">
             <p class="text-xs font-semibold text-slate-600 dark:text-slate-400 uppercase tracking-wider">Stored</p>
             <p class="text-2xl font-bold text-slate-900 dark:text-white mt-2">{{ $sportsEquipmentStored }}</p>
             <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">Sports Equipment</p>
         </div>
 
-        <!-- Office Equipment Assigned -->
+        <!-- Assigned -->
         <div class="bg-white dark:bg-slate-800 rounded-lg shadow p-4 border-t-2 border-purple-400">
             <p class="text-xs font-semibold text-slate-600 dark:text-slate-400 uppercase tracking-wider">Assigned</p>
             <p class="text-2xl font-bold text-slate-900 dark:text-white mt-2">{{ $officeEquipmentAssigned }}</p>
             <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">Office Equipment</p>
         </div>
 
-        <!-- Office Equipment in Use -->
+        <!-- In Use -->
         <div class="bg-white dark:bg-slate-800 rounded-lg shadow p-4 border-t-2 border-emerald-400">
             <p class="text-xs font-semibold text-slate-600 dark:text-slate-400 uppercase tracking-wider">In Use</p>
             <p class="text-2xl font-bold text-slate-900 dark:text-white mt-2">{{ $officeEquipmentInUse }}</p>
