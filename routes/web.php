@@ -84,6 +84,12 @@ Route::middleware(['auth'])->group(function () {
     Route::put('student/{student}/profile', [\App\Http\Controllers\Student\ProfileController::class, 'update'])->name('student.profile.update');
     Route::delete('student/{student}/profile/photo', [\App\Http\Controllers\Student\ProfileController::class, 'deletePhoto'])->name('student.profile.deletePhoto');
 });
+
+// Kit Manager Dashboard (accessible to kit-manager role)
+Route::middleware(['auth', 'role:kit-manager|admin|super-admin'])->group(function () {
+    Route::get('kit-manager/dashboard', [\App\Http\Controllers\KitManagerController::class, 'dashboard'])->name('kit-manager.dashboard');
+});
+
 // User dashboard route for all authenticated users
 Route::middleware(['auth'])->prefix('user')->group(function () {
     Route::get('/dashboard', function () {

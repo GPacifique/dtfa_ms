@@ -134,6 +134,7 @@ class RolePermissionSeeder extends Seeder
         $accountant = Role::firstOrCreate(['name' => 'accountant', 'guard_name' => 'web']);
         $parent = Role::firstOrCreate(['name' => 'parent', 'guard_name' => 'web']);
         $staff = Role::firstOrCreate(['name' => 'staff', 'guard_name' => 'web']);
+        $kitManager = Role::firstOrCreate(['name' => 'kit-manager', 'guard_name' => 'web']);
         // Organization leadership roles
         $ceo = Role::firstOrCreate(['name' => 'CEO', 'guard_name' => 'web']);
         $techDirector = Role::firstOrCreate(['name' => 'Technical Director', 'guard_name' => 'web']);
@@ -218,6 +219,19 @@ class RolePermissionSeeder extends Seeder
             'make payments',
             'view training schedule',
             'view dashboard',
+        ]);
+
+        // KIT MANAGER: Full equipment management (sports & office equipment), view students and teams
+        $kitManager->syncPermissions([
+            'view equipment',
+            'create equipment',
+            'edit equipment',
+            'delete equipment',
+            'manage equipment',
+            'view students',
+            'view teams',
+            'view dashboard',
+            'view reports',
         ]);
 
         // Assign roles to users

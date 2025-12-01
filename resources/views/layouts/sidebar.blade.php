@@ -267,6 +267,20 @@
                             <span x-show="$store.layout.sidebarOpen" x-transition class="truncate">Office Equipment</span>
                         </a>
                     @endif
+
+                    {{-- Kit Manager Dashboard --}}
+                    @role('kit-manager|admin|super-admin')
+                        @if(Route::has('kit-manager.dashboard'))
+                            <a href="{{ route('kit-manager.dashboard') }}" aria-label="Kit Manager" title="Kit Manager" class="nav-item flex items-center gap-3 px-3 py-2 rounded-md hover:bg-slate-800 transition {{ request()->routeIs('kit-manager.*') ? 'active' : '' }}">
+                                <span class="icon flex-shrink-0 w-6 h-6 flex items-center justify-center text-slate-200">
+                                    <!-- Heroicon: Cube -->
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8.97-5.7a1 1 0 00-1.06 0L4 7m16 0l-8 4.97m0 0L4 7m16 0v10a1 1 0 01-.94.997L12 22.97m0 0l8-4.97V7M12 22.97L4 18M12 22.97v-4.97"/></svg>
+                                </span>
+                                <span class="sr-only">Kit Manager</span>
+                                <span x-show="$store.layout.sidebarOpen" x-transition class="truncate">Kit Manager Dashboard</span>
+                            </a>
+                        @endif
+                    @endrole
                 @endrole
 
 
