@@ -51,6 +51,34 @@
                     <p class="text-xs text-slate-500">DOB / Age</p>
                     <p>{{ $student->dob?->format('Y-m-d') ?? '—' }} @if($student->age) <span class="text-slate-500">({{ $student->age }})</span> @endif</p>
                 </div>
+                <div>
+                    <p class="text-xs text-slate-500">Emergency Phone</p>
+                    <p>{{ $student->emergency_phone ?? '—' }}</p>
+                </div>
+                <div>
+                    <p class="text-xs text-slate-500">Parents</p>
+                    <p>{{ $student->father_name ?? '—' }} / {{ $student->mother_name ?? '—' }}</p>
+                </div>
+                <div>
+                    <p class="text-xs text-slate-500">School</p>
+                    <p>{{ $student->school_name ?? '—' }}</p>
+                </div>
+                <div>
+                    <p class="text-xs text-slate-500">Program / Membership</p>
+                    <p>{{ $student->program ?? '—' }} {{ $student->membership_type ? '(' . $student->membership_type . ')' : '' }}</p>
+                </div>
+                <div>
+                    <p class="text-xs text-slate-500">Sport</p>
+                    <p>{{ $student->sport_discipline ?? '—' }} {{ $student->position ? '• ' . $student->position : '' }}</p>
+                </div>
+                <div>
+                    <p class="text-xs text-slate-500">Jersey</p>
+                    <p>{{ $student->jersey_name ?? '—' }} {{ $student->jersey_number ? '#' . $student->jersey_number : '' }}</p>
+                </div>
+                <div>
+                    <p class="text-xs text-slate-500">Coach</p>
+                    <p>{{ $student->coach ?? '—' }}</p>
+                </div>
             </div>
         </div>
         <div class="mt-6 flex items-center justify-between">

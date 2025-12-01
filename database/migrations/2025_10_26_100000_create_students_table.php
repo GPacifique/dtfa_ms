@@ -9,20 +9,36 @@ return new class extends Migration {
         Schema::create('students', function (Blueprint $table) {
             $table->id();
             $table->string('first_name');
-            $table->string('last_name');
-            $table->date('dob')->nullable(); // Date of Birth
-            $table->string('gender', 10)->nullable(); // Gender (Max 10 chars)
-            $table->foreignId('parent_user_id')->nullable()->constrained('users')->nullOnDelete(); // Foreign key to users table
-            $table->string('phone')->nullable(); // Optional phone number
-            $table->string('status')->default('active'); // Default status is 'active'
-            $table->timestamp('joined_at')->nullable(); // Optional date for when the student joined
-            $table->timestamps(); // Automatically adds created_at and updated_at columns
+            $table->string('second_name');
+            $table->date('dob')->nullable();
+            $table->string('gender', 10)->nullable();
+            $table->string('father_name')->nullable();
+            $table->string('email')->nullable();
+            $table->string('emergency_phone')->nullable();
+            $table->string('mother_name')->nullable();
+            $table->unsignedBigInteger('parent_user_id')->nullable()->index();
+            $table->string('phone')->nullable();
+            $table->string('photo_path')->nullable();
+            $table->string('status')->default('active')->index();
+            $table->unsignedBigInteger('registered_by')->nullable()->index();
+            $table->string('jersey_number')->nullable();
+            $table->string('jersey_name')->nullable();
+            $table->string('sport_discipline')->nullable();
+            $table->string('school_name')->nullable();
+            $table->string('position')->nullable();
+            $table->string('coach')->nullable();
+            $table->timestamp('joined_at')->nullable()->index();
+            $table->string('program')->nullable();
+            $table->unsignedBigInteger('branch_id')->nullable()->index();
+            $table->unsignedBigInteger('group_id')->nullable()->index();
+            $table->string('combination')->nullable();
+            $table->string('membership_type')->nullable();
+            $table->timestamps();
         });
     }
 
     public function down(): void
     {
-        // Drop the students table if the migration is rolled back
         Schema::dropIfExists('students');
     }
 };

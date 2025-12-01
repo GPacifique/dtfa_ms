@@ -52,6 +52,9 @@ class StudentController extends Controller
     public function store(StoreStudentRequest $request)
     {
         $data = $request->validated();
+        if (empty($data['registered_by'])) {
+            $data['registered_by'] = auth()->id();
+        }
         $student = new Student($data);
         $student->save();
 
@@ -96,6 +99,9 @@ class StudentController extends Controller
     {
         $student = $students_modern;
         $data = $request->validated();
+        if (empty($data['registered_by'])) {
+            $data['registered_by'] = $student->registered_by ?: auth()->id();
+        }
         $student->fill($data)->save();
 
         if ($request->hasFile('photo')) {
