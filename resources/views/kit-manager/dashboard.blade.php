@@ -3,6 +3,7 @@
 @php($title = 'Kit Manager Dashboard')
 
 @section('content')
+
 <div class="py-6 px-4 sm:px-6">
     <!-- Page Header -->
     <div class="mb-8">
@@ -84,7 +85,7 @@
             </div>
         </div>
     </div>
-
+@section('content')
     <!-- Status & Condition Cards -->
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
         <!-- Sports Equipment Condition -->
@@ -303,6 +304,10 @@
                         </div>
                     @endforeach
                 </div>
+            </div>
+        @else
+            <div class="bg-white dark:bg-slate-800 rounded-lg shadow-md p-6">
+                <p class="text-slate-500 dark:text-slate-400 text-center">No equipment types recorded yet</p>
             </div>
         @endif
     </div>
