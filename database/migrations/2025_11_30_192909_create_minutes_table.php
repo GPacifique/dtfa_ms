@@ -34,6 +34,7 @@ return new class extends Migration
 
             // Dates & Status
             $table->date('start_date')->nullable();
+            $table->date('meeting_date')->nullable();
             $table->date('competition_date')->nullable();
             $table->enum('status', ['scheduled', 'completed', 'cancelled'])->default('scheduled');
 

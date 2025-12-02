@@ -31,6 +31,8 @@ return new class extends Migration
             $table->string('top_tracksuit_size')->nullable();
             $table->string('pant_tracksuit_size')->nullable();
             $table->string('email')->nullable()->unique();
+            $table->string('phone_number')->nullable()->unique();
+            $table->enum('status', ['active', 'inactive', 'suspended'])->default('active');
             $table->timestamps();
         });
     }

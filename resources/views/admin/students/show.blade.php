@@ -180,13 +180,14 @@
         <!-- Action Buttons -->
         <div class="px-6 py-4 bg-slate-50 border-t border-slate-200 flex flex-wrap gap-3">
             <a href="{{ route('admin.students.edit', $student) }}" class="px-4 py-2 bg-indigo-100 text-indigo-700 hover:bg-indigo-200 rounded-lg font-semibold transition">✏️ Edit Profile</a>
+            <a href="{{ route('students-modern.show', $student) }}" class="px-4 py-2 bg-emerald-100 text-emerald-700 hover:bg-emerald-200 rounded-lg font-semibold transition">✅ Record Attendance</a>
+            <a href="{{ route('admin.students.attendance', $student) }}" class="px-4 py-2 bg-blue-100 text-blue-700 hover:bg-blue-200 rounded-lg font-semibold transition">📅 View History</a>
+            <a href="{{ route('admin.students.attendance.export', $student) }}" class="px-4 py-2 bg-amber-100 text-amber-700 hover:bg-amber-200 rounded-lg font-semibold transition">⬇️ Export CSV</a>
             <form action="{{ route('admin.students.destroy', $student) }}" method="POST" class="inline" onsubmit="return confirm('Are you sure you want to delete this student?');">
                 @csrf
                 @method('DELETE')
                 <button type="submit" class="px-4 py-2 bg-red-100 text-red-700 hover:bg-red-200 rounded-lg font-semibold transition">🗑️ Delete</button>
             </form>
-            <a href="{{ route('admin.students.attendance', $student) }}" class="px-4 py-2 bg-emerald-100 text-emerald-700 hover:bg-emerald-200 rounded-lg font-semibold transition">📅 Attendance History</a>
-            <a href="{{ route('admin.students.attendance.export', $student) }}" class="px-4 py-2 bg-amber-100 text-amber-700 hover:bg-amber-200 rounded-lg font-semibold transition">⬇️ Export CSV</a>
         </div>
     </div>
 </div>

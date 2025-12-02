@@ -85,35 +85,47 @@
 
             <div>
                 <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Training Name</label>
-                <input type="text" name="training_name" value="{{ old('training_name') }}" class="w-full border rounded-lg px-3 py-2 dark:bg-neutral-800 dark:border-neutral-700" required>
+                <input type="text" name="training_name" value="{{ old('training_name') }}" class="w-full border rounded-lg px-3 py-2 dark:bg-neutral-800 dark:border-neutral-700">
                 @error('training_name')<span class="text-red-600 text-sm">{{ $message }}</span>@enderror
             </div>
 
             <div>
-                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Start Date</label>
+                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Channel</label>
+                <input type="text" name="channel" value="{{ old('channel') }}" placeholder="e.g., Zoom, Teams, In-person" class="w-full border rounded-lg px-3 py-2 dark:bg-neutral-800 dark:border-neutral-700">
+                @error('channel')<span class="text-red-600 text-sm">{{ $message }}</span>@enderror
+            </div>
+
+            <div>
+                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Training Date</label>
+                <input type="date" name="training_date" value="{{ old('training_date') }}" class="w-full border rounded-lg px-3 py-2 dark:bg-neutral-800 dark:border-neutral-700">
+                @error('training_date')<span class="text-red-600 text-sm">{{ $message }}</span>@enderror
+            </div>
+
+            <div>
+                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Start Date & Time</label>
                 <input type="datetime-local" name="start" value="{{ old('start') }}" class="w-full border rounded-lg px-3 py-2 dark:bg-neutral-800 dark:border-neutral-700">
                 @error('start')<span class="text-red-600 text-sm">{{ $message }}</span>@enderror
             </div>
 
             <div>
-                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">End Date</label>
+                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">End Date & Time</label>
                 <input type="datetime-local" name="end" value="{{ old('end') }}" class="w-full border rounded-lg px-3 py-2 dark:bg-neutral-800 dark:border-neutral-700">
                 @error('end')<span class="text-red-600 text-sm">{{ $message }}</span>@enderror
             </div>
 
             <div>
-                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Cost Type</label>
-                <select name="cost" class="w-full border rounded-lg px-3 py-2 dark:bg-neutral-800 dark:border-neutral-700">
-                    <option value="Paid" @selected(old('cost') === 'Paid')>Paid</option>
+                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Cost Type <span class="text-red-500">*</span></label>
+                <select name="cost" class="w-full border rounded-lg px-3 py-2 dark:bg-neutral-800 dark:border-neutral-700" required>
+                    <option value="Paid" @selected(old('cost', 'Paid') === 'Paid')>Paid</option>
                     <option value="Free" @selected(old('cost') === 'Free')>Free</option>
                 </select>
                 @error('cost')<span class="text-red-600 text-sm">{{ $message }}</span>@enderror
             </div>
 
             <div>
-                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Training Category</label>
-                <select name="training_category" class="w-full border rounded-lg px-3 py-2 dark:bg-neutral-800 dark:border-neutral-700">
-                    <option value="In house" @selected(old('training_category') === 'In house')>In House</option>
+                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Training Category <span class="text-red-500">*</span></label>
+                <select name="training_category" class="w-full border rounded-lg px-3 py-2 dark:bg-neutral-800 dark:border-neutral-700" required>
+                    <option value="In house" @selected(old('training_category', 'In house') === 'In house')>In House</option>
                     <option value="Outside DTFA" @selected(old('training_category') === 'Outside DTFA')>Outside DTFA</option>
                 </select>
                 @error('training_category')<span class="text-red-600 text-sm">{{ $message }}</span>@enderror
@@ -121,19 +133,25 @@
 
             <div>
                 <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Venue</label>
-                <input type="text" name="venue" value="{{ old('venue') }}" class="w-full border rounded-lg px-3 py-2 dark:bg-neutral-800 dark:border-neutral-700">
+                <input type="text" name="venue" value="{{ old('venue') }}" placeholder="e.g., Conference Room A" class="w-full border rounded-lg px-3 py-2 dark:bg-neutral-800 dark:border-neutral-700">
                 @error('venue')<span class="text-red-600 text-sm">{{ $message }}</span>@enderror
             </div>
 
             <div>
                 <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Location</label>
-                <input type="text" name="location" value="{{ old('location') }}" class="w-full border rounded-lg px-3 py-2 dark:bg-neutral-800 dark:border-neutral-700">
+                <input type="text" name="location" value="{{ old('location') }}" placeholder="e.g., Main Office Building" class="w-full border rounded-lg px-3 py-2 dark:bg-neutral-800 dark:border-neutral-700">
                 @error('location')<span class="text-red-600 text-sm">{{ $message }}</span>@enderror
+            </div>
+
+            <div>
+                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Trainer Name</label>
+                <input type="text" name="trainer_name" value="{{ old('trainer_name') }}" placeholder="e.g., John Doe" class="w-full border rounded-lg px-3 py-2 dark:bg-neutral-800 dark:border-neutral-700">
+                @error('trainer_name')<span class="text-red-600 text-sm">{{ $message }}</span>@enderror
             </div>
 
             <div class="md:col-span-2">
                 <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Notes</label>
-                <textarea name="notes" rows="4" class="w-full border rounded-lg px-3 py-2 dark:bg-neutral-800 dark:border-neutral-700">{{ old('notes') }}</textarea>
+                <textarea name="notes" rows="4" placeholder="Additional notes or description..." class="w-full border rounded-lg px-3 py-2 dark:bg-neutral-800 dark:border-neutral-700">{{ old('notes') }}</textarea>
                 @error('notes')<span class="text-red-600 text-sm">{{ $message }}</span>@enderror
             </div>
 

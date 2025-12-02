@@ -92,7 +92,16 @@ class StudentController extends Controller
         // Route-model binding key is named by resource; adjust parameter name for clarity
         $student = $students_modern;
         $student->load(['branch','group']);
-        return view('students-modern.show', compact('student'));
+
+        // Load recent training sessions for attendance recording
+        $sessions = \App\Models\TrainingSessionRecord::query()
+            ->where('date', '>=', now()->subDays(7))
+            ->orderByDesc('date')
+            ->orderByDesc('start_time')
+            ->limit(10)
+            ->get();
+
+        return view('students-modern.show', compact('student', 'sessions'));
     }
 
     public function edit(Student $students_modern)

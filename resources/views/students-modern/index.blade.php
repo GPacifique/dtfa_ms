@@ -22,14 +22,65 @@
                     <x-input type="date" name="from" label="From" :value="request('from')" />
                     <x-input type="date" name="to" label="To" :value="request('to')" />
                 </div>
-                <div class="md:col-span-5 flex items-center justify-end gap-2">
-                    <x-button type="submit">Filter</x-button>
-                    <x-button variant="secondary" type="button" onclick="window.location='{{ route('students-modern.index') }}'">Reset</x-button>
-                    <x-button href="{{ route('students-modern.create') }}">New Student</x-button>
+                <div class="md:col-span-5 flex items-center justify-between gap-2">
+                    <div class="flex gap-2">
+                        <x-button :href="request()->fullUrlWithQuery(['view' => 'table'])" variant="secondary" :class="request('view') !== 'cards' ? 'ring-2 ring-indigo-500' : ''">Table</x-button>
+                        <x-button :href="request()->fullUrlWithQuery(['view' => 'cards'])" variant="secondary" :class="request('view') === 'cards' ? 'ring-2 ring-indigo-500' : ''">Cards</x-button>
+                    </div>
+                    <div class="flex gap-2">
+                        <x-button type="submit">Filter</x-button>
+                        <x-button variant="secondary" type="button" onclick="window.location='{{ route('students-modern.index') }}'">Reset</x-button>
+                        <x-button href="{{ route('students-modern.create') }}">New Student</x-button>
+                    </div>
                 </div>
             </form>
         </div>
 
+        @if(request('view') === 'cards')
+        <!-- Cards View -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            @forelse($students as $s)
+                <div class="bg-white dark:bg-slate-900 rounded-xl shadow-sm border border-slate-200 dark:border-slate-800 overflow-hidden hover:shadow-lg transition">
+                    <div class="aspect-square bg-slate-100 dark:bg-slate-800 relative">
+                        <img src="{{ $s->photo_url }}" alt="{{ $s->first_name }} {{ $s->second_name }}" class="w-full h-full object-cover">
+                        @if($s->status === 'active')
+                            <div class="absolute top-2 right-2 bg-emerald-500 text-white text-xs font-bold rounded-full w-6 h-6 flex items-center justify-center">✓</div>
+                        @endif
+                    </div>
+                    <div class="p-4">
+                        <h3 class="font-bold text-slate-900 dark:text-white truncate">{{ $s->first_name }} {{ $s->second_name }}</h3>
+                        <p class="text-xs text-slate-500 dark:text-slate-400 truncate">{{ $s->email ?? '—' }}</p>
+                        <div class="mt-2 flex flex-wrap gap-1">
+                            @if($s->branch)
+                                <span class="px-2 py-0.5 bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-300 text-xs rounded">{{ $s->branch->name }}</span>
+                            @endif
+                            @if($s->group)
+                                <span class="px-2 py-0.5 bg-purple-100 dark:bg-purple-900/30 text-purple-800 dark:text-purple-300 text-xs rounded">{{ $s->group->name }}</span>
+                            @endif
+                        </div>
+                        <div class="mt-4 flex flex-col gap-2">
+                            <a href="{{ route('students-modern.show', $s) }}" class="w-full text-center px-3 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg font-semibold transition text-sm">
+                                ✅ Record Attendance
+                            </a>
+                            <div class="flex gap-2">
+                                <a href="{{ route('students-modern.show', $s) }}" class="flex-1 text-center px-3 py-2 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 rounded-lg font-semibold transition text-sm">
+                                    👁️ View
+                                </a>
+                                <a href="{{ route('students-modern.edit', $s) }}" class="flex-1 text-center px-3 py-2 bg-indigo-100 hover:bg-indigo-200 dark:bg-indigo-900/30 dark:hover:bg-indigo-900/50 text-indigo-700 dark:text-indigo-300 rounded-lg font-semibold transition text-sm">
+                                    ✏️ Edit
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            @empty
+                <div class="col-span-full text-center py-16">
+                    <p class="text-slate-500">No students found</p>
+                </div>
+            @endforelse
+        </div>
+        @else
+        <!-- Table View -->
         <div class="bg-white dark:bg-slate-900 rounded-xl shadow-sm border border-slate-200 dark:border-slate-800 overflow-hidden">
             <div class="overflow-x-auto">
                 <table class="min-w-full text-sm">
@@ -76,6 +127,14 @@
             </div>
             <div class="p-4">{{ $students->links() }}</div>
         </div>
+        @endif
+
+        <!-- Pagination for Cards View -->
+        @if(request('view') === 'cards')
+        <div class="mt-6">
+            {{ $students->links() }}
+        </div>
+        @endif
     </div>
 </div>
 @endsection

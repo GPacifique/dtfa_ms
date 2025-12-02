@@ -27,17 +27,25 @@ class InhouseTrainingController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'first_name'     => 'required|string',
-            'second_name'    => 'nullable|string',
-            'gender'         => 'nullable|string',
-            'country'        => 'required|string',
-            'city'           => 'required|string',
-            'discipline'     => 'required|string',
-            'branch_id'      => 'required|exists:branches,id',
-            'role_id'        => 'required|exists:roles,id',
-            'training_name'  => 'nullable|string',
-            'start'          => 'nullable|date',
-            'end'            => 'nullable|date',
+            'first_name'        => 'required|string|max:255',
+            'second_name'       => 'nullable|string|max:255',
+            'gender'            => 'nullable|in:Male,Female',
+            'country'           => 'required|in:Rwanda,Tanzania',
+            'city'              => 'required|in:Kigali,Mwanza',
+            'discipline'        => 'required|in:Football,BasketBall',
+            'branch_id'         => 'required|exists:branches,id',
+            'role_id'           => 'required|exists:roles,id',
+            'training_name'     => 'nullable|string|max:255',
+            'channel'           => 'nullable|string|max:255',
+            'training_date'     => 'nullable|date',
+            'start'             => 'nullable|date',
+            'end'               => 'nullable|date|after_or_equal:start',
+            'cost'              => 'required|in:Free,Paid',
+            'notes'             => 'nullable|string',
+            'training_category' => 'required|in:In house,Outside DTFA',
+            'venue'             => 'nullable|string|max:255',
+            'location'          => 'nullable|string|max:255',
+            'trainer_name'      => 'nullable|string|max:255',
         ]);
 
         InhouseTraining::create($request->all());
@@ -61,6 +69,28 @@ class InhouseTrainingController extends Controller
 
     public function update(Request $request, InhouseTraining $inhousetraining)
     {
+        $request->validate([
+            'first_name'        => 'required|string|max:255',
+            'second_name'       => 'nullable|string|max:255',
+            'gender'            => 'nullable|in:Male,Female',
+            'country'           => 'required|in:Rwanda,Tanzania',
+            'city'              => 'required|in:Kigali,Mwanza',
+            'discipline'        => 'required|in:Football,BasketBall',
+            'branch_id'         => 'required|exists:branches,id',
+            'role_id'           => 'required|exists:roles,id',
+            'training_name'     => 'nullable|string|max:255',
+            'channel'           => 'nullable|string|max:255',
+            'training_date'     => 'nullable|date',
+            'start'             => 'nullable|date',
+            'end'               => 'nullable|date|after_or_equal:start',
+            'cost'              => 'required|in:Free,Paid',
+            'notes'             => 'nullable|string',
+            'training_category' => 'required|in:In house,Outside DTFA',
+            'venue'             => 'nullable|string|max:255',
+            'location'          => 'nullable|string|max:255',
+            'trainer_name'      => 'nullable|string|max:255',
+        ]);
+
         $inhousetraining->update($request->all());
         return redirect()->route('admin.inhousetrainings.index')
             ->with('success', 'Training updated successfully.');

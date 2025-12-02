@@ -23,7 +23,7 @@
         {{-- Main KPI Cards --}}
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
             {{-- Total Users --}}
-            <div class="card group hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1">
+            <a href="{{ route('admin.students.index') }}" class="card group hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 cursor-pointer">
                 <div class="card-body">
                     <div class="flex items-start justify-between">
                         <div class="flex-1">
@@ -42,10 +42,10 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </a>
 
             {{-- Active Students --}}
-            <div class="card group hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1">
+            <a href="{{ route('admin.students.index') }}" class="card group hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 cursor-pointer">
                 <div class="card-body">
                     <div class="flex items-start justify-between">
                         <div class="flex-1">
@@ -64,10 +64,10 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </a>
 
             {{-- Sessions --}}
-            <div class="card group hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1">
+            <a href="{{ route('admin.sessions.index') }}" class="card group hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 cursor-pointer">
                 <div class="card-body">
                     <div class="flex items-start justify-between">
                         <div class="flex-1">
@@ -86,10 +86,10 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </a>
 
             {{-- Revenue --}}
-            <div class="card group hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1">
+            <a href="{{ route('accountant.payments.index') }}" class="card group hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 cursor-pointer">
                 <div class="card-body">
                     <div class="flex items-start justify-between">
                         <div class="flex-1">
@@ -113,11 +113,11 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </a>
         </div>
         {{-- Income & Subscription KPIs (new) --}}
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-            <div class="card group hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1">
+            <a href="{{ route('admin.incomes.index') }}" class="card group hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 cursor-pointer">
                 <div class="card-body">
                     <div class="flex items-start justify-between">
                         <div class="flex-1">
@@ -134,9 +134,9 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </a>
 
-            <div class="card group hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1">
+            <a href="{{ route('admin.incomes.index') }}" class="card group hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 cursor-pointer">
                 <div class="card-body">
                     <div class="flex items-start justify-between">
                         <div class="flex-1">
@@ -153,9 +153,9 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </a>
 
-            <div class="card group hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1">
+            <a href="{{ route('accountant.subscriptions.index') }}" class="card group hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 cursor-pointer">
                 <div class="card-body">
                     <div class="flex items-start justify-between">
                         <div class="flex-1">
@@ -172,9 +172,9 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </a>
 
-            <div class="card group hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1">
+            <a href="{{ route('accountant.subscriptions.index') }}" class="card group hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 cursor-pointer">
                 <div class="card-body">
                     <div class="flex items-start justify-between">
                         <div class="flex-1">
@@ -191,12 +191,12 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </a>
         </div>
 
         {{-- Secondary Stats --}}
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-            <div class="card">
+            <a href="{{ route('admin.branches.index') }}" class="card cursor-pointer hover:shadow-lg transition-shadow">
                 <div class="card-body">
                     <div class="flex items-center justify-between">
                         <div>
@@ -210,9 +210,9 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </a>
 
-            <div class="card">
+            <a href="{{ route('admin.groups.index') }}" class="card cursor-pointer hover:shadow-lg transition-shadow">
                 <div class="card-body">
                     <div class="flex items-center justify-between">
                         <div>
@@ -226,9 +226,9 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </a>
 
-            <div class="card">
+            <a href="{{ route('accountant.subscriptions.index') }}" class="card cursor-pointer hover:shadow-lg transition-shadow">
                 <div class="card-body">
                     <div class="flex items-center justify-between">
                         <div>
@@ -242,9 +242,9 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </a>
 
-            <div class="card">
+            <a href="{{ route('admin.equipment.index') }}" class="card cursor-pointer hover:shadow-lg transition-shadow">
                 <div class="card-body">
                     <div class="flex items-center justify-between">
                         <div>
@@ -258,6 +258,322 @@
                         </div>
                     </div>
                 </div>
+            </a>
+        </div>
+
+        {{-- System Modules Overview --}}
+        <div class="mb-8">
+            <h2 class="text-xl font-bold text-slate-900 dark:text-white mb-4">📊 System Modules Overview</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                {{-- Staff --}}
+                <a href="{{ route('staff.index') }}" class="card group hover:shadow-xl transition-all duration-300 cursor-pointer">
+                    <div class="card-body">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-sm text-slate-600 dark:text-slate-400">Total Staff</p>
+                                <p class="text-2xl font-bold text-slate-900 dark:text-white">{{ $stats['totalStaff'] ?? 0 }}</p>
+                                <p class="text-xs text-emerald-600 mt-1">Active: {{ $stats['activeStaff'] ?? 0 }}</p>
+                            </div>
+                            <div class="w-10 h-10 bg-blue-100 dark:bg-blue-900/30 rounded-lg flex items-center justify-center">
+                                <svg class="w-5 h-5 text-blue-600 dark:text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+
+                {{-- Teams --}}
+                <a href="{{ route('admin.teams.index') }}" class="card group hover:shadow-xl transition-all duration-300 cursor-pointer">
+                    <div class="card-body">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-sm text-slate-600 dark:text-slate-400">Teams</p>
+                                <p class="text-2xl font-bold text-slate-900 dark:text-white">{{ $stats['totalteams'] ?? 0 }}</p>
+                            </div>
+                            <div class="w-10 h-10 bg-purple-100 dark:bg-purple-900/30 rounded-lg flex items-center justify-center">
+                                <svg class="w-5 h-5 text-purple-600 dark:text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+
+                {{-- Minutes --}}
+                <a href="{{ route('admin.minutes.index') }}" class="card group hover:shadow-xl transition-all duration-300 cursor-pointer">
+                    <div class="card-body">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-sm text-slate-600 dark:text-slate-400">Meeting Minutes</p>
+                                <p class="text-2xl font-bold text-slate-900 dark:text-white">{{ $stats['totalMinutes'] ?? 0 }}</p>
+                                <p class="text-xs text-emerald-600 mt-1">Last 30 days: {{ $stats['recentMinutes'] ?? 0 }}</p>
+                            </div>
+                            <div class="w-10 h-10 bg-indigo-100 dark:bg-indigo-900/30 rounded-lg flex items-center justify-center">
+                                <svg class="w-5 h-5 text-indigo-600 dark:text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+
+                {{-- Training Records --}}
+                <a href="{{ route('admin.training_session_records.index') }}" class="card group hover:shadow-xl transition-all duration-300 cursor-pointer">
+                    <div class="card-body">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-sm text-slate-600 dark:text-slate-400">Training Records</p>
+                                <p class="text-2xl font-bold text-slate-900 dark:text-white">{{ $stats['totalTrainingRecords'] ?? 0 }}</p>
+                                <p class="text-xs text-emerald-600 mt-1">Recent: {{ $stats['recentTrainingRecords'] ?? 0 }}</p>
+                            </div>
+                            <div class="w-10 h-10 bg-green-100 dark:bg-green-900/30 rounded-lg flex items-center justify-center">
+                                <svg class="w-5 h-5 text-green-600 dark:text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"/>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+
+                {{-- Inhouse Training --}}
+                <a href="{{ route('admin.inhousetrainings.index') }}" class="card group hover:shadow-xl transition-all duration-300 cursor-pointer">
+                    <div class="card-body">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-sm text-slate-600 dark:text-slate-400">Inhouse Training</p>
+                                <p class="text-2xl font-bold text-slate-900 dark:text-white">{{ $stats['totalInhouseTraining'] ?? 0 }}</p>
+                                <p class="text-xs text-emerald-600 mt-1">Upcoming: {{ $stats['upcomingInhouseTraining'] ?? 0 }}</p>
+                            </div>
+                            <div class="w-10 h-10 bg-cyan-100 dark:bg-cyan-900/30 rounded-lg flex items-center justify-center">
+                                <svg class="w-5 h-5 text-cyan-600 dark:text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+
+                {{-- Equipment Breakdown --}}
+                <a href="{{ route('admin.sports-equipment.index') }}" class="card group hover:shadow-xl transition-all duration-300 cursor-pointer">
+                    <div class="card-body">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-sm text-slate-600 dark:text-slate-400">Sports Equipment</p>
+                                <p class="text-2xl font-bold text-slate-900 dark:text-white">{{ $stats['totalSportsEquipment'] ?? 0 }}</p>
+                                <p class="text-xs text-slate-500 mt-1">Office: {{ $stats['totalOfficeEquipment'] ?? 0 }}</p>
+                            </div>
+                            <div class="w-10 h-10 bg-orange-100 dark:bg-orange-900/30 rounded-lg flex items-center justify-center">
+                                <svg class="w-5 h-5 text-orange-600 dark:text-orange-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+
+                {{-- Communications --}}
+                <a href="{{ route('admin.communications.index') }}" class="card group hover:shadow-xl transition-all duration-300 cursor-pointer">
+                    <div class="card-body">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-sm text-slate-600 dark:text-slate-400">Communications</p>
+                                <p class="text-2xl font-bold text-slate-900 dark:text-white">{{ $stats['totalCommunications'] ?? 0 }}</p>
+                                <p class="text-xs text-emerald-600 mt-1">Recent (30 days): {{ $stats['recentCommunications'] ?? 0 }}</p>
+                            </div>
+                            <div class="w-10 h-10 bg-pink-100 dark:bg-pink-900/30 rounded-lg flex items-center justify-center">
+                                <svg class="w-5 h-5 text-pink-600 dark:text-pink-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+
+                {{-- Tasks --}}
+                <a href="{{ route('admin.tasks.index') }}" class="card group hover:shadow-xl transition-all duration-300 cursor-pointer">
+                    <div class="card-body">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-sm text-slate-600 dark:text-slate-400">Tasks</p>
+                                <p class="text-2xl font-bold text-slate-900 dark:text-white">{{ $stats['totalTasks'] ?? 0 }}</p>
+                                <p class="text-xs text-amber-600 mt-1">Ongoing: {{ $stats['ongoingTasks'] ?? 0 }}</p>
+                                <p class="text-xs text-emerald-600">Completed: {{ $stats['completedTasks'] ?? 0 }}</p>
+                            </div>
+                            <div class="w-10 h-10 bg-red-100 dark:bg-red-900/30 rounded-lg flex items-center justify-center">
+                                <svg class="w-5 h-5 text-red-600 dark:text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+
+                {{-- Staff Tasks --}}
+                <a href="{{ route('tasks.index') }}" class="card group hover:shadow-xl transition-all duration-300 cursor-pointer">
+                    <div class="card-body">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-sm text-slate-600 dark:text-slate-400">Staff Tasks</p>
+                                <p class="text-2xl font-bold text-slate-900 dark:text-white">{{ $stats['totalStaffTasks'] ?? 0 }}</p>
+                                <p class="text-xs text-amber-600 mt-1">Pending: {{ $stats['pendingStaffTasks'] ?? 0 }}</p>
+                                <p class="text-xs text-emerald-600">Completed: {{ $stats['completedStaffTasks'] ?? 0 }}</p>
+                            </div>
+                            <div class="w-10 h-10 bg-lime-100 dark:bg-lime-900/30 rounded-lg flex items-center justify-center">
+                                <svg class="w-5 h-5 text-lime-600 dark:text-lime-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+
+                {{-- Reports --}}
+                <a href="{{ route('reports.index') }}" class="card group hover:shadow-xl transition-all duration-300 cursor-pointer">
+                    <div class="card-body">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-sm text-slate-600 dark:text-slate-400">Reports</p>
+                                <p class="text-2xl font-bold text-slate-900 dark:text-white">{{ $stats['totalReports'] ?? 0 }}</p>
+                            </div>
+                            <div class="w-10 h-10 bg-violet-100 dark:bg-violet-900/30 rounded-lg flex items-center justify-center">
+                                <svg class="w-5 h-5 text-violet-600 dark:text-violet-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+
+                {{-- Games --}}
+                <a href="{{ route('admin.games.index') }}" class="card group hover:shadow-xl transition-all duration-300 cursor-pointer">
+                    <div class="card-body">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-sm text-slate-600 dark:text-slate-400">Games</p>
+                                <p class="text-2xl font-bold text-slate-900 dark:text-white">{{ $stats['totalGames'] ?? 0 }}</p>
+                                <p class="text-xs text-emerald-600 mt-1">Upcoming: {{ $stats['upcomingGames'] ?? 0 }}</p>
+                            </div>
+                            <div class="w-10 h-10 bg-yellow-100 dark:bg-yellow-900/30 rounded-lg flex items-center justify-center">
+                                <svg class="w-5 h-5 text-yellow-600 dark:text-yellow-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"/>
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+
+                {{-- Activity Plans --}}
+                <a href="{{ route('admin.activity-plans.index') }}" class="card group hover:shadow-xl transition-all duration-300 cursor-pointer">
+                    <div class="card-body">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-sm text-slate-600 dark:text-slate-400">Activity Plans</p>
+                                <p class="text-2xl font-bold text-slate-900 dark:text-white">{{ $stats['totalActivityPlans'] ?? 0 }}</p>
+                            </div>
+                            <div class="w-10 h-10 bg-fuchsia-100 dark:bg-fuchsia-900/30 rounded-lg flex items-center justify-center">
+                                <svg class="w-5 h-5 text-fuchsia-600 dark:text-fuchsia-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+
+        {{-- Attendance Summary --}}
+        <div class="mb-8">
+            <h2 class="text-xl font-bold text-slate-900 dark:text-white mb-4">✅ Attendance Overview</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <a href="{{ route('admin.student-attendance.index') }}" class="card group hover:shadow-xl transition-all duration-300 cursor-pointer">
+                    <div class="card-body">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-sm text-slate-600 dark:text-slate-400">Student Attendance</p>
+                                <p class="text-2xl font-bold text-slate-900 dark:text-white">{{ $stats['totalStudentAttendance'] ?? 0 }}</p>
+                            </div>
+                            <div class="w-10 h-10 bg-blue-100 dark:bg-blue-900/30 rounded-lg flex items-center justify-center">
+                                <svg class="w-5 h-5 text-blue-600 dark:text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+
+                <a href="{{ route('coach.attendance.index') }}" class="card group hover:shadow-xl transition-all duration-300 cursor-pointer">
+                    <div class="card-body">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-sm text-slate-600 dark:text-slate-400">Coach Attendance</p>
+                                <p class="text-2xl font-bold text-slate-900 dark:text-white">{{ $stats['totalCoachAttendance'] ?? 0 }}</p>
+                            </div>
+                            <div class="w-10 h-10 bg-green-100 dark:bg-green-900/30 rounded-lg flex items-center justify-center">
+                                <svg class="w-5 h-5 text-green-600 dark:text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+
+                <a href="{{ route('admin.staff_attendances.index') }}" class="card group hover:shadow-xl transition-all duration-300 cursor-pointer">
+                    <div class="card-body">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-sm text-slate-600 dark:text-slate-400">Staff Attendance</p>
+                                <p class="text-2xl font-bold text-slate-900 dark:text-white">{{ $stats['totalStaffAttendance'] ?? 0 }}</p>
+                            </div>
+                            <div class="w-10 h-10 bg-purple-100 dark:bg-purple-900/30 rounded-lg flex items-center justify-center">
+                                <svg class="w-5 h-5 text-purple-600 dark:text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+
+        {{-- Upcoming Events --}}
+        <div class="mb-8">
+            <h2 class="text-xl font-bold text-slate-900 dark:text-white mb-4">📅 Upcoming Events</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <a href="{{ route('admin.upcoming-events.index') }}" class="card group hover:shadow-xl transition-all duration-300 cursor-pointer">
+                    <div class="card-body">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-sm text-slate-600 dark:text-slate-400">Total Events</p>
+                                <p class="text-2xl font-bold text-slate-900 dark:text-white">{{ $stats['totalUpcomingEvents'] ?? 0 }}</p>
+                                <p class="text-xs text-emerald-600 mt-1">Future: {{ $stats['futureEvents'] ?? 0 }}</p>
+                            </div>
+                            <div class="w-10 h-10 bg-rose-100 dark:bg-rose-900/30 rounded-lg flex items-center justify-center">
+                                <svg class="w-5 h-5 text-rose-600 dark:text-rose-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+
+                <a href="{{ route('admin.capacity-buildings.index') }}" class="card group hover:shadow-xl transition-all duration-300 cursor-pointer">
+                    <div class="card-body">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-sm text-slate-600 dark:text-slate-400">Capacity Building</p>
+                                <p class="text-2xl font-bold text-slate-900 dark:text-white">{{ $stats['capacityCount'] ?? 0 }}</p>
+                                <p class="text-xs text-slate-500 mt-1">Total Cost: {{ number_format(($stats['capacityTotalCost'] ?? 0)/100, 2) }} RWF</p>
+                            </div>
+                            <div class="w-10 h-10 bg-sky-100 dark:bg-sky-900/30 rounded-lg flex items-center justify-center">
+                                <svg class="w-5 h-5 text-sky-600 dark:text-sky-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+                </a>
             </div>
         </div>
 

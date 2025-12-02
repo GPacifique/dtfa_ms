@@ -13,10 +13,11 @@
         <table class="w-full">
             <thead class="bg-gray-50 dark:bg-neutral-800">
                 <tr class="text-left text-sm font-medium text-gray-700 dark:text-gray-300">
+                    <th class="px-6 py-3">Participant</th>
                     <th class="px-6 py-3">Training Name</th>
-                    <th class="px-6 py-3">Discipline</th>
-                    <th class="px-6 py-3">Country</th>
-                    <th class="px-6 py-3">Start Date</th>
+                    <th class="px-6 py-3">Category</th>
+                    <th class="px-6 py-3">Date</th>
+                    <th class="px-6 py-3">Venue/Channel</th>
                     <th class="px-6 py-3">Branch</th>
                     <th class="px-6 py-3 text-right">Actions</th>
                 </tr>
@@ -24,10 +25,28 @@
             <tbody class="divide-y divide-gray-200 dark:divide-neutral-700">
                 @forelse ($inhousetrainings as $t)
                 <tr class="hover:bg-gray-50 dark:hover:bg-neutral-800 transition">
-                    <td class="px-6 py-4 font-medium text-gray-900 dark:text-white">{{ $t->training_name }}</td>
-                    <td class="px-6 py-4 text-gray-600 dark:text-gray-400">{{ $t->discipline }}</td>
-                    <td class="px-6 py-4 text-gray-600 dark:text-gray-400">{{ $t->country }}</td>
-                    <td class="px-6 py-4 text-gray-600 dark:text-gray-400">{{ $t->start?->format('M d, Y') }}</td>
+                    <td class="px-6 py-4">
+                        <div class="font-medium text-gray-900 dark:text-white">{{ $t->first_name }} {{ $t->second_name }}</div>
+                        <div class="text-xs text-gray-500">{{ $t->role->name ?? '—' }}</div>
+                    </td>
+                    <td class="px-6 py-4">
+                        <div class="font-medium text-gray-900 dark:text-white">{{ $t->training_name ?? '—' }}</div>
+                        <div class="text-xs text-gray-500">{{ $t->discipline }}</div>
+                    </td>
+                    <td class="px-6 py-4">
+                        <span class="px-2 py-1 text-xs font-medium rounded-full {{ $t->training_category === 'In house' ? 'bg-green-100 text-green-800' : 'bg-blue-100 text-blue-800' }}">
+                            {{ $t->training_category }}
+                        </span>
+                    </td>
+                    <td class="px-6 py-4 text-gray-600 dark:text-gray-400">
+                        <div>{{ $t->training_date?->format('M d, Y') ?? $t->start?->format('M d, Y') ?? '—' }}</div>
+                        @if($t->start && $t->end)
+                        <div class="text-xs text-gray-500">{{ $t->start->format('H:i') }} - {{ $t->end->format('H:i') }}</div>
+                        @endif
+                    </td>
+                    <td class="px-6 py-4 text-gray-600 dark:text-gray-400">
+                        {{ $t->venue ?? $t->channel ?? '—' }}
+                    </td>
                     <td class="px-6 py-4 text-gray-600 dark:text-gray-400">{{ $t->branch->name ?? '—' }}</td>
                     <td class="px-6 py-4 text-right space-x-2">
                         <a href="{{ route('admin.inhousetrainings.show', $t->id) }}" class="text-indigo-600 hover:text-indigo-900 dark:hover:text-indigo-400 font-medium">View</a>
@@ -41,7 +60,7 @@
                 </tr>
                 @empty
                 <tr>
-                    <td colspan="6" class="px-6 py-8 text-center text-gray-500 dark:text-gray-400">
+                    <td colspan="7" class="px-6 py-8 text-center text-gray-500 dark:text-gray-400">
                         No trainings found.
                     </td>
                 </tr>

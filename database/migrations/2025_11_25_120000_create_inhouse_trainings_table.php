@@ -30,7 +30,7 @@ return new class extends Migration
             // Training details
             $table->string('training_name')->nullable();
             $table->string('channel')->nullable();
-
+            $table->date('training_date')->nullable();
             $table->dateTime('start')->nullable();
             $table->dateTime('end')->nullable();
 
@@ -41,6 +41,7 @@ return new class extends Migration
             $table->enum('training_category', ['In house', 'Outside DTFA'])->default('In house');
             $table->string('venue')->nullable();
             $table->string('location')->nullable();
+            $table->string('trainer_name')->nullable();
 
             $table->timestamps();
         });

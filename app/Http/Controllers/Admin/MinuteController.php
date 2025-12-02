@@ -29,7 +29,8 @@ class MinuteController extends Controller
      */
     public function create()
     {
-        return view('admin.minutes.create');
+        $staffList = \App\Models\Staff::orderBy('first_name')->get(['id','first_name','last_name']);
+        return view('admin.minutes.create', compact('staffList'));
     }
 
     /**
@@ -74,7 +75,8 @@ class MinuteController extends Controller
      */
     public function edit(Minute $minute)
     {
-        return view('admin.minutes.edit', compact('minute'));
+        $staffList = \App\Models\Staff::orderBy('first_name')->get(['id','first_name','last_name']);
+        return view('admin.minutes.edit', compact('minute','staffList'));
     }
 
     /**

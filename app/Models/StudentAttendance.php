@@ -10,7 +10,7 @@ class StudentAttendance extends Model
     use HasFactory;
 
     protected $fillable = [
-        'student_id', 'training_session_id', 'status', 'notes'
+        'student_id', 'training_session_id', 'status', 'notes', 'recorded_by_user_id'
     ];
 
     public function student()
@@ -20,6 +20,11 @@ class StudentAttendance extends Model
 
     public function session()
     {
-        return $this->belongsTo(TrainingSession::class, 'training_session_id');
+        return $this->belongsTo(TrainingSessionRecord::class, 'training_session_id');
+    }
+
+    public function recordedBy()
+    {
+        return $this->belongsTo(User::class, 'recorded_by_user_id');
     }
 }

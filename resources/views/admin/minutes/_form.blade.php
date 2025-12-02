@@ -93,20 +93,38 @@
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
             <!-- Attendance List -->
             <div>
-                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Attendance (one per line)</label>
-                <textarea name="attendance_list" rows="4" class="w-full border rounded-lg px-3 py-2 dark:bg-neutral-800 dark:border-neutral-700 text-sm" placeholder="Name 1&#10;Name 2&#10;Name 3">@if($editing && $minute->attendance_list){{ implode("\n", $minute->attendance_list) }}@endif</textarea>
+                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Attendance List</label>
+                <select name="attendance_list[]" multiple size="8" class="w-full border rounded-lg px-3 py-2 dark:bg-neutral-800 dark:border-neutral-700 text-sm">
+                    @foreach(($staffList ?? []) as $staff)
+                        @php($fullName = trim($staff->first_name . ' ' . $staff->last_name))
+                        <option value="{{ $fullName }}" @if($editing && in_array($fullName, $minute->attendance_list ?? [])) selected @endif>{{ $fullName }}</option>
+                    @endforeach
+                </select>
+                <p class="text-xs text-gray-500 mt-1">Hold Ctrl/Cmd to select multiple</p>
             </div>
 
             <!-- Absent with Apology -->
             <div>
                 <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Absent with Apology</label>
-                <textarea name="absent_apology" rows="4" class="w-full border rounded-lg px-3 py-2 dark:bg-neutral-800 dark:border-neutral-700 text-sm" placeholder="Name 1&#10;Name 2">@if($editing && $minute->absent_apology){{ implode("\n", $minute->absent_apology) }}@endif</textarea>
+                <select name="absent_apology[]" multiple size="8" class="w-full border rounded-lg px-3 py-2 dark:bg-neutral-800 dark:border-neutral-700 text-sm">
+                    @foreach(($staffList ?? []) as $staff)
+                        @php($fullName = trim($staff->first_name . ' ' . $staff->last_name))
+                        <option value="{{ $fullName }}" @if($editing && in_array($fullName, $minute->absent_apology ?? [])) selected @endif>{{ $fullName }}</option>
+                    @endforeach
+                </select>
+                <p class="text-xs text-gray-500 mt-1">Hold Ctrl/Cmd to select multiple</p>
             </div>
 
             <!-- Absent without Apology -->
             <div>
                 <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Absent without Apology</label>
-                <textarea name="absent_no_apology" rows="4" class="w-full border rounded-lg px-3 py-2 dark:bg-neutral-800 dark:border-neutral-700 text-sm" placeholder="Name 1&#10;Name 2">@if($editing && $minute->absent_no_apology){{ implode("\n", $minute->absent_no_apology) }}@endif</textarea>
+                <select name="absent_no_apology[]" multiple size="8" class="w-full border rounded-lg px-3 py-2 dark:bg-neutral-800 dark:border-neutral-700 text-sm">
+                    @foreach(($staffList ?? []) as $staff)
+                        @php($fullName = trim($staff->first_name . ' ' . $staff->last_name))
+                        <option value="{{ $fullName }}" @if($editing && in_array($fullName, $minute->absent_no_apology ?? [])) selected @endif>{{ $fullName }}</option>
+                    @endforeach
+                </select>
+                <p class="text-xs text-gray-500 mt-1">Hold Ctrl/Cmd to select multiple</p>
             </div>
         </div>
     </div>

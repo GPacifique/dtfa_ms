@@ -136,6 +136,57 @@ class AdminController extends Controller
             'capacityAverageCost' => $metrics['capacityAverageCost'] ?? 0,
             'capacityMinCost' => $metrics['capacityMinCost'] ?? 0,
             'capacityMaxCost' => $metrics['capacityMaxCost'] ?? 0,
+
+            // Staff module
+            'totalStaff' => \App\Models\Staff::count(),
+            'activeStaff' => \App\Models\Staff::where('status', 'active')->count(),
+
+            // Minutes module
+            'totalMinutes' => \App\Models\Minute::count(),
+            'recentMinutes' => \App\Models\Minute::where('meeting_date', '>=', now()->subDays(30))->count(),
+
+            // Training records
+            'totalTrainingRecords' => \App\Models\TrainingSessionRecord::count(),
+            'recentTrainingRecords' => \App\Models\TrainingSessionRecord::where('created_at', '>=', now()->subDays(30))->count(),
+
+            // Inhouse training
+            'totalInhouseTraining' => \App\Models\InhouseTraining::count(),
+            'upcomingInhouseTraining' => \App\Models\InhouseTraining::where('training_date', '>=', $today)->count(),
+
+            // Equipment breakdown
+            'totalSportsEquipment' => \App\Models\SportsEquipment::count(),
+            'totalOfficeEquipment' => \App\Models\OfficeEquipment::count(),
+
+            // Communications
+            'totalCommunications' => \App\Models\Communication::count(),
+            'recentCommunications' => \App\Models\Communication::where('created_at', '>=', now()->subDays(30))->count(),
+
+            // Tasks & Staff Tasks
+            'totalTasks' => \App\Models\Task::count(),
+            'totalStaffTasks' => \App\Models\StaffTask::count(),
+            'pendingStaffTasks' => \App\Models\StaffTask::where('status', 'pending')->count(),
+            'completedStaffTasks' => \App\Models\StaffTask::where('status', 'completed')->count(),
+            'ongoingTasks' => \App\Models\Task::where('end_date', '>=', $today)->count(),
+            'completedTasks' => \App\Models\Task::where('end_date', '<', $today)->count(),
+
+            // Reports
+            'totalReports' => \App\Models\Report::count(),
+
+            // Games
+            'totalGames' => \App\Models\Game::count(),
+            'upcomingGames' => \App\Models\Game::where('date', '>=', $today)->count(),
+
+            // Attendance
+            'totalStudentAttendance' => \App\Models\StudentAttendance::count(),
+            'totalCoachAttendance' => \App\Models\CoachAttendance::count(),
+            'totalStaffAttendance' => \App\Models\StaffAttendance::count(),
+
+            // Activity Plans
+            'totalActivityPlans' => \App\Models\ActivityPlan::count(),
+
+            // Upcoming Events
+            'totalUpcomingEvents' => \App\Models\UpcomingEvent::count(),
+            'futureEvents' => \App\Models\UpcomingEvent::where('date', '>=', $today)->count(),
         ];
 
         // Calculate net profit

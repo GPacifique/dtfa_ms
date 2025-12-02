@@ -214,6 +214,12 @@ Route::middleware(['auth', 'role:admin|super-admin'])->prefix('admin')->group(fu
     Route::post('minutes/{minute}/mark-cancelled', [App\Http\Controllers\Admin\MinuteController::class, 'markCancelled'])->name('admin.minutes.markCancelled');
     Route::post('minutes/{minute}/reschedule', [App\Http\Controllers\Admin\MinuteController::class, 'reschedule'])->name('admin.minutes.reschedule');
 
+    // Student Attendance Management
+    Route::resource('student-attendance', \App\Http\Controllers\Admin\StudentAttendanceController::class, ['as' => 'admin'])->names('student-attendance');
+    Route::get('student-attendance-bulk/create', [\App\Http\Controllers\Admin\StudentAttendanceController::class, 'bulkCreate'])->name('admin.student-attendance.bulk.create');
+    Route::post('student-attendance-bulk', [\App\Http\Controllers\Admin\StudentAttendanceController::class, 'bulkStore'])->name('admin.student-attendance.bulk.store');
+    Route::get('student-attendance-report', [\App\Http\Controllers\Admin\StudentAttendanceController::class, 'report'])->name('admin.student-attendance.report');
+
     // Upcoming Events
     Route::resource('upcoming-events', \App\Http\Controllers\Admin\UpcomingEventController::class, ['as' => 'admin'])->names('upcoming-events');
 

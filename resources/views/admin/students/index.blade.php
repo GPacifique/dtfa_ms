@@ -170,7 +170,8 @@
                         <div class="px-4 pb-4 sm:px-6 flex flex-col gap-2 text-sm">
                             <a href="{{ route('admin.students.show', $student) }}" class="text-center px-3 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg font-semibold transition">👁️ View Details</a>
                             <a href="{{ route('admin.students.edit', $student) }}" class="text-center px-3 py-2 bg-indigo-100 hover:bg-indigo-200 text-indigo-700 rounded-lg font-semibold transition">✏️ Edit</a>
-                            <a href="{{ url('/admin/students/' . $student->id . '/attendance') }}" class="text-center px-3 py-2 bg-green-100 hover:bg-green-200 text-green-700 rounded-lg font-semibold transition">📋 Attendance</a>
+                            <a href="{{ route('students-modern.show', $student) }}" class="text-center px-3 py-2 bg-emerald-100 hover:bg-emerald-200 text-emerald-700 rounded-lg font-semibold transition">✅ Record Attendance</a>
+                            <a href="{{ url('/admin/students/' . $student->id . '/attendance') }}" class="text-center px-3 py-2 bg-blue-100 hover:bg-blue-200 text-blue-700 rounded-lg font-semibold transition">📋 View History</a>
                             @if(!empty($sessions) && $sessions->count())
                                 <form action="{{ route('admin.students.attendance.store', $student) }}" method="POST" class="flex gap-2 mt-1">
                                     @csrf
@@ -257,7 +258,8 @@
                             <td class="px-4 py-3 text-right">
                                     <a class="text-indigo-700 hover:underline px-2 font-semibold text-sm" href="{{ route('admin.students.show', $student) }}">View</a>
                                     <a class="text-indigo-700 hover:underline px-2 font-semibold text-sm" href="{{ route('admin.students.edit', $student) }}">Edit</a>
-                                    <a class="text-slate-700 hover:underline px-2 font-semibold text-sm" href="{{ url('/admin/students/' . $student->id . '/attendance') }}">Attendance</a>
+                                    <a class="text-emerald-700 hover:underline px-2 font-semibold text-sm" href="{{ route('students-modern.show', $student) }}">Record Attendance</a>
+                                    <a class="text-slate-700 hover:underline px-2 font-semibold text-sm" href="{{ url('/admin/students/' . $student->id . '/attendance') }}">History</a>
                                     @if(!empty($sessions) && $sessions->count())
                                         <form action="{{ route('admin.students.attendance.store', $student) }}" method="POST" class="inline-block">
                                             @csrf

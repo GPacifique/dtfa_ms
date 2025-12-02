@@ -19,8 +19,22 @@ class InhouseTraining extends Model
         'branch_id',
         'role_id',
         'training_name',
+        'channel',
+        'training_date',
         'start',
         'end',
+        'cost',
+        'notes',
+        'training_category',
+        'venue',
+        'location',
+        'trainer_name',
+    ];
+
+    protected $casts = [
+        'training_date' => 'date',
+        'start' => 'datetime',
+        'end' => 'datetime',
     ];
 
     // Relationships
