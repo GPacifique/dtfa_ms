@@ -43,9 +43,25 @@ class StudentController extends Controller
 
     public function create()
     {
+        $branches = Branch::orderBy('name')->get(['id','name']);
+        $groups = Group::orderBy('name')->get(['id','name']);
+        $coaches = \App\Models\User::role('coach')->orderBy('name')->get(['id','name']);
+        $sportDisciplines = Student::query()
+            ->whereNotNull('sport_discipline')
+            ->distinct()
+            ->orderBy('sport_discipline')
+            ->pluck('sport_discipline')
+            ->filter()
+            ->values();
         return view('students-modern.create', [
-            'branches' => Branch::orderBy('name')->get(['id','name']),
-            'groups' => Group::orderBy('name')->get(['id','name']),
+            'branches' => $branches,
+            'groups' => $groups,
+            'membershipTypes' => [
+                'self-sponsored' => 'Self Sponsored',
+                'dtfa-sponsored' => 'DTFA Sponsored',
+            ],
+            'sportDisciplines' => $sportDisciplines,
+            'coaches' => $coaches,
         ]);
     }
 
@@ -88,10 +104,26 @@ class StudentController extends Controller
     public function edit(Student $students_modern)
     {
         $student = $students_modern;
+        $branches = Branch::orderBy('name')->get(['id','name']);
+        $groups = Group::orderBy('name')->get(['id','name']);
+        $coaches = \App\Models\User::role('coach')->orderBy('name')->get(['id','name']);
+        $sportDisciplines = Student::query()
+            ->whereNotNull('sport_discipline')
+            ->distinct()
+            ->orderBy('sport_discipline')
+            ->pluck('sport_discipline')
+            ->filter()
+            ->values();
         return view('students-modern.edit', [
             'student' => $student,
-            'branches' => Branch::orderBy('name')->get(['id','name']),
-            'groups' => Group::orderBy('name')->get(['id','name']),
+            'branches' => $branches,
+            'groups' => $groups,
+            'membershipTypes' => [
+                'self-sponsored' => 'Self Sponsored',
+                'dtfa-sponsored' => 'DTFA Sponsored',
+            ],
+            'sportDisciplines' => $sportDisciplines,
+            'coaches' => $coaches,
         ]);
     }
 

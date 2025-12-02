@@ -22,16 +22,16 @@
         <x-input name="father_name" label="Father Name" :value="$student->father_name ?? null" />
         <x-input name="mother_name" label="Mother Name" :value="$student->mother_name ?? null" />
         <x-input name="program" label="Program" :value="$student->program ?? null" />
-        <x-input name="membership_type" label="Membership Type" :value="$student->membership_type ?? null" />
+        <x-select name="membership_type" label="Membership Type" :options="$membershipTypes ?? []" :value="$student->membership_type ?? null" placeholder="Select membership type" />
         <x-input name="combination" label="Combination" :value="$student->combination ?? null" />
     </div>
 
     <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
         <x-input name="jersey_number" label="Jersey Number" :value="$student->jersey_number ?? null" />
         <x-input name="jersey_name" label="Jersey Name" :value="$student->jersey_name ?? null" />
-        <x-input name="sport_discipline" label="Sport Discipline" :value="$student->sport_discipline ?? null" />
+        <x-select name="sport_discipline" label="Sport Discipline" :options="($sportDisciplines ?? collect())->mapWithKeys(fn($d)=>[$d=>$d])->all()" :value="$student->sport_discipline ?? null" placeholder="Select sport" />
         <x-input name="position" label="Position" :value="$student->position ?? null" />
-        <x-input name="coach" label="Coach" :value="$student->coach ?? null" />
+        <x-select name="coach" label="Coach" :options="($coaches ?? collect())->mapWithKeys(fn($c)=>[$c->name=>$c->name])->all()" :value="$student->coach ?? null" placeholder="Select coach" />
     </div>
 
     <div class="space-y-1">
