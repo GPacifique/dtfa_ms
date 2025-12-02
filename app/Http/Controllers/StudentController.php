@@ -46,13 +46,7 @@ class StudentController extends Controller
         $branches = Branch::orderBy('name')->get(['id','name']);
         $groups = Group::orderBy('name')->get(['id','name']);
         $coaches = \App\Models\User::role('coach')->orderBy('name')->get(['id','name']);
-        $sportDisciplines = Student::query()
-            ->whereNotNull('sport_discipline')
-            ->distinct()
-            ->orderBy('sport_discipline')
-            ->pluck('sport_discipline')
-            ->filter()
-            ->values();
+        $sportDisciplines = collect(config('sport_disciplines'));
         return view('students-modern.create', [
             'branches' => $branches,
             'groups' => $groups,
@@ -107,13 +101,7 @@ class StudentController extends Controller
         $branches = Branch::orderBy('name')->get(['id','name']);
         $groups = Group::orderBy('name')->get(['id','name']);
         $coaches = \App\Models\User::role('coach')->orderBy('name')->get(['id','name']);
-        $sportDisciplines = Student::query()
-            ->whereNotNull('sport_discipline')
-            ->distinct()
-            ->orderBy('sport_discipline')
-            ->pluck('sport_discipline')
-            ->filter()
-            ->values();
+        $sportDisciplines = collect(config('sport_disciplines'));
         return view('students-modern.edit', [
             'student' => $student,
             'branches' => $branches,
