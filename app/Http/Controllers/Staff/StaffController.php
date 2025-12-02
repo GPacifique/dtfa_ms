@@ -20,7 +20,8 @@ class StaffController extends Controller
     public function create()
     {
         $roles = \Spatie\Permission\Models\Role::orderBy('name')->get(['id','name']);
-        return view('staff.create', compact('roles'));
+        $userEmails = \App\Models\User::whereNotNull('email')->orderBy('email')->pluck('email');
+        return view('staff.create', compact('roles','userEmails'));
     }
 
     public function store(Request $request)
@@ -43,7 +44,7 @@ class StaffController extends Controller
             'short_size' => 'nullable|string|max:50',
             'top_tracksuit_size' => 'nullable|string|max:50',
             'pant_tracksuit_size' => 'nullable|string|max:50',
-            'email' => 'nullable|email|max:255|unique:staff,email',
+            'email' => 'nullable|email|max:255|unique:staff,email|exists:users,email',
             'role_name' => 'nullable|exists:roles,name',
         ]);
         $roleName = $data['role_name'] ?? null;
@@ -69,7 +70,8 @@ class StaffController extends Controller
     public function edit(Staff $staff)
     {
         $roles = \Spatie\Permission\Models\Role::orderBy('name')->get(['id','name']);
-        return view('staff.edit', compact('staff','roles'));
+        $userEmails = \App\Models\User::whereNotNull('email')->orderBy('email')->pluck('email');
+        return view('staff.edit', compact('staff','roles','userEmails'));
     }
 
     public function update(Request $request, Staff $staff)
@@ -92,7 +94,7 @@ class StaffController extends Controller
             'short_size' => 'nullable|string|max:50',
             'top_tracksuit_size' => 'nullable|string|max:50',
             'pant_tracksuit_size' => 'nullable|string|max:50',
-            'email' => 'nullable|email|max:255|unique:staff,email,' . $staff->id,
+            'email' => 'nullable|email|max:255|unique:staff,email,' . $staff->id . '|exists:users,email',
             'role_name' => 'nullable|exists:roles,name',
         ]);
         $roleName = $data['role_name'] ?? null;

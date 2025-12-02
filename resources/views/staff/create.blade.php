@@ -136,7 +136,12 @@
 
                 <div class="md:col-span-2">
                     <label class="block text-sm">Staff Personnel Email</label>
-                    <input name="email" type="email" value="{{ old('email') }}" class="w-full border rounded px-3 py-2" />
+                    <select name="email" class="w-full border rounded px-3 py-2">
+                        <option value="">-- Select User Email --</option>
+                        @foreach(($userEmails ?? []) as $email)
+                            <option value="{{ $email }}" @selected(old('email')===$email)>{{ $email }}</option>
+                        @endforeach
+                    </select>
                 </div>
             </div>
 
