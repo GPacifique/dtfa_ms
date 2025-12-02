@@ -93,24 +93,45 @@
                     <textarea name="professional_certificates" class="w-full border rounded px-3 py-2">{{ old('professional_certificates') }}</textarea>
                 </div>
 
+                @php($sizeOptions = ['Small'=>'Small','Medium'=>'Medium','Large'=>'Large','X Large'=>'X Large','XX Large'=>'XX Large','XXX Large'=>'XXX Large'])
                 <div>
                     <label class="block text-sm">Top T-Shirt Size</label>
-                    <input name="tshirt_size" value="{{ old('tshirt_size') }}" class="w-full border rounded px-3 py-2" />
+                    <select name="tshirt_size" class="w-full border rounded px-3 py-2">
+                        <option value="">-- Select Size --</option>
+                        @foreach($sizeOptions as $val => $label)
+                            <option value="{{ $val }}" @selected(old('tshirt_size')===$val)>{{ $label }}</option>
+                        @endforeach
+                    </select>
                 </div>
 
                 <div>
                     <label class="block text-sm">Short Size</label>
-                    <input name="short_size" value="{{ old('short_size') }}" class="w-full border rounded px-3 py-2" />
+                    <select name="short_size" class="w-full border rounded px-3 py-2">
+                        <option value="">-- Select Size --</option>
+                        @foreach($sizeOptions as $val => $label)
+                            <option value="{{ $val }}" @selected(old('short_size')===$val)>{{ $label }}</option>
+                        @endforeach
+                    </select>
                 </div>
 
                 <div>
                     <label class="block text-sm">Top Tracksuit Size</label>
-                    <input name="top_tracksuit_size" value="{{ old('top_tracksuit_size') }}" class="w-full border rounded px-3 py-2" />
+                    <select name="top_tracksuit_size" class="w-full border rounded px-3 py-2">
+                        <option value="">-- Select Size --</option>
+                        @foreach($sizeOptions as $val => $label)
+                            <option value="{{ $val }}" @selected(old('top_tracksuit_size')===$val)>{{ $label }}</option>
+                        @endforeach
+                    </select>
                 </div>
 
                 <div>
                     <label class="block text-sm">Pant Tracksuit Size</label>
-                    <input name="pant_tracksuit_size" value="{{ old('pant_tracksuit_size') }}" class="w-full border rounded px-3 py-2" />
+                    <select name="pant_tracksuit_size" class="w-full border rounded px-3 py-2">
+                        <option value="">-- Select Size --</option>
+                        @foreach($sizeOptions as $val => $label)
+                            <option value="{{ $val }}" @selected(old('pant_tracksuit_size')===$val)>{{ $label }}</option>
+                        @endforeach
+                    </select>
                 </div>
 
                 <div class="md:col-span-2">
