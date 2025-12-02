@@ -14,6 +14,9 @@
     @stack('head')
 </head>
 <body class="font-sans antialiased">
+<!-- Notification Alert -->
+<x-notification-alert />
+
 <div x-data="{}" x-effect="document.body.classList.toggle('overflow-hidden', $store.layout.mobileOpen)" @keydown.window.escape="$store.layout.mobileOpen = false" class="min-h-screen flex">
     <!-- Sidebar (shared partial) -->
     @include('layouts.sidebar')
@@ -154,6 +157,7 @@
 </div>
 
 @stack('scripts')
+<script src="{{ asset('js/notification-helper.js') }}"></script>
 <script src="{{ asset('js/custom-interactions.js') }}"></script>
 </body>
 </html>

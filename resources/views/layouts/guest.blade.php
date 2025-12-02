@@ -15,6 +15,8 @@
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
     <body class="font-sans text-gray-900 antialiased flex flex-col min-h-screen">
+        <!-- Notification Alert -->
+        <x-notification-alert />
         <div class="flex-1 flex flex-col sm:justify-center items-center pt-6 sm:pt-0 bg-gradient-to-br from-slate-50 via-blue-50 to-purple-50">
             <div>
                 <a href="/">
@@ -29,5 +31,7 @@
 
         <!-- Footer -->
         <x-app-footer />
+
+        <script src="{{ asset('js/notification-helper.js') }}"></script>
     </body>
 </html>

@@ -15,6 +15,8 @@
     @stack('head')
 </head>
 <body class="font-sans antialiased bg-slate-50 dark:bg-slate-900">
+<!-- Notification Alert -->
+<x-notification-alert />
 
 <div class="flex h-screen overflow-hidden" @keydown.window.escape="$store.layout.mobileOpen = false">
 
@@ -216,6 +218,7 @@
 
 @include('partials.inline-scripts')
 @stack('scripts')
+<script src="{{ asset('js/notification-helper.js') }}"></script>
 
 </body>
 </html>
