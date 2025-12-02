@@ -2,12 +2,13 @@
 
 namespace App\Models;
 
+use App\Traits\HasPhoto;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Student extends Model
 {
-    use HasFactory;
+    use HasFactory, HasPhoto;
 
     protected $fillable = [
         'first_name', 'second_name', 'dob', 'gender', 'father_name', 'mother_name', 'email', 'emergency_phone', 'parent_user_id', 'phone', 'photo_path', 'status', 'registered_by', 'jersey_number', 'jersey_name', 'sport_discipline', 'school_name', 'position', 'coach', 'joined_at', 'program', 'branch_id', 'group_id', 'combination', 'membership_type'
@@ -55,23 +56,12 @@ class Student extends Model
 
     public function getPhotoUrlAttribute(): string
     {
-        // Use consolidated photo_path field
-        $path = $this->photo_path;
-        if ($path) {
-            // Prefer the storage disk URL (works whether or not storage:link exists)
-            try {
-                return \Illuminate\Support\Facades\Storage::disk('public')->url(ltrim($path, '/'));
-            } catch (\Throwable $e) {
-                // Fallback to asset path if Storage driver cannot produce a URL
-                return asset('storage/' . ltrim($path, '/'));
-            }
-        }
-        // Fallback avatar (SVG data URI or a generic placeholder)
+        // Generate initials for fallback avatar
         $second = $this->second_name ?? $this->last_name ?? 'T';
         $initials = strtoupper(mb_substr($this->first_name ?? 'S', 0, 1) . mb_substr($second, 0, 1));
-        $bg = '3b82f6'; // blue-600
-        $fg = 'ffffff';
-        return "https://ui-avatars.com/api/?name=" . urlencode($initials) . "&background={$bg}&color={$fg}&size=128&bold=true";
+
+        // Use trait method for consistent photo URL handling
+        return $this->getPhotoUrlFromPath($this->photo_path, $initials, '3b82f6');
     }
 
     public function getAgeAttribute()

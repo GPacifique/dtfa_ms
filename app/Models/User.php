@@ -3,6 +3,7 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Traits\HasPhoto;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -24,7 +25,12 @@ use App\Notifications\ResetPasswordNotification;
 class User extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory, Notifiable, HasRoles, SoftDeletes;
+    use HasFactory, Notifiable, HasRoles, SoftDeletes, HasPhoto;
+
+    /**
+     * Override the photo field name for the HasPhoto trait.
+     */
+    protected $photoFieldName = 'profile_picture_path';
 
     /**
      * The attributes that are mass assignable.
@@ -75,19 +81,11 @@ class User extends Authenticatable
 
     public function getProfilePictureUrlAttribute(): string
     {
-        if ($this->profile_picture_path) {
-            try {
-                return \Illuminate\Support\Facades\Storage::disk('public')->url(ltrim($this->profile_picture_path, '/'));
-            } catch (\Throwable $e) {
-                return asset('storage/' . ltrim($this->profile_picture_path, '/'));
-            }
-        }
-
-        // Fallback to ui-avatars.com with initials
+        // Generate initials for fallback avatar
         $initials = strtoupper(mb_substr($this->name ?? 'U', 0, 1));
-        $bg = '3b82f6'; // blue-600
-        $fg = 'ffffff';
-        return "https://ui-avatars.com/api/?name=" . urlencode($initials) . "&background={$bg}&color={$fg}&size=128&bold=true";
+
+        // Use trait method for consistent photo URL handling
+        return $this->getPhotoUrlFromPath($this->profile_picture_path, $initials, '3b82f6');
     }
 
     /**

@@ -2,12 +2,13 @@
 
 namespace App\Models;
 
+use App\Traits\HasPhoto;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Staff extends Model
 {
-    use HasFactory;
+    use HasFactory, HasPhoto;
 
     protected $table = 'staff';
 
@@ -43,18 +44,10 @@ class Staff extends Model
 
     public function getPhotoUrlAttribute(): string
     {
-        $path = $this->photo_path;
-        if ($path) {
-            try {
-                return \Illuminate\Support\Facades\Storage::disk('public')->url(ltrim($path, '/'));
-            } catch (\Throwable $e) {
-                return asset('storage/' . ltrim($path, '/'));
-            }
-        }
-        // Fallback to UI Avatars with initials
+        // Generate initials for fallback avatar
         $initials = strtoupper(mb_substr($this->first_name ?? 'S', 0, 1) . mb_substr($this->last_name ?? 'T', 0, 1));
-        $bg = '6366f1'; // indigo-500
-        $fg = 'ffffff';
-        return "https://ui-avatars.com/api/?name=" . urlencode($initials) . "&background={$bg}&color={$fg}&size=128&bold=true";
+
+        // Use trait method for consistent photo URL handling
+        return $this->getPhotoUrlFromPath($this->photo_path, $initials, '6366f1');
     }
 }
