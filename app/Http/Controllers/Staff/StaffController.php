@@ -19,7 +19,8 @@ class StaffController extends Controller
 
     public function create()
     {
-        return view('staff.create');
+        $roles = \Spatie\Permission\Models\Role::orderBy('name')->get(['id','name']);
+        return view('staff.create', compact('roles'));
     }
 
     public function store(Request $request)
@@ -43,9 +44,19 @@ class StaffController extends Controller
             'top_tracksuit_size' => 'nullable|string|max:50',
             'pant_tracksuit_size' => 'nullable|string|max:50',
             'email' => 'nullable|email|max:255|unique:staff,email',
+            'role_name' => 'nullable|exists:roles,name',
         ]);
-
-        Staff::create($data);
+        $roleName = $data['role_name'] ?? null;
+        unset($data['role_name']);
+        $staff = Staff::create($data);
+        if ($roleName) {
+            // If Staff also has a related User account later, you may link role there.
+            // For now we store chosen role as role_function if role_function empty
+            if (empty($staff->role_function)) {
+                $staff->role_function = $roleName;
+                $staff->save();
+            }
+        }
 
         return redirect()->route('staff.index')->with('status', 'Staff profile created');
     }
@@ -57,7 +68,8 @@ class StaffController extends Controller
 
     public function edit(Staff $staff)
     {
-        return view('staff.edit', compact('staff'));
+        $roles = \Spatie\Permission\Models\Role::orderBy('name')->get(['id','name']);
+        return view('staff.edit', compact('staff','roles'));
     }
 
     public function update(Request $request, Staff $staff)
@@ -81,9 +93,15 @@ class StaffController extends Controller
             'top_tracksuit_size' => 'nullable|string|max:50',
             'pant_tracksuit_size' => 'nullable|string|max:50',
             'email' => 'nullable|email|max:255|unique:staff,email,' . $staff->id,
+            'role_name' => 'nullable|exists:roles,name',
         ]);
-
+        $roleName = $data['role_name'] ?? null;
+        unset($data['role_name']);
         $staff->update($data);
+        if ($roleName && empty($staff->role_function)) {
+            $staff->role_function = $roleName;
+            $staff->save();
+        }
 
         return redirect()->route('staff.index')->with('status', 'Staff profile updated');
     }

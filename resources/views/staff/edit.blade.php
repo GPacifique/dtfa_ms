@@ -57,7 +57,17 @@
                 </div>
 
                 <div>
-                    <label class="block text-sm">Role / Function</label>
+                    <label class="block text-sm">Role</label>
+                    <select name="role_name" class="w-full border rounded px-3 py-2">
+                        <option value="">-- Select Role --</option>
+                        @foreach(($roles ?? []) as $r)
+                            <option value="{{ $r->name }}" @selected(old('role_name',$staff->role_function)===$r->name)>{{ $r->name }}</option>
+                        @endforeach
+                    </select>
+                    @error('role_name')<span class="text-red-600 text-sm">{{ $message }}</span>@enderror
+                </div>
+                <div>
+                    <label class="block text-sm">Role / Function (custom)</label>
                     <input name="role_function" value="{{ old('role_function', $staff->role_function) }}" class="w-full border rounded px-3 py-2" />
                     @error('role_function')<span class="text-red-600 text-sm">{{ $message }}</span>@enderror
                 </div>
