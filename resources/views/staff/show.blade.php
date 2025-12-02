@@ -8,6 +8,17 @@
     </div>
 
     <div class="bg-white dark:bg-slate-800 rounded shadow p-6">
+        {{-- Staff Photo --}}
+        <div class="flex items-start gap-6 mb-6 pb-6 border-b border-slate-200 dark:border-slate-700">
+            <img src="{{ $staff->photo_url }}" alt="{{ $staff->first_name }} {{ $staff->last_name }}" class="w-32 h-32 rounded-full object-cover ring-4 ring-slate-200 dark:ring-slate-700 shadow-lg">
+            <div>
+                <h3 class="text-2xl font-bold text-slate-900 dark:text-white">{{ $staff->first_name }} {{ $staff->last_name }}</h3>
+                <p class="text-slate-600 dark:text-slate-400 mt-1">{{ $staff->role_function }}</p>
+                @if($staff->email)
+                    <p class="text-sm text-slate-500 dark:text-slate-500 mt-1">{{ $staff->email }}</p>
+                @endif
+            </div>
+        </div>
         <dl class="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
                 <dt class="text-sm font-medium text-slate-600">First Name</dt>

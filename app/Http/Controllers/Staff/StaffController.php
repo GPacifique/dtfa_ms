@@ -46,7 +46,14 @@ class StaffController extends Controller
             'pant_tracksuit_size' => 'nullable|string|max:50',
             'email' => 'nullable|email|max:255|unique:staff,email|exists:users,email',
             'role_name' => 'nullable|exists:roles,name',
+            'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
+
+        // Handle photo upload
+        if ($request->hasFile('photo')) {
+            $data['photo_path'] = $request->file('photo')->store('photos/staff', 'public');
+        }
+
         $roleName = $data['role_name'] ?? null;
         unset($data['role_name']);
         $staff = Staff::create($data);
@@ -96,7 +103,18 @@ class StaffController extends Controller
             'pant_tracksuit_size' => 'nullable|string|max:50',
             'email' => 'nullable|email|max:255|unique:staff,email,' . $staff->id . '|exists:users,email',
             'role_name' => 'nullable|exists:roles,name',
+            'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
+
+        // Handle photo upload
+        if ($request->hasFile('photo')) {
+            // Delete old photo if exists
+            if ($staff->photo_path) {
+                Storage::disk('public')->delete($staff->photo_path);
+            }
+            $data['photo_path'] = $request->file('photo')->store('photos/staff', 'public');
+        }
+
         $roleName = $data['role_name'] ?? null;
         unset($data['role_name']);
         $staff->update($data);

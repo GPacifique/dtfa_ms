@@ -4,9 +4,24 @@
     <h2 class="text-xl font-semibold">Edit Staff Profile</h2>
 
     <div class="mt-6 bg-white dark:bg-slate-800 rounded shadow p-6">
-        <form method="POST" action="{{ route('staff.update', $staff) }}">
+        <form method="POST" action="{{ route('staff.update', $staff) }}" enctype="multipart/form-data">
             @csrf
             @method('PUT')
+
+            {{-- Photo Upload --}}
+            <div class="mb-6 p-4 bg-slate-50 dark:bg-slate-900/30 rounded-lg border border-slate-200 dark:border-slate-700">
+                <label class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-3">Profile Photo</label>
+                <div class="flex items-start gap-4 mb-3">
+                    <img src="{{ $staff->photo_url }}" alt="{{ $staff->first_name }}" class="w-20 h-20 rounded-full object-cover ring-2 ring-slate-300 dark:ring-slate-600">
+                    <div class="flex-1">
+                        <input type="file" name="photo" accept="image/*" class="block w-full text-sm text-slate-600 dark:text-slate-400 file:mr-3 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-indigo-50 dark:file:bg-indigo-900/30 file:text-indigo-700 dark:file:text-indigo-400 hover:file:bg-indigo-100 dark:hover:file:bg-indigo-900/50 transition-colors cursor-pointer">
+                        <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">Upload new photo to replace current • Supported: JPEG, PNG, GIF • Max: 2MB</p>
+                    </div>
+                </div>
+                @error('photo')
+                    <p class="text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
+                @enderror
+            </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>

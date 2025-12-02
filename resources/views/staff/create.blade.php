@@ -4,8 +4,18 @@
     <h2 class="text-xl font-semibold">New Staff Profile</h2>
 
     <div class="mt-6 bg-white dark:bg-slate-800 rounded shadow p-6">
-        <form method="POST" action="{{ route('staff.store') }}">
+        <form method="POST" action="{{ route('staff.store') }}" enctype="multipart/form-data">
             @csrf
+
+            {{-- Photo Upload --}}
+            <div class="mb-6 p-4 bg-slate-50 dark:bg-slate-900/30 rounded-lg border border-slate-200 dark:border-slate-700">
+                <label class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">Profile Photo</label>
+                <input type="file" name="photo" accept="image/*" class="block w-full text-sm text-slate-600 dark:text-slate-400 file:mr-3 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-indigo-50 dark:file:bg-indigo-900/30 file:text-indigo-700 dark:file:text-indigo-400 hover:file:bg-indigo-100 dark:hover:file:bg-indigo-900/50 transition-colors cursor-pointer">
+                <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">Supported formats: JPEG, PNG, GIF • Max size: 2MB</p>
+                @error('photo')
+                    <p class="text-sm text-red-600 dark:text-red-400 mt-1">{{ $message }}</p>
+                @enderror
+            </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
