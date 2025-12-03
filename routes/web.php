@@ -64,8 +64,7 @@ Route::prefix('admin')->name('admin.')->middleware(['auth'])->group(function () 
 
 // For all users
 Route::resource('trainings', App\Http\Controllers\admin\TrainingSessionRecordController::class);
-Route::resource('groups', App\Http\Controllers\admin\GroupsController::class);
-Route::resource('teams', App\Http\Controllers\admin\TeamController::class);
+// Note: groups and teams resources are defined above with admin prefix
 
 // Reports CRUD routes
 Route::resource('reports', ReportController::class);
@@ -178,17 +177,12 @@ Route::get('/admin-only', function () {
 // Admin and User dashboards
 Route::middleware(['auth', 'role:admin|super-admin'])->prefix('admin')->group(function () {
     Route::get('/dashboard', [\App\Http\Controllers\AdminController::class, 'index'])->name('admin.dashboard');
-    // User role management
-    Route::get('/users', [\App\Http\Controllers\Admin\UsersController::class, 'index'])->name('admin.users.index');
-    Route::get('/users/{user}', [\App\Http\Controllers\Admin\UsersController::class, 'show'])->name('admin.users.show');
-    Route::get('/users/create', [\App\Http\Controllers\Admin\UsersController::class, 'create'])->name('admin.users.create');
-    Route::post('/users', [\App\Http\Controllers\Admin\UsersController::class, 'store'])->name('admin.users.store');
-    Route::get('/users/{user}/edit', [\App\Http\Controllers\Admin\UsersController::class, 'edit'])->name('admin.users.edit');
-    Route::put('/users/{user}', [\App\Http\Controllers\Admin\UsersController::class, 'updateFull'])->name('admin.users.updateFull');
-    Route::patch('/users/{user}', [\App\Http\Controllers\Admin\UsersController::class, 'update'])->name('admin.users.update');
+
+    // Note: User CRUD routes are defined at the top of this file using Route::resource('users', ...)
+    // Only custom user routes that aren't part of RESTful resource are defined here:
+    Route::put('/users/{user}/full', [\App\Http\Controllers\Admin\UsersController::class, 'updateFull'])->name('admin.users.updateFull');
     Route::post('/users/{user}/send-reset', [\App\Http\Controllers\Admin\UsersController::class, 'sendReset'])->name('admin.users.sendReset');
-    Route::delete('/users/{user}', [\App\Http\Controllers\Admin\UsersController::class, 'destroy'])->name('admin.users.destroy');
-    Route::post('/users/{user}/restore', [\App\Http\Controllers\Admin\UsersController::class, 'restore'])->name('admin.users.restore');
+
     // Session management
     Route::get('/sessions', [\App\Http\Controllers\Admin\SessionsController::class, 'index'])->name('admin.sessions.index');
     Route::get('/sessions/create', [\App\Http\Controllers\Admin\SessionsController::class, 'create'])->name('admin.sessions.create');
@@ -206,7 +200,7 @@ Route::middleware(['auth', 'role:admin|super-admin'])->prefix('admin')->group(fu
     Route::resource('incomes', \App\Http\Controllers\Admin\IncomeController::class, ['as' => 'admin']);
 
     // Teams / Players / Games (matches)
-    Route::resource('teams', \App\Http\Controllers\Admin\TeamController::class, ['as' => 'admin']);
+    // Note: teams resource is defined at the top with admin prefix
     Route::resource('players', \App\Http\Controllers\Admin\PlayerController::class, ['as' => 'admin']);
     Route::resource('games', \App\Http\Controllers\Admin\GameController::class, ['as' => 'admin'])->names('games');
 
@@ -290,14 +284,7 @@ Route::middleware(['auth', 'role:admin|super-admin'])->prefix('admin')->group(fu
     Route::put('/branches/{branch}', [\App\Http\Controllers\Admin\BranchesController::class, 'update'])->name('admin.branches.update');
     Route::delete('/branches/{branch}', [\App\Http\Controllers\Admin\BranchesController::class, 'destroy'])->name('admin.branches.destroy');
 
-    // Groups Management
-    Route::get('/groups', [\App\Http\Controllers\Admin\GroupsController::class, 'index'])->name('admin.groups.index');
-    Route::get('/groups/create', [\App\Http\Controllers\Admin\GroupsController::class, 'create'])->name('admin.groups.create');
-    Route::post('/groups', [\App\Http\Controllers\Admin\GroupsController::class, 'store'])->name('admin.groups.store');
-    Route::get('/groups/{group}', [\App\Http\Controllers\Admin\GroupsController::class, 'show'])->name('admin.groups.show');
-    Route::get('/groups/{group}/edit', [\App\Http\Controllers\Admin\GroupsController::class, 'edit'])->name('admin.groups.edit');
-    Route::put('/groups/{group}', [\App\Http\Controllers\Admin\GroupsController::class, 'update'])->name('admin.groups.update');
-    Route::delete('/groups/{group}', [\App\Http\Controllers\Admin\GroupsController::class, 'destroy'])->name('admin.groups.destroy');
+    // Note: Groups Management routes are defined at the top using Route::resource('groups', ...)
 
     // Super-admin only: Roles & Permissions management
     Route::middleware(['role:super-admin'])->group(function () {
