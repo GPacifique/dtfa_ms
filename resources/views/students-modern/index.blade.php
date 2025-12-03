@@ -42,8 +42,7 @@
             @forelse($students as $s)
                 <div class="bg-white dark:bg-slate-900 rounded-xl shadow-sm border border-slate-200 dark:border-slate-800 overflow-hidden hover:shadow-lg transition">
                     <div class="aspect-square bg-slate-100 dark:bg-slate-800 relative">
-                        <img src="{{ asset('storage/' . $s->photo_url) }}">
- alt="{{ $s->first_name }} {{ $s->second_name }}" class="w-full h-full object-cover">
+                        <img src="{{ $s->photo_url }}" alt="{{ $s->first_name }} {{ $s->second_name }}" class="w-full h-full object-cover">
                         @if($s->status === 'active')
                             <div class="absolute top-2 right-2 bg-emerald-500 text-white text-xs font-bold rounded-full w-6 h-6 flex items-center justify-center">✓</div>
                         @endif
