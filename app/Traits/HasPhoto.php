@@ -10,9 +10,14 @@ trait HasPhoto
      * Get the photo URL with proper fallbacks.
      *
      * This method provides a consistent strategy for fetching image URLs:
-     * 1. Try to get URL from storage disk (works with both local and cloud storage)
-     * 2. Fallback to asset path if storage driver fails
-     * 3. Generate UI Avatar with initials if no photo exists
+     * 1. Use PhotoController routes for better control and compatibility
+     * 2. Generate UI Avatar with initials if no photo exists
+     *
+     * PhotoController handles:
+     * - Local storage (both XAMPP and production)
+     * - Cloud storage (S3, Cloudinary)
+     * - Proper MIME types and caching
+     * - Missing file handling
      *
      * @param string|null $path The photo path from database
      * @param string $initials The initials for fallback avatar
@@ -22,11 +27,23 @@ trait HasPhoto
     protected function getPhotoUrlFromPath(?string $path, string $initials, string $backgroundColor = '3b82f6'): string
     {
         if ($path) {
-            // Try storage disk URL first (works with S3, local, etc.)
+            // Use PhotoController routes for all models
+            if ($this instanceof \App\Models\Student) {
+                return route('photos.student', ['student' => $this->id]);
+            }
+
+            if ($this instanceof \App\Models\Staff) {
+                return route('photos.staff', ['staff' => $this->id]);
+            }
+
+            if ($this instanceof \App\Models\User) {
+                return route('photos.user', ['user' => $this->id]);
+            }
+
+            // Fallback to storage URL for other models
             try {
                 return Storage::disk('public')->url(ltrim($path, '/'));
             } catch (\Throwable $e) {
-                // Fallback to asset path for local storage
                 return asset('storage/' . ltrim($path, '/'));
             }
         }

@@ -104,6 +104,14 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+// Photo serving routes
+Route::get('/photos/students/{student}', [\App\Http\Controllers\PhotoController::class, 'showStudent'])
+    ->name('photos.student');
+Route::get('/photos/staff/{staff}', [\App\Http\Controllers\PhotoController::class, 'showStaff'])
+    ->name('photos.staff');
+Route::get('/photos/users/{user}', [\App\Http\Controllers\PhotoController::class, 'showUser'])
+    ->name('photos.user');
+
 // Public guest dashboard
 Route::get('/guest', [GuestController::class, 'index'])->name('guest.dashboard');
 
