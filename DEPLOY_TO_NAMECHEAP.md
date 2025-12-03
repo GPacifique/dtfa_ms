@@ -92,7 +92,21 @@ php artisan migrate
 
 When prompted "Are you sure you want to run this command?", select **Yes**.
 
-### 5. Clear Caches
+### 5. Create Storage Symbolic Link (Important for Images!)
+
+```bash
+php artisan storage:link
+```
+
+This creates a link from `public/storage` to `storage/app/public` so uploaded images are accessible.
+
+If you get "Protocol error", use manual symlink:
+```bash
+cd ~/sportacademyms/public
+ln -s ../storage/app/public storage
+```
+
+### 6. Clear Caches
 
 ```bash
 php artisan config:clear
@@ -101,14 +115,15 @@ php artisan view:clear
 php artisan route:clear
 ```
 
-### 6. Set Correct Permissions
+### 7. Set Correct Permissions
 
 ```bash
 chmod -R 755 ~/sportacademyms/storage
 chmod -R 755 ~/sportacademyms/bootstrap/cache
+chmod -R 755 ~/sportacademyms/public/storage
 ```
 
-### 7. Optimize for Production
+### 8. Optimize for Production
 
 ```bash
 php artisan config:cache
@@ -118,12 +133,12 @@ php artisan view:cache
 
 ## 🔧 Environment Configuration
 
-Make sure your `.env` file on Namecheap has the correct database settings:
+Make sure your `.env` file on Namecheap has the correct settings:
 
 ```env
 APP_ENV=production
 APP_DEBUG=false
-APP_URL=https://your-domain.com
+APP_URL=https://sportacademyms.app.avanciafitness.com
 
 DB_CONNECTION=mysql
 DB_HOST=localhost
@@ -131,7 +146,12 @@ DB_PORT=3306
 DB_DATABASE=your_database_name
 DB_USERNAME=your_database_user
 DB_PASSWORD=your_database_password
+
+# File Storage
+FILESYSTEM_DISK=public
 ```
+
+⚠️ **Important:** The `APP_URL` must match your actual domain for images to work correctly!
 
 ## 📝 Database Configuration Notes
 
