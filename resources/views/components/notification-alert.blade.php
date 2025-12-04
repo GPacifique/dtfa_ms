@@ -29,7 +29,7 @@
         @if(session('attendance_success'))
             this.addNotification('success', '{{ session('attendance_success') }}');
         @endif
-        @if($errors->any())
+        @if(isset($errors) && $errors->any())
             @foreach($errors->all() as $error)
                 this.addNotification('error', '{{ $error }}');
             @endforeach
