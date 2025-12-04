@@ -155,7 +155,9 @@ class AdminController extends Controller
 
             // Inhouse training
             'totalInhouseTraining' => \App\Models\InhouseTraining::count(),
-            'upcomingInhouseTraining' => \App\Models\InhouseTraining::where('training_date', '>=', $today)->count(),
+            'upcomingInhouseTraining' => \Illuminate\Support\Facades\Schema::hasColumn('inhouse_trainings', 'training_date')
+                ? \App\Models\InhouseTraining::where('training_date', '>=', $today)->count()
+                : 0,
 
             // Equipment breakdown
             'totalSportsEquipment' => \App\Models\SportsEquipment::count(),
