@@ -54,8 +54,10 @@
                     <div class="p-4">
                         <h3 class="font-bold text-slate-900 dark:text-white truncate">{{ $s->first_name }} {{ $s->second_name }}</h3>
                         <p class="text-xs text-slate-500 dark:text-slate-400 truncate">{{ $s->email ?? '—' }}</p>
-                        @if($s->photo_path)
-                            <p class="text-xs text-slate-400 dark:text-slate-600 truncate mt-1" title="{{ $s->photo_path }}">📁 {{ $s->photo_path }}</p>
+                        @if($s->jersey_number || $s->jersey_name)
+                            <p class="text-xs text-slate-600 dark:text-slate-400 truncate mt-1">
+                                🏀 #{{ $s->jersey_number ?? '—' }} {{ $s->jersey_name ? '· ' . $s->jersey_name : '' }}
+                            </p>
                         @endif
                         <div class="mt-2 flex flex-wrap gap-1">
                             @if($s->branch)
@@ -114,8 +116,8 @@
                                         <div>
                                             <div class="font-semibold text-slate-900 dark:text-white">{{ $s->first_name }} {{ $s->second_name }}</div>
                                             <div class="text-xs text-slate-500">{{ $s->email ?? '—' }}</div>
-                                            @if($s->photo_path)
-                                                <div class="text-xs text-slate-400 truncate max-w-xs" title="{{ $s->photo_path }}">📁 {{ basename($s->photo_path) }}</div>
+                                            @if($s->jersey_number || $s->jersey_name)
+                                                <div class="text-xs text-slate-600 dark:text-slate-400">🏀 #{{ $s->jersey_number ?? '—' }} {{ $s->jersey_name ? '· ' . $s->jersey_name : '' }}</div>
                                             @endif
                                         </div>
                                     </div>
