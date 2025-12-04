@@ -139,7 +139,9 @@ class AdminController extends Controller
 
             // Staff module
             'totalStaff' => \App\Models\Staff::count(),
-            'activeStaff' => \App\Models\Staff::where('status', 'active')->count(),
+            'activeStaff' => \Illuminate\Support\Facades\Schema::hasColumn('staff', 'status')
+                ? \App\Models\Staff::where('status', 'active')->count()
+                : \App\Models\Staff::count(),
 
             // Minutes module
             'totalMinutes' => \App\Models\Minute::count(),
