@@ -188,7 +188,9 @@ class AdminController extends Controller
             'totalStaffAttendance' => \App\Models\StaffAttendance::count(),
 
             // Activity Plans
-            'totalActivityPlans' => \App\Models\ActivityPlan::count(),
+            'totalActivityPlans' => \Illuminate\Support\Facades\Schema::hasTable('activity_plans')
+                ? \App\Models\ActivityPlan::count()
+                : 0,
 
             // Upcoming Events
             'totalUpcomingEvents' => \App\Models\UpcomingEvent::count(),
