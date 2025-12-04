@@ -145,7 +145,9 @@ class AdminController extends Controller
 
             // Minutes module
             'totalMinutes' => \App\Models\Minute::count(),
-            'recentMinutes' => \App\Models\Minute::where('meeting_date', '>=', now()->subDays(30))->count(),
+            'recentMinutes' => \Illuminate\Support\Facades\Schema::hasColumn('minutes', 'meeting_date')
+                ? \App\Models\Minute::where('meeting_date', '>=', now()->subDays(30))->count()
+                : \App\Models\Minute::where('created_at', '>=', now()->subDays(30))->count(),
 
             // Training records
             'totalTrainingRecords' => \App\Models\TrainingSessionRecord::count(),
