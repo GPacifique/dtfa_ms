@@ -6,6 +6,7 @@
     <div class="flex items-center justify-between mb-4">
         <h1 class="text-2xl font-bold text-slate-900 dark:text-white">Student Profile</h1>
         <div class="flex gap-2">
+            <x-button href="{{ route('students-modern.create') }}" variant="primary">+ New Student</x-button>
             <x-button href="{{ route('students-modern.edit', $student) }}" variant="secondary">Edit</x-button>
             <x-button href="{{ route('students-modern.index') }}" variant="secondary">Back to List</x-button>
         </div>
