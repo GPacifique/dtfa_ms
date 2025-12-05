@@ -12,12 +12,46 @@ class IncomeController extends Controller
     public function index(Request $request)
     {
         $query = Income::with('branch')->orderByDesc('received_at');
+
+        // Filter by branch
         if ($request->filled('branch_id')) {
             $query->where('branch_id', $request->get('branch_id'));
         }
+
+        // Filter by month
+        if ($request->filled('month')) {
+            $month = $request->get('month');
+            if ($month === 'all') {
+                // No filter
+            } else {
+                $date = \Carbon\Carbon::parse($month . '-01');
+                $query->whereBetween('received_at', [
+                    $date->copy()->startOfMonth(),
+                    $date->copy()->endOfMonth()
+                ]);
+            }
+        } else {
+            // Default to current month
+            $query->whereBetween('received_at', [
+                now()->startOfMonth(),
+                now()->endOfMonth()
+            ]);
+        }
+
         $incomes = $query->paginate(20)->appends($request->query());
         $branches = Branch::orderBy('name')->get();
-        return view('admin.incomes.index', compact('incomes', 'branches'));
+
+        // Generate months for dropdown (last 24 months)
+        $months = [];
+        for ($i = 0; $i < 24; $i++) {
+            $date = now()->subMonths($i);
+            $months[] = [
+                'value' => $date->format('Y-m'),
+                'label' => $date->format('F Y')
+            ];
+        }
+
+        return view('admin.incomes.index', compact('incomes', 'branches', 'months'));
     }
 
     public function create()

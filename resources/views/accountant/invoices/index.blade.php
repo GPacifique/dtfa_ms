@@ -8,6 +8,28 @@
         <x-button :href="route('accountant.invoices.create')" variant="primary">Create Invoice</x-button>
     </div>
 
+    <div class="card">
+        <div class="card-body">
+            <form method="GET" action="{{ route('accountant.invoices.index') }}" class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+                <div>
+                    <label class="block text-sm font-medium text-slate-700 mb-2">Month</label>
+                    <select name="month" class="form-select w-full" onchange="this.form.submit()">
+                        <option value="all" {{ request('month') === 'all' ? 'selected' : '' }}>All Time</option>
+                        @foreach($months as $m)
+                            <option value="{{ $m['value'] }}" {{ request('month', now()->format('Y-m')) === $m['value'] ? 'selected' : '' }}>
+                                {{ $m['label'] }}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
+                <x-form.input label="Search Student" name="q" type="text" :value="request('q')" placeholder="Student name..." />
+                <div class="flex items-end">
+                    <x-button type="submit" variant="primary" class="w-full">Filter</x-button>
+                </div>
+            </form>
+        </div>
+    </div>
+
     <div class="card overflow-hidden">
         <table class="table">
             <thead>

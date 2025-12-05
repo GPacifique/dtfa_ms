@@ -15,9 +15,30 @@ class PaymentsController extends Controller
         $q = $request->query('q');
         $from = $request->query('from');
         $to = $request->query('to');
+        $month = $request->query('month');
 
-        $payments = Payment::with(['student','subscription.plan','invoice'])
-            ->when($q, function($query) use ($q) {
+        $payments = Payment::with(['student','subscription.plan','invoice']);
+
+        // Month filter (default to current month if no from/to date provided)
+        if ($month) {
+            if ($month === 'all') {
+                // No filter
+            } else {
+                $date = \Carbon\Carbon::parse($month . '-01');
+                $payments->whereBetween('paid_at', [
+                    $date->copy()->startOfMonth(),
+                    $date->copy()->endOfMonth()
+                ]);
+            }
+        } elseif (!$from && !$to) {
+            // Default to current month if no filters provided
+            $payments->whereBetween('paid_at', [
+                now()->startOfMonth(),
+                now()->endOfMonth()
+            ]);
+        }
+
+        $payments->when($q, function($query) use ($q) {
                 $query->whereHas('student', function($s) use ($q) {
                     $s->where('first_name','like',"%$q%")->orWhere('second_name','like',"%$q%");
                 })->orWhere('reference','like',"%$q%");
@@ -25,9 +46,20 @@ class PaymentsController extends Controller
             ->when($from, fn($query) => $query->whereDate('paid_at', '>=', $from))
             ->when($to, fn($query) => $query->whereDate('paid_at', '<=', $to))
             ->orderByDesc('paid_at')
-            ->orderByDesc('created_at')
-            ->paginate(20);
-        return view('accountant.payments.index', compact('payments','q','from','to'));
+            ->orderByDesc('created_at');
+
+        // Generate months for dropdown (last 24 months)
+        $months = [];
+        for ($i = 0; $i < 24; $i++) {
+            $date = now()->subMonths($i);
+            $months[] = [
+                'value' => $date->format('Y-m'),
+                'label' => $date->format('F Y')
+            ];
+        }
+
+        $payments = $payments->paginate(20);
+        return view('accountant.payments.index', compact('payments','q','from','to','months','month'));
     }
 
     public function export(Request $request)
@@ -42,7 +74,7 @@ class PaymentsController extends Controller
             ->get();
 
         $filename = 'payments_' . ($from ?? 'all') . '_to_' . ($to ?? now()->format('Y-m-d')) . '.csv';
-        
+
         $headers = [
             'Content-Type' => 'text/csv',
             'Content-Disposition' => "attachment; filename=\"$filename\"",

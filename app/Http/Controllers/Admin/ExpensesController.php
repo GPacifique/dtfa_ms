@@ -17,6 +17,24 @@ class ExpensesController extends Controller
     {
         $query = Expense::with(['branch', 'user', 'approver']);
 
+        // Filter by month
+        if ($request->filled('month')) {
+            $month = $request->month;
+            if ($month !== 'all') {
+                $date = \Carbon\Carbon::parse($month . '-01');
+                $query->whereBetween('expense_date', [
+                    $date->copy()->startOfMonth(),
+                    $date->copy()->endOfMonth()
+                ]);
+            }
+        } else {
+            // Default to current month
+            $query->whereBetween('expense_date', [
+                now()->startOfMonth(),
+                now()->endOfMonth()
+            ]);
+        }
+
         // Filter by status
         if ($request->filled('status')) {
             $query->where('status', $request->status);
@@ -32,7 +50,7 @@ class ExpensesController extends Controller
             $query->where('branch_id', $request->branch_id);
         }
 
-        // Filter by date range
+        // Filter by date range (overrides month if provided)
         if ($request->filled('date_from')) {
             $query->whereDate('expense_date', '>=', $request->date_from);
         }
@@ -60,13 +78,24 @@ class ExpensesController extends Controller
 
         $branches = Branch::all();
 
+        // Generate months for dropdown (last 24 months)
+        $months = [];
+        for ($i = 0; $i < 24; $i++) {
+            $date = now()->subMonths($i);
+            $months[] = [
+                'value' => $date->format('Y-m'),
+                'label' => $date->format('F Y')
+            ];
+        }
+
         return view('admin.expenses.index', compact(
             'expenses',
             'branches',
             'totalAmount',
             'pendingCount',
             'approvedCount',
-            'paidCount'
+            'paidCount',
+            'months'
         ));
     }
 
