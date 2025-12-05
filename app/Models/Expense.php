@@ -39,18 +39,26 @@ class Expense extends Model
     public static function categories(): array
     {
         return [
-            'equipment' => 'Equipment',
-            'salaries' => 'Salaries',
-            'utilities' => 'Utilities',
-            'maintenance' => 'Maintenance',
-            'supplies' => 'Supplies',
-            'rent' => 'Rent',
-            'insurance' => 'Insurance',
-            'marketing' => 'Marketing',
-            'transportation' => 'Transportation',
-            'food_beverage' => 'Food & Beverage',
-            'professional_fees' => 'Professional Fees',
-            'other' => 'Other',
+            'transport' => 'Transport',
+            'communication' => 'Communication',
+            'repair_maintenance' => 'Repair and Maintenance',
+            'electricity' => 'Electricity',
+            'internet' => 'Internet',
+            'website' => 'Website',
+            'medical_physio' => 'Medical and Physio',
+            'printing' => 'Printing',
+            'momo_charges' => 'MoMo Charges',
+            'kids_jersey' => 'Kids Jersey',
+            'loans' => 'Loans',
+            'salary' => 'Salary',
+            'salary_advance' => 'Salary Advance',
+            'capacity_building' => 'Capacity Building',
+            'office_supplies' => 'Office Supplies',
+            'office_cleaning' => 'Office Cleaning',
+            'cleaning_supplies' => 'Cleaning Supplies',
+            'equipments' => 'Equipments',
+            'management_system' => 'Management System',
+            'invoice' => 'Invoice',
         ];
     }
 
