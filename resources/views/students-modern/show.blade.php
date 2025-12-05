@@ -78,7 +78,16 @@
 
     <div class="bg-white dark:bg-slate-900 rounded-xl shadow-sm border border-slate-200 dark:border-slate-800 p-6">
         <div class="flex gap-6">
-            <img class="w-28 h-28 rounded object-cover ring-1 ring-slate-200 dark:ring-slate-700" src="{{ $student->photo_url }}" />
+            @if($student->photo_path)
+                <img class="w-28 h-28 rounded object-cover ring-1 ring-slate-200 dark:ring-slate-700"
+                     src="{{ route('photos.student', $student) }}"
+                     alt="{{ $student->first_name }}"
+                     onerror="this.onerror=null; this.src='https://ui-avatars.com/api/?name={{ urlencode(substr($student->first_name ?? 'S', 0, 1) . substr($student->second_name ?? 'T', 0, 1)) }}&background=3b82f6&color=ffffff&size=128&bold=true'" />
+            @else
+                <img class="w-28 h-28 rounded object-cover ring-1 ring-slate-200 dark:ring-slate-700"
+                     src="{{ $student->photo_url }}"
+                     alt="{{ $student->first_name }}" />
+            @endif
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4 w-full">
                 <div>
                     <p class="text-xs text-slate-500">Name</p>

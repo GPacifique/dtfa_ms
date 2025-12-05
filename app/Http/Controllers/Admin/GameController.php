@@ -43,13 +43,24 @@ class GameController extends Controller
         $data = $request->validate([
             'discipline' => 'required',
             'home_team' => 'required',
+            'home_color' => 'nullable|string',
             'away_team' => 'required',
+            'away_color' => 'nullable|string',
+            'objective' => 'nullable|string',
             'date' => 'required|date',
             'time' => 'required',
+            'departure_time' => 'nullable',
+            'expected_finish_time' => 'nullable',
             'category' => 'required',
+            'transport' => 'nullable|string',
             'venue' => 'required',
-            'staff_ids' => 'array',
-            'player_ids' => 'array',
+            'age_group' => 'nullable|string',
+            'country' => 'nullable|string',
+            'city' => 'nullable|string',
+            'base' => 'nullable|string',
+            'gender' => 'nullable|string',
+            'staff_ids' => 'nullable|array',
+            'player_ids' => 'nullable|array',
         ]);
 
         $data['notify_staff'] = $request->has('notify_staff');
