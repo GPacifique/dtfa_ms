@@ -77,12 +77,27 @@
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ $record->training_pitch }}</td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ $record->number_of_kids }}</td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-right">
-                            <a href="{{ route('admin.training_session_records.show', $record) }}" class="text-indigo-600 mr-3">View</a>
-                            <a href="{{ route('admin.training_session_records.edit', $record) }}" class="text-yellow-600 mr-3">Edit</a>
+                            @if(!$record->number_of_kids && !$record->incident_report && !$record->comments)
+                                <!-- Not yet reported: show Prepare and Report buttons -->
+                                <a href="{{ route('admin.training_session_records.prepare', $record) }}" class="inline-flex items-center px-3 py-1.5 bg-blue-600 text-white text-xs rounded-md hover:bg-blue-700 mr-2">
+                                    📝 Prepare
+                                </a>
+                                <a href="{{ route('admin.training_session_records.report', $record) }}" class="inline-flex items-center px-3 py-1.5 bg-emerald-600 text-white text-xs rounded-md hover:bg-emerald-700 mr-2">
+                                    📊 Report
+                                </a>
+                            @else
+                                <!-- Already reported: show View Report and Edit buttons -->
+                                <a href="{{ route('admin.training_session_records.show', $record) }}" class="inline-flex items-center px-3 py-1.5 bg-purple-600 text-white text-xs rounded-md hover:bg-purple-700 mr-2">
+                                    👁️ View Report
+                                </a>
+                                <a href="{{ route('admin.training_session_records.edit', $record) }}" class="inline-flex items-center px-3 py-1.5 bg-yellow-600 text-white text-xs rounded-md hover:bg-yellow-700 mr-2">
+                                    ✏️ Edit
+                                </a>
+                            @endif
                             <form action="{{ route('admin.training_session_records.destroy', $record) }}" method="POST" class="inline-block" onsubmit="return confirm('Delete this record?')">
                                 @csrf
                                 @method('DELETE')
-                                <button type="submit" class="text-red-600">Delete</button>
+                                <button type="submit" class="text-red-600 hover:text-red-800 ml-2">🗑️</button>
                             </form>
                         </td>
                     </tr>

@@ -440,6 +440,8 @@ Route::middleware(['auth', 'role:admin|super-admin'])->prefix('admin')->group(fu
 
 // Training Session Records admin CRUD - allow coaches as well
 Route::middleware(['auth', 'role:admin|super-admin|coach'])->prefix('admin')->group(function () {
+    Route::get('training_session_records/{training_session_record}/prepare', [\App\Http\Controllers\Admin\TrainingSessionRecordController::class, 'prepare'])->name('admin.training_session_records.prepare');
+    Route::get('training_session_records/{training_session_record}/report', [\App\Http\Controllers\Admin\TrainingSessionRecordController::class, 'report'])->name('admin.training_session_records.report');
     Route::resource('training_session_records', \App\Http\Controllers\Admin\TrainingSessionRecordController::class, ['as' => 'admin']);
 });
 

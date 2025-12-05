@@ -17,6 +17,22 @@ class TrainingSessionRecordController extends Controller
         $this->middleware('role:admin|super-admin|coach');
     }
 
+    public function prepare(TrainingSessionRecord $trainingSessionRecord = null)
+    {
+        $sessions = TrainingSession::orderBy('date', 'desc')->get(['id','date','location','group_name']);
+        $branches = $sessions->pluck('location')->filter()->unique()->values();
+        $pitches = $sessions->pluck('group_name')->filter()->unique()->values();
+
+        $coaches = User::role('coach')->get(['id', 'name']);
+
+        return view('admin.training_session_records.prepare', compact('trainingSessionRecord', 'sessions', 'branches', 'pitches', 'coaches'));
+    }
+
+    public function report(TrainingSessionRecord $trainingSessionRecord)
+    {
+        return view('admin.training_session_records.report', compact('trainingSessionRecord'));
+    }
+
     public function index()
     {
         $query = TrainingSessionRecord::query();
@@ -59,20 +75,7 @@ class TrainingSessionRecordController extends Controller
 
     public function create()
     {
-        // fetch coaches and recent training sessions to populate dropdowns
-        $coaches = [];
-        try {
-            $coaches = User::role('coach')->select('id', 'name')->orderBy('name')->get();
-        } catch (\Throwable $e) {
-            // role helper may not be available in some environments; fallback to empty collection
-            $coaches = User::select('id', 'name')->orderBy('name')->get();
-        }
-
-        $sessions = TrainingSession::orderBy('date', 'desc')->get(['id','date','location','group_name']);
-        $branches = $sessions->pluck('location')->filter()->unique()->values();
-        $pitches = $sessions->pluck('group_name')->filter()->unique()->values();
-
-        return view('admin.training_session_records.create', compact('coaches', 'sessions', 'branches', 'pitches'));
+        return $this->prepare();
     }
 
     public function store(Request $request)
@@ -134,15 +137,13 @@ class TrainingSessionRecordController extends Controller
 
     public function edit(TrainingSessionRecord $trainingSessionRecord)
     {
-        // reuse the same lists as create()
-        $coaches = [];
-        try {
-            $coaches = User::role('coach')->select('id', 'name')->orderBy('name')->get();
-        } catch (\Throwable $e) {
-            $coaches = User::select('id', 'name')->orderBy('name')->get();
+        // Smart routing: if session has attendance/comments data, go to report view
+        // Otherwise, go to prepare view for planning
+        if ($trainingSessionRecord->number_of_kids || $trainingSessionRecord->incident_report || $trainingSessionRecord->comments) {
+            return $this->report($trainingSessionRecord);
         }
 
-        $sessions = TrainingSession::orderBy('date', 'desc')->get(['id','date','location','group_name']);
+        return $this->prepare($trainingSessionRecord);
         $branches = $sessions->pluck('location')->filter()->unique()->values();
         $pitches = $sessions->pluck('group_name')->filter()->unique()->values();
 
