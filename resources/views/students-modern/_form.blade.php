@@ -34,13 +34,39 @@
         <x-select name="coach" label="Coach" :options="($coaches ?? collect())->mapWithKeys(fn($c)=>[$c->name=>$c->name])->all()" :value="$student->coach ?? null" placeholder="Select coach" />
     </div>
 
-    <div class="space-y-1">
+    <div class="space-y-2">
         <label class="text-sm font-medium text-slate-700 dark:text-slate-300">Profile Image</label>
-        <input type="file" name="photo" accept="image/*" class="w-full px-3 py-2 rounded-md border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100" />
-        @if(!empty($student?->photo_path))
-            <div class="mt-2"><img src="{{ $student->photo_url }}" class="h-20 rounded object-cover" /></div>
-        @endif
+        <input type="file" name="photo" id="photoInput" accept="image/*" class="w-full px-3 py-2 rounded-md border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100" onchange="previewImage(event)" />
+
+        <!-- Image Preview -->
+        <div id="imagePreviewContainer" class="mt-3 {{ !empty($student?->photo_path) ? '' : 'hidden' }}">
+            <div class="relative inline-block">
+                <img id="imagePreview" src="{{ $student?->photo_url ?? '' }}" class="h-32 w-32 rounded-lg object-cover border-2 border-slate-200 dark:border-slate-700 shadow-md" />
+                <button type="button" onclick="clearImage()" class="absolute -top-2 -right-2 bg-red-500 hover:bg-red-600 text-white rounded-full w-6 h-6 flex items-center justify-center text-sm font-bold transition shadow-lg">×</button>
+            </div>
+            <p class="text-xs text-slate-500 mt-1">Preview</p>
+        </div>
     </div>
+
+    <script>
+        function previewImage(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById('imagePreview').src = e.target.result;
+                    document.getElementById('imagePreviewContainer').classList.remove('hidden');
+                }
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function clearImage() {
+            document.getElementById('photoInput').value = '';
+            document.getElementById('imagePreviewContainer').classList.add('hidden');
+            document.getElementById('imagePreview').src = '';
+        }
+    </script>
 
     <div class="pt-2 flex items-center gap-2">
         <x-button type="submit">{{ $buttonText ?? 'Save' }}</x-button>
