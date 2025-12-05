@@ -55,14 +55,38 @@
                             {{ ucfirst(str_replace('_', ' ', $game->status)) }}
                         </span>
                     </td>
-                    <td class="px-6 py-4 text-right space-x-2">
-                        <a href="{{ route('admin.games.show', $game) }}" class="text-indigo-600 hover:text-indigo-900 dark:hover:text-indigo-400 font-medium text-sm">View</a>
-                        <a href="{{ route('admin.games.edit', $game) }}" class="text-blue-600 hover:text-blue-900 dark:hover:text-blue-400 font-medium text-sm">Edit</a>
-                        <form action="{{ route('admin.games.destroy', $game) }}" method="POST" class="inline" onsubmit="return confirm('Delete this match?');">
-                            @csrf
-                            @method('DELETE')
-                            <button class="text-red-600 hover:text-red-900 dark:hover:text-red-400 font-medium text-sm">Delete</button>
-                        </form>
+                    <td class="px-6 py-4 text-right">
+                        <div class="flex gap-2 justify-end items-center">
+                            @if($game->status === 'scheduled')
+                                <a href="{{ route('admin.games.prepare', $game) }}" class="px-3 py-1.5 bg-blue-100 hover:bg-blue-200 text-blue-700 rounded-lg font-medium text-sm transition">
+                                    📋 Prepare
+                                </a>
+                                <form action="{{ route('admin.games.start', $game) }}" method="POST" class="inline">
+                                    @csrf
+                                    <button class="px-3 py-1.5 bg-green-100 hover:bg-green-200 text-green-700 rounded-lg font-medium text-sm transition">
+                                        ▶️ Start
+                                    </button>
+                                </form>
+                            @elseif($game->status === 'in_progress')
+                                <a href="{{ route('admin.games.report', $game) }}" class="px-3 py-1.5 bg-yellow-100 hover:bg-yellow-200 text-yellow-700 rounded-lg font-medium text-sm transition">
+                                    📝 Report
+                                </a>
+                            @else
+                                <a href="{{ route('admin.games.report', $game) }}" class="px-3 py-1.5 bg-emerald-100 hover:bg-emerald-200 text-emerald-700 rounded-lg font-medium text-sm transition">
+                                    📊 View Report
+                                </a>
+                            @endif
+                            <a href="{{ route('admin.games.show', $game) }}" class="px-3 py-1.5 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg font-medium text-sm transition">
+                                👁️
+                            </a>
+                            <form action="{{ route('admin.games.destroy', $game) }}" method="POST" class="inline" onsubmit="return confirm('Delete this match?');">
+                                @csrf
+                                @method('DELETE')
+                                <button class="px-3 py-1.5 bg-red-100 hover:bg-red-200 text-red-700 rounded-lg font-medium text-sm transition">
+                                    🗑️
+                                </button>
+                            </form>
+                        </div>
                     </td>
                 </tr>
                 @empty

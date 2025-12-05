@@ -25,7 +25,17 @@ class GameController extends Controller
     {
         $staffs = Staff::all();
         $players = Player::all();
-        return view('admin.games.create', compact('staffs','players'));
+        return view('admin.games.prepare', compact('staffs','players'));
+    }
+
+    /**
+     * Show match preparation form
+     */
+    public function prepare(Game $game = null)
+    {
+        $staffs = Staff::all();
+        $players = Player::all();
+        return view('admin.games.prepare', compact('game', 'staffs', 'players'));
     }
 
     public function store(Request $request)
@@ -45,7 +55,7 @@ class GameController extends Controller
         $data['notify_staff'] = $request->has('notify_staff');
         $data['status'] = 'scheduled'; // New matches start as scheduled
 
-        Game::create($data);
+        $game = Game::create($data);
 
         return redirect()->route('admin.games.index')->with('success', 'Match created successfully.');
     }
@@ -54,28 +64,61 @@ class GameController extends Controller
     {
         $staffs = Staff::all();
         $players = Player::all();
-        return view('admin.games.edit', compact('game', 'staffs', 'players'));
+
+        // If match is scheduled, show prepare view
+        if ($game->status === 'scheduled') {
+            return view('admin.games.prepare', compact('game', 'staffs', 'players'));
+        }
+
+        // If match is in progress or completed, show report view
+        return view('admin.games.report', compact('game', 'staffs', 'players'));
+    }
+
+    /**
+     * Show match report form
+     */
+    public function report(Game $game)
+    {
+        $staffs = Staff::all();
+        $players = Player::all();
+        return view('admin.games.report', compact('game', 'staffs', 'players'));
     }
 
     public function update(Request $request, Game $game)
     {
-        $data = $request->validate([
-            'discipline' => 'required',
-            'home_team' => 'required',
-            'away_team' => 'required',
-            'date' => 'required|date',
-            'time' => 'required',
-            'category' => 'required',
-            'venue' => 'required',
-            'staff_ids' => 'array',
-            'player_ids' => 'array',
-        ]);
+        // Determine validation rules based on what's being updated
+        $rules = [
+            'discipline' => 'nullable|string',
+            'home_team' => 'nullable|string',
+            'away_team' => 'nullable|string',
+            'date' => 'nullable|date',
+            'time' => 'nullable',
+            'category' => 'nullable|string',
+            'venue' => 'nullable|string',
+            'staff_ids' => 'nullable|array',
+            'player_ids' => 'nullable|array',
+            'home_score' => 'nullable|integer|min:0',
+            'away_score' => 'nullable|integer|min:0',
+            'yellow_cards_players' => 'nullable|array',
+            'red_cards_players' => 'nullable|array',
+            'yellow_cards_staff' => 'nullable|array',
+            'red_cards_staff' => 'nullable|array',
+            'incidence' => 'nullable|string',
+            'technical_feedback' => 'nullable|string',
+        ];
 
+        $data = $request->validate($rules);
         $data['notify_staff'] = $request->has('notify_staff');
+
+        // Check if action is to complete the match
+        if ($request->action === 'complete' && $game->status !== 'completed') {
+            $data['status'] = 'completed';
+        }
 
         $game->update($data);
 
-        return redirect()->route('admin.games.index')->with('success', 'Match updated successfully.');
+        $message = $request->action === 'complete' ? 'Match completed successfully!' : 'Match updated successfully.';
+        return redirect()->route('admin.games.index')->with('success', $message);
     }
 
     public function destroy(Game $game)

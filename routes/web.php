@@ -208,6 +208,10 @@ Route::middleware(['auth', 'role:admin|super-admin'])->prefix('admin')->group(fu
     Route::post('games/{game}/start', [App\Http\Controllers\Admin\GameController::class, 'startMatch'])->name('admin.games.start');
     Route::post('games/{game}/complete', [App\Http\Controllers\Admin\GameController::class, 'completeMatch'])->name('admin.games.complete');
 
+    // Game Prepare and Report Views
+    Route::get('games/{game}/prepare', [App\Http\Controllers\Admin\GameController::class, 'prepare'])->name('admin.games.prepare');
+    Route::get('games/{game}/report', [App\Http\Controllers\Admin\GameController::class, 'report'])->name('admin.games.report');
+
     // Minutes (Meeting Minutes)
     Route::resource('minutes', \App\Http\Controllers\Admin\MinuteController::class, ['as' => 'admin'])->names('minutes');
 
