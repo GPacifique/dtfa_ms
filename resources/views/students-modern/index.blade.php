@@ -105,7 +105,7 @@
                     </thead>
                     <tbody class="divide-y divide-slate-200 dark:divide-slate-800">
                         @forelse($students as $s)
-                            <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/40">
+                            <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/40 cursor-pointer transition-colors" onclick="window.location='{{ route('students-modern.show', $s) }}'">
                                 <td class="px-4 py-3">
                                     <div class="flex items-center gap-3">
                                         @if($s->photo_path && !str_starts_with($s->photo_path, 'http'))
@@ -130,8 +130,8 @@
                                 <td class="px-4 py-3">{{ $s->joined_at?->format('M d, Y') ?? '—' }}</td>
                                 <td class="px-4 py-3 text-right">
                                     <div class="flex gap-2 justify-end">
-                                        <x-button variant="secondary" href="{{ route('students-modern.show', $s) }}">View</x-button>
-                                        <x-button variant="secondary" href="{{ route('students-modern.edit', $s) }}">Edit</x-button>
+                                        <x-button variant="secondary" href="{{ route('students-modern.show', $s) }}" onclick="event.stopPropagation()">View</x-button>
+                                        <x-button variant="secondary" href="{{ route('students-modern.edit', $s) }}" onclick="event.stopPropagation()">Edit</x-button>
                                     </div>
                                 </td>
                             </tr>
