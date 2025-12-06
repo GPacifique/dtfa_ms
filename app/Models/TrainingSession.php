@@ -10,11 +10,12 @@ class TrainingSession extends Model
     use HasFactory;
 
     protected $fillable = [
-        'date', 'start_time', 'end_time', 'location', 'group_name', 'coach_user_id', 'branch_id', 'group_id'
+        'date', 'start_time', 'end_time', 'location', 'group_name', 'coach_user_id', 'branch_id', 'group_id', 'training_days'
     ];
 
     protected $casts = [
         'date' => 'date',
+        'training_days' => 'array',
     ];
 
     public function coach()

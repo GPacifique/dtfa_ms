@@ -57,6 +57,8 @@ class SessionController extends Controller
             'end_time' => ['required', 'after:start_time'],
             'location' => ['required', 'string', 'max:255'],
             'group_id' => ['required', 'integer', 'exists:groups,id'],
+            'training_days' => ['nullable', 'array'],
+            'training_days.*' => ['in:Monday,Tuesday,Wednesday,Thursday,Friday,Saturday,Sunday'],
         ]);
 
         $group = Group::where('id', $data['group_id'])
@@ -72,6 +74,7 @@ class SessionController extends Controller
             'branch_id' => $coach->branch_id,
             'group_id' => $group->id,
             'group_name' => $group->name,
+            'training_days' => $data['training_days'] ?? [],
         ]);
 
         // Pre-populate attendance records for the session
@@ -126,12 +129,14 @@ class SessionController extends Controller
             'end_time' => ['required', 'after:start_time'],
             'location' => ['required', 'string', 'max:255'],
             'group_id' => ['required', 'integer', 'exists:groups,id'],
+            'training_days' => ['nullable', 'array'],
+            'training_days.*' => ['in:Monday,Tuesday,Wednesday,Thursday,Friday,Saturday,Sunday'],
         ]);
 
         $group = Group::where('id', $data['group_id'])
             ->where('branch_id', $coach->branch_id)
             ->firstOrFail();
-            
+
         $session->update([
             'date' => $data['date'],
             'start_time' => $data['start_time'],
@@ -139,9 +144,8 @@ class SessionController extends Controller
             'location' => $data['location'],
             'group_id' => $group->id,
             'group_name' => $group->name,
-        ]);
-
-        return redirect()->route('coach.sessions.show', $session)->with('status', 'Session updated successfully.');
+            'training_days' => $data['training_days'] ?? [],
+        ]);        return redirect()->route('coach.sessions.show', $session)->with('status', 'Session updated successfully.');
     }
 
     /**

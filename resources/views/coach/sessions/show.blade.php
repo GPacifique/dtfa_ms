@@ -31,6 +31,12 @@
                 <dt class="font-semibold text-slate-700">Branch</dt>
                 <dd>{{ $session->branch->name ?? 'N/A' }}</dd>
             </div>
+            @if($session->training_days && count($session->training_days) > 0)
+            <div class="py-3 flex justify-between">
+                <dt class="font-semibold text-slate-700">Training Days</dt>
+                <dd>{{ implode(', ', $session->training_days) }}</dd>
+            </div>
+            @endif
         </dl>
     </div>
 </div>
