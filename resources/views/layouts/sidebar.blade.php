@@ -90,8 +90,8 @@
                                 <!-- Heroicon: Users -->
                                 <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a4 4 0 00-5-4M9 20H4v-2a4 4 0 015-4m0 0a4 4 0 10-4-4 4 4 0 004 4z"/></svg>
                             </span>
-                            <span class="sr-only">Students (Modern)</span>
-                            <span x-show="$store.layout.sidebarOpen" x-transition class="truncate">Students (Modern)</span>
+                            <span class="sr-only">Students</span>
+                            <span x-show="$store.layout.sidebarOpen" x-transition class="truncate">Students</span>
                         </a>
                     @endif
                 @endrole
@@ -119,7 +119,7 @@
                                 <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a4 4 0 00-5-4M9 20H4v-2a4 4 0 015-4m3 0a4 4 0 10-4-4 4 4 0 004 4z"/></svg>
                             </span>
                             <span class="sr-only">Players</span>
-                            <span x-show="$store.layout.sidebarOpen" x-transition class="truncate">Players</span>
+                            <span x-show="$store.layout.sidebarOpen" x-transition class="truncate">Match Players</span>
                         </a>
                     @endif
 
@@ -285,7 +285,7 @@
                             <!-- Heroicon: Check Circle -->
                             <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 22a10 10 0 100-20 10 10 0 000 20z"/></svg>
                         </span>
-                        <span class="sr-only">Attendance</span>
+                        <span class="sr-only">Student Attendances</span>
                         <span x-show="$store.layout.sidebarOpen" x-transition class="truncate">Attendance</span>
                     </a>
                 @endif
@@ -338,7 +338,7 @@
                                 <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3M3 11h18M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
                             </span>
                             <span class="sr-only">Inhouse Training</span>
-                            <span x-show="$store.layout.sidebarOpen" x-transition class="truncate">Inhouse Training</span>
+                            <span x-show="$store.layout.sidebarOpen" x-transition class="truncate">Capacity Building</span>
                         </a>
                     @endif
                 @endrole

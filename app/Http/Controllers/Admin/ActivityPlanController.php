@@ -14,6 +14,11 @@ class ActivityPlanController extends Controller
      */
     public function index(Request $request)
     {
+        // Check if table exists (safety check for production)
+        if (!\Illuminate\Support\Facades\Schema::hasTable('activity_plans')) {
+            return back()->with('error', 'Activity Plans module is not available. Please run migrations.');
+        }
+
         $query = ActivityPlan::query();
 
         // Filter by status

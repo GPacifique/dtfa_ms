@@ -202,15 +202,16 @@ Route::middleware(['auth', 'role:admin|super-admin'])->prefix('admin')->group(fu
     // Teams / Players / Games (matches)
     // Note: teams resource is defined at the top with admin prefix
     Route::resource('players', \App\Http\Controllers\Admin\PlayerController::class, ['as' => 'admin']);
-    Route::resource('games', \App\Http\Controllers\Admin\GameController::class, ['as' => 'admin'])->names('games');
+
+    // Game Prepare and Report Views (must be before resource routes)
+    Route::get('games/{game}/prepare', [App\Http\Controllers\Admin\GameController::class, 'prepare'])->name('admin.games.prepare');
+    Route::get('games/{game}/report', [App\Http\Controllers\Admin\GameController::class, 'report'])->name('admin.games.report');
 
     // Game Status Transitions
     Route::post('games/{game}/start', [App\Http\Controllers\Admin\GameController::class, 'startMatch'])->name('admin.games.start');
     Route::post('games/{game}/complete', [App\Http\Controllers\Admin\GameController::class, 'completeMatch'])->name('admin.games.complete');
 
-    // Game Prepare and Report Views
-    Route::get('games/{game}/prepare', [App\Http\Controllers\Admin\GameController::class, 'prepare'])->name('admin.games.prepare');
-    Route::get('games/{game}/report', [App\Http\Controllers\Admin\GameController::class, 'report'])->name('admin.games.report');
+    Route::resource('games', \App\Http\Controllers\Admin\GameController::class, ['as' => 'admin'])->names('games');
 
     // Minutes (Meeting Minutes)
     Route::resource('minutes', \App\Http\Controllers\Admin\MinuteController::class, ['as' => 'admin'])->names('minutes');
