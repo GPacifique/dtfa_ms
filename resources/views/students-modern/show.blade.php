@@ -133,6 +133,10 @@
                     <p>{{ $student->program ?? '—' }} {{ $student->membership_type ? '(' . $student->membership_type . ')' : '' }}</p>
                 </div>
                 <div>
+                    <p class="text-xs text-slate-500">Training Days</p>
+                    <p>{{ $student->training_days && count($student->training_days) > 0 ? implode(', ', $student->training_days) : '—' }}</p>
+                </div>
+                <div>
                     <p class="text-xs text-slate-500">Sport</p>
                     <p>{{ $student->sport_discipline ?? '—' }} {{ $student->position ? '• ' . $student->position : '' }}</p>
                 </div>

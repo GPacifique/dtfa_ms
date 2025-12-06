@@ -13,11 +13,11 @@ return new class extends Migration {
             $table->date('dob')->nullable();
             $table->string('gender', 10)->nullable();
             $table->string('father_name')->nullable();
-            $table->string('email')->nullable();
+            $table->string('player_email')->nullable();
+            $table->string('parent_email')->nullable();
             $table->string('emergency_phone')->nullable();
             $table->string('mother_name')->nullable();
-            $table->unsignedBigInteger('parent_user_id')->nullable()->index();
-            $table->string('phone')->nullable();
+            $table->string('player_phone')->nullable();
             $table->string('photo_path')->nullable();
             $table->string('status')->default('active')->index();
             $table->unsignedBigInteger('registered_by')->nullable()->index();
@@ -31,7 +31,7 @@ return new class extends Migration {
             $table->string('program')->nullable();
             $table->unsignedBigInteger('branch_id')->nullable()->index();
             $table->unsignedBigInteger('group_id')->nullable()->index();
-            $table->string('combination')->nullable();
+            $table->json('training_days')->nullable();
             $table->string('membership_type')->nullable();
             $table->timestamps();
         });

@@ -27,8 +27,24 @@
         <x-input name="mother_name" label="Mother Name" :value="$student->mother_name ?? null" />
         <x-input name="program" label="Program" :value="$student->program ?? null" />
         <x-select name="membership_type" label="Membership Type" :options="$membershipTypes ?? []" :value="$student->membership_type ?? null" placeholder="Select membership type" />
-        <x-input name="combination" label="Combination" :value="$student->combination ?? null" />
     </div>
+
+    <div>
+        <label class="block text-sm font-medium text-gray-700">Training Days</label>
+        <div class="mt-3 grid grid-cols-4 gap-3">
+            @php
+                $days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+                $selectedDays = old('training_days', isset($student) && $student->training_days ? $student->training_days : []);
+            @endphp
+            @foreach($days as $day)
+                <label class="flex items-center">
+                    <input type="checkbox" name="training_days[]" value="{{ $day }}" {{ in_array($day, (array)$selectedDays) ? 'checked' : '' }} class="rounded border-gray-300" />
+                    <span class="ml-2 text-sm text-gray-700">{{ $day }}</span>
+                </label>
+            @endforeach
+        </div>
+    </div>
+
 
     <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
         <x-input name="jersey_number" label="Jersey Number" :value="$student->jersey_number ?? null" />
