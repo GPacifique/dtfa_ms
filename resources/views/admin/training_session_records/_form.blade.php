@@ -4,6 +4,34 @@
 @endphp
 
 <div class="grid grid-cols-1 gap-6">
+    {{-- Training Objectives Section --}}
+    <div class="p-4 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg">
+        <h2 class="text-lg font-bold text-blue-900 dark:text-blue-300 mb-6">🎯 Training Objectives</h2>
+
+        <div class="space-y-6">
+            <div>
+                <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Main Topic</label>
+                <input type="text" name="main_topic" value="{{ $old('main_topic') }}" placeholder="e.g., Passing techniques, Ball control" class="mt-1 block w-full rounded-md border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white shadow-sm focus:ring-blue-500 focus:border-blue-500" />
+            </div>
+
+            <div>
+                <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Area of Performance</label>
+                <select name="area_performance" class="mt-1 block w-full rounded-md border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                    <option value="">-- Select area --</option>
+                    <option value="Physical" {{ old('area_performance', $isEdit ? ($trainingSessionRecord->area_performance ?? '') : '') === 'Physical' ? 'selected' : '' }}>Physical</option>
+                    <option value="Technical" {{ old('area_performance', $isEdit ? ($trainingSessionRecord->area_performance ?? '') : '') === 'Technical' ? 'selected' : '' }}>Technical</option>
+                    <option value="Tactical" {{ old('area_performance', $isEdit ? ($trainingSessionRecord->area_performance ?? '') : '') === 'Tactical' ? 'selected' : '' }}>Tactical</option>
+                    <option value="Mental" {{ old('area_performance', $isEdit ? ($trainingSessionRecord->area_performance ?? '') : '') === 'Mental' ? 'selected' : '' }}>Mental</option>
+                </select>
+            </div>
+
+            <div>
+                <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Training Objective</label>
+                <textarea name="training_objective" rows="3" placeholder="Describe the training objectives for this session" class="mt-1 block w-full rounded-md border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white shadow-sm focus:ring-blue-500 focus:border-blue-500">{{ $old('training_objective') }}</textarea>
+            </div>
+        </div>
+    </div>
+
     <div>
         <label class="block text-sm font-medium text-gray-700">Date</label>
         <input type="date" name="date" value="{{ $old('date') }}" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm" />
@@ -96,46 +124,7 @@
             <label class="block text-sm font-medium text-gray-700">Other Training Pitch</label>
             <input type="text" name="other_training_pitch" value="{{ $old('other_training_pitch') }}" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm" />
         </div>
-    </div>
-
-    <div>
-        <label class="block text-sm font-medium text-gray-700">Main Topic</label>
-        <input type="text" name="main_topic" value="{{ $old('main_topic') }}" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm" />
-    </div>
-
-    <div>
-        <label class="block text-sm font-medium text-gray-700">Training Days</label>
-        <div class="mt-3 grid grid-cols-4 gap-3">
-            @php
-                $days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
-                $selectedDays = $old('training_days', $isEdit && isset($trainingSessionRecord->training_days) ? $trainingSessionRecord->training_days : []);
-            @endphp
-            @foreach($days as $day)
-                <label class="flex items-center">
-                    <input type="checkbox" name="training_days[]" value="{{ $day }}" {{ in_array($day, (array)$selectedDays) ? 'checked' : '' }} class="rounded border-gray-300" />
-                    <span class="ml-2 text-sm text-gray-700">{{ $day }}</span>
-                </label>
-            @endforeach
-        </div>
-    </div>
-
-    <div>
-        <label class="block text-sm font-medium text-gray-700">Area of Performance</label>
-        <select name="area_performance" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm">
-            <option value="">-- Select area --</option>
-            <option value="Physical" {{ old('area_performance', $isEdit ? ($trainingSessionRecord->area_performance ?? '') : '') === 'Physical' ? 'selected' : '' }}>Physical</option>
-            <option value="Technical" {{ old('area_performance', $isEdit ? ($trainingSessionRecord->area_performance ?? '') : '') === 'Technical' ? 'selected' : '' }}>Technical</option>
-            <option value="Tactical" {{ old('area_performance', $isEdit ? ($trainingSessionRecord->area_performance ?? '') : '') === 'Tactical' ? 'selected' : '' }}>Tactical</option>
-            <option value="Mental" {{ old('area_performance', $isEdit ? ($trainingSessionRecord->area_performance ?? '') : '') === 'Mental' ? 'selected' : '' }}>Mental</option>
-        </select>
-    </div>
-
-    <div>
-        <label class="block text-sm font-medium text-gray-700">Training Objective</label>
-        <textarea name="training_objective" rows="2" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm">{{ $old('training_objective') }}</textarea>
-    </div>
-
-    <div>
+    </div>    <div>
         <label class="block text-sm font-medium text-gray-700">Part 1 — Introduction (Activities + Time)</label>
         <div class="grid grid-cols-1 gap-3">
             <div class="grid grid-cols-6 gap-2">
