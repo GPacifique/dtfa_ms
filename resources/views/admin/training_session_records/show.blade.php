@@ -51,6 +51,17 @@
                 </div>
 
                 <div class="sm:col-span-2">
+                    <dt class="text-sm font-medium text-gray-500">Training Days</dt>
+                    <dd class="mt-1 text-sm text-gray-900">
+                        @if($trainingSessionRecord->training_days && count($trainingSessionRecord->training_days) > 0)
+                            {{ implode(', ', $trainingSessionRecord->training_days) }}
+                        @else
+                            <span class="text-gray-400">No specific days selected</span>
+                        @endif
+                    </dd>
+                </div>
+
+                <div class="sm:col-span-2">
                     <dt class="text-sm font-medium text-gray-500">Area of Performance</dt>
                     <dd class="mt-1 text-sm text-gray-900">{{ $trainingSessionRecord->area_performance }}</dd>
                 </div>

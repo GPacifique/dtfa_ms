@@ -22,6 +22,7 @@ class TrainingSessionRecord extends Model
         'sport_discipline',
         'training_objective',
         'date',
+        'training_days',
         'start_time',
         'finish_time',
         'main_topic',
@@ -50,5 +51,6 @@ class TrainingSessionRecord extends Model
 
     protected $casts = [
         'date' => 'date',
+        'training_days' => 'array',
     ];
 }

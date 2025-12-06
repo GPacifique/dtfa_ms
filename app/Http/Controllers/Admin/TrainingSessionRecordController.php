@@ -82,6 +82,8 @@ class TrainingSessionRecordController extends Controller
     {
         $data = $request->validate([
             'date' => 'nullable|date',
+            'training_days' => ['nullable', 'array'],
+            'training_days.*' => ['in:Monday,Tuesday,Wednesday,Thursday,Friday,Saturday,Sunday'],
             'start_time' => 'nullable',
             'finish_time' => 'nullable',
             'country' => 'nullable|string|in:Rwanda,Tanzania',
@@ -125,6 +127,7 @@ class TrainingSessionRecordController extends Controller
             }
         }
 
+        $data['training_days'] = $data['training_days'] ?? [];
         TrainingSessionRecord::create($data);
 
         return redirect()->route('admin.training_session_records.index')->with('success', 'Training session record created.');
@@ -154,6 +157,8 @@ class TrainingSessionRecordController extends Controller
     {
         $data = $request->validate([
             'date' => 'nullable|date',
+            'training_days' => ['nullable', 'array'],
+            'training_days.*' => ['in:Monday,Tuesday,Wednesday,Thursday,Friday,Saturday,Sunday'],
             'start_time' => 'nullable',
             'finish_time' => 'nullable',
               'country' => 'nullable|string|in:Rwanda,Tanzania',
@@ -196,6 +201,7 @@ class TrainingSessionRecordController extends Controller
             }
         }
 
+        $data['training_days'] = $data['training_days'] ?? [];
         $trainingSessionRecord->update($data);
 
         return redirect()->route('admin.training_session_records.show', $trainingSessionRecord)->with('success', 'Training session record updated.');
