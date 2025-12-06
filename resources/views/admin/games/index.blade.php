@@ -35,11 +35,11 @@
                     <td class="px-6 py-4 text-sm text-gray-900 dark:text-white">{{ $game->date?->format('M d, Y') }}</td>
                     <td class="px-6 py-4">
                         <div class="flex items-center gap-2">
-                            <span class="w-4 h-4 rounded-full" style="background-color: {{ $game->home_color ?? '#ccc' }}"></span>
+                            <span class="w-6 h-6 rounded-full shadow-md border border-gray-200 dark:border-gray-600" style="background-color: {{ $game->home_color ?? '#3B82F6' }}" title="{{ $game->home_team }} color"></span>
                             <span class="font-medium text-gray-900 dark:text-white">{{ $game->home_team }}</span>
-                            <span class="text-gray-500 dark:text-gray-400">vs</span>
+                            <span class="text-gray-500 dark:text-gray-400 mx-1">vs</span>
                             <span class="font-medium text-gray-900 dark:text-white">{{ $game->away_team }}</span>
-                            <span class="w-4 h-4 rounded-full" style="background-color: {{ $game->away_color ?? '#ccc' }}"></span>
+                            <span class="w-6 h-6 rounded-full shadow-md border border-gray-200 dark:border-gray-600" style="background-color: {{ $game->away_color ?? '#EF4444' }}" title="{{ $game->away_team }} color"></span>
                         </div>
                     </td>
                     <td class="px-6 py-4 text-gray-600 dark:text-gray-400">{{ $game->discipline }}</td>

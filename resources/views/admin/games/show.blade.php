@@ -54,21 +54,21 @@
             <div class="bg-white dark:bg-neutral-900 shadow rounded-lg p-6 mb-6">
                 <h2 class="text-xl font-bold text-gray-900 dark:text-white mb-4">Teams & Score</h2>
                 <div class="grid grid-cols-2 gap-4">
-                    <div class="p-4 bg-gray-50 dark:bg-neutral-800 rounded-lg">
+                    <div class="p-4 rounded-lg border-4" style="border-color: {{ $game->home_color ?? '#3B82F6' }}; background: linear-gradient(135deg, {{ $game->home_color ?? '#3B82F6' }}15, transparent);">
                         <h3 class="font-semibold text-gray-900 dark:text-white mb-2">Home Team</h3>
                         <div class="flex items-center gap-2 mb-3">
-                            <span class="w-6 h-6 rounded-full" style="background-color: {{ $game->home_color ?? '#ccc' }}"></span>
-                            <span class="font-medium text-gray-900 dark:text-white">{{ $game->home_team }}</span>
+                            <span class="w-8 h-8 rounded-full shadow-lg border-2 border-white" style="background-color: {{ $game->home_color ?? '#3B82F6' }}"></span>
+                            <span class="font-bold text-lg text-gray-900 dark:text-white">{{ $game->home_team }}</span>
                         </div>
-                        <p class="text-4xl font-bold text-gray-900 dark:text-white">{{ $game->home_score ?? '—' }}</p>
+                        <p class="text-5xl font-bold text-gray-900 dark:text-white">{{ $game->home_score ?? '—' }}</p>
                     </div>
-                    <div class="p-4 bg-gray-50 dark:bg-neutral-800 rounded-lg">
+                    <div class="p-4 rounded-lg border-4" style="border-color: {{ $game->away_color ?? '#EF4444' }}; background: linear-gradient(135deg, {{ $game->away_color ?? '#EF4444' }}15, transparent);">
                         <h3 class="font-semibold text-gray-900 dark:text-white mb-2">Away Team</h3>
                         <div class="flex items-center gap-2 mb-3">
-                            <span class="w-6 h-6 rounded-full" style="background-color: {{ $game->away_color ?? '#ccc' }}"></span>
-                            <span class="font-medium text-gray-900 dark:text-white">{{ $game->away_team }}</span>
+                            <span class="w-8 h-8 rounded-full shadow-lg border-2 border-white" style="background-color: {{ $game->away_color ?? '#EF4444' }}"></span>
+                            <span class="font-bold text-lg text-gray-900 dark:text-white">{{ $game->away_team }}</span>
                         </div>
-                        <p class="text-4xl font-bold text-gray-900 dark:text-white">{{ $game->away_score ?? '—' }}</p>
+                        <p class="text-5xl font-bold text-gray-900 dark:text-white">{{ $game->away_score ?? '—' }}</p>
                     </div>
                 </div>
             </div>

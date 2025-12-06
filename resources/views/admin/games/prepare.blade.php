@@ -66,8 +66,11 @@
                         @error('home_team')<span class="text-red-600 text-sm mt-1 block">{{ $message }}</span>@enderror
                     </div>
                     <div>
-                        <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Team Color</label>
-                        <input type="color" name="home_color" value="{{ $game->home_color ?? '#1E40AF' }}" class="w-full border border-gray-300 dark:border-gray-600 rounded-lg h-[50px] cursor-pointer">
+                        <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2 flex items-center gap-2">
+                            Team Color
+                            <span class="w-6 h-6 rounded-full shadow-inner border-2 border-white" style="background-color: {{ $game->home_color ?? '#1E40AF' }}" id="home-color-preview"></span>
+                        </label>
+                        <input type="color" name="home_color" value="{{ $game->home_color ?? '#1E40AF' }}" class="w-full border border-gray-300 dark:border-gray-600 rounded-lg h-[50px] cursor-pointer" onchange="document.getElementById('home-color-preview').style.backgroundColor = this.value">
                         @error('home_color')<span class="text-red-600 text-sm mt-1 block">{{ $message }}</span>@enderror
                     </div>
                 </div>
@@ -83,8 +86,11 @@
                         @error('away_team')<span class="text-red-600 text-sm mt-1 block">{{ $message }}</span>@enderror
                     </div>
                     <div>
-                        <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Team Color</label>
-                        <input type="color" name="away_color" value="{{ $game->away_color ?? '#DC2626' }}" class="w-full border border-gray-300 dark:border-gray-600 rounded-lg h-[50px] cursor-pointer">
+                        <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2 flex items-center gap-2">
+                            Team Color
+                            <span class="w-6 h-6 rounded-full shadow-inner border-2 border-white" style="background-color: {{ $game->away_color ?? '#DC2626' }}" id="away-color-preview"></span>
+                        </label>
+                        <input type="color" name="away_color" value="{{ $game->away_color ?? '#DC2626' }}" class="w-full border border-gray-300 dark:border-gray-600 rounded-lg h-[50px] cursor-pointer" onchange="document.getElementById('away-color-preview').style.backgroundColor = this.value">
                         @error('away_color')<span class="text-red-600 text-sm mt-1 block">{{ $message }}</span>@enderror
                     </div>
                 </div>
