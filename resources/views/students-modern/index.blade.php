@@ -53,7 +53,7 @@
                     </div>
                     <div class="p-4">
                         <h3 class="font-bold text-slate-900 dark:text-white truncate">{{ $s->first_name }} {{ $s->second_name }}</h3>
-                        <p class="text-xs text-slate-500 dark:text-slate-400 truncate">{{ $s->email ?? '—' }}</p>
+                        <p class="text-xs text-slate-500 dark:text-slate-400 truncate">{{ $s->player_email ?? '—' }}</p>
                         @if($s->jersey_number || $s->jersey_name)
                             <p class="text-xs text-slate-600 dark:text-slate-400 truncate mt-1">
                                 🏀 #{{ $s->jersey_number ?? '—' }} {{ $s->jersey_name ? '· ' . $s->jersey_name : '' }}
@@ -115,7 +115,7 @@
                                         @endif
                                         <div>
                                             <div class="font-semibold text-slate-900 dark:text-white">{{ $s->first_name }} {{ $s->second_name }}</div>
-                                            <div class="text-xs text-slate-500">{{ $s->email ?? '—' }}</div>
+                                            <div class="text-xs text-slate-500">{{ $s->player_email ?? '—' }}</div>
                                             @if($s->jersey_number || $s->jersey_name)
                                                 <div class="text-xs text-slate-600 dark:text-slate-400">🏀 #{{ $s->jersey_number ?? '—' }} {{ $s->jersey_name ? '· ' . $s->jersey_name : '' }}</div>
                                             @endif

@@ -76,7 +76,7 @@ class StudentController extends Controller
 
         // Send registration confirmation via queue if we have a recipient
         try {
-            $recipient = $student->email ?: optional($student->parent)->email;
+            $recipient = $student->player_email ?: $student->parent_email;
             if ($recipient) {
                 Mail::to($recipient)->queue(new StudentRegistered($student));
             }

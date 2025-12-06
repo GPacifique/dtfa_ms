@@ -12,9 +12,13 @@
     </div>
 
     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <x-input name="email" type="email" label="Email" :value="$student->email ?? null" />
-        <x-input name="phone" label="Phone" :value="$student->phone ?? null" />
+        <x-input name="player_email" type="email" label="Player Email" :value="$student->player_email ?? null" />
+        <x-input name="parent_email" type="email" label="Parent Email" :value="$student->parent_email ?? null" />
+        <x-input name="player_phone" label="Player Phone" :value="$student->player_phone ?? null" />
         <x-input name="emergency_phone" label="Emergency Phone" :value="$student->emergency_phone ?? null" />
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-1 gap-4">
         <x-input name="school_name" label="School Name" :value="$student->school_name ?? null" />
     </div>
 

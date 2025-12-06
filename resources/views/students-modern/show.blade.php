@@ -85,12 +85,16 @@
                     <p class="font-semibold">{{ $student->first_name }} {{ $student->second_name }}</p>
                 </div>
                 <div>
-                    <p class="text-xs text-slate-500">Email</p>
-                    <p>{{ $student->email ?? '—' }}</p>
+                    <p class="text-xs text-slate-500">Player Email</p>
+                    <p>{{ $student->player_email ?? '—' }}</p>
                 </div>
                 <div>
-                    <p class="text-xs text-slate-500">Phone</p>
-                    <p>{{ $student->phone ?? '—' }}</p>
+                    <p class="text-xs text-slate-500">Parent Email</p>
+                    <p>{{ $student->parent_email ?? '—' }}</p>
+                </div>
+                <div>
+                    <p class="text-xs text-slate-500">Player Phone</p>
+                    <p>{{ $student->player_phone ?? '—' }}</p>
                 </div>
                 <div>
                     <p class="text-xs text-slate-500">Status</p>
