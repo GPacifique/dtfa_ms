@@ -121,10 +121,7 @@ class GameController extends Controller
         $data = $request->validate($rules);
         $data['notify_staff'] = $request->has('notify_staff');
 
-        // Check if action is to complete the match
-        if ($request->action === 'complete' && $game->status !== 'completed') {
-            $data['status'] = 'completed';
-        }
+        // Status transitions are automated; do not change status here
 
         $game->update($data);
 
@@ -148,13 +145,8 @@ class GameController extends Controller
      */
     public function startMatch(Game $game)
     {
-        if (!$game->isScheduled()) {
-            return back()->with('error', 'Only scheduled matches can be started.');
-        }
-
-        $game->startMatch();
-
-        return back()->with('success', 'Match started! You can now record events and results.');
+        // Manual start disabled; status handled automatically
+        return back()->with('info', 'Match status is managed automatically.');
     }
 
     /**
@@ -162,12 +154,7 @@ class GameController extends Controller
      */
     public function completeMatch(Game $game)
     {
-        if ($game->isCompleted()) {
-            return back()->with('error', 'This match is already completed.');
-        }
-
-        $game->completeMatch();
-
-        return back()->with('success', 'Match marked as completed.');
+        // Manual complete disabled; status handled automatically
+        return back()->with('info', 'Match status is managed automatically.');
     }
 }

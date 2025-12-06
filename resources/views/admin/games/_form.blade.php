@@ -10,28 +10,7 @@
         @method('PUT')
     @endif
 
-    <!-- Status Badge -->
-    @if($editing)
-    <div class="mb-6 p-4 rounded-lg {{ $game->status === 'scheduled' ? 'bg-blue-50 dark:bg-blue-900' : ($game->status === 'in_progress' ? 'bg-yellow-50 dark:bg-yellow-900' : 'bg-green-50 dark:bg-green-900') }}">
-        <div class="flex items-center justify-between">
-            <div>
-                <h3 class="font-semibold text-gray-900 dark:text-white">Match Status</h3>
-                <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">
-                    @if($game->status === 'scheduled')
-                        📅 Scheduled - Ready to update details or start match
-                    @elseif($game->status === 'in_progress')
-                        🏃 In Progress - Record match events and results
-                    @else
-                        ✅ Completed - Final match report
-                    @endif
-                </p>
-            </div>
-            <span class="px-4 py-2 rounded-full font-semibold {{ $game->status === 'scheduled' ? 'bg-blue-200 text-blue-800' : ($game->status === 'in_progress' ? 'bg-yellow-200 text-yellow-800' : 'bg-green-200 text-green-800') }}">
-                {{ ucfirst($game->status) }}
-            </span>
-        </div>
-    </div>
-    @endif
+    <!-- Status hidden: automated by scheduler -->
 
     <!-- SECTION 1: MATCH CREATION FIELDS (Always visible for creation, visible for scheduled matches) -->
     <div class="mb-8">

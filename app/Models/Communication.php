@@ -17,6 +17,7 @@ class Communication extends Model
         'minutes',
         'activity_type',
         'audience',
+        'sent_at',
     ];
 
     public function sender()

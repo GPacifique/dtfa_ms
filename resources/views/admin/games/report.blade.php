@@ -30,11 +30,7 @@
                 </div>
                 <p class="text-sm opacity-90 mt-2">📍 {{ $game->venue }} • {{ $game->discipline }} • {{ $game->category }}</p>
             </div>
-            <div class="text-right">
-                <span class="px-4 py-2 rounded-full font-semibold text-sm {{ $game->status === 'completed' ? 'bg-green-500' : 'bg-yellow-500' }}">
-                    {{ $game->status === 'completed' ? '✅ Completed' : '🏃 In Progress' }}
-                </span>
-            </div>
+
         </div>
     </div>
 
@@ -160,18 +156,9 @@
                 Cancel
             </a>
             <div class="flex gap-4">
-                @if($game->status !== 'completed')
-                    <button type="submit" name="action" value="save" class="px-8 py-3 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white rounded-lg font-semibold shadow-lg transition transform hover:scale-105">
-                        💾 Save Progress
-                    </button>
-                    <button type="submit" name="action" value="complete" class="px-8 py-3 bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white rounded-lg font-semibold shadow-lg transition transform hover:scale-105">
-                        ✅ Complete Match
-                    </button>
-                @else
-                    <button type="submit" class="px-8 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white rounded-lg font-semibold shadow-lg transition transform hover:scale-105">
-                        ✅ Update Report
-                    </button>
-                @endif
+                <button type="submit" name="action" value="save" class="px-8 py-3 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white rounded-lg font-semibold shadow-lg transition transform hover:scale-105">
+                    💾 Save Report
+                </button>
             </div>
         </div>
     </form>

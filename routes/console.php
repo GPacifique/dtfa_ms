@@ -2,6 +2,9 @@
 
 use Illuminate\Foundation\Inspiring;
 use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\Schedule;
+use App\Models\Communication;
+use App\Jobs\SendCommunicationChunk;
 
 // Mailtrap API test sender: php artisan send-mail
 // Requires: composer require mailtrap/mailtrap-php
@@ -46,3 +49,38 @@ Artisan::command('send-mail', function () {
 Artisan::command('inspire', function () {
     $this->comment(Inspiring::quote());
 })->purpose('Display an inspiring quote');
+
+// Schedule auto game status updates every minute
+Schedule::command('games:auto-update-status')->everyMinute();
+
+// Auto-send pending communications to staff every 5 minutes
+Schedule::call(function () {
+    $pending = Communication::query()
+        ->whereNull('sent_at')
+        ->orderBy('id', 'asc')
+        ->limit(25)
+        ->get();
+
+    foreach ($pending as $communication) {
+        // Determine recipients based on audience; for now, gather staff emails
+        $emails = \App\Models\User::query()
+            ->whereHas('roles', function ($q) {
+                $q->whereIn('name', ['staff', 'coach', 'admin']);
+            })
+            ->whereNotNull('email')
+            ->pluck('email')
+            ->filter()
+            ->unique()
+            ->values()
+            ->toArray();
+
+        // Chunk emails for queue load distribution
+        $chunks = array_chunk($emails, 50);
+        foreach ($chunks as $chunk) {
+            dispatch(new SendCommunicationChunk($communication, $chunk));
+        }
+
+        // Mark as sent to avoid re-sending; actual delivery is queued
+        $communication->forceFill(['sent_at' => now()])->save();
+    }
+})->everyFiveMinutes();

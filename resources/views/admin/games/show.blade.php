@@ -11,39 +11,15 @@
         <a href="{{ route('admin.games.index') }}" class="px-4 py-2 border rounded-lg hover:bg-gray-100 dark:hover:bg-neutral-800 font-medium">Back to Matches</a>
     </div>
 
-    <!-- Status Badge and Actions -->
-    <div class="mb-6 p-4 rounded-lg {{ $game->status === 'scheduled' ? 'bg-blue-50 dark:bg-blue-900' : ($game->status === 'in_progress' ? 'bg-yellow-50 dark:bg-yellow-900' : 'bg-green-50 dark:bg-green-900') }}">
-        <div class="flex items-center justify-between">
-            <div>
-                <h3 class="font-semibold text-gray-900 dark:text-white">Match Status</h3>
-                <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">
-                    @if($game->status === 'scheduled')
-                        📅 Ready to start - Click "Start Match" when ready
-                    @elseif($game->status === 'in_progress')
-                        🏃 Currently in progress - Record events and results
-                    @else
-                        ✅ Match completed
-                    @endif
-                </p>
-            </div>
-            <div class="flex items-center gap-3">
-                <span class="px-4 py-2 rounded-full font-semibold {{ $game->status === 'scheduled' ? 'bg-blue-200 text-blue-800' : ($game->status === 'in_progress' ? 'bg-yellow-200 text-yellow-800' : 'bg-green-200 text-green-800') }}">
-                    {{ ucfirst(str_replace('_', ' ', $game->status)) }}
-                </span>
-
-                @if($game->isScheduled())
-                <form action="{{ route('admin.games.start', $game) }}" method="POST" class="inline">
-                    @csrf
-                    <button type="submit" class="px-4 py-2 bg-yellow-600 text-white rounded-lg hover:bg-yellow-700 font-medium transition">
-                        🏃 Start Match
-                    </button>
-                </form>
-                @elseif($game->isInProgress())
-                <a href="{{ route('admin.games.edit', $game) }}" class="px-4 py-2 bg-orange-600 text-white rounded-lg hover:bg-orange-700 font-medium transition">
-                    📝 Record Results
-                </a>
-                @endif
-            </div>
+    <!-- Status hidden: automated by scheduler; show only essential actions -->
+    <div class="mb-6 flex items-center justify-between">
+        <div class="text-sm text-gray-600 dark:text-gray-400">
+            <!-- No explicit status shown -->
+        </div>
+        <div class="flex items-center gap-3">
+            <a href="{{ route('admin.games.edit', $game) }}" class="px-4 py-2 bg-orange-600 text-white rounded-lg hover:bg-orange-700 font-medium transition">
+                📝 Update Report
+            </a>
         </div>
     </div>
 
