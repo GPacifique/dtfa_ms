@@ -19,11 +19,13 @@ return new class extends Migration
             $table->enum('discipline', ['Football', 'Basketball'])->nullable();
             $table->enum('gender', ['Male', 'Female'])->nullable();
             $table->date('dob')->nullable();
-            $table->string('role_function')->nullable();
+            $table->string('volunteer_role')->nullable();
             $table->date('date_entry')->nullable();
             $table->date('date_exit')->nullable();
             $table->text('other_organizations')->nullable();
-            $table->text('academic_qualification')->nullable();
+            $table->enum('academic_qualification', ['Primary', 'Secondary', 'University'])->nullable();
+            $table->string('university_name')->nullable();
+            $table->string('qualification_name')->nullable();
             $table->string('major')->nullable();
             $table->text('professional_certificates')->nullable();
             $table->string('tshirt_size')->nullable();

@@ -42,7 +42,22 @@
         <h2 class="text-lg font-bold text-slate-900 dark:text-white mb-6">⚽ Sports & Program</h2>
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
             <x-select name="sport_discipline" label="🏆 Sport Discipline" :options="($sportDisciplines ?? collect())->mapWithKeys(fn($d)=>[$d=>$d])->all()" :value="$student->sport_discipline ?? null" placeholder="Select sport" />
-            <x-input name="position" label="📍 Position" :value="$student->position ?? null" />
+            @php
+                $positions = [
+                    'GK' => 'GK',
+                    'Left back' => 'Left back',
+                    'Right Back' => 'Right Back',
+                    'Central Defender' => 'Central Defender',
+                    'Full Back Defender' => 'Full Back Defender',
+                    'Midfield Defender' => 'Midfield Defender',
+                    'Rightwing' => 'Rightwing',
+                    'Midfield offensive' => 'Midfield offensive',
+                    'Striker' => 'Striker',
+                    'DD' => 'DD',
+                    'Leftwing' => 'Leftwing',
+                ];
+            @endphp
+            <x-select name="position" label="📍 Position" :options="$positions" :value="$student->position ?? null" placeholder="Select position" />
             <x-select name="coach" label="👨‍🏫 Coach" :options="($coaches ?? collect())->mapWithKeys(fn($c)=>[$c->name=>$c->name])->all()" :value="$student->coach ?? null" placeholder="Select coach" />
         </div>
     </div>

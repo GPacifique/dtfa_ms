@@ -1,0 +1,29 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    /**
+     * Run the migrations.
+     */
+    public function up(): void
+    {
+        Schema::table('training_session_records', function (Blueprint $table) {
+            $table->unsignedBigInteger('lead_coach_id')->nullable()->after('coach_id');
+            $table->json('support_staff')->nullable()->after('lead_coach_id');
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
+    {
+        Schema::table('training_session_records', function (Blueprint $table) {
+            $table->dropColumn(['lead_coach_id', 'support_staff']);
+        });
+    }
+};

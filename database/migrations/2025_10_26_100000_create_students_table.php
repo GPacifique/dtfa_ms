@@ -25,7 +25,7 @@ return new class extends Migration {
             $table->string('jersey_name')->nullable();
             $table->string('sport_discipline')->nullable();
             $table->string('school_name')->nullable();
-            $table->string('position')->nullable();
+            $table->enum('position', ['GK', 'Left back', 'Right Back', 'Central Defender', 'Full Back Defender', 'Midfield Defender', 'Rightwing', 'Midfield offensive', 'Striker', 'DD', 'Leftwing'])->nullable();
             $table->string('coach')->nullable();
             $table->timestamp('joined_at')->nullable()->index();
             $table->string('program')->nullable();

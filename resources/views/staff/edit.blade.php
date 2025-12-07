@@ -82,9 +82,9 @@
                     @error('role_name')<span class="text-red-600 text-sm">{{ $message }}</span>@enderror
                 </div>
                 <div>
-                    <label class="block text-sm">Role / Function (custom)</label>
-                    <input name="role_function" value="{{ old('role_function', $staff->role_function) }}" class="w-full border rounded px-3 py-2" />
-                    @error('role_function')<span class="text-red-600 text-sm">{{ $message }}</span>@enderror
+                    <label class="block text-sm">Volunteer Role</label>
+                    <input name="volunteer_role" value="{{ old('volunteer_role', $staff->volunteer_role) }}" class="w-full border rounded px-3 py-2" />
+                    @error('volunteer_role')<span class="text-red-600 text-sm">{{ $message }}</span>@enderror
                 </div>
 
                 <div>
@@ -107,7 +107,12 @@
 
                 <div>
                     <label class="block text-sm">Academic Qualification</label>
-                    <input name="academic_qualification" value="{{ old('academic_qualification', $staff->academic_qualification) }}" class="w-full border rounded px-3 py-2" />
+                    <select name="academic_qualification" class="w-full border rounded px-3 py-2">
+                        <option value="">-- Select Qualification --</option>
+                        <option value="Primary" {{ old('academic_qualification', $staff->academic_qualification) == 'Primary' ? 'selected' : '' }}>Primary</option>
+                        <option value="Secondary" {{ old('academic_qualification', $staff->academic_qualification) == 'Secondary' ? 'selected' : '' }}>Secondary</option>
+                        <option value="University" {{ old('academic_qualification', $staff->academic_qualification) == 'University' ? 'selected' : '' }}>University</option>
+                    </select>
                     @error('academic_qualification')<span class="text-red-600 text-sm">{{ $message }}</span>@enderror
                 </div>
 
@@ -115,6 +120,18 @@
                     <label class="block text-sm">Major / Combination</label>
                     <input name="major" value="{{ old('major', $staff->major) }}" class="w-full border rounded px-3 py-2" />
                     @error('major')<span class="text-red-600 text-sm">{{ $message }}</span>@enderror
+                </div>
+
+                <div>
+                    <label class="block text-sm">Name of University</label>
+                    <input name="university_name" value="{{ old('university_name', $staff->university_name) }}" class="w-full border rounded px-3 py-2" />
+                    @error('university_name')<span class="text-red-600 text-sm">{{ $message }}</span>@enderror
+                </div>
+
+                <div>
+                    <label class="block text-sm">Name of Qualification</label>
+                    <input name="qualification_name" value="{{ old('qualification_name', $staff->qualification_name) }}" class="w-full border rounded px-3 py-2" />
+                    @error('qualification_name')<span class="text-red-600 text-sm">{{ $message }}</span>@enderror
                 </div>
 
                 <div class="md:col-span-2">

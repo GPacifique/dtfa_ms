@@ -42,6 +42,7 @@ return new class extends Migration
             $table->string('venue')->nullable();
             $table->string('location')->nullable();
             $table->string('trainer_name')->nullable();
+            $table->boolean('certificate_received')->default(false);
 
             $table->timestamps();
         });

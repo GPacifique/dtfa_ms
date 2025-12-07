@@ -18,6 +18,39 @@
             @method('PUT')
         @endif
 
+        <!-- Training Objectives Section -->
+        <div class="mb-8">
+            <h2 class="text-xl font-bold text-gray-900 dark:text-white mb-6 pb-3 border-b-2 border-purple-500">
+                🎯 Training Objectives
+            </h2>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Main Topic</label>
+                    <input type="text" name="main_topic" value="{{ $trainingSessionRecord->main_topic ?? '' }}" class="w-full border border-gray-300 dark:border-gray-600 rounded-lg px-4 py-3 dark:bg-neutral-800 focus:ring-2 focus:ring-purple-500 focus:border-transparent" placeholder="e.g., Passing techniques, Ball control">
+                    @error('main_topic')<span class="text-red-600 text-sm mt-1 block">{{ $message }}</span>@enderror
+                </div>
+
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Area of Performance</label>
+                    <select name="area_performance" class="w-full border border-gray-300 dark:border-gray-600 rounded-lg px-4 py-3 dark:bg-neutral-800 focus:ring-2 focus:ring-purple-500 focus:border-transparent">
+                        <option value="">Select area</option>
+                        <option value="Physical" {{ (isset($trainingSessionRecord) && $trainingSessionRecord->area_performance=='Physical') ? 'selected' : '' }}>💪 Physical</option>
+                        <option value="Technical" {{ (isset($trainingSessionRecord) && $trainingSessionRecord->area_performance=='Technical') ? 'selected' : '' }}>⚙️ Technical</option>
+                        <option value="Tactical" {{ (isset($trainingSessionRecord) && $trainingSessionRecord->area_performance=='Tactical') ? 'selected' : '' }}>♟️ Tactical</option>
+                        <option value="Mental" {{ (isset($trainingSessionRecord) && $trainingSessionRecord->area_performance=='Mental') ? 'selected' : '' }}>🧠 Mental</option>
+                    </select>
+                    @error('area_performance')<span class="text-red-600 text-sm mt-1 block">{{ $message }}</span>@enderror
+                </div>
+            </div>
+
+            <div>
+                <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Training Objective</label>
+                <textarea name="training_objective" rows="4" class="w-full border border-gray-300 dark:border-gray-600 rounded-lg px-4 py-3 dark:bg-neutral-800 focus:ring-2 focus:ring-purple-500 focus:border-transparent" placeholder="Describe the objectives and goals for this training session...">{{ $trainingSessionRecord->training_objective ?? '' }}</textarea>
+                @error('training_objective')<span class="text-red-600 text-sm mt-1 block">{{ $message }}</span>@enderror
+            </div>
+        </div>
+
         <!-- Basic Details Section -->
         <div class="mb-8">
             <h2 class="text-xl font-bold text-gray-900 dark:text-white mb-6 pb-3 border-b-2 border-indigo-500">
@@ -64,6 +97,31 @@
                         @endforeach
                     </select>
                     @error('coach_id')<span class="text-red-600 text-sm mt-1 block">{{ $message }}</span>@enderror
+                </div>
+
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Lead Coach</label>
+                    <select name="lead_coach_id" class="w-full border border-gray-300 dark:border-gray-600 rounded-lg px-4 py-3 dark:bg-neutral-800 focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
+                        <option value="">Select lead coach</option>
+                        @foreach($coaches as $coach)
+                            <option value="{{ $coach->id }}" {{ (isset($trainingSessionRecord) && $trainingSessionRecord->lead_coach_id == $coach->id) ? 'selected' : '' }}>
+                                {{ $coach->name }}
+                            </option>
+                        @endforeach
+                    </select>
+                    @error('lead_coach_id')<span class="text-red-600 text-sm mt-1 block">{{ $message }}</span>@enderror
+                </div>
+
+                <div class="lg:col-span-3">
+                    <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Support Staff</label>
+                    <select name="support_staff[]" multiple class="w-full border border-gray-300 dark:border-gray-600 rounded-lg px-4 py-3 dark:bg-neutral-800 focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
+                        @foreach($coaches as $coach)
+                            <option value="{{ $coach->id }}" {{ (isset($trainingSessionRecord) && in_array($coach->id, (array)$trainingSessionRecord->support_staff)) ? 'selected' : '' }}>
+                                {{ $coach->name }}
+                            </option>
+                        @endforeach
+                    </select>
+                    @error('support_staff')<span class="text-red-600 text-sm mt-1 block">{{ $message }}</span>@enderror
                 </div>
 
                 <div>
@@ -127,39 +185,6 @@
                     <input type="text" name="other_training_pitch" value="{{ $trainingSessionRecord->other_training_pitch ?? '' }}" class="w-full border border-gray-300 dark:border-gray-600 rounded-lg px-4 py-3 dark:bg-neutral-800 focus:ring-2 focus:ring-emerald-500 focus:border-transparent" placeholder="Specify other pitch">
                     @error('other_training_pitch')<span class="text-red-600 text-sm mt-1 block">{{ $message }}</span>@enderror
                 </div>
-            </div>
-        </div>
-
-        <!-- Training Objectives Section -->
-        <div class="mb-8">
-            <h2 class="text-xl font-bold text-gray-900 dark:text-white mb-6 pb-3 border-b-2 border-purple-500">
-                🎯 Training Objectives
-            </h2>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-                <div>
-                    <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Main Topic</label>
-                    <input type="text" name="main_topic" value="{{ $trainingSessionRecord->main_topic ?? '' }}" class="w-full border border-gray-300 dark:border-gray-600 rounded-lg px-4 py-3 dark:bg-neutral-800 focus:ring-2 focus:ring-purple-500 focus:border-transparent" placeholder="e.g., Passing techniques, Ball control">
-                    @error('main_topic')<span class="text-red-600 text-sm mt-1 block">{{ $message }}</span>@enderror
-                </div>
-
-                <div>
-                    <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Area of Performance</label>
-                    <select name="area_performance" class="w-full border border-gray-300 dark:border-gray-600 rounded-lg px-4 py-3 dark:bg-neutral-800 focus:ring-2 focus:ring-purple-500 focus:border-transparent">
-                        <option value="">Select area</option>
-                        <option value="Physical" {{ (isset($trainingSessionRecord) && $trainingSessionRecord->area_performance=='Physical') ? 'selected' : '' }}>💪 Physical</option>
-                        <option value="Technical" {{ (isset($trainingSessionRecord) && $trainingSessionRecord->area_performance=='Technical') ? 'selected' : '' }}>⚙️ Technical</option>
-                        <option value="Tactical" {{ (isset($trainingSessionRecord) && $trainingSessionRecord->area_performance=='Tactical') ? 'selected' : '' }}>♟️ Tactical</option>
-                        <option value="Mental" {{ (isset($trainingSessionRecord) && $trainingSessionRecord->area_performance=='Mental') ? 'selected' : '' }}>🧠 Mental</option>
-                    </select>
-                    @error('area_performance')<span class="text-red-600 text-sm mt-1 block">{{ $message }}</span>@enderror
-                </div>
-            </div>
-
-            <div>
-                <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Training Objective</label>
-                <textarea name="training_objective" rows="4" class="w-full border border-gray-300 dark:border-gray-600 rounded-lg px-4 py-3 dark:bg-neutral-800 focus:ring-2 focus:ring-purple-500 focus:border-transparent" placeholder="Describe the objectives and goals for this training session...">{{ $trainingSessionRecord->training_objective ?? '' }}</textarea>
-                @error('training_objective')<span class="text-red-600 text-sm mt-1 block">{{ $message }}</span>@enderror
             </div>
         </div>
 
@@ -289,18 +314,48 @@
                 📝 Additional Notes
             </h2>
 
-            <div class="grid grid-cols-1 gap-6">
-                <div>
-                    <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Part 3 Notes (Cool Down / Conclusion)</label>
-                    <textarea name="part3_notes" rows="3" class="w-full border border-gray-300 dark:border-gray-600 rounded-lg px-4 py-3 dark:bg-neutral-800 focus:ring-2 focus:ring-amber-500 focus:border-transparent" placeholder="Cool down activities, stretching, conclusion...">{{ $trainingSessionRecord->part3_notes ?? '' }}</textarea>
-                    @error('part3_notes')<span class="text-red-600 text-sm mt-1 block">{{ $message }}</span>@enderror
+            <div class="mb-4">
+                <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Part 3 Notes (Cool Down / Conclusion)</label>
+                <textarea name="part3_notes" rows="2" class="w-full border border-gray-300 dark:border-gray-600 rounded-lg px-4 py-3 dark:bg-neutral-800 focus:ring-2 focus:ring-blue-500 focus:border-transparent" placeholder="Brief overview of Part 3 activities...">{{ $trainingSessionRecord->part3_notes ?? '' }}</textarea>
+                @error('part3_notes')<span class="text-red-600 text-sm mt-1 block">{{ $message }}</span>@enderror
+            </div>
+
+            <div class="grid grid-cols-1 gap-4">
+                <!-- Activity 1 -->
+                <div class="p-4 bg-amber-50 dark:bg-amber-900/20 rounded-lg">
+                    <h3 class="font-semibold mb-3 text-amber-900 dark:text-amber-200">Activity 1</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                        <div class="md:col-span-3">
+                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Description</label>
+                            <textarea name="part3_a1_desc" rows="2" class="w-full border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-2 dark:bg-neutral-800">{{ $trainingSessionRecord->part3_a1_desc ?? '' }}</textarea>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Duration</label>
+                            <input type="text" name="part3_a1_time" value="{{ $trainingSessionRecord->part3_a1_time ?? '' }}" class="w-full border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-2 dark:bg-neutral-800" placeholder="e.g., 10 min">
+                        </div>
+                    </div>
                 </div>
 
-                <div>
-                    <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Part 4 Message (Communication to Players/Parents)</label>
-                    <textarea name="part4_message" rows="3" class="w-full border border-gray-300 dark:border-gray-600 rounded-lg px-4 py-3 dark:bg-neutral-800 focus:ring-2 focus:ring-amber-500 focus:border-transparent" placeholder="Any messages or announcements...">{{ $trainingSessionRecord->part4_message ?? '' }}</textarea>
-                    @error('part4_message')<span class="text-red-600 text-sm mt-1 block">{{ $message }}</span>@enderror
+                <!-- Activity 2 -->
+                <div class="p-4 bg-amber-50 dark:bg-amber-900/20 rounded-lg">
+                    <h3 class="font-semibold mb-3 text-amber-900 dark:text-amber-200">Activity 2</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                        <div class="md:col-span-3">
+                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Description</label>
+                            <textarea name="part3_a2_desc" rows="2" class="w-full border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-2 dark:bg-neutral-800">{{ $trainingSessionRecord->part3_a2_desc ?? '' }}</textarea>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Duration</label>
+                            <input type="text" name="part3_a2_time" value="{{ $trainingSessionRecord->part3_a2_time ?? '' }}" class="w-full border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-2 dark:bg-neutral-800" placeholder="e.g., 15 min">
+                        </div>
+                    </div>
                 </div>
+            </div>
+
+            <div class="mt-6">
+                <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Part 4 Message (Communication to Players/Parents)</label>
+                <textarea name="part4_message" rows="3" class="w-full border border-gray-300 dark:border-gray-600 rounded-lg px-4 py-3 dark:bg-neutral-800 focus:ring-2 focus:ring-amber-500 focus:border-transparent" placeholder="Any messages or announcements...">{{ $trainingSessionRecord->part4_message ?? '' }}</textarea>
+                @error('part4_message')<span class="text-red-600 text-sm mt-1 block">{{ $message }}</span>@enderror
             </div>
         </div>
 

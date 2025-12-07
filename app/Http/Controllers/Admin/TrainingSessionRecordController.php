@@ -21,7 +21,7 @@ class TrainingSessionRecordController extends Controller
     {
         $sessions = TrainingSession::orderBy('date', 'desc')->get(['id','date','location','group_name']);
         $branches = $sessions->pluck('location')->filter()->unique()->values();
-        $pitches = $sessions->pluck('group_name')->filter()->unique()->values();
+        $pitches = ['IPRC Kicukiro- Football', 'Green Hills Academy', 'Star School -Masaka', 'Nyamagana Stadium', 'IPRC-Kigali -Basketball'];
 
         $coaches = User::role('coach')->get(['id', 'name']);
 
@@ -91,6 +91,8 @@ class TrainingSessionRecordController extends Controller
             'sport_discipline' => 'nullable|string|in:Football,Basketball',
             'coach_name' => 'nullable|string|max:191',
             'coach_id' => 'nullable|exists:users,id',
+            'lead_coach_id' => 'nullable|exists:users,id',
+            'support_staff' => 'nullable|array',
             'branch' => 'nullable|string|max:191',
             'training_pitch' => 'nullable|string|max:191',
             'other_training_pitch' => 'nullable|string|max:255',
@@ -112,6 +114,10 @@ class TrainingSessionRecordController extends Controller
             'part2_a3_desc' => 'nullable|string|max:1000',
             'part2_a3_time' => 'nullable|string|max:16',
             'part3_notes' => 'nullable|string',
+            'part3_a1_desc' => 'nullable|string|max:1000',
+            'part3_a1_time' => 'nullable|string|max:16',
+            'part3_a2_desc' => 'nullable|string|max:1000',
+            'part3_a2_time' => 'nullable|string|max:16',
             'part4_message' => 'nullable|string',
             'number_of_kids' => 'nullable|integer',
             'incident_report' => 'nullable|string',
@@ -166,6 +172,8 @@ class TrainingSessionRecordController extends Controller
               'sport_discipline' => 'nullable|string|in:Football,Basketball',
             'coach_name' => 'nullable|string|max:191',
             'coach_id' => 'nullable|exists:users,id',
+            'lead_coach_id' => 'nullable|exists:users,id',
+            'support_staff' => 'nullable|array',
             'branch' => 'nullable|string|max:191',
               'training_pitch' => 'nullable|string|max:191',
               'other_training_pitch' => 'nullable|string|max:255',
@@ -187,6 +195,10 @@ class TrainingSessionRecordController extends Controller
                         'part2_a3_desc' => 'nullable|string|max:1000',
                         'part2_a3_time' => 'nullable|string|max:16',
             'part3_notes' => 'nullable|string',
+            'part3_a1_desc' => 'nullable|string|max:1000',
+            'part3_a1_time' => 'nullable|string|max:16',
+            'part3_a2_desc' => 'nullable|string|max:1000',
+            'part3_a2_time' => 'nullable|string|max:16',
             'part4_message' => 'nullable|string',
             'number_of_kids' => 'nullable|integer',
             'incident_report' => 'nullable|string',

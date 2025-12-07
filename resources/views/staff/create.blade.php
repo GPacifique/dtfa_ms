@@ -89,9 +89,9 @@
                             @error('role_name')<p class="text-sm text-red-600 dark:text-red-400 mt-1">{{ $message }}</p>@enderror
                         </div>
                         <div>
-                            <label class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">Custom Role / Function</label>
-                            <input name="role_function" value="{{ old('role_function') }}" class="w-full border border-slate-300 dark:border-slate-600 rounded-lg px-3 py-2 dark:bg-slate-700 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent" placeholder="e.g., Senior Coach" />
-                            @error('role_function')<p class="text-sm text-red-600 dark:text-red-400 mt-1">{{ $message }}</p>@enderror
+                            <label class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">Volunteer Role</label>
+                            <input name="volunteer_role" value="{{ old('volunteer_role') }}" class="w-full border border-slate-300 dark:border-slate-600 rounded-lg px-3 py-2 dark:bg-slate-700 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent" placeholder="e.g., Senior Coach" />
+                            @error('volunteer_role')<p class="text-sm text-red-600 dark:text-red-400 mt-1">{{ $message }}</p>@enderror
                         </div>
 
                         <div>
@@ -114,7 +114,12 @@
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div>
                             <label class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">Academic Qualification</label>
-                            <input name="academic_qualification" value="{{ old('academic_qualification') }}" class="w-full border border-slate-300 dark:border-slate-600 rounded-lg px-3 py-2 dark:bg-slate-700 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent" placeholder="e.g., Bachelor's Degree" />
+                            <select name="academic_qualification" class="w-full border border-slate-300 dark:border-slate-600 rounded-lg px-3 py-2 dark:bg-slate-700 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                                <option value="">-- Select Qualification --</option>
+                                <option value="Primary" {{ old('academic_qualification') == 'Primary' ? 'selected' : '' }}>Primary</option>
+                                <option value="Secondary" {{ old('academic_qualification') == 'Secondary' ? 'selected' : '' }}>Secondary</option>
+                                <option value="University" {{ old('academic_qualification') == 'University' ? 'selected' : '' }}>University</option>
+                            </select>
                             @error('academic_qualification')<p class="text-sm text-red-600 dark:text-red-400 mt-1">{{ $message }}</p>@enderror
                         </div>
 
@@ -122,6 +127,18 @@
                             <label class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">Major / Specialization</label>
                             <input name="major" value="{{ old('major') }}" class="w-full border border-slate-300 dark:border-slate-600 rounded-lg px-3 py-2 dark:bg-slate-700 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent" placeholder="e.g., Sports Science" />
                             @error('major')<p class="text-sm text-red-600 dark:text-red-400 mt-1">{{ $message }}</p>@enderror
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">Name of University</label>
+                            <input name="university_name" value="{{ old('university_name') }}" class="w-full border border-slate-300 dark:border-slate-600 rounded-lg px-3 py-2 dark:bg-slate-700 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent" placeholder="e.g., University of Rwanda" />
+                            @error('university_name')<p class="text-sm text-red-600 dark:text-red-400 mt-1">{{ $message }}</p>@enderror
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">Name of Qualification</label>
+                            <input name="qualification_name" value="{{ old('qualification_name') }}" class="w-full border border-slate-300 dark:border-slate-600 rounded-lg px-3 py-2 dark:bg-slate-700 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent" placeholder="e.g., Bachelor of Science" />
+                            @error('qualification_name')<p class="text-sm text-red-600 dark:text-red-400 mt-1">{{ $message }}</p>@enderror
                         </div>
 
                         <div class="md:col-span-2">

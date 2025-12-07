@@ -18,7 +18,7 @@ return new class extends Migration
             $table->time('finish_time')->nullable();
             $table->string('coach_name')->nullable();
             $table->string('branch')->nullable();
-            $table->string('training_pitch')->nullable();
+            $table->enum('training_pitch', ['IPRC Kicukiro- Football', 'Green Hills Academy', 'Star School -Masaka', 'Nyamagana Stadium', 'IPRC-Kigali -Basketball'])->nullable();
 
             // The missing fields causing your error
             $table->string('country')->nullable();
