@@ -1,16 +1,14 @@
 @extends('layouts.app')
 
+@push('hero')
+    <x-hero title="Prepare Training Session" subtitle="Plan and schedule training session details">
+        <a href="{{ route('admin.training_session_records.index') }}" class="px-4 py-2 bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-200 rounded-lg hover:bg-gray-300 dark:hover:bg-gray-600 font-medium transition">← Back to Records</a>
+    </x-hero>
+@endpush
+
 @section('content')
 <div class="max-w-7xl mx-auto p-6">
-    <div class="flex items-center justify-between mb-6">
-        <div>
-            <h1 class="text-3xl font-bold text-gray-900 dark:text-white">Prepare Training Session</h1>
-            <p class="text-gray-600 dark:text-gray-400 mt-1">Plan and schedule training session details</p>
-        </div>
-        <a href="{{ route('admin.training_session_records.index') }}" class="px-4 py-2 bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-200 rounded-lg hover:bg-gray-300 dark:hover:bg-gray-600 font-medium transition">
-            ← Back to Records
-        </a>
-    </div>
+
 
     <form action="{{ isset($trainingSessionRecord) ? route('admin.training_session_records.update', $trainingSessionRecord) : route('admin.training_session_records.store') }}" method="POST" class="bg-white dark:bg-neutral-900 shadow rounded-xl p-8">
         @csrf
@@ -308,15 +306,15 @@
             </div>
         </div>
 
-        <!-- Additional Notes Section -->
+        <!-- Training Plan - Part 3 Section -->
         <div class="mb-8">
             <h2 class="text-xl font-bold text-gray-900 dark:text-white mb-6 pb-3 border-b-2 border-amber-500">
-                📝 Additional Notes
+                📋 Training Plan - Part 3 (Cool-down & Conclusion)
             </h2>
 
             <div class="mb-4">
-                <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Part 3 Notes (Cool Down / Conclusion)</label>
-                <textarea name="part3_notes" rows="2" class="w-full border border-gray-300 dark:border-gray-600 rounded-lg px-4 py-3 dark:bg-neutral-800 focus:ring-2 focus:ring-blue-500 focus:border-transparent" placeholder="Brief overview of Part 3 activities...">{{ $trainingSessionRecord->part3_notes ?? '' }}</textarea>
+                <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Part 3 Activities Overview</label>
+                <textarea name="part3_notes" rows="2" class="w-full border border-gray-300 dark:border-gray-600 rounded-lg px-4 py-3 dark:bg-neutral-800 focus:ring-2 focus:ring-amber-500 focus:border-transparent" placeholder="Brief overview of Part 3 activities...">{{ $trainingSessionRecord->part3_notes ?? '' }}</textarea>
                 @error('part3_notes')<span class="text-red-600 text-sm mt-1 block">{{ $message }}</span>@enderror
             </div>
 
@@ -350,12 +348,80 @@
                         </div>
                     </div>
                 </div>
+
+                <!-- Activity 3 -->
+                <div class="p-4 bg-amber-50 dark:bg-amber-900/20 rounded-lg">
+                    <h3 class="font-semibold mb-3 text-amber-900 dark:text-amber-200">Activity 3</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                        <div class="md:col-span-3">
+                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Description</label>
+                            <textarea name="part3_a3_desc" rows="2" class="w-full border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-2 dark:bg-neutral-800">{{ $trainingSessionRecord->part3_a3_desc ?? '' }}</textarea>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Duration</label>
+                            <input type="text" name="part3_a3_time" value="{{ $trainingSessionRecord->part3_a3_time ?? '' }}" class="w-full border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-2 dark:bg-neutral-800" placeholder="e.g., 20 min">
+                        </div>
+                    </div>
+                </div>
             </div>
 
-            <div class="mt-6">
+        <!-- Training Plan - Part 4 Section -->
+        <div class="mb-8">
+            <h2 class="text-xl font-bold text-gray-900 dark:text-white mb-6 pb-3 border-b-2 border-red-500">
+                📋 Training Plan - Part 4 (Communication)
+            </h2>
+
+            <div class="mb-4">
                 <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Part 4 Message (Communication to Players/Parents)</label>
-                <textarea name="part4_message" rows="3" class="w-full border border-gray-300 dark:border-gray-600 rounded-lg px-4 py-3 dark:bg-neutral-800 focus:ring-2 focus:ring-amber-500 focus:border-transparent" placeholder="Any messages or announcements...">{{ $trainingSessionRecord->part4_message ?? '' }}</textarea>
+                <textarea name="part4_message" rows="2" class="w-full border border-gray-300 dark:border-gray-600 rounded-lg px-4 py-3 dark:bg-neutral-800 focus:ring-2 focus:ring-red-500 focus:border-transparent" placeholder="Brief overview of Part 4 message...">{{ $trainingSessionRecord->part4_message ?? '' }}</textarea>
                 @error('part4_message')<span class="text-red-600 text-sm mt-1 block">{{ $message }}</span>@enderror
+            </div>
+
+            <div class="grid grid-cols-1 gap-4">
+                <!-- Activity 1 -->
+                <div class="p-4 bg-red-50 dark:bg-red-900/20 rounded-lg">
+                    <h3 class="font-semibold mb-3 text-red-900 dark:text-red-200">Activity 1</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                        <div class="md:col-span-3">
+                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Description</label>
+                            <textarea name="part4_a1_desc" rows="2" class="w-full border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-2 dark:bg-neutral-800">{{ $trainingSessionRecord->part4_a1_desc ?? '' }}</textarea>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Duration</label>
+                            <input type="text" name="part4_a1_time" value="{{ $trainingSessionRecord->part4_a1_time ?? '' }}" class="w-full border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-2 dark:bg-neutral-800" placeholder="e.g., 5 min">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Activity 2 -->
+                <div class="p-4 bg-red-50 dark:bg-red-900/20 rounded-lg">
+                    <h3 class="font-semibold mb-3 text-red-900 dark:text-red-200">Activity 2</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                        <div class="md:col-span-3">
+                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Description</label>
+                            <textarea name="part4_a2_desc" rows="2" class="w-full border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-2 dark:bg-neutral-800">{{ $trainingSessionRecord->part4_a2_desc ?? '' }}</textarea>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Duration</label>
+                            <input type="text" name="part4_a2_time" value="{{ $trainingSessionRecord->part4_a2_time ?? '' }}" class="w-full border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-2 dark:bg-neutral-800" placeholder="e.g., 5 min">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Activity 3 -->
+                <div class="p-4 bg-red-50 dark:bg-red-900/20 rounded-lg">
+                    <h3 class="font-semibold mb-3 text-red-900 dark:text-red-200">Activity 3</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                        <div class="md:col-span-3">
+                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Description</label>
+                            <textarea name="part4_a3_desc" rows="2" class="w-full border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-2 dark:bg-neutral-800">{{ $trainingSessionRecord->part4_a3_desc ?? '' }}</textarea>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Duration</label>
+                            <input type="text" name="part4_a3_time" value="{{ $trainingSessionRecord->part4_a3_time ?? '' }}" class="w-full border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-2 dark:bg-neutral-800" placeholder="e.g., 5 min">
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
 

@@ -1,17 +1,16 @@
 @extends('layouts.app')
 
+@push('hero')
+    <x-hero :title="$training->training_name" subtitle="Training Details">
+        <div class="mt-4 flex gap-2">
+            <a href="{{ route('admin.inhousetrainings.index') }}" class="btn-secondary">← Back to Trainings</a>
+            <a href="{{ route('admin.inhousetrainings.edit', $training->id) }}" class="btn-primary">Edit</a>
+        </div>
+    </x-hero>
+@endpush
+
 @section('content')
 <div class="max-w-4xl mx-auto p-6">
-    <div class="mb-6 flex items-center justify-between">
-        <div>
-            <h1 class="text-3xl font-bold text-gray-900 dark:text-white">{{ $training->training_name }}</h1>
-            <p class="text-gray-600 dark:text-gray-400 mt-1">Training Details</p>
-        </div>
-        <div class="flex gap-2">
-            <a href="{{ route('admin.inhousetrainings.edit', $training->id) }}" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 font-medium transition">Edit</a>
-            <a href="{{ route('admin.inhousetrainings.index') }}" class="px-4 py-2 border rounded-lg hover:bg-gray-100 dark:hover:bg-neutral-800 font-medium">Back</a>
-        </div>
-    </div>
 
     <div class="bg-white dark:bg-neutral-900 shadow rounded-lg overflow-hidden">
         <!-- Participant Information -->

@@ -1,15 +1,14 @@
 @extends('layouts.app')
 
+@push('hero')
+    <x-hero title="Meeting Minutes" subtitle="{{ $minute->date?->format('l, F d, Y') }}">
+        <a href="{{ route('admin.minutes.index') }}" class="px-4 py-2 bg-slate-200 hover:bg-slate-300 text-slate-800 rounded-lg">← Back to Minutes</a>
+    </x-hero>
+@endpush
+
 @section('content')
 <div class="max-w-7xl mx-auto p-6">
-    <!-- Header -->
-    <div class="flex items-center justify-between mb-6">
-        <div>
-            <h1 class="text-3xl font-bold text-gray-900 dark:text-white">Meeting Minutes</h1>
-            <p class="text-gray-600 dark:text-gray-400 mt-1">{{ $minute->date?->format('l, F d, Y') }}</p>
-        </div>
-        <a href="{{ route('admin.minutes.index') }}" class="px-4 py-2 border rounded-lg hover:bg-gray-100 dark:hover:bg-neutral-800 font-medium">← Back to Minutes</a>
-    </div>
+
 
     <!-- Status Badge and Actions -->
     <div class="mb-6 p-4 rounded-lg {{ $minute->status === 'scheduled' ? 'bg-blue-50 dark:bg-blue-900' : ($minute->status === 'completed' ? 'bg-green-50 dark:bg-green-900' : 'bg-red-50 dark:bg-red-900') }}">

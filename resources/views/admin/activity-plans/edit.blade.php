@@ -1,11 +1,14 @@
 @extends('layouts.app')
 
+@push('hero')
+    <x-hero title="Edit Activity Plan" subtitle="{{ $activityPlan->challenge }}">
+        <a href="{{ route('admin.activity-plans.index') }}" class="px-4 py-2 bg-slate-200 hover:bg-slate-300 text-slate-800 rounded-lg">Back to Plans</a>
+    </x-hero>
+@endpush
+
 @section('content')
 <div class="container mx-auto px-4 py-6">
-    <div class="mb-6">
-        <h1 class="text-3xl font-bold text-gray-900 dark:text-white">Edit Activity Plan</h1>
-        <p class="text-gray-600 dark:text-gray-400 mt-2">{{ $activityPlan->challenge }}</p>
-    </div>
+
 
     @include('admin.activity-plans._form', ['activityPlan' => $activityPlan])
 </div>

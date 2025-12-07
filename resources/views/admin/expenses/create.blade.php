@@ -1,22 +1,14 @@
 @extends('layouts.app')
 
+@push('hero')
+    <x-hero title="Add New Expense" subtitle="Record a new expense for the academy">
+        <a href="{{ route('admin.expenses.index') }}" class="inline-flex items-center px-4 py-2 bg-slate-200 hover:bg-slate-300 text-slate-800 rounded-lg">Back to Expenses</a>
+    </x-hero>
+@endpush
+
 @section('content')
 <div class="container mx-auto px-4 py-8 max-w-4xl">
-    <!-- Header -->
-    <div class="mb-8">
-        <div class="flex items-center space-x-4 mb-4">
-            <a href="{{ route('admin.expenses.index') }}" 
-               class="text-slate-600 hover:text-slate-900">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
-                </svg>
-            </a>
-            <div>
-                <h1 class="text-3xl font-bold text-slate-900">Add New Expense</h1>
-                <p class="text-slate-600 mt-1">Record a new expense for the academy</p>
-            </div>
-        </div>
-    </div>
+
 
     <!-- Form Card -->
     <div class="bg-white rounded-xl shadow-md p-8">
@@ -28,8 +20,8 @@
                 <label for="branch_id" class="block text-sm font-medium text-slate-700 mb-2">
                     Branch <span class="text-slate-400">(Optional)</span>
                 </label>
-                <select id="branch_id" 
-                        name="branch_id" 
+                <select id="branch_id"
+                        name="branch_id"
                         class="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent @error('branch_id') border-red-500 @enderror">
                     <option value="">-- All Branches / General --</option>
                     @foreach($branches as $branch)
@@ -48,8 +40,8 @@
                 <label for="category" class="block text-sm font-medium text-slate-700 mb-2">
                     Category <span class="text-red-500">*</span>
                 </label>
-                <select id="category" 
-                        name="category" 
+                <select id="category"
+                        name="category"
                         required
                         class="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent @error('category') border-red-500 @enderror">
                     <option value="">-- Select Category --</option>
@@ -69,9 +61,9 @@
                 <label for="description" class="block text-sm font-medium text-slate-700 mb-2">
                     Description <span class="text-red-500">*</span>
                 </label>
-                <input type="text" 
-                       id="description" 
-                       name="description" 
+                <input type="text"
+                       id="description"
+                       name="description"
                        value="{{ old('description') }}"
                        required
                        placeholder="e.g., Monthly rent for MASAKA branch"
@@ -89,9 +81,9 @@
                         Amount (RWF) <span class="text-red-500">*</span>
                     </label>
                     <div class="relative">
-                        <input type="number" 
-                               id="amount" 
-                               name="amount" 
+                        <input type="number"
+                               id="amount"
+                               name="amount"
                                value="{{ old('amount') }}"
                                required
                                min="0"
@@ -112,9 +104,9 @@
                     <label for="expense_date" class="block text-sm font-medium text-slate-700 mb-2">
                         Expense Date <span class="text-red-500">*</span>
                     </label>
-                    <input type="date" 
-                           id="expense_date" 
-                           name="expense_date" 
+                    <input type="date"
+                           id="expense_date"
+                           name="expense_date"
                            value="{{ old('expense_date', date('Y-m-d')) }}"
                            required
                            max="{{ date('Y-m-d') }}"
@@ -132,8 +124,8 @@
                     <label for="payment_method" class="block text-sm font-medium text-slate-700 mb-2">
                         Payment Method <span class="text-slate-400">(Optional)</span>
                     </label>
-                    <select id="payment_method" 
-                            name="payment_method" 
+                    <select id="payment_method"
+                            name="payment_method"
                             class="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent @error('payment_method') border-red-500 @enderror">
                         <option value="">-- Select Method --</option>
                         @foreach($paymentMethods as $key => $label)
@@ -152,9 +144,9 @@
                     <label for="receipt_number" class="block text-sm font-medium text-slate-700 mb-2">
                         Receipt Number <span class="text-slate-400">(Optional)</span>
                     </label>
-                    <input type="text" 
-                           id="receipt_number" 
-                           name="receipt_number" 
+                    <input type="text"
+                           id="receipt_number"
+                           name="receipt_number"
                            value="{{ old('receipt_number') }}"
                            placeholder="RCP-2025-001"
                            class="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent @error('receipt_number') border-red-500 @enderror">
@@ -169,9 +161,9 @@
                 <label for="vendor_name" class="block text-sm font-medium text-slate-700 mb-2">
                     Vendor/Supplier Name <span class="text-slate-400">(Optional)</span>
                 </label>
-                <input type="text" 
-                       id="vendor_name" 
-                       name="vendor_name" 
+                <input type="text"
+                       id="vendor_name"
+                       name="vendor_name"
                        value="{{ old('vendor_name') }}"
                        placeholder="e.g., ABC Sports Equipment Ltd"
                        class="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent @error('vendor_name') border-red-500 @enderror">
@@ -185,8 +177,8 @@
                 <label for="notes" class="block text-sm font-medium text-slate-700 mb-2">
                     Additional Notes <span class="text-slate-400">(Optional)</span>
                 </label>
-                <textarea id="notes" 
-                          name="notes" 
+                <textarea id="notes"
+                          name="notes"
                           rows="4"
                           placeholder="Any additional details about this expense..."
                           class="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent @error('notes') border-red-500 @enderror">{{ old('notes') }}</textarea>
@@ -213,11 +205,11 @@
 
             <!-- Action Buttons -->
             <div class="flex items-center justify-end space-x-4 pt-6 border-t border-slate-200">
-                <a href="{{ route('admin.expenses.index') }}" 
+                <a href="{{ route('admin.expenses.index') }}"
                    class="px-6 py-2 border border-slate-300 text-slate-700 font-medium rounded-lg hover:bg-slate-50 transition">
                     Cancel
                 </a>
-                <button type="submit" 
+                <button type="submit"
                         class="px-6 py-2 bg-indigo-600 hover:bg-indigo-700 text-white font-medium rounded-lg transition flex items-center">
                     <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />

@@ -1,13 +1,15 @@
 @extends('layouts.app')
 
+@push('hero')
+    <x-hero title="Matches" subtitle="Plan, manage, and review game activities">
+        <div class="mt-4 flex items-center gap-2">
+            <a href="{{ route('admin.games.create') }}" class="btn-primary">➕ Create New Match</a>
+        </div>
+    </x-hero>
+@endpush
+
 @section('content')
 <div class="max-w-7xl mx-auto p-6">
-    <div class="flex items-center justify-between mb-6">
-        <h1 class="text-3xl font-bold text-gray-900 dark:text-white">Matches</h1>
-        <a href="{{ route('admin.games.create') }}" class="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 font-medium transition">
-            ➕ Create New Match
-        </a>
-    </div>
 
 
 

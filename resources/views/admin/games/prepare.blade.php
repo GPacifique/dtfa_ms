@@ -1,16 +1,15 @@
 @extends('layouts.app')
 
+@push('hero')
+    <x-hero title="Prepare Match" subtitle="Schedule and configure match details">
+        <div class="mt-4">
+            <a href="{{ route('admin.games.index') }}" class="btn-secondary">← Back to Matches</a>
+        </div>
+    </x-hero>
+@endpush
+
 @section('content')
 <div class="max-w-7xl mx-auto p-6">
-    <div class="flex items-center justify-between mb-6">
-        <div>
-            <h1 class="text-3xl font-bold text-gray-900 dark:text-white">Prepare Match</h1>
-            <p class="text-gray-600 dark:text-gray-400 mt-1">Schedule and configure match details</p>
-        </div>
-        <a href="{{ route('admin.games.index') }}" class="px-4 py-2 bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-200 rounded-lg hover:bg-gray-300 dark:hover:bg-gray-600 font-medium transition">
-            ← Back to Matches
-        </a>
-    </div>
 
     <form action="{{ isset($game) ? route('admin.games.update', $game) : route('admin.games.store') }}" method="POST" class="bg-white dark:bg-neutral-900 shadow rounded-xl p-8">
         @csrf
@@ -175,12 +174,14 @@
 
                 <div>
                     <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Age Group</label>
-                    <select name="age_group" class="w-full border border-gray-300 dark:border-gray-600 rounded-lg px-4 py-3 dark:bg-neutral-800 focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
-                        <option value="u18" {{ (isset($game) && $game->age_group=='u18') ? 'selected' : '' }}>U18</option>
-                        <option value="u16" {{ (isset($game) && $game->age_group=='u16') ? 'selected' : '' }}>U16</option>
-                        <option value="u14" {{ (isset($game) && $game->age_group=='u14') ? 'selected' : '' }}>U14</option>
-                        <option value="u12" {{ (isset($game) && $game->age_group=='u12') ? 'selected' : '' }}>U12</option>
-                    </select>
+                    <div class="flex flex-wrap gap-2">
+                        @for ($i = 4; $i <= 18; $i++)
+                            <label class="flex items-center">
+                                <input type="checkbox" name="age_group[]" value="{{ $i }}" class="form-checkbox" @if(is_array(old('age_group', $game->age_group ?? [])) && in_array($i, old('age_group', $game->age_group ?? []))) checked @endif>
+                                <span class="ml-2">{{ $i }}</span>
+                            </label>
+                        @endfor
+                    </div>
                     @error('age_group')<span class="text-red-600 text-sm mt-1 block">{{ $message }}</span>@enderror
                 </div>
 

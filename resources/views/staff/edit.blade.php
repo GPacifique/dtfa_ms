@@ -1,9 +1,16 @@
 @extends('layouts.app')
 
-@section('content')
-    <h2 class="text-xl font-semibold">Edit Staff Profile</h2>
+@push('hero')
+    <x-hero title="Edit Staff Profile" subtitle="Update staff details and roles">
+        <div class="mt-4 flex items-center gap-2">
+            <a href="{{ route('staff.index') }}" class="btn-secondary">← Back to Staff</a>
+            <a href="{{ route('staff.show', $staff) }}" class="btn-outline">View Profile</a>
+        </div>
+    </x-hero>
+@endpush
 
-    <div class="mt-6 bg-white dark:bg-slate-800 rounded shadow p-6">
+@section('content')
+    <div class="bg-white dark:bg-slate-800 rounded shadow p-6 mt-6">
         <form method="POST" action="{{ route('staff.update', $staff) }}" enctype="multipart/form-data">
             @csrf
             @method('PUT')

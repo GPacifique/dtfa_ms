@@ -1,18 +1,17 @@
 @extends('layouts.app')
 
+@push('hero')
+    <x-hero :title="$user->name" :subtitle="$user->email">
+        <div class="mt-4 flex items-center gap-2">
+            <a href="{{ route('user.profile.show', $user) }}" class="btn-outline">👤 View Profile</a>
+            <a href="{{ route('admin.users.edit', $user) }}" class="btn-primary">Edit User</a>
+            <a href="{{ route('admin.users.index') }}" class="btn-secondary">Back to Users</a>
+        </div>
+    </x-hero>
+@endpush
+
 @section('content')
 <div class="max-w-6xl mx-auto p-6">
-    <div class="flex items-center justify-between mb-6">
-        <div>
-            <h1 class="text-3xl font-bold">{{ $user->name }}</h1>
-            <p class="text-gray-600 dark:text-gray-400">{{ $user->email }}</p>
-        </div>
-        <div class="flex items-center gap-2">
-            <a href="{{ route('user.profile.show', $user) }}" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">👤 View Profile</a>
-            <a href="{{ route('admin.users.edit', $user) }}" class="px-4 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700">Edit User</a>
-            <a href="{{ route('admin.users.index') }}" class="px-4 py-2 border rounded hover:bg-gray-100 dark:hover:bg-neutral-800">Back to Users</a>
-        </div>
-    </div>
 
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <!-- User Details -->

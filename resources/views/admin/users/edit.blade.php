@@ -1,17 +1,19 @@
 @extends('layouts.app')
 
-@section('content')
-<div class="max-w-3xl mx-auto p-6">
-    <div class="flex items-center justify-between mb-4">
-        <h1 class="text-2xl font-bold">Edit User</h1>
-        <div class="flex items-center gap-3">
+@push('hero')
+    <x-hero title="Edit User" subtitle="Update profile, roles, and access">
+        <div class="mt-4 flex items-center gap-3">
             <form method="POST" action="{{ route('admin.users.sendReset', $user) }}">
                 @csrf
-                <button type="submit" class="px-3 py-2 border rounded">Send password reset</button>
+                <button type="submit" class="btn-outline">Send password reset</button>
             </form>
-            <a href="{{ route('admin.users.index') }}" class="text-sm underline">Back to list</a>
+            <a href="{{ route('admin.users.index') }}" class="btn-secondary">← Back to list</a>
         </div>
-    </div>
+    </x-hero>
+@endpush
+
+@section('content')
+<div class="max-w-3xl mx-auto p-6">
 
     <form method="POST" action="{{ route('admin.users.updateFull', $user) }}" class="bg-white dark:bg-neutral-900 shadow rounded-lg p-6 space-y-4" enctype="multipart/form-data">
         @csrf

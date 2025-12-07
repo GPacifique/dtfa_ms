@@ -1,16 +1,15 @@
 @extends('layouts.app')
 
+@push('hero')
+    <x-hero title="Match Report" subtitle="Record match outcome and statistics">
+        <div class="mt-4">
+            <a href="{{ route('admin.games.index') }}" class="btn-secondary">← Back to Matches</a>
+        </div>
+    </x-hero>
+@endpush
+
 @section('content')
 <div class="max-w-7xl mx-auto p-6">
-    <div class="flex items-center justify-between mb-6">
-        <div>
-            <h1 class="text-3xl font-bold text-gray-900 dark:text-white">Match Report</h1>
-            <p class="text-gray-600 dark:text-gray-400 mt-1">Record match outcome and statistics</p>
-        </div>
-        <a href="{{ route('admin.games.index') }}" class="px-4 py-2 bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-200 rounded-lg hover:bg-gray-300 dark:hover:bg-gray-600 font-medium transition">
-            ← Back to Matches
-        </a>
-    </div>
 
     <!-- Match Info Card -->
     <div class="bg-gradient-to-r from-blue-500 to-purple-600 rounded-xl shadow-xl p-6 mb-8 text-white">

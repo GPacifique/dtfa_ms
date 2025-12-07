@@ -1,13 +1,15 @@
 @extends('layouts.app')
 
+@push('hero')
+    <x-hero :title="'Attendance: ' . ($session->date->format('M d, Y'))" :subtitle="$session->group->name ?? $session->group_name">
+        <div class="mt-4">
+            <a href="{{ route('admin.sessions.index') }}" class="btn-secondary">← Back to Sessions</a>
+        </div>
+    </x-hero>
+@endpush
+
 @section('content')
 <div class="max-w-4xl mx-auto p-6">
-    <div class="flex items-center justify-between mb-4">
-        <h1 class="text-2xl font-bold">Attendance for {{ $session->date->format('M d, Y') }} — {{ $session->group->name ?? $session->group_name }}</h1>
-        <div>
-            <a href="{{ route('admin.sessions.index') }}" class="px-3 py-2 bg-gray-200 rounded">Back</a>
-        </div>
-    </div>
 
     <form method="POST" action="{{ route('admin.sessions.attendance.store', $session) }}">
         @csrf

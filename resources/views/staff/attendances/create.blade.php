@@ -1,12 +1,15 @@
 @extends('layouts.app')
 
+@push('hero')
+    <x-hero title="Record Staff Attendance" :subtitle="$staff->first_name . ' ' . $staff->last_name">
+        <div class="mt-4">
+            <a href="{{ route('staff.index') }}" class="btn-secondary">← Back to Staff</a>
+        </div>
+    </x-hero>
+@endpush
+
 @section('content')
 <div class="max-w-2xl mx-auto p-6">
-    <div class="mb-6">
-        <h1 class="text-3xl font-bold">Record Attendance</h1>
-        <p class="text-gray-600 dark:text-gray-400">{{ $staff->first_name }} {{ $staff->last_name }}</p>
-    </div>
-
     <div class="bg-white dark:bg-neutral-900 shadow rounded-lg p-6">
         <form method="POST" action="{{ route('attendances.store') }}" class="space-y-4">
             @csrf

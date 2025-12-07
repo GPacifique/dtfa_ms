@@ -1,11 +1,16 @@
 @extends('layouts.app')
 
+@push('hero')
+    <x-hero title="Edit In-House Training" subtitle="Update training session details">
+        <div class="mt-4">
+            <a href="{{ route('admin.inhousetrainings.index') }}" class="btn-secondary">← Back to Trainings</a>
+            <a href="{{ route('admin.inhousetrainings.show', $training->id) }}" class="btn-outline">View</a>
+        </div>
+    </x-hero>
+@endpush
+
 @section('content')
 <div class="max-w-4xl mx-auto p-6">
-    <div class="mb-6">
-        <h1 class="text-3xl font-bold text-gray-900 dark:text-white">Edit In-House Training</h1>
-        <p class="text-gray-600 dark:text-gray-400 mt-1">Update training session details</p>
-    </div>
 
     <form action="{{ route('admin.inhousetrainings.update', $training->id) }}" method="POST" class="bg-white dark:bg-neutral-900 shadow rounded-lg p-6">
         @csrf
@@ -92,7 +97,11 @@
 
             <div>
                 <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Channel</label>
-                <input type="text" name="channel" value="{{ old('channel', $training->channel) }}" placeholder="e.g., Zoom, Teams, In-person" class="w-full border rounded-lg px-3 py-2 dark:bg-neutral-800 dark:border-neutral-700">
+                <select name="channel" class="w-full border rounded-lg px-3 py-2 dark:bg-neutral-800 dark:border-neutral-700">
+                    <option value="">Select Channel</option>
+                    <option value="In person" @selected(old('channel', $training->channel) === 'In person')>In person</option>
+                    <option value="virtual" @selected(old('channel', $training->channel) === 'virtual')>virtual</option>
+                </select>
                 @error('channel')<span class="text-red-600 text-sm">{{ $message }}</span>@enderror
             </div>
 
@@ -148,6 +157,21 @@
                 <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Trainer Name</label>
                 <input type="text" name="trainer_name" value="{{ old('trainer_name', $training->trainer_name) }}" placeholder="e.g., John Doe" class="w-full border rounded-lg px-3 py-2 dark:bg-neutral-800 dark:border-neutral-700">
                 @error('trainer_name')<span class="text-red-600 text-sm">{{ $message }}</span>@enderror
+            </div>
+
+            <div class="md:col-span-2">
+                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Did participant receive certificate?</label>
+                <div class="flex items-center space-x-4">
+                    <label class="flex items-center">
+                        <input type="radio" name="certificate_received" value="1" class="form-radio" @checked(old('certificate_received', $training->certificate_received) == '1')>
+                        <span class="ml-2">Yes</span>
+                    </label>
+                    <label class="flex items-center">
+                        <input type="radio" name="certificate_received" value="0" class="form-radio" @checked(old('certificate_received', $training->certificate_received) == '0')>
+                        <span class="ml-2">No</span>
+                    </label>
+                </div>
+                @error('certificate_received')<span class="text-red-600 text-sm">{{ $message }}</span>@enderror
             </div>
 
             <div class="md:col-span-2">

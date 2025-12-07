@@ -1,23 +1,17 @@
 @php($title = 'Group Details - ' . $group->name)
 @extends('layouts.app')
 
+@push('hero')
+    <x-hero :title="'👥 ' . $group->name" :subtitle="'Branch: ' . ($group->branch->name ?? 'N/A')">
+        <div class="mt-4">
+            <a href="{{ route('admin.groups.index') }}" class="btn-secondary">← Back to Groups</a>
+            <a href="{{ route('admin.groups.edit', $group) }}" class="btn-primary">✏️ Edit Group</a>
+        </div>
+    </x-hero>
+@endpush
+
 @section('content')
     <div class="max-w-7xl mx-auto space-y-6">
-        <!-- Header Section -->
-        <div class="bg-gradient-to-r from-indigo-600 to-blue-600 rounded-xl shadow-lg p-8 text-white">
-            <div class="flex items-start justify-between">
-                <div>
-                    <a href="{{ route('admin.groups.index') }}" class="text-indigo-100 hover:text-white font-semibold mb-4 inline-flex items-center gap-2">
-                        ← Back to Groups
-                    </a>
-                    <h1 class="text-4xl font-bold mb-2">👥 {{ $group->name }}</h1>
-                    <p class="text-indigo-100 text-lg">Branch: <span class="font-semibold">{{ $group->branch->name }}</span></p>
-                </div>
-                <a href="{{ route('admin.groups.edit', $group) }}" class="px-6 py-3 bg-white text-indigo-600 font-bold rounded-lg hover:bg-indigo-50 transition shadow-md">
-                    ✏️ Edit Group
-                </a>
-            </div>
-        </div>
 
         <!-- Quick Stats Row -->
         <div class="grid grid-cols-1 md:grid-cols-4 gap-4">

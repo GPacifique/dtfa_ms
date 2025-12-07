@@ -1,13 +1,7 @@
 @extends('layouts.app')
 
-@section('content')
-<div class="container mx-auto px-4 py-8">
-    <!-- Header -->
-    <div class="mb-8 flex items-center justify-between">
-        <div>
-            <h1 class="text-3xl font-bold text-slate-900">Income Management</h1>
-            <p class="text-slate-600 mt-1">Track and manage all revenue streams</p>
-        </div>
+@push('hero')
+    <x-hero title="Income Management" subtitle="Track and manage all revenue streams">
         <a href="{{ route('admin.incomes.create') }}"
            class="inline-flex items-center px-5 py-2.5 bg-gradient-to-r from-emerald-600 to-emerald-700 hover:from-emerald-700 hover:to-emerald-800 text-white font-semibold rounded-lg shadow-lg transition transform hover:scale-105">
             <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -15,7 +9,11 @@
             </svg>
             Record Income
         </a>
-    </div>
+    </x-hero>
+@endpush
+
+@section('content')
+<div class="container mx-auto px-4 py-8">
 
     <!-- Stats Card -->
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">

@@ -1,18 +1,17 @@
 @php($title = 'Edit Equipment')
 @extends('layouts.app')
 
+@push('hero')
+    <x-hero title="Edit Equipment" subtitle="Update equipment details">
+        <div class="mt-4">
+            <a href="{{ route('admin.equipment.index') }}" class="btn-secondary">← Back to List</a>
+            <a href="{{ route('admin.equipment.show', $equipment) }}" class="btn-outline">View</a>
+        </div>
+    </x-hero>
+@endpush
+
 @section('content')
     <div class="max-w-4xl mx-auto space-y-6">
-        <!-- Header -->
-        <div class="flex items-center justify-between">
-            <div>
-                <h1 class="text-3xl font-bold text-slate-900">Edit Equipment</h1>
-                <p class="text-slate-600 mt-1">Update equipment details</p>
-            </div>
-            <a href="{{ route('admin.equipment.index') }}" class="px-6 py-3 bg-slate-200 text-slate-700 font-semibold rounded-lg hover:bg-slate-300 transition">
-                ← Back to List
-            </a>
-        </div>
 
         <!-- Form -->
         <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-8">

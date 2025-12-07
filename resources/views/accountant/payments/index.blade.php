@@ -1,40 +1,36 @@
-@php($title = 'Payments')
 @extends('layouts.app')
+
+@push('hero')
+    <x-hero title="Payment Records" subtitle="Manage and track all student payments">
+        <form method="GET" action="{{ route('accountant.payments.export') }}" class="inline">
+            @if(request('from'))
+                <input type="hidden" name="from" value="{{ request('from') }}">
+            @endif
+            @if(request('to'))
+                <input type="hidden" name="to" value="{{ request('to') }}">
+            @endif
+            @if(request('month'))
+                <input type="hidden" name="month" value="{{ request('month') }}">
+            @endif
+            <button type="submit" class="inline-flex items-center px-4 py-2.5 bg-gradient-to-r from-teal-600 to-teal-700 hover:from-teal-700 hover:to-teal-800 text-white font-semibold rounded-lg shadow-lg transition transform hover:scale-105">
+                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                </svg>
+                Export CSV
+            </button>
+        </form>
+        <a href="{{ route('accountant.payments.create') }}" class="inline-flex items-center px-5 py-2.5 bg-gradient-to-r from-indigo-600 to-indigo-700 hover:from-indigo-700 hover:to-indigo-800 text-white font-semibold rounded-lg shadow-lg transition transform hover:scale-105 ml-2">
+            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+            </svg>
+            Record Payment
+        </a>
+    </x-hero>
+@endpush
 
 @section('content')
 <div class="container mx-auto px-4 py-8">
-    <!-- Header -->
-    <div class="mb-8 flex items-center justify-between">
-        <div>
-            <h1 class="text-3xl font-bold text-slate-900">Payment Records</h1>
-            <p class="text-slate-600 mt-1">Manage and track all student payments</p>
-        </div>
-        <div class="flex gap-3">
-            <form method="GET" action="{{ route('accountant.payments.export') }}" class="inline">
-                @if(request('from'))
-                    <input type="hidden" name="from" value="{{ request('from') }}">
-                @endif
-                @if(request('to'))
-                    <input type="hidden" name="to" value="{{ request('to') }}">
-                @endif
-                @if(request('month'))
-                    <input type="hidden" name="month" value="{{ request('month') }}">
-                @endif
-                <button type="submit" class="inline-flex items-center px-4 py-2.5 bg-gradient-to-r from-teal-600 to-teal-700 hover:from-teal-700 hover:to-teal-800 text-white font-semibold rounded-lg shadow-lg transition transform hover:scale-105">
-                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                    </svg>
-                    Export CSV
-                </button>
-            </form>
-            <a href="{{ route('accountant.payments.create') }}" class="inline-flex items-center px-5 py-2.5 bg-gradient-to-r from-indigo-600 to-indigo-700 hover:from-indigo-700 hover:to-indigo-800 text-white font-semibold rounded-lg shadow-lg transition transform hover:scale-105">
-                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
-                </svg>
-                Record Payment
-            </a>
-        </div>
-    </div>
+
 
     <!-- Stats Cards -->
     <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">

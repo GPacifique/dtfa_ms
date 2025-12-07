@@ -1,12 +1,15 @@
 @extends('layouts.app')
 
+@push('hero')
+    <x-hero title="Staff Profiles" subtitle="Manage and review staff details">
+        <div class="mt-4 flex items-center gap-3">
+            <a href="{{ route('staff.create') }}" class="btn-primary">New Staff</a>
+            <span class="subtle">Total: {{ $staff->total() ?? count($staff) }}</span>
+        </div>
+    </x-hero>
+@endpush
+
 @section('content')
-<div class="flex flex-col md:flex-row items-center justify-between mb-6">
-    <h2 class="text-2xl font-bold text-gray-800 dark:text-gray-100">Staff Profiles</h2>
-    <a href="{{ route('staff.create') }}" class="mt-3 md:mt-0 px-5 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded shadow transition">
-        New Staff
-    </a>
-</div>
 
 <div class="overflow-x-auto bg-white dark:bg-slate-800 rounded-lg shadow p-4">
     <table class="min-w-full text-sm border-collapse">

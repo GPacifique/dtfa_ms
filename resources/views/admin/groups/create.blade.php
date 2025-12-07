@@ -1,16 +1,16 @@
 @php($title = 'Create Group')
 @extends('layouts.app')
 
+@push('hero')
+    <x-hero title="➕ Create New Group" subtitle="Add a new training group to your academy">
+        <div class="mt-4">
+            <a href="{{ route('admin.groups.index') }}" class="btn-secondary">← Back to Groups</a>
+        </div>
+    </x-hero>
+@endpush
+
 @section('content')
     <div class="max-w-2xl mx-auto">
-        <!-- Header -->
-        <div class="mb-8">
-            <a href="{{ route('admin.groups.index') }}" class="text-indigo-600 hover:text-indigo-800 font-semibold mb-4 inline-block">
-                ← Back to Groups
-            </a>
-            <h1 class="text-4xl font-bold text-slate-900">➕ Create New Group</h1>
-            <p class="text-slate-600 mt-2">Add a new training group to your academy</p>
-        </div>
 
         <!-- Form -->
         <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-8">

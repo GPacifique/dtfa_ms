@@ -1,16 +1,17 @@
 @php($title = 'Edit Group')
 @extends('layouts.app')
 
+@push('hero')
+    <x-hero title="✏️ Edit Group" subtitle="Update group information">
+        <div class="mt-4">
+            <a href="{{ route('admin.groups.index') }}" class="btn-secondary">← Back to Groups</a>
+            <a href="{{ route('admin.groups.show', $group) }}" class="btn-outline">View</a>
+        </div>
+    </x-hero>
+@endpush
+
 @section('content')
     <div class="max-w-2xl mx-auto">
-        <!-- Header -->
-        <div class="mb-8">
-            <a href="{{ route('admin.groups.index') }}" class="text-indigo-600 hover:text-indigo-800 font-semibold mb-4 inline-block">
-                ← Back to Groups
-            </a>
-            <h1 class="text-4xl font-bold text-slate-900">✏️ Edit Group</h1>
-            <p class="text-slate-600 mt-2">Update group information</p>
-        </div>
 
         <!-- Form -->
         <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-8">

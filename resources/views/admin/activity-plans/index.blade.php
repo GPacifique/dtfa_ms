@@ -1,17 +1,14 @@
 @extends('layouts.app')
 
+@push('hero')
+    <x-hero title="Activity Plans" subtitle="Manage organizational activity plans and progress">
+        <a href="{{ route('admin.activity-plans.create') }}" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg font-medium transition">➕ New Activity Plan</a>
+    </x-hero>
+@endpush
+
 @section('content')
 <div class="container mx-auto px-4 py-6">
-    <!-- Header -->
-    <div class="mb-6 flex items-center justify-between">
-        <div>
-            <h1 class="text-3xl font-bold text-gray-900 dark:text-white">Activity Plans</h1>
-            <p class="text-gray-600 dark:text-gray-400 mt-2">Manage organizational activity plans and progress</p>
-        </div>
-        <a href="{{ route('admin.activity-plans.create') }}" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg font-medium transition">
-            ➕ New Activity Plan
-        </a>
-    </div>
+
 
     <!-- Filters -->
     <div class="bg-white dark:bg-neutral-900 rounded-lg shadow p-4 mb-6">

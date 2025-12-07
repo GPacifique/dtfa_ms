@@ -1,13 +1,14 @@
 @extends('layouts.app')
 
+@push('hero')
+    <x-hero title="Training Session Records" subtitle="Filter and review training sessions">
+        <a href="{{ route('admin.training_session_records.create') }}" class="inline-flex items-center px-3 py-1.5 bg-green-600 text-white rounded-md text-sm">New Record</a>
+    </x-hero>
+@endpush
+
 @section('content')
 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-    <div class="flex items-center justify-between mb-6">
-        <h2 class="text-xl font-semibold">Training Session Records</h2>
-        <div class="flex items-center gap-2">
-            <a href="{{ route('admin.training_session_records.create') }}" class="inline-flex items-center px-3 py-1.5 bg-green-600 text-white rounded-md text-sm">New Record</a>
-        </div>
-    </div>
+
 
     <div class="bg-white shadow overflow-hidden sm:rounded-md">
         <div class="p-4 border-b">

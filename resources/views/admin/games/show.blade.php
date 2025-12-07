@@ -1,27 +1,16 @@
 @extends('layouts.app')
 
+@push('hero')
+    <x-hero :title="$game->home_team . ' vs ' . $game->away_team" :subtitle="$game->date?->format('l, F d, Y') . ' at ' . ($game->time ?? '')">
+        <div class="mt-4">
+            <a href="{{ route('admin.games.index') }}" class="btn-secondary">← Back to Matches</a>
+            <a href="{{ route('admin.games.edit', $game) }}" class="btn-outline">📝 Update Report</a>
+        </div>
+    </x-hero>
+@endpush
+
 @section('content')
 <div class="max-w-7xl mx-auto p-6">
-    <!-- Header -->
-    <div class="flex items-center justify-between mb-6">
-        <div>
-            <h1 class="text-3xl font-bold text-gray-900 dark:text-white">{{ $game->home_team }} vs {{ $game->away_team }}</h1>
-            <p class="text-gray-600 dark:text-gray-400 mt-1">{{ $game->date?->format('l, F d, Y') }} at {{ $game->time }}</p>
-        </div>
-        <a href="{{ route('admin.games.index') }}" class="px-4 py-2 border rounded-lg hover:bg-gray-100 dark:hover:bg-neutral-800 font-medium">Back to Matches</a>
-    </div>
-
-    <!-- Status hidden: automated by scheduler; show only essential actions -->
-    <div class="mb-6 flex items-center justify-between">
-        <div class="text-sm text-gray-600 dark:text-gray-400">
-            <!-- No explicit status shown -->
-        </div>
-        <div class="flex items-center gap-3">
-            <a href="{{ route('admin.games.edit', $game) }}" class="px-4 py-2 bg-orange-600 text-white rounded-lg hover:bg-orange-700 font-medium transition">
-                📝 Update Report
-            </a>
-        </div>
-    </div>
 
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <!-- Main Content -->

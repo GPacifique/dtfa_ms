@@ -1,12 +1,15 @@
 @extends('layouts.app')
 
-@section('content')
-    <div class="flex items-center justify-between mb-4">
-        <a href="{{ url()->previous() ?? route('staff.index') }}" class="btn-secondary">&larr; Back</a>
-        <h2 class="text-xl font-semibold">Staff Details</h2>
-        <div></div>
-    </div>
+@push('hero')
+    <x-hero :title="'Staff: ' . ($staff->first_name . ' ' . $staff->last_name)" subtitle="Profile overview and details">
+        <div class="mt-4 flex items-center gap-2">
+            <a href="{{ route('staff.index') }}" class="btn-secondary">← Back to Staff</a>
+            <a href="{{ route('staff.edit', $staff) }}" class="btn-primary">Edit</a>
+        </div>
+    </x-hero>
+@endpush
 
+@section('content')
     <div class="bg-white dark:bg-slate-800 rounded shadow p-6">
         {{-- Staff Photo --}}
         <div class="flex items-start gap-6 mb-6 pb-6 border-b border-slate-200 dark:border-slate-700">

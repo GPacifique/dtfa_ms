@@ -1,13 +1,7 @@
 @extends('layouts.app')
 
-@section('content')
-<div class="container mx-auto px-4 py-8">
-    <!-- Header -->
-    <div class="mb-8 flex items-center justify-between">
-        <div>
-            <h1 class="text-3xl font-bold text-slate-900">Expenses Management</h1>
-            <p class="text-slate-600 mt-1">Track and manage all academy expenses</p>
-        </div>
+@push('hero')
+    <x-hero title="Expenses Management" subtitle="Track and manage all academy expenses">
         <a href="{{ route('admin.expenses.create') }}"
            class="inline-flex items-center px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white font-medium rounded-lg transition">
             <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -15,7 +9,12 @@
             </svg>
             Add Expense
         </a>
-    </div>
+    </x-hero>
+@endpush
+
+@section('content')
+<div class="container mx-auto px-4 py-8">
+
 
     <!-- Stats Cards -->
     <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">

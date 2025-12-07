@@ -1,18 +1,16 @@
 @php($title = 'Manage Groups')
 @extends('layouts.app')
 
+@push('hero')
+    <x-hero title="Manage Groups" subtitle="Organize students into training groups">
+        <div class="mt-4">
+            <a href="{{ route('admin.groups.create') }}" class="btn-primary">➕ New Group</a>
+        </div>
+    </x-hero>
+@endpush
+
 @section('content')
     <div class="space-y-6">
-        <!-- Header -->
-        <div class="flex items-center justify-between">
-            <div>
-                <h1 class="text-4xl font-bold text-slate-900">👥 Manage Groups</h1>
-                <p class="text-slate-600 mt-2">Organize students into training groups</p>
-            </div>
-            <a href="{{ route('admin.groups.create') }}" class="px-6 py-3 bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-semibold rounded-lg hover:shadow-lg transition">
-                ➕ New Group
-            </a>
-        </div>
 
         <!-- Filters -->
         <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-5">

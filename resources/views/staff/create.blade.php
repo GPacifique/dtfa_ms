@@ -1,11 +1,15 @@
 @extends('layouts.app')
 
+@push('hero')
+    <x-hero title="New Staff Profile" subtitle="Add a new team member">
+        <div class="mt-4">
+            <a href="{{ route('staff.index') }}" class="btn-secondary">← Back to Staff</a>
+        </div>
+    </x-hero>
+@endpush
+
 @section('content')
     <div class="container mx-auto px-6 py-8">
-        <div class="flex items-center justify-between mb-8">
-            <h1 class="text-4xl font-bold text-slate-900 dark:text-white">New Staff Profile</h1>
-            <a href="{{ route('staff.index') }}" class="px-4 py-2 border border-slate-300 text-slate-700 dark:text-slate-300 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800 font-semibold transition">← Back</a>
-        </div>
 
         <div class="bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-slate-200 dark:border-slate-700 p-8">
             <form method="POST" action="{{ route('staff.store') }}" enctype="multipart/form-data">

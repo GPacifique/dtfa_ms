@@ -1,21 +1,16 @@
 @php($title = 'Equipment Management')
 @extends('layouts.app')
 
+@push('hero')
+    <x-hero title="Equipment Management" subtitle="Manage sports equipment and inventory">
+        <div class="mt-4">
+            <a href="{{ route('admin.equipment.create') }}" class="btn-primary">Add Equipment</a>
+        </div>
+    </x-hero>
+@endpush
+
 @section('content')
     <div class="space-y-6">
-        <!-- Header -->
-        <div class="flex items-center justify-between">
-            <div>
-                <h1 class="text-3xl font-bold text-slate-900">Equipment Management</h1>
-                <p class="text-slate-600 mt-1">Manage sports equipment and inventory</p>
-            </div>
-            <a href="{{ route('admin.equipment.create') }}" class="px-6 py-3 bg-indigo-600 text-white font-semibold rounded-lg hover:bg-indigo-700 transition flex items-center gap-2">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
-                </svg>
-                Add Equipment
-            </a>
-        </div>
 
         @if(session('success'))
             <div class="bg-green-50 border border-green-200 text-green-800 px-4 py-3 rounded-lg">

@@ -1,8 +1,13 @@
 @extends('layouts.app')
 
+@push('hero')
+    <x-hero title="Record Income" subtitle="Add a new income entry">
+        <a href="{{ route('admin.incomes.index') }}" class="inline-flex items-center px-4 py-2 bg-slate-200 hover:bg-slate-300 text-slate-800 rounded-lg">Back to Incomes</a>
+    </x-hero>
+@endpush
+
 @section('content')
 <div class="container">
-    <h3>Record Income</h3>
 
     <form method="POST" action="{{ route('admin.incomes.store') }}">
         @csrf

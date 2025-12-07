@@ -1,10 +1,15 @@
 @extends('layouts.app')
 
+@push('hero')
+    <x-hero title="User Role Management" subtitle="Manage roles, status, and access">
+        <div class="mt-4 flex items-center gap-2">
+            <x-button :href="route('admin.users.create')" variant="primary">New User</x-button>
+        </div>
+    </x-hero>
+@endpush
+
 @section('content')
 <div class="container-page">
-    <div class="flex items-center justify-between mb-6">
-        <h1 class="page-title">User Role Management</h1>
-    </div>
 
     <div class="mb-4">
         <form method="GET" class="flex flex-wrap items-end gap-3">

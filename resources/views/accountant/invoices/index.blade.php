@@ -1,21 +1,14 @@
-@php($title = 'Invoices')
 @extends('layouts.app')
+
+@push('hero')
+    <x-hero title="Invoice Management" subtitle="Track and manage student invoices">
+        <a href="{{ route('accountant.invoices.create') }}" class="inline-flex items-center px-5 py-2.5 bg-gradient-to-r from-violet-600 to-violet-700 hover:from-violet-700 hover:to-violet-800 text-white font-semibold rounded-lg shadow-lg transition transform hover:scale-105">Create Invoice</a>
+    </x-hero>
+@endpush
 
 @section('content')
 <div class="container mx-auto px-4 py-8">
-    <!-- Header -->
-    <div class="mb-8 flex items-center justify-between">
-        <div>
-            <h1 class="text-3xl font-bold text-slate-900">Invoice Management</h1>
-            <p class="text-slate-600 mt-1">Track and manage student invoices</p>
-        </div>
-        <a href="{{ route('accountant.invoices.create') }}" class="inline-flex items-center px-5 py-2.5 bg-gradient-to-r from-violet-600 to-violet-700 hover:from-violet-700 hover:to-violet-800 text-white font-semibold rounded-lg shadow-lg transition transform hover:scale-105">
-            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
-            </svg>
-            Create Invoice
-        </a>
-    </div>
+
 
     <!-- Stats Cards -->
     <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">

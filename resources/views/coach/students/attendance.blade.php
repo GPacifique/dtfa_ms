@@ -1,33 +1,16 @@
 @extends('layouts.app')
 
+@push('hero')
+    <x-hero title="Attendance History" :subtitle="$student->first_name . ' ' . $student->second_name">
+        <div class="mt-4 flex items-center gap-2">
+            <a href="{{ route('coach.students.show', $student) }}" class="btn-outline">👁️ Profile</a>
+            <a href="{{ route('coach.students.index') }}" class="btn-secondary">← Back to Students</a>
+        </div>
+    </x-hero>
+@endpush
+
 @section('content')
 <div class="max-w-5xl mx-auto p-6 space-y-6">
-    <!-- Header -->
-    <div class="flex items-start justify-between">
-        <div class="flex items-center gap-4">
-            <img src="{{ $student->photo_url }}" alt="Profile Image" class="h-16 w-16 rounded-full object-cover border-2 border-slate-200 shadow">
-            <div>
-                <h1 class="text-3xl font-bold text-slate-900">📋 Attendance History</h1>
-                <p class="text-slate-600 mt-1">
-                    <span class="font-semibold">{{ $student->first_name }} {{ $student->second_name }}</span>
-                    @if($student->jersey_number || $student->jersey_name)
-                        <span class="inline-block ml-3">
-                            @if($student->jersey_number)
-                                <span class="px-2 py-1 bg-blue-100 text-blue-800 text-xs font-bold rounded">Jersey #{{ $student->jersey_number }}</span>
-                            @endif
-                            @if($student->jersey_name)
-                                <span class="px-2 py-1 bg-purple-100 text-purple-800 text-xs font-semibold rounded ml-1">{{ $student->jersey_name }}</span>
-                            @endif
-                        </span>
-                    @endif
-                </p>
-            </div>
-        </div>
-        <div class="flex items-center gap-3">
-            <a href="{{ route('coach.students.show', $student) }}" class="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg font-semibold transition">👁️ Profile</a>
-            <a href="{{ url()->previous() }}" class="px-4 py-2 border border-slate-300 text-slate-700 rounded-lg hover:bg-slate-50 font-semibold transition">← Back</a>
-        </div>
-    </div>
 
     <!-- Stats Cards -->
     <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
