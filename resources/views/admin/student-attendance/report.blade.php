@@ -1,5 +1,5 @@
-@php($title = 'Attendance Report')
 @extends('layouts.app')
+@section('title', 'Attendance Report')
 
 @section('content')
 <div class="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900">
@@ -37,6 +37,9 @@
                     </button>
                     <a href="{{ route('admin.student-attendance.index') }}" class="px-4 py-2 border border-slate-300 text-slate-700 rounded-lg hover:bg-slate-50 transition font-semibold">
                         ← Back
+                    </a>
+                    <a href="{{ route('admin.student-attendance.report.export', ['date_from' => $dateFrom, 'date_to' => $dateTo]) }}" class="px-4 py-2 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 transition font-semibold">
+                        ⬇️ Download PDF
                     </a>
                 </form>
             </div>

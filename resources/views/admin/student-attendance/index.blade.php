@@ -1,5 +1,5 @@
-@php($title = 'Student Attendance Records')
 @extends('layouts.app')
+@section('title', 'Student Attendance Records')
 
 @section('content')
 <div class="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900">
@@ -18,13 +18,47 @@
         </div>
     </div>
 
-    <div class="container mx-auto px-6 -mt-8 pb-12">
+    <div class="container mx-auto px-6 mt-6 pb-12">
 
         @if(session('success'))
             <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded-lg mb-6">
                 {{ session('success') }}
             </div>
         @endif
+
+        {{-- Summary Stats (current filters) --}}
+        <div class="grid grid-cols-2 md:grid-cols-5 gap-4 mb-6">
+            <a href="{{ route('admin.student-attendance.index') }}" class="card group hover:shadow-lg transition">
+                <div class="card-body p-4 text-center">
+                    <div class="text-xs text-slate-500">Total</div>
+                    <div class="text-2xl font-bold text-slate-900 dark:text-white">{{ $totalCount ?? 0 }}</div>
+                </div>
+            </a>
+            <a href="{{ route('admin.student-attendance.index', array_merge(request()->except('page'), ['status' => 'present'])) }}" class="card group hover:shadow-lg transition">
+                <div class="card-body p-4 text-center">
+                    <div class="text-xs text-slate-500">Present</div>
+                    <div class="text-2xl font-bold text-emerald-600">{{ $presentCount ?? 0 }}</div>
+                </div>
+            </a>
+            <a href="{{ route('admin.student-attendance.index', array_merge(request()->except('page'), ['status' => 'absent'])) }}" class="card group hover:shadow-lg transition">
+                <div class="card-body p-4 text-center">
+                    <div class="text-xs text-slate-500">Absent</div>
+                    <div class="text-2xl font-bold text-rose-600">{{ $absentCount ?? 0 }}</div>
+                </div>
+            </a>
+            <a href="{{ route('admin.student-attendance.index', array_merge(request()->except('page'), ['status' => 'late'])) }}" class="card group hover:shadow-lg transition">
+                <div class="card-body p-4 text-center">
+                    <div class="text-xs text-slate-500">Late</div>
+                    <div class="text-2xl font-bold text-amber-600">{{ $lateCount ?? 0 }}</div>
+                </div>
+            </a>
+            <a href="{{ route('admin.student-attendance.index', array_merge(request()->except('page'), ['status' => 'excused'])) }}" class="card group hover:shadow-lg transition">
+                <div class="card-body p-4 text-center">
+                    <div class="text-xs text-slate-500">Excused</div>
+                    <div class="text-2xl font-bold text-indigo-600">{{ $excusedCount ?? 0 }}</div>
+                </div>
+            </a>
+        </div>
 
         {{-- Quick Actions --}}
         <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
@@ -119,6 +153,9 @@
                         </button>
                         <a href="{{ route('admin.student-attendance.index') }}" class="px-4 py-2 border border-slate-300 text-slate-700 rounded-lg hover:bg-slate-50 transition font-semibold">
                             Clear
+                        </a>
+                        <a href="{{ request()->fullUrlWithQuery(['export' => 'csv']) }}" class="px-4 py-2 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 transition font-semibold">
+                            ⬇️ Export CSV
                         </a>
                     </div>
                 </form>

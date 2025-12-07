@@ -226,6 +226,7 @@ Route::middleware(['auth', 'role:admin|super-admin|accountant'])->prefix('admin'
     Route::get('student-attendance-bulk/create', [\App\Http\Controllers\Admin\StudentAttendanceController::class, 'bulkCreate'])->name('admin.student-attendance.bulk.create');
     Route::post('student-attendance-bulk', [\App\Http\Controllers\Admin\StudentAttendanceController::class, 'bulkStore'])->name('admin.student-attendance.bulk.store');
     Route::get('student-attendance-report', [\App\Http\Controllers\Admin\StudentAttendanceController::class, 'report'])->name('admin.student-attendance.report');
+    Route::get('student-attendance-report/export', [\App\Http\Controllers\Admin\StudentAttendanceController::class, 'reportExportPdf'])->name('admin.student-attendance.report.export');
 
     // Upcoming Events
     Route::resource('upcoming-events', \App\Http\Controllers\Admin\UpcomingEventController::class, ['as' => 'admin'])->names('upcoming-events');
