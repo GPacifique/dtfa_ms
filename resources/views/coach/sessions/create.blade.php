@@ -5,7 +5,7 @@
     <div class="flex items-center justify-between mb-8">
         <h1 class="text-4xl font-bold text-slate-900 dark:text-white">➕ Create Training Session</h1>
         <a href="{{ route('coach.sessions.index') }}" class="px-4 py-2 border border-slate-300 dark:border-slate-600 text-slate-700 dark:text-slate-300 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800 font-semibold transition">
-            ← Back to Sessions
+
         </a>
     </div>
 

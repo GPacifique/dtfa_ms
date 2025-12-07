@@ -12,9 +12,15 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('students', function (Blueprint $table) {
-            $table->string('player_email')->nullable()->after('email');
-            $table->string('parent_email')->nullable()->after('player_email');
-            $table->string('player_phone')->nullable()->after('phone');
+            if (!Schema::hasColumn('students', 'player_email')) {
+                $table->string('player_email')->nullable()->after('father_name');
+            }
+            if (!Schema::hasColumn('students', 'parent_email')) {
+                $table->string('parent_email')->nullable()->after('player_email');
+            }
+            if (!Schema::hasColumn('students', 'player_phone')) {
+                $table->string('player_phone')->nullable()->after('mother_name');
+            }
         });
     }
 

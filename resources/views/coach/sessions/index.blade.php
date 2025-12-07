@@ -3,7 +3,6 @@
 @push('hero')
     <x-hero title="My Sessions" subtitle="View and manage your training sessions">
         <a href="{{ route('admin.training_session_records.create') }}" class="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 font-semibold transition">+ New Session</a>
-        <a href="{{ route('coach.dashboard') }}" class="ml-2 px-4 py-2 border border-slate-300 text-slate-700 rounded-lg hover:bg-slate-50 font-semibold transition">← Back</a>
     </x-hero>
 @endpush
 

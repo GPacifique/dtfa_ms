@@ -19,12 +19,16 @@ return new class extends Migration
                 $table->text('objective')->nullable();
                 $table->date('date');
                 $table->time('time');
+                $table->time('arrival_time')->nullable();
+                $table->time('expected_start_time')->nullable();
+                $table->time('expected_end_time')->nullable();
+                $table->time('expected_return_home_time')->nullable();
                 $table->time('departure_time')->nullable();
                 $table->time('expected_finish_time')->nullable();
                 $table->enum('category', ['In house', 'Friendly', 'League']);
                 $table->enum('transport', ['Self', 'Group']);
                 $table->string('venue')->nullable();
-                $table->enum('age_group',['u18', 'u16', 'u14', 'u12']);
+                $table->json('age_group')->nullable();
                 $table->enum('country', ['Rwanda', 'Tanzania']);
                 $table->string('city')->nullable();
                 $table->string('base')->nullable();

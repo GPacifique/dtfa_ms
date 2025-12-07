@@ -81,6 +81,23 @@ class AccountantController extends Controller
             ->limit(10)
             ->get();
 
+        // Fees Status (counts): Paid via succeeded payments this month, Pending invoices, Overdue invoices
+        $feesPaidCount = Payment::where('status', 'succeeded')
+            ->whereBetween('paid_at', [$startOfMonth, $endOfMonth])
+            ->count();
+        $feesPendingCount = $pendingInvoices;
+        $feesOverdueCount = $overdueInvoices;
+
+        // Monthly Registrations (last 6 months)
+        $regLabels = [];
+        $regCounts = [];
+        for ($i = 5; $i >= 0; $i--) {
+            $start = $now->copy()->subMonths($i)->startOfMonth();
+            $end = $now->copy()->subMonths($i)->endOfMonth();
+            $regLabels[] = $start->format('M');
+            $regCounts[] = (int) \App\Models\Student::whereBetween('created_at', [$start, $end])->count();
+        }
+
         return view('accountant.dashboard', [
             'totalRevenueCents' => $totalRevenueCents,
             'outstandingCents' => $outstandingCents,
@@ -100,6 +117,12 @@ class AccountantController extends Controller
             'revenueChange' => $revenueChange,
             'revenueChangeDirection' => $revenueChangeDirection,
             'expenseCategories' => $expenseCategories,
+            // New dashboard datasets
+            'feesPaidCount' => $feesPaidCount,
+            'feesPendingCount' => $feesPendingCount,
+            'feesOverdueCount' => $feesOverdueCount,
+            'regLabels' => $regLabels,
+            'regCounts' => $regCounts,
         ]);
     }
 
@@ -164,12 +187,40 @@ class AccountantController extends Controller
             }
         }
 
+        // Subscriptions last 6 months: active count and new subscriptions per month
+        $subsLabels = [];
+        $subsActive = [];
+        $subsNew = [];
+        for ($i = 5; $i >= 0; $i--) {
+            $start = $now->copy()->subMonths($i)->startOfMonth();
+            $end = $now->copy()->subMonths($i)->endOfMonth();
+            $subsLabels[] = $start->format('M');
+            // Active: subscriptions with status active and started before end, not ended before start
+            $activeCount = \App\Models\Subscription::where('status', 'active')
+                ->whereDate('start_date', '<=', $end)
+                ->when(\Illuminate\Support\Facades\Schema::hasColumn('subscriptions', 'end_date'), function($q) use ($start) {
+                    $q->where(function($q2) use ($start) {
+                        $q2->whereNull('end_date')->orWhereDate('end_date', '>=', $start);
+                    });
+                })
+                ->count();
+            $subsActive[] = (int) $activeCount;
+            // New: subscriptions created in month
+            $newCount = \App\Models\Subscription::whereBetween('created_at', [$start, $end])->count();
+            $subsNew[] = (int) $newCount;
+        }
+
         return response()->json([
             'monthlyRevenue' => [
                 'labels' => $labels,
                 'data' => $data,
             ],
             'agingBuckets' => $buckets,
+            'subscriptionsLastSixMonths' => [
+                'labels' => $subsLabels,
+                'active' => $subsActive,
+                'new' => $subsNew,
+            ],
         ]);
     }
 }

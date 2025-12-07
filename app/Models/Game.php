@@ -21,6 +21,7 @@ class Game extends Model
         'date' => 'date',
         'staff_ids' => 'array',
         'player_ids' => 'array',
+        'age_group' => 'array',
         'yellow_cards_players' => 'array',
         'red_cards_players' => 'array',
         'yellow_cards_staff' => 'array',

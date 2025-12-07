@@ -8,7 +8,7 @@
     <div class="flex items-center justify-between mb-6">
         <h1 class="text-2xl font-bold text-slate-900">Edit Session</h1>
         <a href="{{ route('coach.sessions.index') }}" class="px-4 py-2 border border-slate-300 text-slate-700 rounded-lg hover:bg-slate-50 font-semibold transition">
-            ← Back
+
         </a>
     </div>
 

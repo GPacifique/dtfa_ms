@@ -3,7 +3,7 @@
 @push('hero')
     <x-hero :title="'Staff: ' . ($staff->first_name . ' ' . $staff->last_name)" subtitle="Profile overview and details">
         <div class="mt-4 flex items-center gap-2">
-            <a href="{{ route('staff.index') }}" class="btn-secondary">← Back to Staff</a>
+
             <a href="{{ route('staff.edit', $staff) }}" class="btn-primary">Edit</a>
         </div>
     </x-hero>

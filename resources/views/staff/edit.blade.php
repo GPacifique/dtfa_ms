@@ -3,8 +3,7 @@
 @push('hero')
     <x-hero title="Edit Staff Profile" subtitle="Update staff details and roles">
         <div class="mt-4 flex items-center gap-2">
-            <a href="{{ route('staff.index') }}" class="btn-secondary">← Back to Staff</a>
-            <a href="{{ route('staff.show', $staff) }}" class="btn-outline">View Profile</a>
+
         </div>
     </x-hero>
 @endpush

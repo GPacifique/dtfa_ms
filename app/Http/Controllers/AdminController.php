@@ -296,6 +296,26 @@ class AdminController extends Controller
 
         $netflowTotals = array_map(fn($inc, $exp) => round($inc - $exp, 2), $incomeTotals, $expenseTotals);
 
+        // Subscriptions last 6 months: active and new per month
+        $subsLabels = [];
+        $subsActive = [];
+        $subsNew = [];
+        for ($i = 5; $i >= 0; $i--) {
+            $start = now()->copy()->subMonths($i)->startOfMonth();
+            $end = now()->copy()->subMonths($i)->endOfMonth();
+            $subsLabels[] = $start->format('M');
+            $activeCount = Subscription::where('status', 'active')
+                ->whereDate('start_date', '<=', $end)
+                ->when(\Illuminate\Support\Facades\Schema::hasColumn('subscriptions', 'end_date'), function($q) use ($start) {
+                    $q->where(function($q2) use ($start) {
+                        $q2->whereNull('end_date')->orWhereDate('end_date', '>=', $start);
+                    });
+                })
+                ->count();
+            $subsActive[] = (int) $activeCount;
+            $subsNew[] = (int) Subscription::whereBetween('created_at', [$start, $end])->count();
+        }
+
         return view('admin.dashboard', [
             'totalteams' => $totalteams,
             'todaysSessions' => $sessionsForRange,
@@ -319,6 +339,9 @@ class AdminController extends Controller
             'expenseTotals' => $expenseTotals ?? [],
             'netflowTotals' => $netflowTotals ?? [],
             'recentStudents' => Student::orderBy('created_at', 'desc')->limit(10)->get(),
+            'subsLabels' => $subsLabels,
+            'subsActive' => $subsActive,
+            'subsNew' => $subsNew,
         ]);
     }
 }

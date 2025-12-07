@@ -175,7 +175,7 @@ Route::get('/admin-only', function () {
 // Legacy admin student public endpoints removed in favor of modern CRUD
 
 // Admin and User dashboards
-Route::middleware(['auth', 'role:admin|super-admin'])->prefix('admin')->group(function () {
+Route::middleware(['auth', 'role:admin|super-admin|accountant'])->prefix('admin')->group(function () {
     Route::get('/dashboard', [\App\Http\Controllers\AdminController::class, 'index'])->name('admin.dashboard');
 
     // Note: User CRUD routes are defined at the top of this file using Route::resource('users', ...)
@@ -260,7 +260,10 @@ Route::middleware(['auth', 'role:admin|super-admin'])->prefix('admin')->group(fu
     Route::put('/plans/{plan}', [\App\Http\Controllers\Admin\SubscriptionPlansController::class, 'update'])->name('admin.plans.update');
     Route::delete('/plans/{plan}', [\App\Http\Controllers\Admin\SubscriptionPlansController::class, 'destroy'])->name('admin.plans.destroy');
 
-    // Expenses
+});
+
+// Expenses: allow accountant role alongside admin & super-admin
+Route::middleware(['auth', 'role:admin|super-admin|accountant'])->prefix('admin')->group(function () {
     Route::get('/expenses', [\App\Http\Controllers\Admin\ExpensesController::class, 'index'])->name('admin.expenses.index');
     Route::get('/expenses/create', [\App\Http\Controllers\Admin\ExpensesController::class, 'create'])->name('admin.expenses.create');
     Route::post('/expenses', [\App\Http\Controllers\Admin\ExpensesController::class, 'store'])->name('admin.expenses.store');
@@ -270,6 +273,11 @@ Route::middleware(['auth', 'role:admin|super-admin'])->prefix('admin')->group(fu
     Route::patch('/expenses/{expense}/reject', [\App\Http\Controllers\Admin\ExpensesController::class, 'reject'])->name('admin.expenses.reject');
     Route::patch('/expenses/{expense}/mark-paid', [\App\Http\Controllers\Admin\ExpensesController::class, 'markPaid'])->name('admin.expenses.mark-paid');
     Route::delete('/expenses/{expense}', [\App\Http\Controllers\Admin\ExpensesController::class, 'destroy'])->name('admin.expenses.destroy');
+});
+
+Route::middleware(['auth', 'role:admin|super-admin'])->prefix('admin')->group(function () {
+    // Equipment Management
+    // (moved below) Expenses routes now allow accountant role
 
     // Equipment Management
     Route::get('/equipment', [\App\Http\Controllers\Admin\EquipmentController::class, 'index'])->name('admin.equipment.index');

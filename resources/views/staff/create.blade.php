@@ -3,7 +3,7 @@
 @push('hero')
     <x-hero title="New Staff Profile" subtitle="Add a new team member">
         <div class="mt-4">
-            <a href="{{ route('staff.index') }}" class="btn-secondary">← Back to Staff</a>
+
         </div>
     </x-hero>
 @endpush

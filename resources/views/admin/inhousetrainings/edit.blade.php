@@ -3,8 +3,7 @@
 @push('hero')
     <x-hero title="Edit In-House Training" subtitle="Update training session details">
         <div class="mt-4">
-            <a href="{{ route('admin.inhousetrainings.index') }}" class="btn-secondary">← Back to Trainings</a>
-            <a href="{{ route('admin.inhousetrainings.show', $training->id) }}" class="btn-outline">View</a>
+
         </div>
     </x-hero>
 @endpush

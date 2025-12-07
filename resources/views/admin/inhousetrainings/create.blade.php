@@ -3,7 +3,7 @@
 @push('hero')
     <x-hero title="Create In-House Training" subtitle="Add a new training session">
         <div class="mt-4">
-            <a href="{{ route('admin.inhousetrainings.index') }}" class="btn-secondary">← Back to Trainings</a>
+
         </div>
     </x-hero>
 @endpush

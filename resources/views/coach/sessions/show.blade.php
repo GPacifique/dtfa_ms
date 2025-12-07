@@ -3,7 +3,7 @@
 @push('hero')
     <x-hero title="Session Details" subtitle="Review session schedule and info">
         <a href="{{ route('coach.sessions.create') }}" class="px-4 py-2 bg-indigo-600 text-white rounded-lg font-semibold hover:bg-indigo-700 transition">➕ Schedule New Session</a>
-        <a href="{{ url()->previous() }}" class="ml-2 px-4 py-2 border border-slate-300 text-slate-700 rounded-lg hover:bg-slate-50 font-semibold transition">← Back</a>
+
     </x-hero>
 @endpush
 

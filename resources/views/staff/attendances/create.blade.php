@@ -3,7 +3,7 @@
 @push('hero')
     <x-hero title="Record Staff Attendance" :subtitle="$staff->first_name . ' ' . $staff->last_name">
         <div class="mt-4">
-            <a href="{{ route('staff.index') }}" class="btn-secondary">← Back to Staff</a>
+
         </div>
     </x-hero>
 @endpush

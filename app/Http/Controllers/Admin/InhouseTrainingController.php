@@ -36,7 +36,7 @@ class InhouseTrainingController extends Controller
             'branch_id'         => 'required|exists:branches,id',
             'role_id'           => 'required|exists:roles,id',
             'training_name'     => 'nullable|string|max:255',
-            'channel'           => 'nullable|string|max:255',
+            'channel'           => 'nullable|in:"In person",virtual',
             'training_date'     => 'nullable|date',
             'start'             => 'nullable|date',
             'end'               => 'nullable|date|after_or_equal:start',
@@ -46,6 +46,7 @@ class InhouseTrainingController extends Controller
             'venue'             => 'nullable|string|max:255',
             'location'          => 'nullable|string|max:255',
             'trainer_name'      => 'nullable|string|max:255',
+            'certificate_received' => 'nullable|boolean',
         ]);
 
         InhouseTraining::create($request->all());
@@ -79,7 +80,7 @@ class InhouseTrainingController extends Controller
             'branch_id'         => 'required|exists:branches,id',
             'role_id'           => 'required|exists:roles,id',
             'training_name'     => 'nullable|string|max:255',
-            'channel'           => 'nullable|string|max:255',
+            'channel'           => 'nullable|in:"In person",virtual',
             'training_date'     => 'nullable|date',
             'start'             => 'nullable|date',
             'end'               => 'nullable|date|after_or_equal:start',
@@ -89,6 +90,7 @@ class InhouseTrainingController extends Controller
             'venue'             => 'nullable|string|max:255',
             'location'          => 'nullable|string|max:255',
             'trainer_name'      => 'nullable|string|max:255',
+            'certificate_received' => 'nullable|boolean',
         ]);
 
         $inhousetraining->update($request->all());

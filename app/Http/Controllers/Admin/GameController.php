@@ -54,7 +54,7 @@ class GameController extends Controller
             'category' => 'required',
             'transport' => 'nullable|string',
             'venue' => 'required',
-            'age_group' => 'nullable|string',
+            'age_group' => 'nullable|array',
             'country' => 'nullable|string',
             'city' => 'nullable|string',
             'base' => 'nullable|string',

@@ -1,7 +1,12 @@
-@php($title = 'Admin Dashboard')
 @extends('layouts.app')
+@section('title', 'Admin Dashboard')
 
 @section('content')
+@php
+    $__subsLabels = isset($subsLabels) && is_array($subsLabels) ? $subsLabels : ['Jun','Jul','Aug','Sep','Oct','Nov'];
+    $__subsActive = isset($subsActive) && is_array($subsActive) ? $subsActive : [120, 135, 150, 160, 175, 190];
+    $__subsNew = isset($subsNew) && is_array($subsNew) ? $subsNew : [20, 25, 30, 28, 35, 40];
+@endphp
 <div class="min-h-screen bg-gradient-to-br from-slate-50 via-emerald-50 to-teal-50 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900">
 
     {{-- Hero Section --}}
@@ -115,6 +120,105 @@
                 </div>
             </a>
         </div>
+
+        {{-- Charts Overview --}}
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
+            <div class="card">
+                <div class="card-body">
+                    <div class="flex items-center justify-between mb-2">
+                        <h3 class="text-xl md:text-2xl font-semibold text-slate-900 dark:text-white">Monthly Registrations</h3>
+                    </div>
+                    <canvas id="adminRegistrationsChart" height="200"></canvas>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-body">
+                    <div class="flex items-center justify-between mb-2">
+                        <h3 class="text-xl md:text-2xl font-semibold text-slate-900 dark:text-white">Fees Status</h3>
+                    </div>
+                    <canvas id="adminFeesChart" height="200"></canvas>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-body">
+                    <div class="flex items-center justify-between mb-2">
+                        <h3 class="text-xl md:text-2xl font-semibold text-slate-900 dark:text-white">Subscriptions (Last 6 months)</h3>
+                    </div>
+                    <canvas id="adminSubscriptionsChart" height="200"></canvas>
+                </div>
+            </div>
+        </div>
+
+        @push('scripts')
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                if (window.Chart) {
+                    const regCtx = document.getElementById('adminRegistrationsChart');
+                    new Chart(regCtx, {
+                        type: 'bar',
+                        data: {
+                            labels: ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'],
+                            datasets: [{
+                                label: 'Registrations',
+                                data: [12, 19, 7, 15, 22, 18, 25, 17, 20, 23, 16, 21],
+                                backgroundColor: 'rgba(99, 102, 241, 0.5)',
+                                borderColor: '#6366f1',
+                                borderWidth: 1
+                            }]
+                        },
+                        options: { responsive: true, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true } } }
+                    });
+
+                    const feesCtx = document.getElementById('adminFeesChart');
+                    new Chart(feesCtx, {
+                        type: 'doughnut',
+                        data: {
+                            labels: ['Paid', 'Pending', 'Overdue'],
+                            datasets: [{
+                                data: [70, 20, 10],
+                                backgroundColor: ['#10b981', '#f59e0b', '#ef4444'],
+                                borderWidth: 1
+                            }]
+                        },
+                        options: { plugins: { legend: { position: 'bottom' } } }
+                    });
+
+                    @php
+                        $__subsLabels = isset($subsLabels) && is_array($subsLabels) ? $subsLabels : ['Jun','Jul','Aug','Sep','Oct','Nov'];
+                        $__subsActive = isset($subsActive) && is_array($subsActive) ? $subsActive : [120, 135, 150, 160, 175, 190];
+                        $__subsNew = isset($subsNew) && is_array($subsNew) ? $subsNew : [20, 25, 30, 28, 35, 40];
+                    @endphp
+                    const subsCtx = document.getElementById('adminSubscriptionsChart');
+                    new Chart(subsCtx, {
+                        type: 'line',
+                        data: {
+                            labels: @json($__subsLabels),
+                            datasets: [{
+                                label: 'Active Subscriptions',
+                                data: @json($__subsActive),
+                                borderColor: '#22c55e',
+                                backgroundColor: 'rgba(34, 197, 94, 0.2)',
+                                tension: 0.3,
+                                fill: true
+                            },{
+                                label: 'New Subscriptions',
+                                data: @json($__subsNew),
+                                borderColor: '#3b82f6',
+                                backgroundColor: 'rgba(59, 130, 246, 0.2)',
+                                tension: 0.3,
+                                fill: true
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            plugins: { legend: { position: 'bottom' } },
+                            scales: { y: { beginAtZero: true } }
+                        }
+                    });
+                }
+            });
+        </script>
+        @endpush
         {{-- Income & Subscription KPIs (new) --}}
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
             <a href="{{ route('admin.incomes.index') }}" class="card group hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 cursor-pointer">

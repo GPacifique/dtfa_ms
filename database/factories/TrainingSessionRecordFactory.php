@@ -20,7 +20,7 @@ class TrainingSessionRecordFactory extends Factory
             'coach_id' => $coach?->id,
             'coach_name' => $coach?->name,
             'branch' => $faker->randomElement(['Rwanda','Tanzania']),
-            'training_pitch' => $faker->word(),
+            'training_pitch' => $faker->randomElement(['IPRC Kicukiro- Football', 'Green Hills Academy', 'Star School -Masaka', 'Nyamagana Stadium', 'IPRC-Kigali -Basketball']),
             'date' => $faker->dateTimeBetween('-1 month', '+1 month')->format('Y-m-d'),
             'start_time' => $faker->time('H:i:s'),
             'finish_time' => $faker->time('H:i:s'),

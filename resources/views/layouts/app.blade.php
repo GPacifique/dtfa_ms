@@ -165,5 +165,7 @@
 @stack('scripts')
 <script src="{{ asset('js/notification-helper.js') }}"></script>
 <script src="{{ asset('js/custom-interactions.js') }}"></script>
+<!-- Chart.js for dashboards -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js" crossorigin="anonymous"></script>
 </body>
 </html>

@@ -29,7 +29,7 @@ return new class extends Migration
 
             // Training details
             $table->string('training_name')->nullable();
-            $table->string('channel')->nullable();
+            $table->enum('channel', ['In person', 'virtual'])->nullable();
             $table->date('training_date')->nullable();
             $table->dateTime('start')->nullable();
             $table->dateTime('end')->nullable();

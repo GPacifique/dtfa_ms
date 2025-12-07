@@ -4,7 +4,7 @@
 
 @section('content')
 <div class="min-h-screen bg-gradient-to-br from-slate-50 via-emerald-50 to-teal-50 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900">
-    
+
     {{-- Hero Section --}}
     <div class="footer-like-hero relative overflow-hidden">
         <div class="hero-blob-layer">
@@ -12,7 +12,7 @@
             <div class="hero-blob blob-2"></div>
             <div class="hero-blob blob-3"></div>
         </div>
-        
+
         <div class="relative z-10 container mx-auto px-6 py-8">
             <h1 class="text-3xl md:text-4xl font-bold text-white mb-2">Financial Dashboard</h1>
             <p class="text-emerald-100">Monitor revenue, expenses, and financial health.</p>
@@ -20,11 +20,11 @@
     </div>
 
     <div class="container mx-auto px-6 -mt-8">
-        
+
         {{-- Financial KPI Cards --}}
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
             {{-- Revenue This Month --}}
-            <div class="card group hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1">
+            <a href="{{ route('accountant.payments.index') }}" class="card group hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 block">
                 <div class="card-body">
                     <div class="flex items-start justify-between">
                         <div class="flex-1">
@@ -45,10 +45,10 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </a>
 
             {{-- Expenses This Month --}}
-            <div class="card group hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1">
+            <a href="{{ route('admin.expenses.index') }}" class="card group hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 block">
                 <div class="card-body">
                     <div class="flex items-start justify-between">
                         <div class="flex-1">
@@ -67,10 +67,10 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </a>
 
             {{-- Net Profit --}}
-            <div class="card group hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1">
+            <a href="{{ route('accountant.payments.index') }}" class="card group hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 block">
                 <div class="card-body">
                     <div class="flex items-start justify-between">
                         <div class="flex-1">
@@ -87,10 +87,10 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </a>
 
             {{-- Outstanding Balance --}}
-            <div class="card group hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1">
+            <a href="{{ route('accountant.invoices.index') }}" class="card group hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 block">
                 <div class="card-body">
                     <div class="flex items-start justify-between">
                         <div class="flex-1">
@@ -109,12 +109,12 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </a>
         </div>
 
         {{-- Secondary Stats --}}
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-            <div class="card">
+            <a href="{{ route('accountant.subscriptions.index') }}" class="card block">
                 <div class="card-body">
                     <div class="flex items-center justify-between">
                         <div>
@@ -128,9 +128,9 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </a>
 
-            <div class="card">
+            <a href="{{ route('accountant.payments.index') }}" class="card block">
                 <div class="card-body">
                     <div class="flex items-center justify-between">
                         <div>
@@ -144,9 +144,9 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </a>
 
-            <div class="card">
+            <a href="{{ route('accountant.invoices.index') }}" class="card block">
                 <div class="card-body">
                     <div class="flex items-center justify-between">
                         <div>
@@ -160,9 +160,9 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </a>
 
-            <div class="card">
+            <a href="{{ route('accountant.payments.index') }}" class="card block">
                 <div class="card-body">
                     <div class="flex items-center justify-between">
                         <div>
@@ -176,17 +176,17 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </a>
         </div>
 
         {{-- Charts Section --}}
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
             {{-- Payment Methods Chart --}}
             <div class="card">
                 <div class="card-body">
-                    <h3 class="text-lg font-semibold text-slate-900 dark:text-white mb-4">Payment Methods (This Month)</h3>
+                    <h3 class="text-xl md:text-2xl font-semibold text-slate-900 dark:text-white mb-4">Payment Methods (This Month)</h3>
                     <div class="card-chart">
-                        <canvas id="paymentMethodsChart"></canvas>
+                        <canvas id="paymentMethodsChart" height="200"></canvas>
                     </div>
                 </div>
             </div>
@@ -194,9 +194,40 @@
             {{-- Expense Categories Chart --}}
             <div class="card">
                 <div class="card-body">
-                    <h3 class="text-lg font-semibold text-slate-900 dark:text-white mb-4">Expense Categories (This Month)</h3>
+                    <h3 class="text-xl md:text-2xl font-semibold text-slate-900 dark:text-white mb-4">Expense Categories (This Month)</h3>
                     <div class="card-chart">
-                        <canvas id="expenseCategoriesChart"></canvas>
+                        <canvas id="expenseCategoriesChart" height="200"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            {{-- Subscriptions (Last 6 months) --}}
+            <div class="card">
+                <div class="card-body">
+                    <h3 class="text-xl md:text-2xl font-semibold text-slate-900 dark:text-white mb-4">Subscriptions (Last 6 months)</h3>
+                    <div class="card-chart">
+                        <canvas id="accountantSubscriptionsChart" height="200"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {{-- Additional Charts: Monthly Registrations & Fees Status --}}
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+            <div class="card">
+                <div class="card-body">
+                    <h3 class="text-xl md:text-2xl font-semibold text-slate-900 dark:text-white mb-4">Monthly Registrations (Last 6 months)</h3>
+                    <div class="card-chart">
+                        <canvas id="monthlyRegistrationsChart" height="200"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-body">
+                    <h3 class="text-xl md:text-2xl font-semibold text-slate-900 dark:text-white mb-4">Fees Status (This Month)</h3>
+                    <div class="card-chart">
+                        <canvas id="feesStatusChart" height="200"></canvas>
                     </div>
                 </div>
             </div>
@@ -305,14 +336,14 @@
 </div>
 
 {{-- Chart.js Scripts --}}
-<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+@push('scripts')
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     // Payment Methods Chart
     const paymentMethodsCtx = document.getElementById('paymentMethodsChart');
     if (paymentMethodsCtx) {
         const paymentData = @json($paymentMethodBreakdown);
-        new Chart(paymentMethodsCtx, {
+        const paymentChart = new Chart(paymentMethodsCtx, {
             type: 'doughnut',
             data: {
                 labels: Object.keys(paymentData),
@@ -336,13 +367,24 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
             }
         });
+
+        // Click handler: go to payments index filtered by method
+        paymentMethodsCtx.onclick = (evt) => {
+            const points = paymentChart.getElementsAtEventForMode(evt, 'nearest', { intersect: true }, true);
+            if (points && points.length) {
+                const idx = points[0].index;
+                const method = paymentChart.data.labels[idx];
+                const url = `{{ route('accountant.payments.index') }}` + `?method=` + encodeURIComponent(method);
+                window.location.href = url;
+            }
+        };
     }
 
     // Expense Categories Chart
     const expenseCategoriesCtx = document.getElementById('expenseCategoriesChart');
     if (expenseCategoriesCtx) {
         const expenseData = @json($expenseCategories);
-        new Chart(expenseCategoriesCtx, {
+        const expenseChart = new Chart(expenseCategoriesCtx, {
             type: 'doughnut',
             data: {
                 labels: Object.keys(expenseData),
@@ -368,7 +410,92 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
             }
         });
+
+        // Click handler: go to expenses index filtered by category
+        expenseCategoriesCtx.onclick = (evt) => {
+            const points = expenseChart.getElementsAtEventForMode(evt, 'nearest', { intersect: true }, true);
+            if (points && points.length) {
+                const idx = points[0].index;
+                const category = expenseChart.data.labels[idx];
+                const url = `{{ route('admin.expenses.index') }}` + `?category=` + encodeURIComponent(category);
+                window.location.href = url;
+            }
+        };
+    }
+
+    // Subscriptions Chart (Last 6 months) - fetch real metrics
+    const accSubsCtx = document.getElementById('accountantSubscriptionsChart');
+    if (accSubsCtx) {
+        const metricsUrl = `{{ route('accountant.dashboard.metrics') }}`;
+        fetch(metricsUrl, { headers: { 'Accept': 'application/json' } })
+            .then(resp => resp.json())
+            .then(json => {
+                const subs = json && json.subscriptionsLastSixMonths ? json.subscriptionsLastSixMonths : { labels: [], active: [], new: [] };
+                new Chart(accSubsCtx, {
+                    type: 'line',
+                    data: {
+                        labels: subs.labels,
+                        datasets: [{
+                            label: 'Active Subscriptions',
+                            data: subs.active,
+                            borderColor: '#22c55e',
+                            backgroundColor: 'rgba(34, 197, 94, 0.2)',
+                            tension: 0.3,
+                            fill: true
+                        },{
+                            label: 'New Subscriptions',
+                            data: subs.new,
+                            borderColor: '#3b82f6',
+                            backgroundColor: 'rgba(59, 130, 246, 0.2)',
+                            tension: 0.3,
+                            fill: true
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        plugins: { legend: { position: 'bottom' } },
+                        scales: { y: { beginAtZero: true } }
+                    }
+                });
+            })
+            .catch(err => {
+                console.error('Failed to load subscriptions metrics', err);
+            });
+    }
+
+    // Monthly Registrations (Last 6 months)
+    const regCtx = document.getElementById('monthlyRegistrationsChart');
+    if (regCtx) {
+        const regLabels = @json($regLabels ?? []);
+        const regCounts = @json($regCounts ?? []);
+        new Chart(regCtx, {
+            type: 'bar',
+            data: { labels: regLabels, datasets: [{ label: 'Registrations', data: regCounts, backgroundColor: 'rgba(99,102,241,0.7)' }] },
+            options: { responsive: true, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true } } }
+        });
+    }
+
+    // Fees Status (This Month)
+    const feesStatusCtx = document.getElementById('feesStatusChart');
+    if (feesStatusCtx) {
+        const feesPaid = @json($feesPaidCount ?? 0);
+        const feesPending = @json($feesPendingCount ?? 0);
+        const feesOverdue = @json($feesOverdueCount ?? 0);
+        new Chart(feesStatusCtx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Paid', 'Pending', 'Overdue'],
+                datasets: [{
+                    data: [feesPaid, feesPending, feesOverdue],
+                    backgroundColor: ['#10b981', '#f59e0b', '#ef4444'],
+                    borderWidth: 2,
+                    borderColor: '#fff'
+                }]
+            },
+            options: { responsive: true, plugins: { legend: { position: 'bottom' } } }
+        });
     }
 });
 </script>
+@endpush
 @endsection
