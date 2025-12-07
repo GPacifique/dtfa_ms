@@ -106,8 +106,10 @@ class Student extends Model
         return $query->where(function ($qq) use ($q) {
             $qq->where('first_name', 'like', "%$q%")
                ->orWhere('second_name', 'like', "%$q%")
-               ->orWhere('email', 'like', "%$q%")
-               ->orWhere('phone', 'like', "%$q%")
+               ->orWhere('player_email', 'like', "%$q%")
+               ->orWhere('parent_email', 'like', "%$q%")
+               ->orWhere('player_phone', 'like', "%$q%")
+               ->orWhere('emergency_phone', 'like', "%$q%")
                ->orWhere('jersey_name', 'like', "%$q%")
                ->orWhere('jersey_number', 'like', "%$q%")
                ->orWhere('school_name', 'like', "%$q%")
