@@ -78,6 +78,8 @@
 
     <div class="bg-white dark:bg-slate-900 rounded-xl shadow-sm border border-slate-200 dark:border-slate-800 p-6">
         <div class="flex gap-6">
+            <img src="{{ asset('storage/' . $student->photo_path) }}" alt="Image" width="150">
+
             <x-image :path="$student->photo_path" :name="($student->first_name.' '.$student->second_name)" size="112" class="w-28 h-28 rounded object-cover ring-1 ring-slate-200 dark:ring-slate-700" />
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4 w-full">
                 <div>
