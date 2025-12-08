@@ -219,6 +219,27 @@ class AdminController extends Controller
             $regCounts[] = (int) Student::whereBetween('created_at', [$startM, $endM])->count();
         }
 
+        // Performance Metrics (real data)
+        $totalStudents = Student::count();
+        $enrolledThisMonth = Student::whereBetween('created_at', [$startOfMonth, $endOfMonth])->count();
+        $studentEnrollmentRate = $totalStudents > 0 ? round(($enrolledThisMonth / max(1, $totalStudents)) * 100, 1) : 0; // % of growth this month
+
+        $totalSessionsMonth = TrainingSession::whereBetween('date', [$startOfMonth->toDateString(), $endOfMonth->toDateString()])->count();
+        $attendedSessionsMonth = \App\Models\StudentAttendance::whereBetween('attendance_date', [$startOfMonth->toDateString(), $endOfMonth->toDateString()])->distinct('training_session_id')->count('training_session_id');
+        $sessionAttendanceRate = $totalSessionsMonth > 0 ? round(($attendedSessionsMonth / $totalSessionsMonth) * 100, 1) : 0; // % sessions with attendance
+
+        // Revenue Target: compare this month revenue to last month or a simple target (e.g., 10% MoM growth)
+        $lastMonthRevenue = Payment::where('status', 'succeeded')
+            ->whereBetween('paid_at', [now()->subMonth()->startOfMonth(), now()->subMonth()->endOfMonth()])
+            ->sum('amount_cents');
+        $targetRevenueCents = (int) round($lastMonthRevenue * 1.10); // 10% growth target
+        $revenueProgress = $targetRevenueCents > 0 ? round(($stats['revenueThisMonth'] ?? 0) * 100 / $targetRevenueCents, 1) : 0; // % of target achieved
+
+        // Equipment Status: percentage in use vs total
+        $equipmentTotal = \App\Models\Equipment::count();
+        $equipmentInUse = \App\Models\Equipment::where('status', 'in_use')->count();
+        $equipmentUtilPct = $equipmentTotal > 0 ? round(($equipmentInUse / $equipmentTotal) * 100, 1) : 0;
+
         // Additional trend data for charts: last 8 weeks of sessions
         $weeklyTrends = [];
         for ($i = 7; $i >= 0; $i--) {
@@ -367,6 +388,11 @@ class AdminController extends Controller
             'feesPaidCount' => $feesPaidCount,
             'feesPendingCount' => $feesPendingCount,
             'feesOverdueCount' => $feesOverdueCount,
+            // Performance metrics
+            'studentEnrollmentRate' => $studentEnrollmentRate,
+            'sessionAttendanceRate' => $sessionAttendanceRate,
+            'revenueProgress' => $revenueProgress,
+            'equipmentUtilPct' => $equipmentUtilPct,
         ]);
     }
 }

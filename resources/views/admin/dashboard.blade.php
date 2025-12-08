@@ -962,8 +962,16 @@
                 <div class="md:col-span-2 card">
                     <div class="card-body p-6">
                         <h3 class="font-bold text-slate-900 mb-4">🎯 Performance Metrics</h3>
+                        @php
+                            $metricsBars = [
+                                ['Student Enrollment Rate', 'bg-gradient-to-r from-blue-500 to-blue-600', (isset($studentEnrollmentRate) ? $studentEnrollmentRate : 75) . '%'],
+                                ['Session Attendance', 'bg-gradient-to-r from-emerald-500 to-emerald-600', (isset($sessionAttendanceRate) ? $sessionAttendanceRate : 83) . '%'],
+                                ['Revenue Target', 'bg-gradient-to-r from-amber-500 to-amber-600', (isset($revenueProgress) ? $revenueProgress : 66) . '%'],
+                                ['Equipment Status', 'bg-gradient-to-r from-green-500 to-green-600', (isset($equipmentUtilPct) ? $equipmentUtilPct : 80) . '%'],
+                            ];
+                        @endphp
                         <div class="space-y-4">
-                            @foreach([['Student Enrollment Rate', 'bg-gradient-to-r from-blue-500 to-blue-600', '75%'], ['Session Attendance', 'bg-gradient-to-r from-emerald-500 to-emerald-600','83%'], ['Revenue Target','bg-gradient-to-r from-amber-500 to-amber-600','66%'], ['Equipment Status','bg-gradient-to-r from-green-500 to-green-600','80%']] as $m)
+                            @foreach($metricsBars as $m)
                                 <div class="flex items-center justify-between">
                                     <span class="text-slate-700">{{ $m[0] }}</span>
                                     <div class="w-3/12 h-2 bg-slate-200 rounded-full overflow-hidden">
