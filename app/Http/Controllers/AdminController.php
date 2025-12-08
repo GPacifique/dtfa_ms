@@ -225,7 +225,9 @@ class AdminController extends Controller
         $studentEnrollmentRate = $totalStudents > 0 ? round(($enrolledThisMonth / max(1, $totalStudents)) * 100, 1) : 0; // % of growth this month
 
         $totalSessionsMonth = TrainingSession::whereBetween('date', [$startOfMonth->toDateString(), $endOfMonth->toDateString()])->count();
-        $attendedSessionsMonth = \App\Models\StudentAttendance::whereBetween('attendance_date', [$startOfMonth->toDateString(), $endOfMonth->toDateString()])->distinct('training_session_id')->count('training_session_id');
+        $attendedSessionsMonth = \App\Models\StudentAttendance::whereBetween('created_at', [$startOfMonth, $endOfMonth])
+            ->distinct('training_session_id')
+            ->count('training_session_id');
         $sessionAttendanceRate = $totalSessionsMonth > 0 ? round(($attendedSessionsMonth / $totalSessionsMonth) * 100, 1) : 0; // % sessions with attendance
 
         // Revenue Target: compare this month revenue to last month or a simple target (e.g., 10% MoM growth)
