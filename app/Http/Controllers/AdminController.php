@@ -200,6 +200,25 @@ class AdminController extends Controller
         // Calculate net profit
         $netProfit = (($stats['revenueThisMonth'] ?? 0) + ($stats['incomeThisMonth'] ?? 0)) - ($stats['totalExpensesThisMonth'] ?? 0);
 
+        // Fees Status (counts): Paid via succeeded payments this month, Pending invoices, Overdue invoices
+        $startOfMonth = now()->startOfMonth();
+        $endOfMonth = now()->endOfMonth();
+        $feesPaidCount = Payment::where('status', 'succeeded')
+            ->whereBetween('paid_at', [$startOfMonth, $endOfMonth])
+            ->count();
+        $feesPendingCount = Invoice::where('status','pending')->count();
+        $feesOverdueCount = Invoice::where('status','overdue')->count();
+
+        // Monthly Registrations (last 12 months for admin chart)
+        $regLabels = [];
+        $regCounts = [];
+        for ($i = 11; $i >= 0; $i--) {
+            $startM = now()->copy()->subMonths($i)->startOfMonth();
+            $endM = now()->copy()->subMonths($i)->endOfMonth();
+            $regLabels[] = $startM->format('M');
+            $regCounts[] = (int) Student::whereBetween('created_at', [$startM, $endM])->count();
+        }
+
         // Additional trend data for charts: last 8 weeks of sessions
         $weeklyTrends = [];
         for ($i = 7; $i >= 0; $i--) {
@@ -342,6 +361,12 @@ class AdminController extends Controller
             'subsLabels' => $subsLabels,
             'subsActive' => $subsActive,
             'subsNew' => $subsNew,
+            // Admin charts real data
+            'regLabels' => $regLabels,
+            'regCounts' => $regCounts,
+            'feesPaidCount' => $feesPaidCount,
+            'feesPendingCount' => $feesPendingCount,
+            'feesOverdueCount' => $feesOverdueCount,
         ]);
     }
 }

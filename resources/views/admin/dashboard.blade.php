@@ -154,13 +154,15 @@
             document.addEventListener('DOMContentLoaded', function() {
                 if (window.Chart) {
                     const regCtx = document.getElementById('adminRegistrationsChart');
+                    const __regLabels = @json(isset($regLabels) ? $regLabels : ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']);
+                    const __regCounts = @json(isset($regCounts) ? $regCounts : [12, 19, 7, 15, 22, 18, 25, 17, 20, 23, 16, 21]);
                     new Chart(regCtx, {
                         type: 'bar',
                         data: {
-                            labels: ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'],
+                            labels: __regLabels,
                             datasets: [{
                                 label: 'Registrations',
-                                data: [12, 19, 7, 15, 22, 18, 25, 17, 20, 23, 16, 21],
+                                data: __regCounts,
                                 backgroundColor: 'rgba(99, 102, 241, 0.5)',
                                 borderColor: '#6366f1',
                                 borderWidth: 1
@@ -170,12 +172,15 @@
                     });
 
                     const feesCtx = document.getElementById('adminFeesChart');
+                    const __feesPaid = @json(isset($feesPaidCount) ? $feesPaidCount : 70);
+                    const __feesPending = @json(isset($feesPendingCount) ? $feesPendingCount : 20);
+                    const __feesOverdue = @json(isset($feesOverdueCount) ? $feesOverdueCount : 10);
                     new Chart(feesCtx, {
                         type: 'doughnut',
                         data: {
                             labels: ['Paid', 'Pending', 'Overdue'],
                             datasets: [{
-                                data: [70, 20, 10],
+                                data: [__feesPaid, __feesPending, __feesOverdue],
                                 backgroundColor: ['#10b981', '#f59e0b', '#ef4444'],
                                 borderWidth: 1
                             }]
