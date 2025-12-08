@@ -6,6 +6,11 @@
     $__subsLabels = isset($subsLabels) && is_array($subsLabels) ? $subsLabels : ['Jun','Jul','Aug','Sep','Oct','Nov'];
     $__subsActive = isset($subsActive) && is_array($subsActive) ? $subsActive : [120, 135, 150, 160, 175, 190];
     $__subsNew = isset($subsNew) && is_array($subsNew) ? $subsNew : [20, 25, 30, 28, 35, 40];
+    $__regLabels = isset($regLabels) && is_array($regLabels) ? $regLabels : ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    $__regCounts = isset($regCounts) && is_array($regCounts) ? $regCounts : [12, 19, 7, 15, 22, 18, 25, 17, 20, 23, 16, 21];
+    $__feesPaid = isset($feesPaidCount) ? (int)$feesPaidCount : 70;
+    $__feesPending = isset($feesPendingCount) ? (int)$feesPendingCount : 20;
+    $__feesOverdue = isset($feesOverdueCount) ? (int)$feesOverdueCount : 10;
 @endphp
 <div class="min-h-screen bg-gradient-to-br from-slate-50 via-emerald-50 to-teal-50 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900">
 
@@ -154,8 +159,8 @@
             document.addEventListener('DOMContentLoaded', function() {
                 if (window.Chart) {
                     const regCtx = document.getElementById('adminRegistrationsChart');
-                    const __regLabels = @json(isset($regLabels) ? $regLabels : ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']);
-                    const __regCounts = @json(isset($regCounts) ? $regCounts : [12, 19, 7, 15, 22, 18, 25, 17, 20, 23, 16, 21]);
+                    const __regLabels = @json($__regLabels);
+                    const __regCounts = @json($__regCounts);
                     new Chart(regCtx, {
                         type: 'bar',
                         data: {
@@ -172,9 +177,9 @@
                     });
 
                     const feesCtx = document.getElementById('adminFeesChart');
-                    const __feesPaid = @json(isset($feesPaidCount) ? $feesPaidCount : 70);
-                    const __feesPending = @json(isset($feesPendingCount) ? $feesPendingCount : 20);
-                    const __feesOverdue = @json(isset($feesOverdueCount) ? $feesOverdueCount : 10);
+                    const __feesPaid = @json($__feesPaid);
+                    const __feesPending = @json($__feesPending);
+                    const __feesOverdue = @json($__feesOverdue);
                     new Chart(feesCtx, {
                         type: 'doughnut',
                         data: {
