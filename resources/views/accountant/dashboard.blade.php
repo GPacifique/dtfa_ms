@@ -30,7 +30,7 @@
                         <div class="flex-1">
                             <p class="text-sm font-medium text-slate-600 dark:text-slate-400 mb-1">Revenue (This Month)</p>
                             <h3 class="text-3xl font-bold text-emerald-600 dark:text-emerald-400" data-animate-count>
-                                {{ number_format($totalRevenueCents / 100, 0) }}
+                                {{ number_format((int) floor($totalRevenueCents / 100)) }}
                             </h3>
                             <p class="text-xs text-slate-500 dark:text-slate-400 mt-2">
                                 <span class="{{ $revenueChangeDirection === 'up' ? 'text-green-600' : 'text-red-600' }}">
@@ -54,7 +54,7 @@
                         <div class="flex-1">
                             <p class="text-sm font-medium text-slate-600 dark:text-slate-400 mb-1">Expenses (This Month)</p>
                             <h3 class="text-3xl font-bold text-orange-600 dark:text-orange-400" data-animate-count>
-                                {{ number_format($totalExpensesThisMonth / 100, 0) }}
+                                {{ number_format((int) floor($totalExpensesThisMonth / 100)) }}
                             </h3>
                             <p class="text-xs text-slate-500 dark:text-slate-400 mt-2">
                                 <span class="text-amber-600 dark:text-amber-400">{{ $pendingExpenses }}</span> pending
@@ -76,7 +76,7 @@
                         <div class="flex-1">
                             <p class="text-sm font-medium text-slate-600 dark:text-slate-400 mb-1">Net Profit</p>
                             <h3 class="text-3xl font-bold {{ $netProfitColor === 'green' ? 'text-green-600 dark:text-green-400' : 'text-rose-600 dark:text-rose-400' }}" data-animate-count>
-                                {{ number_format($netProfitThisMonth / 100, 0) }}
+                                {{ number_format((int) floor($netProfitThisMonth / 100)) }}
                             </h3>
                             <p class="text-xs text-slate-500 dark:text-slate-400 mt-2">RWF</p>
                         </div>
@@ -96,7 +96,7 @@
                         <div class="flex-1">
                             <p class="text-sm font-medium text-slate-600 dark:text-slate-400 mb-1">Outstanding</p>
                             <h3 class="text-3xl font-bold text-red-600 dark:text-red-400" data-animate-count>
-                                {{ number_format($outstandingCents / 100, 0) }}
+                                {{ number_format((int) floor($outstandingCents / 100)) }}
                             </h3>
                             <p class="text-xs text-slate-500 dark:text-slate-400 mt-2">
                                 <span class="text-red-600 dark:text-red-400">{{ $overdueInvoices }}</span> overdue
@@ -167,7 +167,7 @@
                     <div class="flex items-center justify-between">
                         <div>
                             <p class="text-sm text-slate-600 dark:text-slate-400">Total Revenue</p>
-                            <p class="text-2xl font-bold text-slate-900 dark:text-white">{{ number_format($totalRevenueAllTime / 100, 0) }}</p>
+                            <p class="text-2xl font-bold text-slate-900 dark:text-white">{{ number_format((int) floor($totalRevenueAllTime / 100)) }}</p>
                         </div>
                         <div class="w-10 h-10 bg-purple-100 dark:bg-purple-900/30 rounded-lg flex items-center justify-center">
                             <svg class="w-5 h-5 text-purple-600 dark:text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">

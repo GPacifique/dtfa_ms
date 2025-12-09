@@ -21,143 +21,148 @@
             <p class="text-emerald-800 dark:text-emerald-300 font-semibold">✅ {{ session('attendance_success') }}</p>
         </div>
     @endif
+@extends('layouts.app')
+@section('title', 'Student Profile')
 
-    <!-- Quick Attendance Recording -->
-    @if(!empty($sessions) && $sessions->count())
-    <div class="bg-emerald-50 dark:bg-emerald-900/20 rounded-xl shadow-sm border border-emerald-200 dark:border-emerald-800 p-6 mb-4">
-        <h2 class="text-lg font-bold text-emerald-900 dark:text-emerald-300 mb-4">✅ Quick Attendance Recording</h2>
-
-        @if($errors->any())
-            <div class="mb-4 p-3 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg">
-                <ul class="text-sm text-red-800 dark:text-red-300 list-disc list-inside">
-                    @foreach($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
+@section('content')
+<div class="min-h-screen bg-gradient-to-br from-slate-50 via-slate-100 to-slate-50 dark:from-slate-900 dark:via-slate-900 dark:to-slate-900">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-6">
+        <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">
+            <nav class="text-sm text-slate-600 dark:text-slate-300 flex items-center gap-2">
+                <a href="{{ route('admin.students.index') }}" class="hover:text-indigo-600 dark:hover:text-indigo-400">Students</a>
+                <span aria-hidden="true">/</span>
+                <span class="font-medium text-slate-900 dark:text-white">{{ $student->first_name }} {{ $student->second_name }}</span>
+            </nav>
+            <div class="flex items-center gap-2">
+                <a href="{{ route('admin.students.edit', $student) }}" class="inline-flex items-center gap-2 rounded-lg bg-indigo-600 text-white px-4 py-2 text-sm font-semibold shadow-sm hover:bg-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5h2m-6 4h10M7 13h10M9 17h6"/></svg>
+                    Edit
+                </a>
+                <a href="{{ route('admin.students.index') }}" class="inline-flex items-center gap-2 rounded-lg bg-slate-100 text-slate-800 px-4 py-2 text-sm font-semibold shadow-sm hover:bg-slate-200 focus:outline-none focus:ring-2 focus:ring-slate-300 focus:ring-offset-2 transition dark:bg-slate-800 dark:text-slate-100 dark:hover:bg-slate-700">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12h18M3 12l6-6m-6 6l6 6"/></svg>
+                    Back
+                </a>
             </div>
-        @endif
+        </div>
 
-        <form method="POST" action="{{ route('admin.student-attendance.store') }}" class="flex flex-col md:flex-row gap-4 items-end">
-            @csrf
-            <input type="hidden" name="student_id" value="{{ $student->id }}">
-            <input type="hidden" name="redirect_to_student" value="1">
-            <div class="flex-1">
-                <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">Select Session</label>
-                <select name="training_session_id" required class="w-full px-3 py-2 border border-slate-300 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-emerald-500 dark:bg-slate-800 dark:text-white">
-                    <option value="">-- Choose a session --</option>
-                    @foreach($sessions as $s)
-                        <option value="{{ $s->id }}">
-                            {{ optional($s->date)->format('M d, Y') }} - {{ $s->start_time }}
-                            @if($s->branch) ({{ $s->branch }}) @endif
-                            @if($s->city) - {{ $s->city }} @endif
-                        </option>
-                    @endforeach
-                </select>
-            </div>
-            <div>
-                <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">Status</label>
-                <select name="status" required class="px-3 py-2 border border-slate-300 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-emerald-500 dark:bg-slate-800 dark:text-white">
-                    <option value="present" selected>Present</option>
-                    <option value="late">Late</option>
-                    <option value="absent">Absent</option>
-                    <option value="excused">Excused</option>
-                </select>
-            </div>
-            <div>
-                <button type="submit" class="px-6 py-2 bg-emerald-600 hover:bg-emerald-700 text-white font-semibold rounded-lg transition">
-                    ✅ Record Attendance
-                </button>
-            </div>
-        </form>
-    </div>
-    @else
-    <div class="bg-amber-50 dark:bg-amber-900/20 rounded-xl shadow-sm border border-amber-200 dark:border-amber-800 p-6 mb-4">
-        <p class="text-amber-800 dark:text-amber-300 font-semibold">⚠️ No recent training sessions available. Please create a training session first to record attendance.</p>
-    </div>
-    @endif
-
-    <div class="bg-white dark:bg-slate-900 rounded-xl shadow-sm border border-slate-200 dark:border-slate-800 p-6">
-        <div class="flex gap-6">
-            <img src="{{ asset('storage/' . $student->photo_path) }}" alt="Image" width="150">
-
-            <x-image :path="$student->photo_path" :name="($student->first_name.' '.$student->second_name)" size="112" class="w-28 h-28 rounded object-cover ring-1 ring-slate-200 dark:ring-slate-700" />
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 w-full">
-                <div>
-                    <p class="text-xs text-slate-500">Name</p>
-                    <p class="font-semibold">{{ $student->first_name }} {{ $student->second_name }}</p>
-                </div>
-                <div>
-                    <p class="text-xs text-slate-500">Player Email</p>
-                    <p>{{ $student->player_email ?? '—' }}</p>
-                </div>
-                <div>
-                    <p class="text-xs text-slate-500">Parent Email</p>
-                    <p>{{ $student->parent_email ?? '—' }}</p>
-                </div>
-                <div>
-                    <p class="text-xs text-slate-500">Player Phone</p>
-                    <p>{{ $student->player_phone ?? '—' }}</p>
-                </div>
-                <div>
-                    <p class="text-xs text-slate-500">Status</p>
-                    <p><span class="px-2 py-1 rounded-full text-xs {{ $student->status==='active' ? 'bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-300' : 'bg-slate-100 text-slate-700 dark:bg-slate-800/50 dark:text-slate-300' }}">{{ ucfirst($student->status) }}</span></p>
-                </div>
-                <div>
-                    <p class="text-xs text-slate-500">Group</p>
-                    <p>{{ optional($student->group)->name ?? '—' }}</p>
-                </div>
-                <div>
-                    <p class="text-xs text-slate-500">Branch</p>
-                    <p>{{ optional($student->branch)->name ?? '—' }}</p>
-                </div>
-                <div>
-                    <p class="text-xs text-slate-500">Joined</p>
-                    <p>{{ $student->joined_at?->format('M d, Y') ?? '—' }}</p>
-                </div>
-                <div>
-                    <p class="text-xs text-slate-500">DOB / Age</p>
-                    <p>{{ $student->dob?->format('Y-m-d') ?? '—' }} @if($student->age) <span class="text-slate-500">({{ $student->age }})</span> @endif</p>
-                </div>
-                <div>
-                    <p class="text-xs text-slate-500">Emergency Phone</p>
-                    <p>{{ $student->emergency_phone ?? '—' }}</p>
-                </div>
-                <div>
-                    <p class="text-xs text-slate-500">Parents</p>
-                    <p>{{ $student->father_name ?? '—' }} / {{ $student->mother_name ?? '—' }}</p>
-                </div>
-                <div>
-                    <p class="text-xs text-slate-500">School</p>
-                    <p>{{ $student->school_name ?? '—' }}</p>
-                </div>
-                <div>
-                    <p class="text-xs text-slate-500">Program / Membership</p>
-                    <p>{{ $student->program ?? '—' }} {{ $student->membership_type ? '(' . $student->membership_type . ')' : '' }}</p>
-                </div>
-                <div>
-                    <p class="text-xs text-slate-500">Training Days</p>
-                    <p>{{ $student->training_days && count($student->training_days) > 0 ? implode(', ', $student->training_days) : '—' }}</p>
-                </div>
-                <div>
-                    <p class="text-xs text-slate-500">Sport</p>
-                    <p>{{ $student->sport_discipline ?? '—' }} {{ $student->position ? '• ' . $student->position : '' }}</p>
-                </div>
-                <div>
-                    <p class="text-xs text-slate-500">Jersey</p>
-                    <p>{{ $student->jersey_name ?? '—' }} {{ $student->jersey_number ? '#' . $student->jersey_number : '' }}</p>
-                </div>
-                <div>
-                    <p class="text-xs text-slate-500">Coach</p>
-                    <p>{{ $student->coach ?? '—' }}</p>
+        <div class="relative overflow-hidden rounded-2xl bg-white dark:bg-slate-800 shadow-sm border border-slate-200 dark:border-slate-700 mb-8">
+            <div class="absolute inset-x-0 top-0 h-24 bg-gradient-to-r from-indigo-600 via-cyan-500 to-indigo-500 opacity-20 pointer-events-none"></div>
+            <div class="relative p-6 md:p-8">
+                <div class="flex items-start gap-6">
+                    <img alt="Profile photo" src="{{ $student->photo_url ?? $student->photoUrl ?? \Illuminate\Support\Facades\Storage::url($student->photo_path ?? '') }}" class="w-20 h-20 rounded-xl object-cover ring-4 ring-white dark:ring-slate-800 shadow-md" />
+                    <div class="flex-1">
+                        <div class="flex flex-wrap items-center gap-3">
+                            <h1 class="text-2xl md:text-3xl font-bold tracking-tight text-slate-900 dark:text-white">{{ $student->first_name }} {{ $student->second_name }}</h1>
+                            <span class="inline-flex items-center rounded-full bg-emerald-100 text-emerald-700 dark:bg-emerald-900 dark:text-emerald-200 px-3 py-1 text-xs font-semibold">{{ ucfirst($student->status ?? 'active') }}</span>
+                        </div>
+                        <p class="mt-1 text-sm text-slate-600 dark:text-slate-300">{{ $student->sport_discipline ?? 'Sport Discipline' }} · {{ $student->position ?? 'Position' }} · Jersey: {{ $student->jersey_number ?? '—' }}</p>
+                        <div class="mt-4 grid grid-cols-2 sm:grid-cols-4 gap-4">
+                            <div class="rounded-xl bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 p-4 shadow-sm"><p class="text-xs text-slate-500 dark:text-slate-400">Age</p><p class="mt-1 text-lg font-semibold text-slate-900 dark:text-white">{{ $student->age ?? '—' }}</p></div>
+                            <div class="rounded-xl bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 p-4 shadow-sm"><p class="text-xs text-slate-500">Branch</p><p class="mt-1 text-lg font-semibold">{{ optional($student->branch)->name ?? '—' }}</p></div>
+                            <div class="rounded-xl bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 p-4 shadow-sm"><p class="text-xs text-slate-500">Group</p><p class="mt-1 text-lg font-semibold">{{ optional($student->group)->name ?? '—' }}</p></div>
+                            <div class="rounded-xl bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 p-4 shadow-sm"><p class="text-xs text-slate-500">Joined</p><p class="mt-1 text-lg font-semibold">{{ optional($student->joined_at)->format('M d, Y') ?? '—' }}</p></div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-        <div class="mt-6 flex items-center justify-between">
-            <form method="post" action="{{ route('students-modern.destroy', $student) }}" onsubmit="return confirm('Delete this student?')">
-                @csrf
-                @method('DELETE')
-                <x-button variant="danger" type="submit">Delete</x-button>
-            </form>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <div class="lg:col-span-1 space-y-6">
+                <div class="rounded-2xl bg-white dark:bg-slate-800 shadow-sm border border-slate-200 dark:border-slate-700">
+                    <div class="p-6">
+                        <h2 class="text-lg font-semibold text-slate-900 dark:text-white">Contacts</h2>
+                        <p class="text-sm text-slate-600 dark:text-slate-300 mb-4">Primary and guardian contacts</p>
+                        <div class="space-y-3">
+                            <div class="flex items-center justify-between"><span class="text-sm text-slate-600 dark:text-slate-300">Player Email</span><a href="mailto:{{ $student->player_email }}" class="text-sm font-medium text-indigo-600 hover:text-indigo-500">{{ $student->player_email ?? '—' }}</a></div>
+                            <div class="flex items-center justify-between"><span class="text-sm text-slate-600 dark:text-slate-300">Parent Email</span><a href="mailto:{{ $student->parent_email }}" class="text-sm font-medium text-indigo-600 hover:text-indigo-500">{{ $student->parent_email ?? '—' }}</a></div>
+                            <div class="flex items-center justify-between"><span class="text-sm text-slate-600 dark:text-slate-300">Player Phone</span><a href="tel:{{ $student->player_phone }}" class="text-sm font-medium text-indigo-600 hover:text-indigo-500">{{ $student->player_phone ?? '—' }}</a></div>
+                            <div class="flex items-center justify-between"><span class="text-sm text-slate-600 dark:text-slate-300">Emergency Phone</span><a href="tel:{{ $student->emergency_phone }}" class="text-sm font-medium text-indigo-600 hover:text-indigo-500">{{ $student->emergency_phone ?? '—' }}</a></div>
+                        </div>
+                    </div>
+                    <div class="px-6 py-4 bg-slate-50 dark:bg-slate-900 border-t border-slate-200 dark:border-slate-700">
+                        <div class="flex items-center gap-2">
+                            <button type="button" class="inline-flex items-center gap-2 rounded-lg bg-cyan-600 text-white px-3 py-2 text-xs font-semibold shadow-sm hover:bg-cyan-500 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:ring-offset-2 transition"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 8a6 6 0 11-12 0"/></svg>Send Message</button>
+                            <button type="button" class="inline-flex items-center gap-2 rounded-lg bg-slate-100 text-slate-800 px-3 py-2 text-xs font-semibold shadow-sm hover:bg-slate-200 focus:outline-none focus:ring-2 focus:ring-slate-300 focus:ring-offset-2 transition dark:bg-slate-800 dark:text-slate-100 dark:hover:bg-slate-700"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>Add Note</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="rounded-2xl bg-white dark:bg-slate-800 shadow-sm border border-slate-200 dark:border-slate-700">
+                    <div class="p-6 space-y-3">
+                        <h2 class="text-lg font-semibold text-slate-900 dark:text-white">Program & School</h2>
+                        <div class="grid grid-cols-2 gap-4">
+                            <div><p class="text-xs text-slate-500">Program</p><p class="mt-1 text-sm font-medium">{{ $student->program ?? '—' }}</p></div>
+                            <div><p class="text-xs text-slate-500">School</p><p class="mt-1 text-sm font-medium">{{ $student->school_name ?? '—' }}</p></div>
+                            <div><p class="text-xs text-slate-500">Coach</p><p class="mt-1 text-sm font-medium">{{ $student->coach ?? '—' }}</p></div>
+                            <div><p class="text-xs text-slate-500">Training Days</p><p class="mt-1 text-sm font-medium">@if(is_array($student->training_days)){{ implode(', ', $student->training_days) }}@else{{ $student->training_days ?? '—' }}@endif</p></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="lg:col-span-2 space-y-6">
+                <div class="rounded-2xl bg-white dark:bg-slate-800 shadow-sm border border-slate-200 dark:border-slate-700">
+                    <div class="p-6">
+                        <div class="flex items-center justify-between"><h2 class="text-lg font-semibold text-slate-900 dark:text-white">Subscriptions</h2><a href="{{ route('accountant.subscriptions.index') }}" class="text-sm font-medium text-indigo-600 hover:text-indigo-500">View all</a></div>
+                        <div class="mt-4 overflow-x-auto rounded-xl border border-slate-200 dark:border-slate-700">
+                            <table class="min-w-full text-sm">
+                                <thead class="bg-slate-50 dark:bg-slate-900 sticky top-0"><tr class="text-left text-slate-600 dark:text-slate-300"><th class="px-4 py-3">Plan</th><th class="px-4 py-3">Start</th><th class="px-4 py-3">End</th><th class="px-4 py-3">Status</th><th class="px-4 py-3 text-right">Actions</th></tr></thead>
+                                <tbody class="divide-y divide-slate-200 dark:divide-slate-700">
+                                    @forelse($student->subscriptions as $sub)
+                                        <tr class="hover:bg-slate-50/60 dark:hover:bg-slate-900/40 transition">
+                                            <td class="px-4 py-3 text-slate-900 dark:text-white">{{ optional($sub->plan)->name ?? '—' }}</td>
+                                            <td class="px-4 py-3">{{ optional($sub->start_date)->format('M d, Y') ?? $sub->start_date }}</td>
+                                            <td class="px-4 py-3">{{ optional($sub->end_date)->format('M d, Y') ?? ($sub->end_date ?: '—') }}</td>
+                                            <td class="px-4 py-3"><span class="inline-flex rounded-full px-3 py-1 text-xs font-semibold @if($sub->status === 'active') bg-emerald-100 text-emerald-700 dark:bg-emerald-900 dark:text-emerald-200 @elseif($sub->status === 'expired') bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-200 @elseif($sub->status === 'paused') bg-amber-100 text-amber-700 dark:bg-amber-900 dark:text-amber-200 @else bg-rose-100 text-rose-700 dark:bg-rose-900 dark:text-rose-200 @endif">{{ ucfirst($sub->status) }}</span></td>
+                                            <td class="px-4 py-3 text-right"><a href="{{ route('accountant.subscriptions.show', $sub) }}" class="inline-flex items-center gap-1 text-indigo-600 hover:text-indigo-500"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>Details</a></td>
+                                        </tr>
+                                    @empty
+                                        <tr><td colspan="5" class="px-4 py-6 text-center text-slate-500">No subscriptions found.</td></tr>
+                                    @endforelse
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="rounded-2xl bg-white dark:bg-slate-800 shadow-sm border border-slate-200 dark:border-slate-700">
+                    <div class="p-6">
+                        <div class="flex items-center justify-between"><h2 class="text-lg font-semibold text-slate-900 dark:text-white">Recent Payments</h2><a href="{{ route('accountant.payments.index') }}" class="text-sm font-medium text-indigo-600 hover:text-indigo-500">View all</a></div>
+                        <div class="mt-4 overflow-x-auto rounded-xl border border-slate-200 dark:border-slate-700">
+                            <table class="min-w-full text-sm">
+                                <thead class="bg-slate-50 dark:bg-slate-900 sticky top-0"><tr class="text-left text-slate-600 dark:text-slate-300"><th class="px-4 py-3">Amount</th><th class="px-4 py-3">Method</th><th class="px-4 py-3">Status</th><th class="px-4 py-3">Paid At</th><th class="px-4 py-3 text-right">Action</th></tr></thead>
+                                <tbody class="divide-y divide-slate-200 dark:divide-slate-700">
+                                    @forelse($student->payments()->latest('paid_at')->limit(5)->get() as $pay)
+                                        <tr class="hover:bg-slate-50/60 dark:hover:bg-slate-900/40 transition">
+                                            <td class="px-4 py-3 font-semibold text-slate-900 dark:text-white">{{ number_format((int) floor($pay->amount_cents/100)) }} RWF</td>
+                                            <td class="px-4 py-3">{{ ucfirst(str_replace('_',' ', $pay->method)) }}</td>
+                                            <td class="px-4 py-3"><span class="inline-flex rounded-full px-3 py-1 text-xs font-semibold @if($pay->status === 'succeeded') bg-emerald-100 text-emerald-700 dark:bg-emerald-900 dark:text-emerald-200 @elseif($pay->status === 'pending') bg-amber-100 text-amber-700 dark:bg-amber-900 dark:text-amber-200 @else bg-rose-100 text-rose-700 dark:bg-rose-900 dark:text-rose-200 @endif">{{ ucfirst($pay->status) }}</span></td>
+                                            <td class="px-4 py-3">{{ optional($pay->paid_at)->format('M d, Y H:i') ?? '—' }}</td>
+                                            <td class="px-4 py-3 text-right"><a href="{{ route('accountant.payments.show', $pay) }}" class="inline-flex items-center gap-1 text-indigo-600 hover:text-indigo-500"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12H9"/></svg>Details</a></td>
+                                        </tr>
+                                    @empty
+                                        <tr><td colspan="5" class="px-4 py-6 text-center text-slate-500">No payments found.</td></tr>
+                                    @endforelse
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="rounded-2xl bg-white dark:bg-slate-800 shadow-sm border border-slate-200 dark:border-slate-700">
+                    <div class="p-6">
+                        <div class="flex items-center justify-between"><h2 class="text-lg font-semibold text-slate-900 dark:text-white">Attendance Timeline</h2><a href="{{ route('admin.student-attendance.index') }}" class="text-sm font-medium text-indigo-600 hover:text-indigo-500">View all</a></div>
+                        <div class="mt-4 space-y-4">
+                            @forelse($student->attendances()->latest()->limit(8)->get() as $att)
+                                <div class="flex items-start gap-3"><span class="mt-1 w-2 h-2 rounded-full @if($att->status === 'present') bg-emerald-500 @elseif($att->status === 'absent') bg-rose-500 @else bg-amber-500 @endif"></span><div class="flex-1"><p class="text-sm text-slate-900 dark:text-white font-medium capitalize">{{ $att->status }}</p><p class="text-xs text-slate-600 dark:text-slate-300">{{ optional($att->created_at)->format('M d, Y H:i') }} · Session #{{ $att->training_session_id }}</p></div></div>
+                            @empty
+                                <p class="text-sm text-slate-500">No attendance records found.</p>
+                            @endforelse
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>

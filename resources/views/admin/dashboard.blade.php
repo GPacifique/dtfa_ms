@@ -105,15 +105,15 @@
                         <div class="flex-1">
                             <p class="text-sm font-medium text-slate-600 dark:text-slate-400 mb-1">Revenue (This Month)</p>
                             <h3 class="text-3xl font-bold text-teal-600 dark:text-teal-400" data-animate-count>
-                                {{ number_format((($stats['revenueThisMonth'] ?? 0) + ($stats['incomeThisMonth'] ?? 0))/100, 2) }} RWF
+                                {{ number_format((int) floor((($stats['revenueThisMonth'] ?? 0) + ($stats['incomeThisMonth'] ?? 0)) / 100)) }} RWF
                             </h3>
                             <p class="text-xs text-slate-500 dark:text-slate-400 mt-2">
                                 RWF
                             </p>
                             <div class="text-xs text-slate-500 dark:text-slate-400 mt-2">
-                                <div>Payments: {{ number_format(($stats['revenueThisMonth'] ?? 0)/100, 2) }} RWF</div>
-                                <div>Subscriptions (this month): {{ number_format(($stats['subscriptionRevenueThisMonth'] ?? 0)/100, 2) }} RWF</div>
-                                <div>Other incomes: {{ number_format(($stats['incomeThisMonth'] ?? 0)/100, 2) }} RWF</div>
+                                <div>Payments: {{ number_format((int) floor(($stats['revenueThisMonth'] ?? 0)/100)) }} RWF</div>
+                                <div>Subscriptions (this month): {{ number_format((int) floor(($stats['subscriptionRevenueThisMonth'] ?? 0)/100)) }} RWF</div>
+                                <div>Other incomes: {{ number_format((int) floor(($stats['incomeThisMonth'] ?? 0)/100)) }} RWF</div>
                             </div>
                         </div>
                         <div class="w-12 h-12 bg-gradient-to-br from-teal-500 to-teal-600 rounded-xl flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
@@ -237,7 +237,7 @@
                         <div class="flex-1">
                             <p class="text-sm font-medium text-slate-600 dark:text-slate-400 mb-1">Income (This Month)</p>
                             <h3 class="text-3xl font-bold text-emerald-600 dark:text-emerald-400" data-animate-count>
-                                {{ number_format(($stats['incomeThisMonth'] ?? 0)/100, 2) }} RWF
+                                {{ number_format((int) floor(($stats['incomeThisMonth'] ?? 0)/100)) }} RWF
                             </h3>
                             <p class="text-xs text-slate-500 dark:text-slate-400 mt-2">RWF</p>
                         </div>
@@ -256,7 +256,7 @@
                         <div class="flex-1">
                             <p class="text-sm font-medium text-slate-600 dark:text-slate-400 mb-1">Total Income</p>
                             <h3 class="text-3xl font-bold text-slate-900" data-animate-count>
-                                {{ number_format(($stats['totalIncome'] ?? 0)/100, 2) }} RWF
+                                {{ number_format((int) floor(($stats['totalIncome'] ?? 0)/100)) }} RWF
                             </h3>
                             <p class="text-xs text-slate-500 dark:text-slate-400 mt-2">All time</p>
                         </div>
@@ -275,7 +275,7 @@
                         <div class="flex-1">
                             <p class="text-sm font-medium text-slate-600 dark:text-slate-400 mb-1">Subscription Revenue (This Month)</p>
                             <h3 class="text-3xl font-bold text-amber-600 dark:text-amber-400" data-animate-count>
-                                {{ number_format(($stats['subscriptionRevenueThisMonth'] ?? 0)/100, 2) }}
+                                {{ number_format((int) floor(($stats['subscriptionRevenueThisMonth'] ?? 0)/100)) }}
                             </h3>
                             <p class="text-xs text-slate-500 dark:text-slate-400 mt-2">RWF</p>
                         </div>
@@ -294,7 +294,7 @@
                         <div class="flex-1">
                             <p class="text-sm font-medium text-slate-600 dark:text-slate-400 mb-1">Total Subscription Revenue</p>
                             <h3 class="text-3xl font-bold text-slate-900" data-animate-count>
-                                {{ number_format(($stats['totalSubscriptionRevenue'] ?? 0)/100, 2) }}
+                                {{ number_format((int) floor(($stats['totalSubscriptionRevenue'] ?? 0)/100)) }}
                             </h3>
                             <p class="text-xs text-slate-500 dark:text-slate-400 mt-2">All time</p>
                         </div>
