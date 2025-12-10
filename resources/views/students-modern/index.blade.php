@@ -1,5 +1,6 @@
 @extends('layouts.app')
 
+
 @section('content')
 @section('hide-back')@endsection
 <div class="min-h-screen">
@@ -7,10 +8,12 @@
         <x-hero title="Students" subtitle="Clean, filterable list with responsive table" />
     @endsection
 
+
     <div class="container mx-auto px-6 mt-8 relative z-20">
         @if(session('status'))
             <x-alert type="success" class="mb-4">{{ session('status') }}</x-alert>
         @endif
+
 
         <div class="bg-white dark:bg-slate-900 rounded-xl shadow-sm border border-slate-200 dark:border-slate-800 p-4 mb-4">
             <form method="get" class="grid grid-cols-1 md:grid-cols-5 gap-3">
@@ -35,6 +38,7 @@
                 </div>
             </form>
         </div>
+
 
         @if(request('view') === 'cards')
         <!-- Cards View -->
@@ -145,6 +149,7 @@
         </div>
         @endif
 
+
         <!-- Pagination for Cards View -->
         @if(request('view') === 'cards')
         <div class="mt-6">
@@ -154,3 +159,6 @@
     </div>
 </div>
 @endsection
+
+
+

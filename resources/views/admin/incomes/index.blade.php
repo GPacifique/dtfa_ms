@@ -15,13 +15,35 @@
 @section('content')
 <div class="container mx-auto px-4 py-8">
 
+    @php
+        // Compute totals across all filtered records (not just current page)
+        $q = \App\Models\Income::query();
+        $reqMonth = request('month');
+        if ($reqMonth && $reqMonth !== 'all') {
+            // Expecting format YYYY-MM
+            try {
+                [$y, $m] = explode('-', $reqMonth);
+                $q->whereYear('received_at', (int) $y)->whereMonth('received_at', (int) $m);
+            } catch (\Throwable $e) {
+                // ignore invalid format
+            }
+        }
+        $branchId = request('branch_id');
+        if (!empty($branchId)) {
+            $q->where('branch_id', $branchId);
+        }
+        $totalIncomeCents = (int) $q->sum('amount_cents');
+        $totalRecords = (int) $q->count();
+        $avgIncomeRwf = $totalRecords > 0 ? floor(($totalIncomeCents / $totalRecords) / 100) : 0;
+    @endphp
+
     <!-- Stats Card -->
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
         <div class="bg-gradient-to-br from-emerald-500 to-emerald-600 rounded-xl shadow-xl p-6 text-white">
             <div class="flex items-center justify-between">
                 <div>
                     <p class="text-emerald-100 text-sm font-medium uppercase tracking-wide">Total Income</p>
-                    <p class="text-4xl font-bold mt-2">{{ number_format($incomes->sum(fn($i) => $i->amount_cents) / 100, 0) }}</p>
+                    <p class="text-4xl font-bold mt-2">{{ number_format((int) floor($totalIncomeCents / 100)) }}</p>
                     <p class="text-xs text-emerald-100 mt-1">RWF</p>
                 </div>
                 <div class="bg-emerald-400 bg-opacity-30 rounded-lg p-4">
@@ -51,7 +73,7 @@
             <div class="flex items-center justify-between">
                 <div>
                     <p class="text-purple-100 text-sm font-medium uppercase tracking-wide">Avg Income</p>
-                    <p class="text-4xl font-bold mt-2">{{ $incomes->count() > 0 ? number_format($incomes->sum(fn($i) => $i->amount_cents) / $incomes->count() / 100, 0) : 0 }}</p>
+                    <p class="text-4xl font-bold mt-2">{{ number_format((int) $avgIncomeRwf) }}</p>
                     <p class="text-xs text-purple-100 mt-1">RWF per entry</p>
                 </div>
                 <div class="bg-purple-400 bg-opacity-30 rounded-lg p-4">
