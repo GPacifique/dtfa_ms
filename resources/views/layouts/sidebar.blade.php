@@ -264,7 +264,7 @@
                     @endif
 
                     {{-- Kit Manager Dashboard --}}
-                    @role('kit-manager|admin|super-admin')
+                    @role('kit-manager|coach|admin|super-admin')
                         @if(Route::has('kit-manager.dashboard'))
                             <a href="{{ route('kit-manager.dashboard') }}" aria-label="Kit Manager" title="Kit Manager" class="nav-item flex items-center gap-3 px-3 py-2 rounded-md hover:bg-slate-800 transition {{ request()->routeIs('kit-manager.*') ? 'active' : '' }}">
                                 <span class="icon flex-shrink-0 w-6 h-6 flex items-center justify-center text-slate-200">
@@ -318,7 +318,7 @@
                     @endif
                 @endrole
 
-                @role('super-admin|accountant|admin')
+                @role('super-admin|coach|accountant|admin')
                     @if(Route::has('admin.staff_attendances.index'))
                         <a href="{{ route('admin.staff_attendances.index') }}" aria-label="Staff Attendance" title="Staff Attendance" class="nav-item flex items-center gap-3 px-3 py-2 rounded-md hover:bg-slate-800 transition {{ request()->routeIs('admin.staff_attendances.*') ? 'active' : '' }}">
                             <span class="icon flex-shrink-0 w-6 h-6 flex items-center justify-center text-slate-200">
@@ -330,7 +330,7 @@
                         </a>
                     @endif
                 @endrole
-                  @role('super-admin|accountant|admin')
+                  @role('super-admin|coach|accountant|admin')
                     @if(Route::has('admin.inhousetrainings.index'))
                         <a href="{{ route('admin.inhousetrainings.index') }}" aria-label="Inhouse Training" title="Staff Attendance" class="nav-item flex items-center gap-3 px-3 py-2 rounded-md hover:bg-slate-800 transition {{ request()->routeIs('admin.trainings.*') ? 'active' : '' }}">
                             <span class="icon flex-shrink-0 w-6 h-6 flex items-center justify-center text-slate-200">
@@ -346,7 +346,7 @@
 
 
             {{-- Finance --}}
-            @role('super-admin|admin|accountant')
+            @role('super-admin|admin|coach|accountant')
             <div class="pt-4">
                 <p x-show="$store.layout.sidebarOpen" class="px-3 text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">Finance</p>
 
@@ -510,7 +510,7 @@
                 @endif
 
 
-                @role('super-admin|admin|CEO|Technical Director')
+                @role('super-admin|admin|coach|CEO|Technical Director')
                     @if(Route::has('admin.communications.index'))
                         <a href="{{ route('admin.communications.index') }}" aria-label="Communications" title="Communications" class="nav-item flex items-center gap-3 px-3 py-2 rounded-md hover:bg-slate-800 transition {{ request()->routeIs('admin.communications.*') ? 'active' : '' }}">
                             <span class="icon flex-shrink-0 w-6 h-6 flex items-center justify-center text-slate-200">
@@ -529,6 +529,7 @@
 
 
             {{-- Reports --}}
+              @role('super-admin|admin|CEO|Technical Director')
             <div class="pt-4">
                 <p x-show="$store.layout.sidebarOpen" class="px-3 text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">Reports</p>
                 @if(Route::has('reports.index'))
@@ -574,7 +575,7 @@
                 </div>
             </div>
         @endauth
-
+@endrole
 
     </aside>
 </div>

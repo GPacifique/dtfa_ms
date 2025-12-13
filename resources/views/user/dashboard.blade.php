@@ -15,7 +15,7 @@
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <a href="{{ route('students.index') }}" class="block p-6 bg-indigo-50 dark:bg-neutral-800 rounded-lg shadow hover:shadow-lg transition border border-indigo-100 dark:border-neutral-700">
+            <a href="#" class="block p-6 bg-indigo-50 dark:bg-neutral-800 rounded-lg shadow hover:shadow-lg transition border border-indigo-100 dark:border-neutral-700">
                 <div class="text-2xl mb-2"></div>
                 <div class="font-bold text-lg mb-1">View Students</div>
                 <div class="text-slate-600 dark:text-slate-400 text-sm">Browse, add, or edit student records.</div>

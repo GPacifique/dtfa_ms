@@ -14,6 +14,15 @@ use App\Http\Controllers\Admin\GameController;
 use App\Http\Controllers\Admin\MatchController;
 use App\Http\Controllers\Admin\TeamController;
 use App\Http\Controllers\Admin\GroupsController;
+// Auto-record attendance for a student (from students-modern)
+Route::post('/students-modern/{student}/attendance', [CheckinController::class, 'store'])->name('students-modern.attendance');
+
+
+// Coach check-in route for students (fixes missing route error)
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('/coach/checkin/{student}', [CheckinController::class, 'index'])->name('coach.checkin.index');
+});
 Route::prefix('admin')->name('admin.')->middleware(['auth'])->group(function () {
 
     Route::resource('users', App\Http\Controllers\Admin\UsersController::class);
@@ -31,27 +40,33 @@ Route::middleware(['auth'])
         Route::resource('inhousetrainings', App\Http\Controllers\Admin\InhouseTrainingController::class);
     });
 
-Route::middleware(['auth', 'role:admin|super-admin|accountant'])
+Route::middleware(['auth', 'role:admin|super-admin|coach|accountant'])
     ->prefix('admin')
     ->name('admin.')
     ->group(function () {
         Route::resource('tasks', App\Http\Controllers\Admin\TaskController::class);
     });
-    Route::middleware(['auth', 'role:admin|super-admin|accountant'])
+    Route::middleware(['auth', 'role:admin|super-admin|coach|accountant'])
     ->prefix('admin')
     ->name('admin.')
     ->group(function () {
         Route::resource('teams', App\Http\Controllers\Admin\TeamController::class);
     });
-    Route::middleware(['auth', 'role:admin|super-admin|accountant'])
+    Route::middleware(['auth', 'role:admin|super-admin|coach|accountant'])
     ->prefix('admin')
     ->name('admin.')
     ->group(function () {
         Route::resource('groups', App\Http\Controllers\Admin\GroupsController::class);
     });
+      Route::middleware(['auth', 'role:admin|super-admin|coach|accountant'])
+    ->prefix('admin')
+    ->name('admin.')
+    ->group(function () {
+        Route::resource('sports-equipment', App\Http\Controllers\Admin\SportsEquipmentController::class);
+    });
 
 Route::prefix('admin')->name('admin.')->group(function () {
-    Route::resource('games', MatchController::class);
+    Route::resource('games', GameController::class);
 });
 
 //public routes

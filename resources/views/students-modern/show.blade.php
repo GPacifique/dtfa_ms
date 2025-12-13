@@ -21,10 +21,6 @@
             <p class="text-emerald-800 dark:text-emerald-300 font-semibold">✅ {{ session('attendance_success') }}</p>
         </div>
     @endif
-@extends('layouts.app')
-@section('title', 'Student Profile')
-
-@section('content')
 <div class="min-h-screen bg-gradient-to-br from-slate-50 via-slate-100 to-slate-50 dark:from-slate-900 dark:via-slate-900 dark:to-slate-900">
     <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-6">
         <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">

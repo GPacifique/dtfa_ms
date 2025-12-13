@@ -87,10 +87,10 @@
                             <select name="role_name" class="w-full border border-slate-300 dark:border-slate-600 rounded-lg px-3 py-2 dark:bg-slate-700 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent" required>
                                 <option value="">-- Select Role --</option>
                                 @foreach(($roles ?? []) as $r)
-                                    <option value="{{ $r->name }}" @selected(old('role_name')===$r->name)>{{ $r->name }}</option>
+                                    <option value="{{ $r->name }}" @selected(old('role_function')===$r->name)>{{ $r->name }}</option>
                                 @endforeach
                             </select>
-                            @error('role_name')<p class="text-sm text-red-600 dark:text-red-400 mt-1">{{ $message }}</p>@enderror
+                            @error('role_function')<p class="text-sm text-red-600 dark:text-red-400 mt-1">{{ $message }}</p>@enderror
                         </div>
                         <div>
                             <label class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">Volunteer Role</label>

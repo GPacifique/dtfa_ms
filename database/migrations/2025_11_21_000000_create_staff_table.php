@@ -18,7 +18,8 @@ return new class extends Migration
             $table->enum('branch', ['RWANDA', 'TANZANIA'])->nullable();
             $table->enum('discipline', ['Football', 'Basketball'])->nullable();
             $table->enum('gender', ['Male', 'Female'])->nullable();
-            $table->date('dob')->nullable();
+            $table->string('dob')->nullable();
+            $table->enum('role_function', ['coach','staff'])->nullable();
             $table->string('volunteer_role')->nullable();
             $table->date('date_entry')->nullable();
             $table->date('date_exit')->nullable();

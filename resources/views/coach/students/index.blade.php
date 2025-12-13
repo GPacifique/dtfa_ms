@@ -4,10 +4,10 @@
     <x-hero title="My Students" subtitle="Manage student profiles and attendance records">
         <div class="mt-4 flex items-center gap-2">
             <form method="GET" class="flex items-center gap-2">
-                <input type="text" name="q" value="{{ $q }}" placeholder="Search by name or phone…" class="input" />
+                <input type="text" name="q" value="{{ $q}}" placeholder="Search by name or phone…" class="input" />
                 <button class="btn-secondary">🔍 Search</button>
                 @if($q)
-                    <a href="{{ route('coach.students.index') }}" class="btn-outline">Clear</a>
+                    <a href="#" class="btn-outline">Clear</a>
                 @endif
             </form>
             <a href="{{ route('coach.dashboard') }}" class="btn-outline">← Back</a>
@@ -25,7 +25,7 @@
             </svg>
             <p class="text-slate-500 font-medium text-lg mb-2">
                 @if($q)
-                    No students found matching "{{ $q }}"
+                    No students found matching "{{ $q}}"
                 @else
                     No students in your group yet
                 @endif

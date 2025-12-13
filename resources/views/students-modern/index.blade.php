@@ -49,7 +49,7 @@
                         @if($s->photo_path && !str_starts_with($s->photo_path, 'http'))
                             <img src="{{ asset('storage/' . $s->photo_path) }}" alt="{{ $s->first_name }} {{ $s->second_name }}" class="w-full h-full object-cover" title="storage/app/public/{{ $s->photo_path }}">
                         @else
-                            <img src="{{ $s->photo_url }}" alt="{{ $s->first_name }} {{ $s->second_name }}" class="w-full h-full object-cover" title="{{ $s->photo_path ?? 'No photo' }}">
+                            <img src="{{ $s->photo_path }}" alt="{{ $s->first_name }} {{ $s->second_name }}" class="w-full h-full object-cover" title="{{ $s->photo_path ?? 'No photo' }}">
                         @endif
                         @if($s->status === 'active')
                             <div class="absolute top-2 right-2 bg-emerald-500 text-white text-xs font-bold rounded-full w-6 h-6 flex items-center justify-center">✓</div>
@@ -72,9 +72,13 @@
                             @endif
                         </div>
                         <div class="mt-4 flex flex-col gap-2">
-                            <a href="{{ route('students-modern.show', $s) }}" class="w-full text-center px-3 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg font-semibold transition text-sm">
-                                ✅ Record Attendance
-                            </a>
+                            <form method="POST" action="{{ route('students-modern.attendance', $s) }}" onsubmit="return confirm('Record attendance for this student?');">
+                                @csrf
+                                <input type="hidden" name="student_id" value="{{ $s->id }}">
+                                <button type="submit" class="w-full text-center px-3 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg font-semibold transition text-sm">
+                                    ✅ Record Attendance
+                                </button>
+                            </form>
                             <div class="flex gap-2">
                                 <a href="{{ route('students-modern.show', $s) }}" class="flex-1 text-center px-3 py-2 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 rounded-lg font-semibold transition text-sm">
                                     👁️ View
@@ -115,7 +119,7 @@
                                         @if($s->photo_path && !str_starts_with($s->photo_path, 'http'))
                                             <img src="{{ asset('storage/' . $s->photo_path) }}" alt="" class="w-10 h-10 rounded object-cover ring-1 ring-slate-200 dark:ring-slate-700" title="storage/app/public/{{ $s->photo_path }}" />
                                         @else
-                                            <img src="{{ $s->photo_url }}" alt="" class="w-10 h-10 rounded object-cover ring-1 ring-slate-200 dark:ring-slate-700" title="{{ $s->photo_path ?? 'No photo' }}" />
+                                            <img src="{{ $s->photo_path }}" alt="" class="w-10 h-10 rounded object-cover ring-1 ring-slate-200 dark:ring-slate-700" title="{{ $s->photo_path ?? 'No photo' }}" />
                                         @endif
                                         <div>
                                             <div class="font-semibold text-slate-900 dark:text-white">{{ $s->first_name }} {{ $s->second_name }}</div>
@@ -126,14 +130,19 @@
                                         </div>
                                     </div>
                                 </td>
-                                <td class="px-4 py-3">{{ optional($s->group)->name ?? '—' }}</td>
-                                <td class="px-4 py-3">{{ optional($s->branch)->name ?? '—' }}</td>
+                                <td class="px-4 py-3">{{ optional($s->group)->name ?? 'GROUP A' }}</td>
+                                <td class="px-4 py-3">{{ optional($s->branch)->name ?? 'KICUKIRO' }}</td>
                                 <td class="px-4 py-3">
                                     <span class="px-2 py-1 rounded-full text-xs {{ $s->status==='active' ? 'bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-300' : 'bg-slate-100 text-slate-700 dark:bg-slate-800/50 dark:text-slate-300' }}">{{ ucfirst($s->status) }}</span>
                                 </td>
-                                <td class="px-4 py-3">{{ $s->joined_at?->format('M d, Y') ?? '—' }}</td>
+                                <td class="px-4 py-3">{{ $s->joined_at?->format('D m, Y') ?? '10-10-2025' }}</td>
                                 <td class="px-4 py-3 text-right">
                                     <div class="flex gap-2 justify-end">
+                                        <form method="POST" action="{{ route('students-modern.attendance', $s) }}" onsubmit="event.stopPropagation(); return confirm('Record attendance for this student?');">
+                                            @csrf
+                                            <input type="hidden" name="student_id" value="{{ $s->id }}">
+                                            <button type="submit" class="px-3 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg font-semibold transition text-sm">✅ Attendance</button>
+                                        </form>
                                         <x-button variant="secondary" href="{{ route('students-modern.show', $s) }}" onclick="event.stopPropagation()">View</x-button>
                                         <x-button variant="secondary" href="{{ route('students-modern.edit', $s) }}" onclick="event.stopPropagation()">Edit</x-button>
                                     </div>

@@ -16,7 +16,7 @@ class CheckinController extends Controller
         $user = Auth::user();
 
         // Children linked to this user (parent)
-        $children = Student::where('parent_user_id', $user->id)->get();
+        $children = Student::where('id', $user->id)->get();
 
         // For simplicity show upcoming sessions for the next 7 days
         $upcoming = TrainingSession::whereDate('date', '>=', now()->toDateString())
@@ -25,7 +25,7 @@ class CheckinController extends Controller
             ->orderBy('start_time')
             ->get();
 
-        return view('student.checkin.index', compact('children', 'upcoming'));
+        return view('coach.students.index', compact('children', 'upcoming'));
     }
 
     public function store(Request $request)
