@@ -14,7 +14,7 @@
 
         <div class="flex justify-end">
             <a href="{{ route('admin.roles.index') }}" class="px-4 py-2 border rounded mr-2">Cancel</a>
-            <button class="px-6 py-2 bg-indigo-600 text-white rounded">Create</button>
+            <button class="px-6 py-2 bg-indigo-600 text-white rounded">✅ Save</button>
         </div>
     </form>
 </div>

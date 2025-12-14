@@ -26,7 +26,7 @@
 
                 <div class="mt-8 flex gap-3">
                     <button type="submit" class="px-6 py-3 bg-indigo-600 text-white font-semibold rounded-lg hover:bg-indigo-700 transition">
-                        Update Equipment
+                        ✅Save
                     </button>
                     <a href="{{ route('admin.office-equipment.show', $office_equipment) }}" class="px-6 py-3 bg-slate-200 text-slate-700 font-semibold rounded-lg hover:bg-slate-300 transition">
                         Cancel

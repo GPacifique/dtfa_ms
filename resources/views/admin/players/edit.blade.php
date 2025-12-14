@@ -40,7 +40,7 @@
                 </div>
             </div>
             <div class="mt-4">
-                <button class="btn btn-primary">Update</button>
+                <button class="btn btn-primary">✅Update</button>
                 <a href="{{ route('admin.players.index') }}" class="btn btn-secondary">Cancel</a>
             </div>
         </form>

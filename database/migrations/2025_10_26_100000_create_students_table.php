@@ -31,7 +31,7 @@ return new class extends Migration {
             $table->string('program')->nullable();
             $table->unsignedBigInteger('branch_id')->nullable()->index();
             $table->unsignedBigInteger('group_id')->nullable()->index();
-            $table->json('training_days')->nullable();
+            $table->string('training_days')->nullable();
             $table->string('membership_type')->nullable();
             $table->timestamps();
         });

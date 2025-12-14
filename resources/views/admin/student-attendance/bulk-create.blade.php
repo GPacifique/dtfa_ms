@@ -53,12 +53,10 @@
                         <div class="flex items-center justify-between mb-4">
                             <h2 class="text-xl font-bold text-slate-900 dark:text-white">Students Attendance</h2>
                             <div class="flex gap-2">
-                                <button type="button" onclick="markAllPresent()" class="px-3 py-1 bg-green-600 text-white text-sm rounded hover:bg-green-700 transition">
-                                    Mark All Present
+                                <button type="button" onclick="markAllPresentAndSubmit()" class="px-3 py-1 bg-green-600 text-white text-sm rounded hover:bg-green-700 transition">
+                                    Mark All Present & Save
                                 </button>
                                 <button type="button" onclick="markAllAbsent()" class="px-3 py-1 bg-red-600 text-white text-sm rounded hover:bg-red-700 transition">
-                                    Mark All Absent
-                                </button>
                             </div>
                         </div>
 
@@ -82,6 +80,18 @@
         <div id="loadingMessage" class="hidden card">
             <div class="card-body text-center py-12">
                 <div class="text-4xl mb-4">⏳</div>
+
+                                    @push('scripts')
+                                    <script>
+                                    // Auto-select most recent session on page load
+                                    window.addEventListener('DOMContentLoaded', function() {
+                                        const sessionSelect = document.getElementById('sessionSelect');
+                                        if (sessionSelect.options.length > 1) {
+                                            sessionSelect.selectedIndex = 1; // Select the first real session
+                                            sessionSelect.dispatchEvent(new Event('change'));
+                                        }
+                                    });
+
                 <p class="text-slate-600">Loading students...</p>
             </div>
         </div>
@@ -160,10 +170,13 @@ function loadStudents(branchId, groupId) {
         });
 }
 
-function markAllPresent() {
+
+function markAllPresentAndSubmit() {
     document.querySelectorAll('.student-status').forEach(select => {
         select.value = 'present';
     });
+    // Submit the form automatically
+    document.getElementById('bulkAttendanceForm').submit();
 }
 
 function markAllAbsent() {

@@ -6,9 +6,11 @@ use App\Http\Controllers\Controller;
 use App\Models\StudentAttendance;
 use App\Models\Student;
 use App\Models\TrainingSessionRecord;
+use App\Models\TrainingSession;
 use App\Models\Branch;
 use App\Models\Group;
 use Illuminate\Http\Request;
+use App\Http\Requests\StoreStudentAttendanceRequest;
 use Illuminate\Support\Facades\Auth;
 use Barryvdh\DomPDF\Facade\Pdf;
 
@@ -124,20 +126,12 @@ class StudentAttendanceController extends Controller
         return view('admin.student-attendance.create', compact('students', 'sessions'));
     }
 
-    public function store(Request $request)
+    public function store(StoreStudentAttendanceRequest $request)
     {
-        $validated = $request->validate([
-            'student_id' => 'required|exists:students,id',
-            'training_session_id' => 'required|exists:training_session_records,id',
-            'status' => 'required|in:present,absent,late,excused',
-            'notes' => 'nullable|string|max:1000',
-        ]);
-
+        $validated = $request->validated();
         $validated['recorded_by_user_id'] = Auth::id();
-
         $attendance = StudentAttendance::create($validated);
 
-        // If coming from student profile, redirect back there
         if ($request->has('redirect_to_student')) {
             return redirect()
                 ->route('students-modern.show', $attendance->student_id)
@@ -194,10 +188,9 @@ class StudentAttendanceController extends Controller
 
     public function bulkCreate()
     {
-        $sessions = TrainingSession::where('date', '>=', now()->subDays(7))
+        $sessions = TrainingSessionRecord::where('date', '>=', now()->subDays(7))
             ->orderByDesc('date')
             ->orderByDesc('start_time')
-            ->with(['branch', 'group', 'coach'])
             ->get();
 
         return view('admin.student-attendance.bulk-create', compact('sessions'));

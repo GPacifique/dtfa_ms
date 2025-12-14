@@ -186,7 +186,7 @@
             ← Cancel
         </a>
         <button type="submit" class="px-6 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 font-medium transition">
-            {{ $editing ? '💾 Update Minutes' : '✅ Create Minutes' }}
+            {{ $editing ? '💾 update' : '✅ Save' }}
         </button>
     </div>
 </form>

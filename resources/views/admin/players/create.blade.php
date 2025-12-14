@@ -30,7 +30,7 @@
                 </div>
             </div>
             <div class="mt-4">
-                <button class="btn btn-primary">Save</button>
+                <button class="btn btn-primary">✅Save</button>
             </div>
         </form>
     </div>

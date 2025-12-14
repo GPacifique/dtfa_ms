@@ -31,7 +31,7 @@
                 </div>
                 <div class="flex items-center justify-end gap-2">
                     <x-button :href="route('admin.plans.index')" variant="secondary">Cancel</x-button>
-                    <x-button type="submit" variant="primary">Create</x-button>
+                    <x-button type="submit" variant="primary">✅ Save</x-button>
                 </div>
             </form>
         </div>

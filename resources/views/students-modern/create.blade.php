@@ -9,7 +9,7 @@
     </div>
     <div class="bg-white dark:bg-slate-900 rounded-xl shadow-sm border border-slate-200 dark:border-slate-800 p-8">
         <form action="{{ route('students-modern.store') }}" method="post" enctype="multipart/form-data">
-            @include('students-modern._form', ['buttonText' => '✓ Create Student'])
+            @include('students-modern._form', ['buttonText' => 'save'])
         </form>
     </div>
 </div>

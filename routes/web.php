@@ -14,8 +14,25 @@ use App\Http\Controllers\Admin\GameController;
 use App\Http\Controllers\Admin\MatchController;
 use App\Http\Controllers\Admin\TeamController;
 use App\Http\Controllers\Admin\GroupsController;
-// Auto-record attendance for a student (from students-modern)
-Route::post('/students-modern/{student}/attendance', [CheckinController::class, 'store'])->name('students-modern.attendance');
+use App\Http\Controllers\Admin\TrainingSessionController;
+
+
+Route::middleware(['auth'])->group(function () {
+    // Student Attendance (admin)
+    Route::resource('admin/student-attendance', App\Http\Controllers\Admin\StudentAttendanceController::class)->names('admin.student-attendance');
+    Route::get('/admin/student-attendance/bulk-create', [App\Http\Controllers\Admin\StudentAttendanceController::class, 'bulkCreate'])->name('admin.student-attendance.bulk-create');
+    Route::post('/admin/student-attendance/bulk', [App\Http\Controllers\Admin\StudentAttendanceController::class, 'bulkStore'])->name('admin.student-attendance.bulk.store');
+    Route::get('/admin/student-attendance/report', [App\Http\Controllers\Admin\StudentAttendanceController::class, 'report'])->name('admin.student-attendance.report');
+    Route::get('/admin/student-attendance/report/export', [App\Http\Controllers\Admin\StudentAttendanceController::class, 'reportExportPdf'])->name('admin.student-attendance.report.export');
+    // Auto-record attendance for a student (from students-modern)
+    Route::post('/students-modern/{student}/attendance', [CheckinController::class, 'store'])->name('students-modern.attendance');
+    // Session attendance
+    Route::post('/admin/sessions/{session}/record-all-attendance', [\App\Http\Controllers\Admin\SessionsController::class, 'recordAllAttendance'])->name('admin.sessions.recordAllAttendance');
+    Route::get('/admin/sessions/{session}/attendance', [\App\Http\Controllers\Admin\SessionsController::class, 'attendance'])->name('admin.sessions.attendance');
+    Route::post('/admin/sessions/{session}/attendance', [\App\Http\Controllers\Admin\SessionsController::class, 'storeAttendance'])->name('admin.sessions.attendance.store');
+    Route::get('/admin/sessions/{session}/attendance/export', [\App\Http\Controllers\Admin\SessionsController::class, 'exportAttendanceCsv'])->name('admin.sessions.attendance.export');
+});
+
 
 
 // Coach check-in route for students (fixes missing route error)
@@ -409,6 +426,7 @@ Route::middleware(['auth', 'role:accountant|admin|super-admin'])->prefix('accoun
     Route::get('/subscriptions/create', [\App\Http\Controllers\Accountant\SubscriptionsController::class, 'create'])->name('accountant.subscriptions.create');
     Route::post('/subscriptions', [\App\Http\Controllers\Accountant\SubscriptionsController::class, 'store'])->name('accountant.subscriptions.store');
     Route::get('/subscriptions/{subscription}/edit', [\App\Http\Controllers\Accountant\SubscriptionsController::class, 'edit'])->name('accountant.subscriptions.edit');
+    Route::get('/subscriptions/{subscription}', [\App\Http\Controllers\Accountant\SubscriptionsController::class, 'show'])->name('accountant.subscriptions.show');
     Route::put('/subscriptions/{subscription}', [\App\Http\Controllers\Accountant\SubscriptionsController::class, 'update'])->name('accountant.subscriptions.update');
     Route::delete('/subscriptions/{subscription}', [\App\Http\Controllers\Accountant\SubscriptionsController::class, 'destroy'])->name('accountant.subscriptions.destroy');
 
@@ -416,6 +434,7 @@ Route::middleware(['auth', 'role:accountant|admin|super-admin'])->prefix('accoun
     Route::get('/payments', [\App\Http\Controllers\Accountant\PaymentsController::class, 'index'])->name('accountant.payments.index');
     Route::get('/payments/create', [\App\Http\Controllers\Accountant\PaymentsController::class, 'create'])->name('accountant.payments.create');
     Route::post('/payments', [\App\Http\Controllers\Accountant\PaymentsController::class, 'store'])->name('accountant.payments.store');
+    Route::get('/payments/{payment}', [\App\Http\Controllers\Accountant\PaymentsController::class, 'show'])->name('accountant.payments.show');
     Route::get('/payments/export', [\App\Http\Controllers\Accountant\PaymentsController::class, 'export'])->name('accountant.payments.export');
 
     // Invoices

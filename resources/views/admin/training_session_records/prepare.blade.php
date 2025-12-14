@@ -431,7 +431,7 @@
                 Cancel
             </a>
             <button type="submit" class="px-8 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white rounded-lg font-semibold shadow-lg transition transform hover:scale-105">
-                {{ isset($trainingSessionRecord) ? '✅ Update Training Plan' : '➕ Create Training Plan' }}
+                {{ isset($trainingSessionRecord) ? '✅ Save' : '✅ Save' }}
             </button>
         </div>
     </form>

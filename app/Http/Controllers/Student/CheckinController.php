@@ -4,8 +4,9 @@ namespace App\Http\Controllers\Student;
 
 use App\Http\Controllers\Controller;
 use App\Models\Student;
-use App\Models\TrainingSession;
+use App\Models\TrainingSessionRecord;
 use App\Models\StudentAttendance;
+use App\Http\Requests\StoreStudentAttendanceRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -28,40 +29,28 @@ class CheckinController extends Controller
         return view('coach.students.index', compact('children', 'upcoming'));
     }
 
-    public function store(Request $request)
+    public function store(StoreStudentAttendanceRequest $request)
     {
         $user = Auth::user();
-
-        $validated = $request->validate([
-            'student_id' => ['required', 'integer'],
-            'training_session_id' => ['required', 'integer'],
-        ]);
-
+        $validated = $request->validated();
         $student = Student::findOrFail($validated['student_id']);
-
-        // Ensure the student belongs to the authenticated parent
-        if ($student->parent_user_id !== $user->id) {
-            abort(403, 'You are not allowed to check in this student.');
-        }
-
-        $session = TrainingSession::findOrFail($validated['training_session_id']);
-
-        // Ensure the session matches student's branch/group
-        if ($session->branch_id !== $student->branch_id || $session->group_id !== $student->group_id) {
-            abort(403, 'This session is not valid for the selected student.');
-        }
-
+        // Optionally, check if the user is allowed to record attendance for this student
+        // Remove or adjust this check as needed for your new access policy
+        // if ($student->parent_user_id !== $user->id) {
+        //     abort(403, 'You are not allowed to check in this student.');
+        // }
+        $session = TrainingSessionRecord::findOrFail($validated['training_session_id']);
         StudentAttendance::updateOrCreate(
             [
                 'student_id' => $student->id,
                 'training_session_id' => $session->id,
             ],
             [
-                'status' => 'present',
-                'notes' => 'Self check-in by parent/user',
+                'status' => $validated['status'] ?? 'present',
+                'notes' => $validated['notes'] ?? 'Self check-in by user',
+                'recorded_by_user_id' => $user->id,
             ]
         );
-
-        return redirect()->route('student.checkin.index')->with('success', 'Check-in recorded.');
+        return redirect()->route('students-modern.index')->with('success', 'Attendance recorded successfully!');
     }
 }

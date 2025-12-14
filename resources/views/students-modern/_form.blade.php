@@ -136,7 +136,7 @@
 
     {{-- Action Buttons --}}
     <div class="flex items-center gap-3 pt-6 border-t border-slate-200 dark:border-slate-700">
-        <x-button type="submit" class="text-lg font-bold px-8 py-3">✓ {{ $buttonText ?? 'Save Student' }}</x-button>
+        <x-button type="submit" class="text-lg font-bold px-8 py-3">✓ {{ $buttonText ?? 'Save' }}</x-button>
         <x-button variant="secondary" type="button" onclick="history.back()" class="text-lg font-bold px-8 py-3">Cancel</x-button>
     </div>
 </div>

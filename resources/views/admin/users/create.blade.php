@@ -96,7 +96,7 @@
             <!-- Action Buttons -->
             <div class="flex items-center gap-4 pt-6 border-t border-slate-200 dark:border-slate-700">
                 <button type="submit" class="px-8 py-2 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-lg transition">
-                    ✓ Create User
+                    ✓Save
                 </button>
                 <a href="{{ route('admin.users.index') }}" class="px-8 py-2 border border-slate-300 dark:border-slate-600 text-slate-700 dark:text-slate-300 font-semibold rounded-lg hover:bg-slate-50 dark:hover:bg-slate-700 transition">
                     Cancel

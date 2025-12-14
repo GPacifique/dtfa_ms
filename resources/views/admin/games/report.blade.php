@@ -156,7 +156,7 @@
             </a>
             <div class="flex gap-4">
                 <button type="submit" name="action" value="save" class="px-8 py-3 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white rounded-lg font-semibold shadow-lg transition transform hover:scale-105">
-                    💾 Save Report
+                    💾 Save
                 </button>
             </div>
         </div>

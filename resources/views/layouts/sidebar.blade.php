@@ -154,25 +154,7 @@
                 <p x-show="$store.layout.sidebarOpen" class="px-3 text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">Training</p>
 
 
-                @if(Route::has('coach.sessions.index'))
-                    <a href="{{ route('coach.sessions.index') }}" aria-label="Training Sessions" title="Training Sessions" class="nav-item flex items-center gap-3 px-3 py-2 rounded-md hover:bg-slate-800 transition {{ request()->routeIs('coach.sessions.*') ? 'active' : '' }}">
-                        <span class="icon flex-shrink-0 w-6 h-6 flex items-center justify-center text-slate-200">
-                            <!-- Heroicon: Calendar -->
-                            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3M3 11h18M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
-                        </span>
-                        <span class="sr-only">Training Sessions</span>
-                        <span x-show="$store.layout.sidebarOpen" x-transition class="truncate">Training Sessions</span>
-                    </a>
-                @elseif(Route::has('admin.sessions.index'))
-                    <a href="{{ route('admin.sessions.index') }}" aria-label="Training Sessions" title="Training Sessions" class="nav-item flex items-center gap-3 px-3 py-2 rounded-md hover:bg-slate-800 transition {{ request()->routeIs('admin.sessions.*') ? 'active' : '' }}">
-                        <span class="icon flex-shrink-0 w-6 h-6 flex items-center justify-center text-slate-200">
-                            <!-- Heroicon: Calendar -->
-                            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3M3 11h18M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
-                        </span>
-                        <span class="sr-only">Training Sessions</span>
-                        <span x-show="$store.layout.sidebarOpen" x-transition class="truncate">Training Sessions</span>
-                    </a>
-                @endif
+
 
 
                 @role('super-admin|accountant|admin|coach')

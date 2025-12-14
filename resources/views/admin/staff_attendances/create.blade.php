@@ -12,7 +12,7 @@
         @include('admin.staff_attendances._form')
 
         <div class="pt-4">
-            <button type="submit" class="inline-flex items-center px-4 py-2 bg-indigo-600 text-white rounded-md">Save</button>
+            <button type="submit" class="inline-flex items-center px-4 py-2 bg-indigo-600 text-white rounded-md">✅Save</button>
         </div>
     </form>
 </div>
