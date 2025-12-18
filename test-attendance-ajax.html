@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test Attendance AJAX</title>
+</head>
+<body>
+    <h1>Test Attendance Recording</h1>
+    <button onclick="testAttendance()">Test Record Attendance for Student 1</button>
+    <div id="result"></div>
+
+    <script>
+        function testAttendance() {
+            const url = 'http://localhost:8000/admin/student-attendance-quick-record';
+            
+            // Get CSRF token from your Laravel app
+            fetch('http://localhost:8000/sanctum/csrf-cookie')
+                .then(() => {
+                    return fetch(url, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Accept': 'application/json',
+                            'X-Requested-With': 'XMLHttpRequest'
+                        },
+                        credentials: 'include',
+                        body: JSON.stringify({
+                            student_id: 1,
+                            attendance_date: new Date().toISOString().split('T')[0],
+                            status: 'present'
+                        })
+                    });
+                })
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('result').innerHTML = '<pre>' + JSON.stringify(data, null, 2) + '</pre>';
+                })
+                .catch(error => {
+                    document.getElementById('result').innerHTML = '<p style="color:red;">Error: ' + error.message + '</p>';
+                });
+        }
+    </script>
+</body>
+</html>

@@ -15,16 +15,13 @@ use App\Http\Controllers\Admin\MatchController;
 use App\Http\Controllers\Admin\TeamController;
 use App\Http\Controllers\Admin\GroupsController;
 use App\Http\Controllers\Admin\TrainingSessionController;
+use App\Http\Controllers\Admin\StudentAttendanceController;
+
 
 
 Route::middleware(['auth'])->group(function () {
     // Student Attendance (admin)
-    Route::resource('admin/student-attendance', App\Http\Controllers\Admin\StudentAttendanceController::class)->names('admin.student-attendance');
-    Route::get('/admin/student-attendance/bulk-create', [App\Http\Controllers\Admin\StudentAttendanceController::class, 'bulkCreate'])->name('admin.student-attendance.bulk-create');
-    Route::post('/admin/student-attendance/bulk', [App\Http\Controllers\Admin\StudentAttendanceController::class, 'bulkStore'])->name('admin.student-attendance.bulk.store');
-    Route::get('/admin/student-attendance/report', [App\Http\Controllers\Admin\StudentAttendanceController::class, 'report'])->name('admin.student-attendance.report');
-    Route::get('/admin/student-attendance/report/export', [App\Http\Controllers\Admin\StudentAttendanceController::class, 'reportExportPdf'])->name('admin.student-attendance.report.export');
-    // Auto-record attendance for a student (from students-modern)
+
     Route::post('/students-modern/{student}/attendance', [CheckinController::class, 'store'])->name('students-modern.attendance');
     // Session attendance
     Route::post('/admin/sessions/{session}/record-all-attendance', [\App\Http\Controllers\Admin\SessionsController::class, 'recordAllAttendance'])->name('admin.sessions.recordAllAttendance');
@@ -35,20 +32,28 @@ Route::middleware(['auth'])->group(function () {
 
 
 
+
+// Admin Student Attendance resource routes (fixes missing route error)
+Route::middleware(['auth', 'role:admin|super-admin'])
+    ->prefix('admin')
+    ->name('admin.')
+    ->group(function () {
+        Route::resource('student-attendance', App\Http\Controllers\Admin\StudentAttendanceController::class);
+        Route::post('student-attendance-auto-record', [App\Http\Controllers\Admin\StudentAttendanceController::class, 'autoRecordAll'])->name('student-attendance.auto-record');
+        Route::post('student-attendance-quick-record', [App\Http\Controllers\Admin\StudentAttendanceController::class, 'quickRecord'])->name('student-attendance.quick-record');
+    });
+
 // Coach check-in route for students (fixes missing route error)
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/coach/checkin/{student}', [CheckinController::class, 'index'])->name('coach.checkin.index');
 });
-Route::prefix('admin')->name('admin.')->middleware(['auth'])->group(function () {
-
+Route::prefix('admin')->name('admin.')->middleware(['auth', 'role:super-admin'])->group(function () {
     Route::resource('users', App\Http\Controllers\Admin\UsersController::class);
-
     Route::post('users/{id}/restore', [App\Http\Controllers\Admin\UsersController::class, 'restore'])
         ->name('users.restore');
-
     Route::delete('users/{id}/force-delete', [App\Http\Controllers\Admin\UsersController::class, 'forceDelete'])
-        ->name('users.forceDelete');   // ← THIS fixes the error
+        ->name('users.forceDelete');
 });
 Route::middleware(['auth'])
     ->prefix('admin')
@@ -57,25 +62,25 @@ Route::middleware(['auth'])
         Route::resource('inhousetrainings', App\Http\Controllers\Admin\InhouseTrainingController::class);
     });
 
-Route::middleware(['auth', 'role:admin|super-admin|coach|accountant'])
+Route::middleware(['auth', 'role:admin|super-admin|accountant'])
     ->prefix('admin')
     ->name('admin.')
     ->group(function () {
         Route::resource('tasks', App\Http\Controllers\Admin\TaskController::class);
     });
-    Route::middleware(['auth', 'role:admin|super-admin|coach|accountant'])
+    Route::middleware(['auth', 'role:admin|super-admin|accountant'])
     ->prefix('admin')
     ->name('admin.')
     ->group(function () {
         Route::resource('teams', App\Http\Controllers\Admin\TeamController::class);
     });
-    Route::middleware(['auth', 'role:admin|super-admin|coach|accountant'])
+    Route::middleware(['auth', 'role:admin|super-admin|accountant'])
     ->prefix('admin')
     ->name('admin.')
     ->group(function () {
         Route::resource('groups', App\Http\Controllers\Admin\GroupsController::class);
     });
-      Route::middleware(['auth', 'role:admin|super-admin|coach|accountant'])
+    Route::middleware(['auth', 'role:admin|super-admin|accountant'])
     ->prefix('admin')
     ->name('admin.')
     ->group(function () {
@@ -131,20 +136,23 @@ Route::middleware(['auth'])->prefix('user')->group(function () {
     Route::delete('{user}/profile/picture', [\App\Http\Controllers\UserProfileController::class, 'deletePicture'])->name('user.profile.deletePicture');
 });
 
-Route::get('/', function () {
-    return view('welcome');
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('/', function () {
+        return view('welcome');
+    });
+
+    // Photo serving routes
+    Route::get('/photos/students/{student}', [\App\Http\Controllers\PhotoController::class, 'showStudent'])
+        ->name('photos.student');
+    Route::get('/photos/staff/{staff}', [\App\Http\Controllers\PhotoController::class, 'showStaff'])
+        ->name('photos.staff');
+    Route::get('/photos/users/{user}', [\App\Http\Controllers\PhotoController::class, 'showUser'])
+        ->name('photos.user');
+
+    // Guest dashboard (now protected)
+    Route::get('/guest', [GuestController::class, 'index'])->name('guest.dashboard');
 });
-
-// Photo serving routes
-Route::get('/photos/students/{student}', [\App\Http\Controllers\PhotoController::class, 'showStudent'])
-    ->name('photos.student');
-Route::get('/photos/staff/{staff}', [\App\Http\Controllers\PhotoController::class, 'showStaff'])
-    ->name('photos.staff');
-Route::get('/photos/users/{user}', [\App\Http\Controllers\PhotoController::class, 'showUser'])
-    ->name('photos.user');
-
-// Public guest dashboard
-Route::get('/guest', [GuestController::class, 'index'])->name('guest.dashboard');
 
 Route::get('/dashboard', function () {
     $user = Auth::user();
@@ -202,18 +210,20 @@ Route::middleware('auth')->group(function () {
 // Example protected route - requires auth and admin role
 Route::get('/admin-only', function () {
     return 'Hello admin — you have access.';
-})->middleware(['auth', 'role:admin']);
+})->middleware(['auth', 'role:admin|coach']);
 
 // Legacy admin student public endpoints removed in favor of modern CRUD
 
 // Admin and User dashboards
-Route::middleware(['auth', 'role:admin|super-admin|accountant'])->prefix('admin')->group(function () {
+Route::middleware(['auth', 'role:admin|super-admin|accountant|coach'])->prefix('admin')->group(function () {
     Route::get('/dashboard', [\App\Http\Controllers\AdminController::class, 'index'])->name('admin.dashboard');
 
     // Note: User CRUD routes are defined at the top of this file using Route::resource('users', ...)
     // Only custom user routes that aren't part of RESTful resource are defined here:
-    Route::put('/users/{user}/full', [\App\Http\Controllers\Admin\UsersController::class, 'updateFull'])->name('admin.users.updateFull');
-    Route::post('/users/{user}/send-reset', [\App\Http\Controllers\Admin\UsersController::class, 'sendReset'])->name('admin.users.sendReset');
+    Route::middleware(['role:super-admin'])->group(function () {
+        Route::put('/users/{user}/full', [\App\Http\Controllers\Admin\UsersController::class, 'updateFull'])->name('admin.users.updateFull');
+        Route::post('/users/{user}/send-reset', [\App\Http\Controllers\Admin\UsersController::class, 'sendReset'])->name('admin.users.sendReset');
+    });
 
     // Session management
     Route::get('/sessions', [\App\Http\Controllers\Admin\SessionsController::class, 'index'])->name('admin.sessions.index');
@@ -253,12 +263,6 @@ Route::middleware(['auth', 'role:admin|super-admin|accountant'])->prefix('admin'
     Route::post('minutes/{minute}/mark-cancelled', [App\Http\Controllers\Admin\MinuteController::class, 'markCancelled'])->name('admin.minutes.markCancelled');
     Route::post('minutes/{minute}/reschedule', [App\Http\Controllers\Admin\MinuteController::class, 'reschedule'])->name('admin.minutes.reschedule');
 
-    // Student Attendance Management
-    Route::resource('student-attendance', \App\Http\Controllers\Admin\StudentAttendanceController::class, ['as' => 'admin'])->names('student-attendance');
-    Route::get('student-attendance-bulk/create', [\App\Http\Controllers\Admin\StudentAttendanceController::class, 'bulkCreate'])->name('admin.student-attendance.bulk.create');
-    Route::post('student-attendance-bulk', [\App\Http\Controllers\Admin\StudentAttendanceController::class, 'bulkStore'])->name('admin.student-attendance.bulk.store');
-    Route::get('student-attendance-report', [\App\Http\Controllers\Admin\StudentAttendanceController::class, 'report'])->name('admin.student-attendance.report');
-    Route::get('student-attendance-report/export', [\App\Http\Controllers\Admin\StudentAttendanceController::class, 'reportExportPdf'])->name('admin.student-attendance.report.export');
 
     // Upcoming Events
     Route::resource('upcoming-events', \App\Http\Controllers\Admin\UpcomingEventController::class, ['as' => 'admin'])->names('upcoming-events');
@@ -450,7 +454,7 @@ Route::middleware(['auth', 'role:accountant|admin|super-admin'])->prefix('accoun
     Route::get('/equipment/{equipment}', [\App\Http\Controllers\Admin\EquipmentController::class, 'show'])->name('accountant.equipment.show');
 });
 
-Route::middleware(['auth', 'role:parent|admin|super-admin'])->prefix('parent')->group(function () {
+Route::middleware(['auth', 'role:parent|admin|super-admin|accountant'])->prefix('parent')->group(function () {
     Route::get('/dashboard', [\App\Http\Controllers\ParentController::class, 'index'])->name('parent.dashboard');
     Route::get('/child/{student}/payments', [\App\Http\Controllers\ParentController::class, 'childPayments'])->name('parent.child-payments');
 });
@@ -465,25 +469,25 @@ require __DIR__.'/auth.php';
 require __DIR__.'/staff.php';
 
 // CEO dashboard
-Route::middleware(['auth', 'role:CEO|admin|super-admin'])->prefix('ceo')->group(function () {
+Route::middleware(['auth', 'role:CEO|admin|super-admin|accountant'])->prefix('ceo')->group(function () {
     Route::get('/dashboard', [\App\Http\Controllers\CeoController::class, 'index'])->name('ceo.dashboard');
 });
 
 // Communications admin CRUD
-Route::middleware(['auth', 'role:admin|super-admin|CEO|Technical Director'])->prefix('admin')->group(function () {
+Route::middleware(['auth', 'role:admin|super-admin|CEO|Technical Director|accountant'])->prefix('admin')->group(function () {
     Route::resource('communications', \App\Http\Controllers\Admin\CommunicationController::class, ['as' => 'admin'])->only(['index','create','store','show','destroy']);
 });
 
 // Capacity Building admin CRUD
-Route::middleware(['auth', 'role:admin|super-admin'])->prefix('admin')->group(function () {
+Route::middleware(['auth', 'role:admin|super-admin|accountant'])->prefix('admin')->group(function () {
     Route::resource('capacity-buildings', \App\Http\Controllers\Admin\CapacityBuildingController::class, ['as' => 'admin']);
     // Stats
     Route::get('/capacity-buildings/stats', [\App\Http\Controllers\Admin\CapacityBuildingController::class, 'stats'])->name('admin.capacity-buildings.stats');
     Route::get('/capacity-buildings/stats/export', [\App\Http\Controllers\Admin\CapacityBuildingController::class, 'exportStats'])->name('admin.capacity-buildings.stats.export');
 });
 
-// Training Session Records admin CRUD - allow coaches as well
-Route::middleware(['auth', 'role:admin|super-admin|coach'])->prefix('admin')->group(function () {
+// Training Session Records admin CRUD - allow coaches and accountants
+Route::middleware(['auth', 'role:admin|super-admin|coach|accountant'])->prefix('admin')->group(function () {
     Route::get('training_session_records/{training_session_record}/prepare', [\App\Http\Controllers\Admin\TrainingSessionRecordController::class, 'prepare'])->name('admin.training_session_records.prepare');
     Route::get('training_session_records/{training_session_record}/report', [\App\Http\Controllers\Admin\TrainingSessionRecordController::class, 'report'])->name('admin.training_session_records.report');
     Route::resource('training_session_records', \App\Http\Controllers\Admin\TrainingSessionRecordController::class, ['as' => 'admin']);

@@ -601,7 +601,7 @@
         <div class="mb-8">
             <h2 class="text-xl font-bold text-slate-900 dark:text-white mb-4">✅ Attendance Overview</h2>
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <a href="{{ route('admin.student-attendance.index') }}" class="card group hover:shadow-xl transition-all duration-300 cursor-pointer">
+                <a href="{{ route('coach.attendance.index') }}" class="card group hover:shadow-xl transition-all duration-300 cursor-pointer">
                     <div class="card-body">
                         <div class="flex items-center justify-between">
                             <div>

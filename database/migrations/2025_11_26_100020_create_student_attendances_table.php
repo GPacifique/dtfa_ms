@@ -1,31 +1,30 @@
 <?php
-
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
+
 return new class extends Migration {
-    public function up(): void
-    {
-        Schema::create('student_attendances', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('student_id')->constrained('students')->cascadeOnDelete();
-            $table->enum('status', ['present', 'absent', 'late', 'excused'])->default('present');
-            $table->string('notes')->nullable();
-            $table->foreignId('recorded_by_user_id')->nullable()->constrained('users')->nullOnDelete();
-            $table->timestamps();
+public function up(): void
+{
+Schema::create('student_attendance', function (Blueprint $table) {
+$table->id();
+$table->unsignedBigInteger('student_id')->index();
+$table->date('attendance_date')->index();
+$table->enum('status', ['present', 'absent', 'late', 'excused'])->default('present');
+$table->text('remarks')->nullable();
+$table->unsignedBigInteger('recorded_by')->nullable();
+$table->timestamps();
 
-            // Add soft deletes
-            $table->softDeletes();
 
-            $table->unique(['student_id', 'training_session_id'], 'student_session_unique');
-            $table->index(['training_session_id']);
-            $table->foreignId('training_session_id')->constrained('training_session_records')->cascadeOnDelete();
-        });
-    }
+$table->unique(['student_id', 'attendance_date']);
+$table->foreign('student_id')->references('id')->on('students')->onDelete('cascade');
+});
+}
 
-    public function down(): void
-    {
-        Schema::dropIfExists('student_attendances');
-    }
+
+public function down(): void
+{
+Schema::dropIfExists('student_attendance');
+}
 };

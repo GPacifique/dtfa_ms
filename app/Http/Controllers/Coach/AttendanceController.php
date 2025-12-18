@@ -27,12 +27,8 @@ class AttendanceController extends Controller
     {
         $this->authorizeSession($session);
 
-        $students = Student::query()
-            ->where('branch_id', $session->branch_id)
-            ->where('group_id', $session->group_id)
-            ->orderBy('first_name')
-            ->orderBy('second_name')
-            ->get();
+        // Show all students, not just by branch/group
+        $students = Student::orderBy('first_name')->orderBy('second_name')->get();
 
         $existing = StudentAttendance::where('training_session_id', $session->id)
             ->pluck('status', 'student_id');
@@ -46,6 +42,7 @@ class AttendanceController extends Controller
 
     public function store(Request $request, TrainingSession $session)
     {
+
         $this->authorizeSession($session);
 
         $data = $request->validate([
@@ -54,10 +51,8 @@ class AttendanceController extends Controller
             'attendance.*.status' => ['required', 'in:present,absent'],
         ]);
 
-        $validStudentIds = Student::where('branch_id', $session->branch_id)
-            ->where('group_id', $session->group_id)
-            ->pluck('id')
-            ->all();
+        // All students are valid
+        $validStudentIds = Student::pluck('id')->all();
 
         DB::transaction(function () use ($data, $session, $validStudentIds) {
             foreach ($data['attendance'] as $row) {

@@ -20,7 +20,7 @@ class CheckinController extends Controller
         $children = Student::where('id', $user->id)->get();
 
         // For simplicity show upcoming sessions for the next 7 days
-        $upcoming = TrainingSession::whereDate('date', '>=', now()->toDateString())
+        $upcoming = TrainingSessionRecord::whereDate('date', '>=', now()->toDateString())
             ->whereDate('date', '<=', now()->addDays(7)->toDateString())
             ->orderBy('date')
             ->orderBy('start_time')

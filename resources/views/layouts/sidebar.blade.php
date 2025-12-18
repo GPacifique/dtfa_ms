@@ -123,7 +123,7 @@
                         </a>
                     @endif
 
-
+@role('super-admin|admin')
                     @if(Route::has('admin.users.index'))
                         <a href="{{ route('admin.users.index') }}" aria-label="Users" title="Users" class="nav-item flex items-center gap-3 px-3 py-2 rounded-md hover:bg-slate-800 transition {{ request()->routeIs('admin.users.*') ? 'active' : '' }}">
                             <span class="icon flex-shrink-0 w-6 h-6 flex items-center justify-center text-slate-200">
@@ -133,6 +133,7 @@
                             <span x-show="$store.layout.sidebarOpen" x-transition class="truncate">Users</span>
                         </a>
                     @endif
+                    @endrole
                     @role('super-admin')
                         @if(Route::has('admin.roles.index'))
                             <a href="{{ route('admin.roles.index') }}" aria-label="Roles & Permissions" title="Roles & Permissions" class="nav-item flex items-center gap-3 px-3 py-2 rounded-md hover:bg-slate-800 transition {{ request()->routeIs('admin.roles.*') ? 'active' : '' }}">
@@ -144,7 +145,7 @@
                                 <span x-show="$store.layout.sidebarOpen" x-transition class="truncate">Roles & Permissions</span>
                             </a>
                         @endif
-                    @endrole
+                        @endrole
                 @endrole
             </div>
 
@@ -297,10 +298,19 @@
                             <span class="sr-only">Student Attendance</span>
                             <span x-show="$store.layout.sidebarOpen" x-transition class="truncate">Student Attendance</span>
                         </a>
+                    @elseif(Route::has('coach.attendance.index'))
+                        <a href="{{ route('coach.attendance.index') }}" aria-label="Student Attendance" title="Student Attendance" class="nav-item flex items-center gap-3 px-3 py-2 rounded-md hover:bg-slate-800 transition {{ request()->routeIs('coach.attendance.*') ? 'active' : '' }}">
+                            <span class="icon flex-shrink-0 w-6 h-6 flex items-center justify-center text-slate-200">
+                                <!-- Heroicon: User Check -->
+                                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 8a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
+                            </span>
+                            <span class="sr-only">Student Attendance</span>
+                            <span x-show="$store.layout.sidebarOpen" x-transition class="truncate">Student Attendance</span>
+                        </a>
                     @endif
                 @endrole
 
-                @role('super-admin|coach|accountant|admin')
+                @role('super-admin|accountant|admin')
                     @if(Route::has('admin.staff_attendances.index'))
                         <a href="{{ route('admin.staff_attendances.index') }}" aria-label="Staff Attendance" title="Staff Attendance" class="nav-item flex items-center gap-3 px-3 py-2 rounded-md hover:bg-slate-800 transition {{ request()->routeIs('admin.staff_attendances.*') ? 'active' : '' }}">
                             <span class="icon flex-shrink-0 w-6 h-6 flex items-center justify-center text-slate-200">
@@ -328,7 +338,7 @@
 
 
             {{-- Finance --}}
-            @role('super-admin|admin|coach|accountant')
+            @role('super-admin|admin|accountant')
             <div class="pt-4">
                 <p x-show="$store.layout.sidebarOpen" class="px-3 text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">Finance</p>
 
@@ -492,7 +502,7 @@
                 @endif
 
 
-                @role('super-admin|admin|coach|CEO|Technical Director')
+                @role('super-admin|admin|accountant|coach|CEO|Technical Director')
                     @if(Route::has('admin.communications.index'))
                         <a href="{{ route('admin.communications.index') }}" aria-label="Communications" title="Communications" class="nav-item flex items-center gap-3 px-3 py-2 rounded-md hover:bg-slate-800 transition {{ request()->routeIs('admin.communications.*') ? 'active' : '' }}">
                             <span class="icon flex-shrink-0 w-6 h-6 flex items-center justify-center text-slate-200">
