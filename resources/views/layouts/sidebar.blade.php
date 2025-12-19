@@ -159,7 +159,7 @@
 
 
                 @role('super-admin|accountant|admin|coach')
-                    @if(Route::has('admin.trainining_session_records.index'))
+                    @if(Route::has('admin.training_session_records.index'))
                         <a href="{{ route('admin.sessions.index') }}" aria-label="Training Scheduling" title="Training Scheduling" class="nav-item flex items-center gap-3 px-3 py-2 rounded-md hover:bg-slate-800 transition {{ request()->routeIs('admin.sessions.*') ? 'active' : '' }}">
                             <span class="icon flex-shrink-0 w-6 h-6 flex items-center justify-center text-slate-200">
                                 <!-- Heroicon: Pencil/Calendar -->
