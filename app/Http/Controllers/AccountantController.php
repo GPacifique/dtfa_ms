@@ -82,7 +82,7 @@ class AccountantController extends Controller
             ->get();
 
         // Fetch recent incomes
-        $recentIncomes = \App\Models\Income::with('student')
+        $recentIncomes = \App\Models\Income::with('branch')
             ->latest('received_at')
             ->limit(10)
             ->get();

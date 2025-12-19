@@ -480,8 +480,8 @@
                     <table class="min-w-full divide-y divide-slate-200 dark:divide-slate-700">
                         <thead>
                             <tr>
-                                <th class="px-4 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-400 uppercase">Student</th>
-                                <th class="px-4 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-400 uppercase">Description</th>
+                                <th class="px-4 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-400 uppercase">Branch</th>
+                                <th class="px-4 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-400 uppercase">Category</th>
                                 <th class="px-4 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-400 uppercase">Amount</th>
                                 <th class="px-4 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-400 uppercase">Source</th>
                                 <th class="px-4 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-400 uppercase">Date</th>
@@ -491,13 +491,9 @@
                             @foreach($recentIncomes as $income)
                             <tr class="hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
                                 <td class="px-4 py-3 text-sm text-slate-900 dark:text-white">
-                                    @if($income->student)
-                                        {{ $income->student->first_name ?? '' }} {{ $income->student->second_name ?? '' }}
-                                    @else
-                                        <span class="text-slate-400">-</span>
-                                    @endif
+                                    {{ $income->branch->name ?? '-' }}
                                 </td>
-                                <td class="px-4 py-3 text-sm text-slate-600 dark:text-slate-400">{{ Str::limit($income->description ?? '-', 30) }}</td>
+                                <td class="px-4 py-3 text-sm text-slate-600 dark:text-slate-400">{{ ucfirst($income->category ?? '-') }}</td>
                                 <td class="px-4 py-3 text-sm font-semibold text-emerald-600 dark:text-emerald-400">{{ number_format($income->amount_cents / 100, 0) }} RWF</td>
                                 <td class="px-4 py-3 text-sm text-slate-600 dark:text-slate-400">
                                     <span class="px-2 py-1 text-xs rounded-full bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-400">
