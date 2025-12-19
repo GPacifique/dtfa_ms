@@ -25,7 +25,7 @@ class ResetPasswordNotification extends ResetPassword
             ->greeting('Hello ' . $notifiable->name . ',')
             ->line('You are receiving this email because we received a password reset request for your account.')
             ->action('Reset Password', $url)
-            ->line('This password reset link will expire in ' . config('auth.passwords.' . $this->guard . '.expire', 60) . ' minutes.')
+            ->line('This password reset link will expire in ' . config('auth.passwords.users.expire', 60) . ' minutes.')
             ->line('If you did not request a password reset, no further action is required.')
             ->salutation('Best regards,')
             ->from(config('mail.from.address'), config('mail.from.name'));
