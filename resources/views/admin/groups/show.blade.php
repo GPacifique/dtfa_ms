@@ -198,7 +198,7 @@
                         <a href="{{ route('admin.students.index') }}" class="block px-4 py-2 bg-slate-100 text-slate-700 text-center font-semibold rounded-lg hover:bg-slate-200 transition">
                             👤 View All Students
                         </a>
-                        <a href="{{ route('admin.sessions.index') }}" class="block px-4 py-2 bg-slate-100 text-slate-700 text-center font-semibold rounded-lg hover:bg-slate-200 transition">
+                        <a href="{{ route('admin.training_session_records.index') }}" class="block px-4 py-2 bg-slate-100 text-slate-700 text-center font-semibold rounded-lg hover:bg-slate-200 transition">
                             📅 View All Sessions
                         </a>
                     </div>

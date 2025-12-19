@@ -3,7 +3,7 @@
 @push('hero')
     <x-hero :title="'Attendance: ' . ($session->date->format('M d, Y'))" :subtitle="$session->group->name ?? $session->group_name">
         <div class="mt-4">
-            <a href="{{ route('admin.sessions.index') }}" class="btn-secondary">← Back to Sessions</a>
+            <a href="{{ route('admin.training_session_records.index') }}" class="btn-secondary">← Back to Sessions</a>
         </div>
     </x-hero>
 @endpush

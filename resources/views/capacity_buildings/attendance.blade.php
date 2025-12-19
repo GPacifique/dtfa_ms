@@ -5,7 +5,7 @@
     <div class="flex items-center justify-between mb-4">
         <h1 class="text-2xl font-bold">Attendance for {{ $session->date->format('M d, Y') }} — {{ $session->group->name ?? $session->group_name }}</h1>
         <div>
-            <a href="{{ route('admin.sessions.index') }}" class="px-3 py-2 bg-gray-200 rounded">Back</a>
+            <a href="{{ route('admin.training_session_records.index') }}" class="px-3 py-2 bg-gray-200 rounded">Back</a>
         </div>
     </div>
 

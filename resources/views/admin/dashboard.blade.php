@@ -77,7 +77,7 @@
             </a>
 
             {{-- Sessions --}}
-            <a href="{{ route('admin.sessions.index') }}" class="card group hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 cursor-pointer">
+            <a href="{{ route('admin.training_session_records.index') }}" class="card group hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 cursor-pointer">
                 <div class="card-body">
                     <div class="flex items-start justify-between">
                         <div class="flex-1">
@@ -859,14 +859,14 @@
                         <div class="text-xs text-slate-500 mt-1">Add</div>
                     </div>
                 </a>
-                <a href="{{ route('admin.sessions.index') }}" class="card hover:shadow-lg transition-shadow">
+                <a href="{{ route('admin.training_session_records.index') }}" class="card hover:shadow-lg transition-shadow">
                     <div class="card-body p-4 text-center">
                         <div class="text-3xl mb-2">📋</div>
                         <div class="text-sm font-semibold text-slate-900">Sessions</div>
                         <div class="text-xs text-slate-500 mt-1">View All</div>
                     </div>
                 </a>
-                <a href="{{ route('admin.sessions.create') }}" class="card hover:shadow-lg transition-shadow">
+                <a href="{{ route('admin.training_session_records.create') }}" class="card hover:shadow-lg transition-shadow">
                     <div class="card-body p-4 text-center">
                         <div class="text-3xl mb-2">📋</div>
                         <div class="text-sm font-semibold text-slate-900">New Session</div>
