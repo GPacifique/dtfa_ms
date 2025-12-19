@@ -37,6 +37,7 @@
         <table class="table">
             <thead>
                 <tr>
+                    <th>Photo</th>
                     <th>Name</th>
                     <th>Email</th>
                     <th>Branch</th>
@@ -49,6 +50,9 @@
             <tbody>
                 @foreach ($users as $user)
                     <tr @class(['bg-red-50 dark:bg-red-900/30 hover:bg-gray-100 dark:hover:bg-neutral-800 cursor-pointer transition' => !$user->deleted_at, 'bg-red-50 dark:bg-red-900/30' => $user->deleted_at])>
+                        <td class="px-4 py-3">
+                            <img src="{{ $user->profile_picture_url }}" alt="{{ $user->name }}" class="w-10 h-10 rounded-full object-cover ring-1 ring-slate-200 dark:ring-slate-700">
+                        </td>
                         <td class="px-4 py-3"><a href="{{ route('admin.users.show', $user) }}" class="block">{{ $user->name }}</a></td>
                         <td class="px-4 py-3"><a href="{{ route('admin.users.show', $user) }}" class="block">{{ $user->email }}</a></td>
                         <td class="px-4 py-3"><a href="{{ route('admin.users.show', $user) }}" class="block">{{ $user->branch?->name ?? '—' }}</a></td>

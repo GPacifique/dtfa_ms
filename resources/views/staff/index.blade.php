@@ -27,7 +27,7 @@
         <tbody>
             @foreach($staff as $s)
                 <tr class="border-t hover:bg-gray-50 dark:hover:bg-slate-700 transition">
-                    <td class="p-3"><img src="{{ $s->photo_path }}" alt="{{ $s->first_name }}" class="w-10 h-10 rounded-full object-cover"></td>
+                    <td class="p-3"><img src="{{ $s->photo_url }}" alt="{{ $s->first_name }}" class="w-10 h-10 rounded-full object-cover"></td>
                     <td class="p-3 font-semibold">{{ $s->first_name }} {{ $s->last_name }}</td>
                     <td class="p-3">{{ $s->branch }}</td>
                     <td class="p-3">{{ $s->discipline }}</td>

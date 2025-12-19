@@ -81,23 +81,7 @@
             @forelse($students as $s)
                 <div class="bg-white dark:bg-slate-900 rounded-xl shadow-sm border border-slate-200 dark:border-slate-800 overflow-hidden hover:shadow-lg transition">
                     <div class="aspect-square bg-slate-100 dark:bg-slate-800 relative">
-
-       @php
-    $img = $s->photo_path && !str_starts_with($s->photo_path, 'http')
-        ? asset('storage/' . $s->photo_path)
-        : $s->photo_url;
-@endphp
-
-<img src="https://localhost:8000/storage/app/public/photos/{{ $s->photo_path }}"
-
-
-     alt="{{ $s->first_name }} {{ $s->second_name }}"
-     class="w-full h-full object-cover" />
-                        @if($s->photo_path && !str_starts_with($s->photo_path, 'http'))
-                            <img src="localhost:8000/storage/app/public/photos/{{ $s->photo_path }}" alt="{{ $s->first_name }} {{ $s->second_name }}" class="w-full h-full object-cover" title="storage/app/public/{{ $s->photo_path }}">
-                        @else
-                            <img src="localhost:8000/storage/app/public/photos/{{ $s->photo_path }}" alt="{{ $s->first_name }} {{ $s->second_name }}" class="w-full h-full object-cover" title="{{ $s->photo_path ?? 'No photo' }}">
-                        @endif
+                        <img src="{{ $s->photo_url }}" alt="{{ $s->first_name }} {{ $s->second_name }}" class="w-full h-full object-cover">
                         @if($s->status === 'active')
                             <div class="absolute top-2 right-2 bg-emerald-500 text-white text-xs font-bold rounded-full w-6 h-6 flex items-center justify-center">✓</div>
                         @endif
@@ -156,11 +140,7 @@
                             <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/40 transition-colors">
                                 <td class="px-4 py-3 cursor-pointer" onclick="window.location='{{ route('students-modern.show', $s) }}'">
                                     <div class="flex items-center gap-3">
-                                        @if($s->photo_path && !str_starts_with($s->photo_path, 'http'))
-                                            <img src="localhost:8000/storage/app/public/photos/{{ $s->photo_path }}" alt="" class="w-10 h-10 rounded object-cover ring-1 ring-slate-200 dark:ring-slate-700" title="storage/app/public/{{ $s->photo_path }}" />
-                                        @else
-                                            <img src="localhost:8000/storage/app/public/photos/{{ $s->photo_path }}" alt="" class="w-10 h-10 rounded object-cover ring-1 ring-slate-200 dark:ring-slate-700" title="{{ $s->photo_path ?? 'No photo' }}" />
-                                        @endif
+                                        <img src="{{ $s->photo_url }}" alt="" class="w-10 h-10 rounded object-cover ring-1 ring-slate-200 dark:ring-slate-700">
                                         <div>
                                             <div class="font-semibold text-slate-900 dark:text-white">{{ $s->first_name }} {{ $s->second_name }}</div>
                                             <div class="text-xs text-slate-500">{{ $s->player_email ?? '—' }}</div>
