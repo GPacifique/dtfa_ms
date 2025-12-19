@@ -34,7 +34,7 @@ Route::middleware(['auth'])->group(function () {
 
 
 // Admin Student Attendance resource routes (fixes missing route error)
-Route::middleware(['auth', 'role:admin|super-admin'])
+Route::middleware(['auth', 'role:admin|super-admin|accountant'])
     ->prefix('admin')
     ->name('admin.')
     ->group(function () {
@@ -314,7 +314,7 @@ Route::middleware(['auth', 'role:admin|super-admin|accountant'])->prefix('admin'
     Route::delete('/expenses/{expense}', [\App\Http\Controllers\Admin\ExpensesController::class, 'destroy'])->name('admin.expenses.destroy');
 });
 
-Route::middleware(['auth', 'role:admin|super-admin|coach'])->prefix('admin')->group(function () {
+Route::middleware(['auth', 'role:admin|super-admin|coach|accountant'])->prefix('admin')->group(function () {
     // Equipment Management (coaches can view/manage equipment)
     // (moved below) Expenses routes now allow accountant role
 
@@ -367,7 +367,7 @@ Route::middleware(['auth'])->group(function () {
 });
 
 // Backward-compatible aliases for legacy admin student URLs
-Route::middleware(['auth', 'role:admin|super-admin|coach'])
+Route::middleware(['auth', 'role:admin|super-admin|coach|accountant'])
     ->prefix('admin')
     ->group(function () {
         // Index and create
@@ -495,8 +495,8 @@ Route::middleware(['auth', 'role:admin|super-admin|coach|accountant'])->prefix('
     Route::resource('training_session_records', \App\Http\Controllers\Admin\TrainingSessionRecordController::class, ['as' => 'admin']);
 });
 
-// Staff Attendance admin CRUD - allow coaches
-Route::middleware(['auth', 'role:admin|super-admin|coach'])->prefix('admin')->group(function () {
+// Staff Attendance admin CRUD - allow coaches and accountants
+Route::middleware(['auth', 'role:admin|super-admin|coach|accountant'])->prefix('admin')->group(function () {
     Route::resource('staff_attendances', \App\Http\Controllers\Admin\StaffAttendanceController::class, ['as' => 'admin']);
 });
 
