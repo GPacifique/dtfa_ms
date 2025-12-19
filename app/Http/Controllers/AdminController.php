@@ -183,10 +183,16 @@ class AdminController extends Controller
             'totalGames' => \App\Models\Game::count(),
             'upcomingGames' => \App\Models\Game::where('date', '>=', $today)->count(),
 
-            // Attendance
-            'totalStudentAttendance' => \App\Models\StudentAttendance::count(),
-            'totalCoachAttendance' => \App\Models\CoachAttendance::count(),
-            'totalStaffAttendance' => \App\Models\StaffAttendance::count(),
+            // Attendance (check if tables exist first)
+            'totalStudentAttendance' => \Illuminate\Support\Facades\Schema::hasTable('student_attendance')
+                ? \App\Models\StudentAttendance::count()
+                : 0,
+            'totalCoachAttendance' => \Illuminate\Support\Facades\Schema::hasTable('coach_attendances')
+                ? \App\Models\CoachAttendance::count()
+                : 0,
+            'totalStaffAttendance' => \Illuminate\Support\Facades\Schema::hasTable('staff_attendances')
+                ? \App\Models\StaffAttendance::count()
+                : 0,
 
             // Activity Plans
             'totalActivityPlans' => \Illuminate\Support\Facades\Schema::hasTable('activity_plans')
