@@ -4,7 +4,7 @@
 @section('content')
 <div class="container-page">
     <h1 class="page-title mb-6">My Children</h1>
-    
+
     @if($children->isEmpty())
         <div class="card">
             <div class="card-body text-center py-8 text-slate-500">
@@ -19,7 +19,7 @@
                         <h2 class="text-xl font-semibold text-slate-900 mb-4">
                             {{ $child->first_name }} {{ $child->second_name }}
                         </h2>
-                        
+
                         @if($child->subscriptions->isEmpty())
                             <div class="text-sm text-slate-500 mb-4">No active subscription</div>
                         @else
@@ -42,24 +42,24 @@
                                 </div>
                                 <div>
                                     <div class="text-sm text-slate-600">Outstanding Balance</div>
-                                    <div class="font-semibold 
+                                    <div class="font-semibold
                                         @if($subscription->outstanding_balance > 0) text-red-600
                                         @else text-green-600
                                         @endif">
-                                        {{ number_format($subscription->outstanding_balance/100, 2) }} RWF
+                                        {{ number_format($subscription->outstanding_balance, 0) }} RWF
                                     </div>
                                 </div>
                                 <div>
                                     <div class="text-sm text-slate-600">Total Invoiced</div>
-                                    <div class="text-slate-900">{{ number_format($subscription->total_invoiced/100, 2) }} RWF</div>
+                                    <div class="text-slate-900">{{ number_format($subscription->total_invoiced, 0) }} RWF</div>
                                 </div>
                                 <div>
                                     <div class="text-sm text-slate-600">Total Paid</div>
-                                    <div class="text-slate-900">{{ number_format($subscription->total_paid/100, 2) }} RWF</div>
+                                    <div class="text-slate-900">{{ number_format($subscription->total_paid, 0) }} RWF</div>
                                 </div>
                             </div>
                         @endif
-                        
+
                         <x-button :href="route('parent.child-payments', $child)" variant="primary" class="w-full">
                             View Payment History
                         </x-button>

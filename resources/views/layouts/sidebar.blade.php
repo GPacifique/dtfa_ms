@@ -385,7 +385,7 @@
 
                 @if(Route::has('admin.incomes.index'))
                     @php
-                        // compute today's incomes total (stored in cents)
+                        // compute today's incomes total (stored directly in RWF)
                         $todayIncomeCents = 0;
                         try {
                             $todayIncomeCents = \App\Models\Income::whereDate('received_at', \Carbon\Carbon::today())->sum('amount_cents');
@@ -403,7 +403,7 @@
                         <span class="sr-only">Incomes</span>
                         <span x-show="$store.layout.sidebarOpen" x-transition class="truncate">Incomes</span>
                         @if($todayIncomeCents > 0)
-                            <span class="ml-auto bg-emerald-500 text-white text-xs rounded-full px-2 py-0.5">{{ number_format($todayIncomeCents/100, 2) }} RWF</span>
+                            <span class="ml-auto bg-emerald-500 text-white text-xs rounded-full px-2 py-0.5">{{ number_format($todayIncomeCents, 0) }} RWF</span>
                         @endif
                     </a>
                 @endif

@@ -26,7 +26,7 @@
 
         <div class="mb-3">
             <label class="form-label">Amount</label>
-            <input name="amount" type="text" class="form-control" value="{{ number_format($income->amount_cents/100, 2) }}" required>
+            <input name="amount" type="text" class="form-control" value="{{ number_format($income->amount_cents, 0) }}" required>
         </div>
 
         <div class="mb-3">

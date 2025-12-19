@@ -72,7 +72,7 @@ class IncomeController extends Controller
             'notes' => ['nullable', 'string'],
         ]);
 
-        $amountCents = (int) round(floatval(str_replace(',', '', $data['amount'])) * 100);
+        $amountCents = (int) round(floatval(str_replace(',', '', $data['amount'])));
 
         $income = Income::create([
             'branch_id' => $data['branch_id'] ?? null,
@@ -112,7 +112,7 @@ class IncomeController extends Controller
             'notes' => ['nullable', 'string'],
         ]);
 
-        $amountCents = (int) round(floatval(str_replace(',', '', $data['amount'])) * 100);
+        $amountCents = (int) round(floatval(str_replace(',', '', $data['amount'])));
 
         $income->update([
             'branch_id' => $data['branch_id'] ?? null,

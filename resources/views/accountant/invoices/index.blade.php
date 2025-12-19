@@ -31,7 +31,7 @@
             <div class="flex items-center justify-between">
                 <div>
                     <p class="text-emerald-100 text-sm font-medium uppercase tracking-wide">Total Amount</p>
-                    <p class="text-4xl font-bold mt-2">{{ number_format($invoices->sum(fn($i) => $i->amount_cents) / 100, 0) }}</p>
+                    <p class="text-4xl font-bold mt-2">{{ number_format($invoices->sum(fn($i) => $i->amount_cents), 0) }}</p>
                     <p class="text-xs text-emerald-100 mt-1">RWF</p>
                 </div>
                 <div class="bg-emerald-400 bg-opacity-30 rounded-lg p-4">
@@ -135,13 +135,13 @@
                                 </span>
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm font-bold text-right text-slate-900">
-                                {{ number_format($inv->amount_cents/100, 0) }} <span class="text-xs text-slate-500">{{ $inv->currency }}</span>
+                                {{ number_format($inv->amount_cents, 0) }} <span class="text-xs text-slate-500">{{ $inv->currency }}</span>
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-right text-emerald-600 font-semibold">
-                                {{ number_format($inv->total_paid/100, 0) }}
+                                {{ number_format($inv->total_paid, 0) }}
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-right font-semibold {{ $inv->outstanding_balance > 0 ? 'text-red-600' : 'text-slate-400' }}">
-                                {{ number_format($inv->outstanding_balance/100, 0) }}
+                                {{ number_format($inv->outstanding_balance, 0) }}
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
                                 @if($inv->status === 'paid')

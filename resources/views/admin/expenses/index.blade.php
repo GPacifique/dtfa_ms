@@ -192,7 +192,7 @@
                                 {{ $expense->branch?->name ?? '-' }}
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm font-semibold text-slate-900">
-                                {{ number_format($expense->amount_cents / 100, 0) }} RWF
+                                {{ number_format($expense->amount_cents, 0) }} RWF
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
                                 @if($expense->status === 'pending')

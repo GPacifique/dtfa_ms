@@ -131,7 +131,7 @@
                                 <tbody class="divide-y divide-slate-200 dark:divide-slate-700">
                                     @forelse($student->payments()->latest('paid_at')->limit(5)->get() as $pay)
                                         <tr class="hover:bg-slate-50/60 dark:hover:bg-slate-900/40 transition">
-                                            <td class="px-4 py-3 font-semibold text-slate-900 dark:text-white">{{ number_format((int) floor($pay->amount_cents/100)) }} RWF</td>
+                                            <td class="px-4 py-3 font-semibold text-slate-900 dark:text-white">{{ number_format((int) $pay->amount_cents) }} RWF</td>
                                             <td class="px-4 py-3">{{ ucfirst(str_replace('_',' ', $pay->method)) }}</td>
                                             <td class="px-4 py-3"><span class="inline-flex rounded-full px-3 py-1 text-xs font-semibold @if($pay->status === 'succeeded') bg-emerald-100 text-emerald-700 dark:bg-emerald-900 dark:text-emerald-200 @elseif($pay->status === 'pending') bg-amber-100 text-amber-700 dark:bg-amber-900 dark:text-amber-200 @else bg-rose-100 text-rose-700 dark:bg-rose-900 dark:text-rose-200 @endif">{{ ucfirst($pay->status) }}</span></td>
                                             <td class="px-4 py-3">{{ optional($pay->paid_at)->format('M d, Y H:i') ?? '—' }}</td>

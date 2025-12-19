@@ -978,7 +978,7 @@
                                         </td>
                                         <td class="px-4 py-3">
                                             <span class="font-bold text-emerald-600 dark:text-emerald-400">
-                                                {{ number_format($income->amount_cents / 100, 0) }} {{ $income->currency ?? 'RWF' }}
+                                                {{ number_format($income->amount_cents, 0) }} {{ $income->currency ?? 'RWF' }}
                                             </span>
                                         </td>
                                         <td class="px-4 py-3">

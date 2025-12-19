@@ -449,7 +449,7 @@
                             @foreach($recentPayments as $payment)
                             <tr class="hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
                                 <td class="px-4 py-3 text-sm text-slate-900 dark:text-white">{{ $payment->student->first_name ?? 'N/A' }} {{ $payment->student->second_name ?? '' }}</td>
-                                <td class="px-4 py-3 text-sm text-slate-600 dark:text-slate-400">{{ number_format($payment->amount_cents / 100, 0) }} RWF</td>
+                                <td class="px-4 py-3 text-sm text-slate-600 dark:text-slate-400">{{ number_format($payment->amount_cents, 0) }} RWF</td>
                                 <td class="px-4 py-3 text-sm text-slate-600 dark:text-slate-400">{{ ucfirst(str_replace('_', ' ', $payment->method)) }}</td>
                                 <td class="px-4 py-3 text-sm text-slate-600 dark:text-slate-400">{{ $payment->paid_at ? \Carbon\Carbon::parse($payment->paid_at)->format('M d, Y') : 'N/A' }}</td>
                                 <td class="px-4 py-3">
@@ -494,7 +494,7 @@
                                     {{ $income->branch->name ?? '-' }}
                                 </td>
                                 <td class="px-4 py-3 text-sm text-slate-600 dark:text-slate-400">{{ ucfirst($income->category ?? '-') }}</td>
-                                <td class="px-4 py-3 text-sm font-semibold text-emerald-600 dark:text-emerald-400">{{ number_format($income->amount_cents / 100, 0) }} RWF</td>
+                                <td class="px-4 py-3 text-sm font-semibold text-emerald-600 dark:text-emerald-400">{{ number_format($income->amount_cents, 0) }} RWF</td>
                                 <td class="px-4 py-3 text-sm text-slate-600 dark:text-slate-400">
                                     <span class="px-2 py-1 text-xs rounded-full bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-400">
                                         {{ ucfirst(str_replace('_', ' ', $income->source ?? 'other')) }}
@@ -540,7 +540,7 @@
                                         {{ ucfirst($expense->category ?? 'Other') }}
                                     </span>
                                 </td>
-                                <td class="px-4 py-3 text-sm font-semibold text-red-600 dark:text-red-400">{{ number_format($expense->amount_cents / 100, 0) }} RWF</td>
+                                <td class="px-4 py-3 text-sm font-semibold text-red-600 dark:text-red-400">{{ number_format($expense->amount_cents, 0) }} RWF</td>
                                 <td class="px-4 py-3">
                                     @php
                                         $statusColors = [

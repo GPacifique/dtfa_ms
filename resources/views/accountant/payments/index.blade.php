@@ -53,7 +53,7 @@
             <div class="flex items-center justify-between">
                 <div>
                     <p class="text-emerald-100 text-sm font-medium uppercase tracking-wide">Total Amount</p>
-                    <p class="text-4xl font-bold mt-2">{{ number_format($payments->sum(fn($p) => $p->amount_cents) / 100, 0) }}</p>
+                    <p class="text-4xl font-bold mt-2">{{ number_format($payments->sum(fn($p) => $p->amount_cents), 0) }}</p>
                     <p class="text-xs text-emerald-100 mt-1">RWF</p>
                 </div>
                 <div class="bg-emerald-400 bg-opacity-30 rounded-lg p-4">
@@ -180,7 +180,7 @@
                                 @endif
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm font-bold text-right text-emerald-600">
-                                {{ number_format($p->amount_cents/100, 0) }} <span class="text-xs text-slate-500">{{ $p->currency }}</span>
+                                {{ number_format($p->amount_cents, 0) }} <span class="text-xs text-slate-500">{{ $p->currency }}</span>
                             </td>
                         </tr>
                     @empty

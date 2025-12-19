@@ -117,7 +117,7 @@
                         <input type="number"
                                id="amount"
                                name="amount"
-                               value="{{ old('amount', $expense->amount_cents / 100) }}"
+                               value="{{ old('amount', $expense->amount_cents) }}"
                                required
                                min="0"
                                step="1"

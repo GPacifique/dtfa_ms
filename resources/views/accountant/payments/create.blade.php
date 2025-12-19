@@ -19,13 +19,13 @@
                         <option value="">— No Invoice —</option>
                         @foreach($invoices as $inv)
                             <option value="{{ $inv->id }}" @selected(old('invoice_id')==$inv->id)>
-                                {{ $inv->subscription->student->first_name }} {{ $inv->subscription->student->second_name }} - 
-                                Due {{ $inv->due_date->format('M d, Y') }} - 
-                                {{ number_format($inv->outstanding_balance/100, 2) }} {{ $inv->currency }} due
+                                {{ $inv->subscription->student->first_name }} {{ $inv->subscription->student->second_name }} -
+                                Due {{ $inv->due_date->format('M d, Y') }} -
+                                {{ number_format($inv->outstanding_balance, 0) }} {{ $inv->currency }} due
                             </option>
                         @endforeach
                     </x-form.select>
-                    <x-form.input label="Amount (cents)" name="amount_cents" type="number" />
+                    <x-form.input label="Amount (RWF)" name="amount_cents" type="number" />
                     <x-form.input label="Currency" name="currency" value="RWF" />
                     <x-form.select label="Method" name="method">
                         <option value="cash">Cash</option>

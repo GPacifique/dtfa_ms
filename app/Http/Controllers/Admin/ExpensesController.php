@@ -134,7 +134,7 @@ class ExpensesController extends Controller
             'category' => $validated['category'],
             'description' => $validated['description'],
             'notes' => $validated['notes'] ?? null,
-            'amount_cents' => (int)($validated['amount'] * 100),
+            'amount_cents' => (int)$validated['amount'],
             'currency' => 'RWF',
             'expense_date' => $validated['expense_date'],
             'payment_method' => $validated['payment_method'] ?? null,

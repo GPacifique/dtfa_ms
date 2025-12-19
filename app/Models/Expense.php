@@ -114,18 +114,18 @@ class Expense extends Model
     }
 
     /**
-     * Get amount in major currency unit
+     * Get amount in RWF (no conversion needed)
      */
     public function getAmountAttribute(): float
     {
-        return $this->amount_cents / 100;
+        return $this->amount_cents;
     }
 
     /**
-     * Get formatted amount
+     * Get formatted amount in RWF
      */
     public function getFormattedAmountAttribute(): string
     {
-        return number_format($this->amount_cents / 100, 0) . ' ' . $this->currency;
+        return number_format($this->amount_cents, 0) . ' ' . $this->currency;
     }
 }

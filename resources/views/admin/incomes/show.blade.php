@@ -11,7 +11,7 @@
 <div class="container">
 
     <div class="mb-2"><strong>Branch:</strong> {{ $income->branch?->name }}</div>
-    <div class="mb-2"><strong>Amount:</strong> {{ number_format($income->amount_cents/100,2) }} {{ $income->currency }}</div>
+    <div class="mb-2"><strong>Amount:</strong> {{ number_format($income->amount_cents, 0) }} {{ $income->currency }}</div>
     <div class="mb-2"><strong>Category:</strong> {{ $income->category }}</div>
     <div class="mb-2"><strong>Source:</strong> {{ $income->source }}</div>
     <div class="mb-2"><strong>Received:</strong> {{ $income->received_at?->format('Y-m-d H:i') }}</div>
