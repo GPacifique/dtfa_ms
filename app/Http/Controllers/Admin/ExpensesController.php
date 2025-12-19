@@ -140,11 +140,13 @@ class ExpensesController extends Controller
             'payment_method' => $validated['payment_method'] ?? null,
             'receipt_number' => $validated['receipt_number'] ?? null,
             'vendor_name' => $validated['vendor_name'] ?? null,
-            'status' => 'pending',
+            'status' => 'approved', // Auto-approved - recorded directly without waiting approval
+            'approved_by' => Auth::id(),
+            'approved_at' => now(),
         ]);
 
         return redirect()->route('admin.expenses.index')
-            ->with('status', 'Expense created successfully.');
+            ->with('status', 'Expense recorded successfully.');
     }
 
     /**

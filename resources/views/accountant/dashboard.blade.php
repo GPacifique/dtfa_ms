@@ -179,6 +179,140 @@
             </a>
         </div>
 
+        {{-- Finance Summary Section --}}
+        <div class="mb-8">
+            <div class="flex items-center gap-3 mb-4">
+                <div class="w-10 h-10 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-xl flex items-center justify-center shadow-lg">
+                    <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"/>
+                    </svg>
+                </div>
+                <h2 class="text-xl md:text-2xl font-bold text-slate-900 dark:text-white">Finance Summary</h2>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4">
+                {{-- Daily Summary --}}
+                <div class="card bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-slate-800 dark:to-slate-700 border-l-4 border-blue-500">
+                    <div class="card-body">
+                        <div class="flex items-center gap-2 mb-3">
+                            <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                            </svg>
+                            <h4 class="font-semibold text-blue-800 dark:text-blue-300">Today</h4>
+                        </div>
+                        <div class="space-y-2">
+                            <div class="flex justify-between items-center">
+                                <span class="text-sm text-slate-600 dark:text-slate-400">Income</span>
+                                <span class="font-bold text-emerald-600">{{ number_format($financeStats['daily']['income'] ?? 0) }} RWF</span>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <span class="text-sm text-slate-600 dark:text-slate-400">Expenses</span>
+                                <span class="font-bold text-red-600">{{ number_format($financeStats['daily']['expenses'] ?? 0) }} RWF</span>
+                            </div>
+                            <hr class="border-slate-300 dark:border-slate-600">
+                            @php $dailyBalance = ($financeStats['daily']['income'] ?? 0) - ($financeStats['daily']['expenses'] ?? 0); @endphp
+                            <div class="flex justify-between items-center">
+                                <span class="text-sm font-medium text-slate-700 dark:text-slate-300">Balance</span>
+                                <span class="font-bold text-lg {{ $dailyBalance >= 0 ? 'text-emerald-700' : 'text-red-700' }}">
+                                    {{ $dailyBalance >= 0 ? '+' : '' }}{{ number_format($dailyBalance) }} RWF
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                {{-- Weekly Summary --}}
+                <div class="card bg-gradient-to-br from-purple-50 to-pink-50 dark:from-slate-800 dark:to-slate-700 border-l-4 border-purple-500">
+                    <div class="card-body">
+                        <div class="flex items-center gap-2 mb-3">
+                            <svg class="w-5 h-5 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
+                            </svg>
+                            <h4 class="font-semibold text-purple-800 dark:text-purple-300">This Week</h4>
+                        </div>
+                        <div class="space-y-2">
+                            <div class="flex justify-between items-center">
+                                <span class="text-sm text-slate-600 dark:text-slate-400">Income</span>
+                                <span class="font-bold text-emerald-600">{{ number_format($financeStats['weekly']['income'] ?? 0) }} RWF</span>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <span class="text-sm text-slate-600 dark:text-slate-400">Expenses</span>
+                                <span class="font-bold text-red-600">{{ number_format($financeStats['weekly']['expenses'] ?? 0) }} RWF</span>
+                            </div>
+                            <hr class="border-slate-300 dark:border-slate-600">
+                            @php $weeklyBalance = ($financeStats['weekly']['income'] ?? 0) - ($financeStats['weekly']['expenses'] ?? 0); @endphp
+                            <div class="flex justify-between items-center">
+                                <span class="text-sm font-medium text-slate-700 dark:text-slate-300">Balance</span>
+                                <span class="font-bold text-lg {{ $weeklyBalance >= 0 ? 'text-emerald-700' : 'text-red-700' }}">
+                                    {{ $weeklyBalance >= 0 ? '+' : '' }}{{ number_format($weeklyBalance) }} RWF
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                {{-- Monthly Summary --}}
+                <div class="card bg-gradient-to-br from-amber-50 to-orange-50 dark:from-slate-800 dark:to-slate-700 border-l-4 border-amber-500">
+                    <div class="card-body">
+                        <div class="flex items-center gap-2 mb-3">
+                            <svg class="w-5 h-5 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                            </svg>
+                            <h4 class="font-semibold text-amber-800 dark:text-amber-300">This Month</h4>
+                        </div>
+                        <div class="space-y-2">
+                            <div class="flex justify-between items-center">
+                                <span class="text-sm text-slate-600 dark:text-slate-400">Income</span>
+                                <span class="font-bold text-emerald-600">{{ number_format($financeStats['monthly']['income'] ?? 0) }} RWF</span>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <span class="text-sm text-slate-600 dark:text-slate-400">Expenses</span>
+                                <span class="font-bold text-red-600">{{ number_format($financeStats['monthly']['expenses'] ?? 0) }} RWF</span>
+                            </div>
+                            <hr class="border-slate-300 dark:border-slate-600">
+                            @php $monthlyBalance = ($financeStats['monthly']['income'] ?? 0) - ($financeStats['monthly']['expenses'] ?? 0); @endphp
+                            <div class="flex justify-between items-center">
+                                <span class="text-sm font-medium text-slate-700 dark:text-slate-300">Balance</span>
+                                <span class="font-bold text-lg {{ $monthlyBalance >= 0 ? 'text-emerald-700' : 'text-red-700' }}">
+                                    {{ $monthlyBalance >= 0 ? '+' : '' }}{{ number_format($monthlyBalance) }} RWF
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                {{-- Yearly Summary --}}
+                <div class="card bg-gradient-to-br from-emerald-50 to-teal-50 dark:from-slate-800 dark:to-slate-700 border-l-4 border-emerald-500">
+                    <div class="card-body">
+                        <div class="flex items-center gap-2 mb-3">
+                            <svg class="w-5 h-5 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
+                            </svg>
+                            <h4 class="font-semibold text-emerald-800 dark:text-emerald-300">This Year</h4>
+                        </div>
+                        <div class="space-y-2">
+                            <div class="flex justify-between items-center">
+                                <span class="text-sm text-slate-600 dark:text-slate-400">Income</span>
+                                <span class="font-bold text-emerald-600">{{ number_format($financeStats['yearly']['income'] ?? 0) }} RWF</span>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <span class="text-sm text-slate-600 dark:text-slate-400">Expenses</span>
+                                <span class="font-bold text-red-600">{{ number_format($financeStats['yearly']['expenses'] ?? 0) }} RWF</span>
+                            </div>
+                            <hr class="border-slate-300 dark:border-slate-600">
+                            @php $yearlyBalance = ($financeStats['yearly']['income'] ?? 0) - ($financeStats['yearly']['expenses'] ?? 0); @endphp
+                            <div class="flex justify-between items-center">
+                                <span class="text-sm font-medium text-slate-700 dark:text-slate-300">Balance</span>
+                                <span class="font-bold text-lg {{ $yearlyBalance >= 0 ? 'text-emerald-700' : 'text-red-700' }}">
+                                    {{ $yearlyBalance >= 0 ? '+' : '' }}{{ number_format($yearlyBalance) }} RWF
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         {{-- Charts Section --}}
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
             {{-- Payment Methods Chart --}}
@@ -323,6 +457,108 @@
                                         {{ ucfirst($payment->status) }}
                                     </span>
                                 </td>
+                            </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        @endif
+
+        {{-- Recent Incomes Table --}}
+        @if(isset($recentIncomes) && $recentIncomes->count() > 0)
+        <div class="card mb-8">
+            <div class="card-body">
+                <div class="flex items-center justify-between mb-4">
+                    <h3 class="text-lg font-semibold text-slate-900 dark:text-white">Recent Incomes</h3>
+                    <a href="{{ route('admin.incomes.index') }}" class="text-sm text-emerald-600 hover:text-emerald-700 dark:text-emerald-400 dark:hover:text-emerald-300 font-medium">
+                        View All &rarr;
+                    </a>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="min-w-full divide-y divide-slate-200 dark:divide-slate-700">
+                        <thead>
+                            <tr>
+                                <th class="px-4 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-400 uppercase">Student</th>
+                                <th class="px-4 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-400 uppercase">Description</th>
+                                <th class="px-4 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-400 uppercase">Amount</th>
+                                <th class="px-4 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-400 uppercase">Source</th>
+                                <th class="px-4 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-400 uppercase">Date</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-200 dark:divide-slate-700">
+                            @foreach($recentIncomes as $income)
+                            <tr class="hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
+                                <td class="px-4 py-3 text-sm text-slate-900 dark:text-white">
+                                    @if($income->student)
+                                        {{ $income->student->first_name ?? '' }} {{ $income->student->second_name ?? '' }}
+                                    @else
+                                        <span class="text-slate-400">-</span>
+                                    @endif
+                                </td>
+                                <td class="px-4 py-3 text-sm text-slate-600 dark:text-slate-400">{{ Str::limit($income->description ?? '-', 30) }}</td>
+                                <td class="px-4 py-3 text-sm font-semibold text-emerald-600 dark:text-emerald-400">{{ number_format($income->amount_cents / 100, 0) }} RWF</td>
+                                <td class="px-4 py-3 text-sm text-slate-600 dark:text-slate-400">
+                                    <span class="px-2 py-1 text-xs rounded-full bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-400">
+                                        {{ ucfirst(str_replace('_', ' ', $income->source ?? 'other')) }}
+                                    </span>
+                                </td>
+                                <td class="px-4 py-3 text-sm text-slate-600 dark:text-slate-400">{{ $income->received_at ? \Carbon\Carbon::parse($income->received_at)->format('M d, Y') : 'N/A' }}</td>
+                            </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        @endif
+
+        {{-- Recent Expenses Table --}}
+        @if(isset($recentExpenses) && $recentExpenses->count() > 0)
+        <div class="card mb-8">
+            <div class="card-body">
+                <div class="flex items-center justify-between mb-4">
+                    <h3 class="text-lg font-semibold text-slate-900 dark:text-white">Recent Expenses</h3>
+                    <a href="{{ route('admin.expenses.index') }}" class="text-sm text-orange-600 hover:text-orange-700 dark:text-orange-400 dark:hover:text-orange-300 font-medium">
+                        View All &rarr;
+                    </a>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="min-w-full divide-y divide-slate-200 dark:divide-slate-700">
+                        <thead>
+                            <tr>
+                                <th class="px-4 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-400 uppercase">Description</th>
+                                <th class="px-4 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-400 uppercase">Category</th>
+                                <th class="px-4 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-400 uppercase">Amount</th>
+                                <th class="px-4 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-400 uppercase">Status</th>
+                                <th class="px-4 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-400 uppercase">Date</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-200 dark:divide-slate-700">
+                            @foreach($recentExpenses as $expense)
+                            <tr class="hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
+                                <td class="px-4 py-3 text-sm text-slate-900 dark:text-white">{{ Str::limit($expense->description ?? '-', 35) }}</td>
+                                <td class="px-4 py-3 text-sm text-slate-600 dark:text-slate-400">
+                                    <span class="px-2 py-1 text-xs rounded-full bg-purple-100 text-purple-800 dark:bg-purple-900/30 dark:text-purple-400">
+                                        {{ ucfirst($expense->category ?? 'Other') }}
+                                    </span>
+                                </td>
+                                <td class="px-4 py-3 text-sm font-semibold text-red-600 dark:text-red-400">{{ number_format($expense->amount_cents / 100, 0) }} RWF</td>
+                                <td class="px-4 py-3">
+                                    @php
+                                        $statusColors = [
+                                            'pending' => 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-400',
+                                            'approved' => 'bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-400',
+                                            'paid' => 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400',
+                                            'rejected' => 'bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400',
+                                        ];
+                                    @endphp
+                                    <span class="px-2 py-1 text-xs rounded-full {{ $statusColors[$expense->status] ?? 'bg-gray-100 text-gray-800' }}">
+                                        {{ ucfirst($expense->status ?? 'Unknown') }}
+                                    </span>
+                                </td>
+                                <td class="px-4 py-3 text-sm text-slate-600 dark:text-slate-400">{{ $expense->expense_date ? \Carbon\Carbon::parse($expense->expense_date)->format('M d, Y') : 'N/A' }}</td>
                             </tr>
                             @endforeach
                         </tbody>

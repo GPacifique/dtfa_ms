@@ -262,17 +262,6 @@
                 @endrole
 
 
-                @if(Route::has('coach.attendance.index'))
-                    <a href="{{ route('coach.attendance.index') }}" aria-label="Attendance" title="Attendance" class="nav-item flex items-center gap-3 px-3 py-2 rounded-md hover:bg-slate-800 transition {{ request()->routeIs('coach.attendance.*') ? 'active' : '' }}">
-                        <span class="icon flex-shrink-0 w-6 h-6 flex items-center justify-center text-slate-200">
-                            <!-- Heroicon: Check Circle -->
-                            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 22a10 10 0 100-20 10 10 0 000 20z"/></svg>
-                        </span>
-                        <span class="sr-only">Student Attendances</span>
-                        <span x-show="$store.layout.sidebarOpen" x-transition class="truncate">Attendance</span>
-                    </a>
-                @endif
-
 
                 @role('super-admin|accountant|admin|coach')
                     @if(Route::has('admin.training_session_records.index'))

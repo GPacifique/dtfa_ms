@@ -1,4 +1,4 @@
-@extends('layouts.app')
+﻿@extends('layouts.app')
 @section('title', 'Admin Dashboard')
 
 @section('content')
@@ -127,6 +127,159 @@
         </div>
 
         {{-- Charts Overview --}}
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+            {{-- Income vs Expenses Chart (Large) --}}
+            <div class="card lg:col-span-2">
+                <div class="card-body">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-xl md:text-2xl font-semibold text-slate-900 dark:text-white">💰 Income vs Expenses (Last 12 Months)</h3>
+                        <div class="flex items-center gap-4 text-sm">
+                            <span class="flex items-center gap-1"><span class="w-3 h-3 rounded-full bg-emerald-500"></span> Income</span>
+                            <span class="flex items-center gap-1"><span class="w-3 h-3 rounded-full bg-red-500"></span> Expenses</span>
+                            <span class="flex items-center gap-1"><span class="w-3 h-3 rounded-sm bg-blue-500"></span> Net Profit</span>
+                        </div>
+                    </div>
+                    <div class="h-80">
+                        <canvas id="incomeExpensesChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {{-- Finance Summary Section --}}
+        <div class="mb-8">
+            <div class="flex items-center gap-3 mb-4">
+                <div class="w-10 h-10 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-xl flex items-center justify-center shadow-lg">
+                    <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"/>
+                    </svg>
+                </div>
+                <h2 class="text-xl md:text-2xl font-bold text-slate-900 dark:text-white">Finance Summary</h2>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4">
+                {{-- Daily Summary --}}
+                <div class="card bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-slate-800 dark:to-slate-700 border-l-4 border-blue-500">
+                    <div class="card-body">
+                        <div class="flex items-center gap-2 mb-3">
+                            <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                            </svg>
+                            <h4 class="font-semibold text-blue-800 dark:text-blue-300">Today</h4>
+                        </div>
+                        <div class="space-y-2">
+                            <div class="flex justify-between items-center">
+                                <span class="text-sm text-slate-600 dark:text-slate-400">Income</span>
+                                <span class="font-bold text-emerald-600">{{ number_format($financeStats['daily']['income'] ?? 0) }} RWF</span>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <span class="text-sm text-slate-600 dark:text-slate-400">Expenses</span>
+                                <span class="font-bold text-red-600">{{ number_format($financeStats['daily']['expenses'] ?? 0) }} RWF</span>
+                            </div>
+                            <hr class="border-slate-300 dark:border-slate-600">
+                            @php $dailyBalance = ($financeStats['daily']['income'] ?? 0) - ($financeStats['daily']['expenses'] ?? 0); @endphp
+                            <div class="flex justify-between items-center">
+                                <span class="text-sm font-medium text-slate-700 dark:text-slate-300">Balance</span>
+                                <span class="font-bold text-lg {{ $dailyBalance >= 0 ? 'text-emerald-700' : 'text-red-700' }}">
+                                    {{ $dailyBalance >= 0 ? '+' : '' }}{{ number_format($dailyBalance) }} RWF
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                {{-- Weekly Summary --}}
+                <div class="card bg-gradient-to-br from-purple-50 to-pink-50 dark:from-slate-800 dark:to-slate-700 border-l-4 border-purple-500">
+                    <div class="card-body">
+                        <div class="flex items-center gap-2 mb-3">
+                            <svg class="w-5 h-5 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
+                            </svg>
+                            <h4 class="font-semibold text-purple-800 dark:text-purple-300">This Week</h4>
+                        </div>
+                        <div class="space-y-2">
+                            <div class="flex justify-between items-center">
+                                <span class="text-sm text-slate-600 dark:text-slate-400">Income</span>
+                                <span class="font-bold text-emerald-600">{{ number_format($financeStats['weekly']['income'] ?? 0) }} RWF</span>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <span class="text-sm text-slate-600 dark:text-slate-400">Expenses</span>
+                                <span class="font-bold text-red-600">{{ number_format($financeStats['weekly']['expenses'] ?? 0) }} RWF</span>
+                            </div>
+                            <hr class="border-slate-300 dark:border-slate-600">
+                            @php $weeklyBalance = ($financeStats['weekly']['income'] ?? 0) - ($financeStats['weekly']['expenses'] ?? 0); @endphp
+                            <div class="flex justify-between items-center">
+                                <span class="text-sm font-medium text-slate-700 dark:text-slate-300">Balance</span>
+                                <span class="font-bold text-lg {{ $weeklyBalance >= 0 ? 'text-emerald-700' : 'text-red-700' }}">
+                                    {{ $weeklyBalance >= 0 ? '+' : '' }}{{ number_format($weeklyBalance) }} RWF
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                {{-- Monthly Summary --}}
+                <div class="card bg-gradient-to-br from-amber-50 to-orange-50 dark:from-slate-800 dark:to-slate-700 border-l-4 border-amber-500">
+                    <div class="card-body">
+                        <div class="flex items-center gap-2 mb-3">
+                            <svg class="w-5 h-5 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                            </svg>
+                            <h4 class="font-semibold text-amber-800 dark:text-amber-300">This Month</h4>
+                        </div>
+                        <div class="space-y-2">
+                            <div class="flex justify-between items-center">
+                                <span class="text-sm text-slate-600 dark:text-slate-400">Income</span>
+                                <span class="font-bold text-emerald-600">{{ number_format($financeStats['monthly']['income'] ?? 0) }} RWF</span>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <span class="text-sm text-slate-600 dark:text-slate-400">Expenses</span>
+                                <span class="font-bold text-red-600">{{ number_format($financeStats['monthly']['expenses'] ?? 0) }} RWF</span>
+                            </div>
+                            <hr class="border-slate-300 dark:border-slate-600">
+                            @php $monthlyBalance = ($financeStats['monthly']['income'] ?? 0) - ($financeStats['monthly']['expenses'] ?? 0); @endphp
+                            <div class="flex justify-between items-center">
+                                <span class="text-sm font-medium text-slate-700 dark:text-slate-300">Balance</span>
+                                <span class="font-bold text-lg {{ $monthlyBalance >= 0 ? 'text-emerald-700' : 'text-red-700' }}">
+                                    {{ $monthlyBalance >= 0 ? '+' : '' }}{{ number_format($monthlyBalance) }} RWF
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                {{-- Yearly Summary --}}
+                <div class="card bg-gradient-to-br from-emerald-50 to-teal-50 dark:from-slate-800 dark:to-slate-700 border-l-4 border-emerald-500">
+                    <div class="card-body">
+                        <div class="flex items-center gap-2 mb-3">
+                            <svg class="w-5 h-5 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
+                            </svg>
+                            <h4 class="font-semibold text-emerald-800 dark:text-emerald-300">This Year</h4>
+                        </div>
+                        <div class="space-y-2">
+                            <div class="flex justify-between items-center">
+                                <span class="text-sm text-slate-600 dark:text-slate-400">Income</span>
+                                <span class="font-bold text-emerald-600">{{ number_format($financeStats['yearly']['income'] ?? 0) }} RWF</span>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <span class="text-sm text-slate-600 dark:text-slate-400">Expenses</span>
+                                <span class="font-bold text-red-600">{{ number_format($financeStats['yearly']['expenses'] ?? 0) }} RWF</span>
+                            </div>
+                            <hr class="border-slate-300 dark:border-slate-600">
+                            @php $yearlyBalance = ($financeStats['yearly']['income'] ?? 0) - ($financeStats['yearly']['expenses'] ?? 0); @endphp
+                            <div class="flex justify-between items-center">
+                                <span class="text-sm font-medium text-slate-700 dark:text-slate-300">Balance</span>
+                                <span class="font-bold text-lg {{ $yearlyBalance >= 0 ? 'text-emerald-700' : 'text-red-700' }}">
+                                    {{ $yearlyBalance >= 0 ? '+' : '' }}{{ number_format($yearlyBalance) }} RWF
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
             <div class="card">
                 <div class="card-body">
@@ -158,6 +311,97 @@
         <script>
             document.addEventListener('DOMContentLoaded', function() {
                 if (window.Chart) {
+                    // Income vs Expenses Chart (new prominent chart)
+                    const incExpCtx = document.getElementById('incomeExpensesChart');
+                    if (incExpCtx) {
+                        const finLabels = @json($financeLabels ?? []);
+                        const incomeData = @json($incomeTotals ?? []);
+                        const expenseData = @json($expenseTotals ?? []);
+                        const netflowData = @json($netflowTotals ?? []);
+
+                        new Chart(incExpCtx, {
+                            type: 'bar',
+                            data: {
+                                labels: finLabels,
+                                datasets: [
+                                    {
+                                        type: 'bar',
+                                        label: 'Income',
+                                        data: incomeData,
+                                        backgroundColor: 'rgba(16, 185, 129, 0.8)',
+                                        borderColor: '#10b981',
+                                        borderWidth: 1,
+                                        borderRadius: 4,
+                                        order: 2
+                                    },
+                                    {
+                                        type: 'bar',
+                                        label: 'Expenses',
+                                        data: expenseData,
+                                        backgroundColor: 'rgba(239, 68, 68, 0.8)',
+                                        borderColor: '#ef4444',
+                                        borderWidth: 1,
+                                        borderRadius: 4,
+                                        order: 3
+                                    },
+                                    {
+                                        type: 'line',
+                                        label: 'Net Profit',
+                                        data: netflowData,
+                                        borderColor: '#3b82f6',
+                                        backgroundColor: 'rgba(59, 130, 246, 0.1)',
+                                        borderWidth: 3,
+                                        fill: true,
+                                        tension: 0.4,
+                                        pointRadius: 4,
+                                        pointBackgroundColor: '#3b82f6',
+                                        order: 1
+                                    }
+                                ]
+                            },
+                            options: {
+                                responsive: true,
+                                maintainAspectRatio: false,
+                                interaction: {
+                                    mode: 'index',
+                                    intersect: false
+                                },
+                                plugins: {
+                                    legend: {
+                                        display: true,
+                                        position: 'bottom',
+                                        labels: {
+                                            usePointStyle: true,
+                                            padding: 20
+                                        }
+                                    },
+                                    tooltip: {
+                                        callbacks: {
+                                            label: function(context) {
+                                                return context.dataset.label + ': ' + new Intl.NumberFormat('en-RW').format(context.raw) + ' RWF';
+                                            }
+                                        }
+                                    }
+                                },
+                                scales: {
+                                    x: {
+                                        grid: {
+                                            display: false
+                                        }
+                                    },
+                                    y: {
+                                        beginAtZero: true,
+                                        ticks: {
+                                            callback: function(value) {
+                                                return new Intl.NumberFormat('en-RW', { notation: 'compact' }).format(value) + ' RWF';
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        });
+                    }
+
                     const regCtx = document.getElementById('adminRegistrationsChart');
                     const __regLabels = @json($__regLabels);
                     const __regCounts = @json($__regCounts);
@@ -375,233 +619,11 @@
             </a>
         </div>
 
-        {{-- System Modules Overview --}}
-        <div class="mb-8">
-            <h2 class="text-xl font-bold text-slate-900 dark:text-white mb-4">📊 System Modules Overview</h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                {{-- Staff --}}
-                <a href="{{ route('staff.index') }}" class="card group hover:shadow-xl transition-all duration-300 cursor-pointer">
-                    <div class="card-body">
-                        <div class="flex items-center justify-between">
-                            <div>
-                                <p class="text-sm text-slate-600 dark:text-slate-400">Total Staff</p>
-                                <p class="text-2xl font-bold text-slate-900 dark:text-white">{{ $stats['totalStaff'] ?? 0 }}</p>
-                                <p class="text-xs text-emerald-600 mt-1">Active: {{ $stats['activeStaff'] ?? 0 }}</p>
-                            </div>
-                            <div class="w-10 h-10 bg-blue-100 dark:bg-blue-900/30 rounded-lg flex items-center justify-center">
-                                <svg class="w-5 h-5 text-blue-600 dark:text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/>
-                                </svg>
-                            </div>
-                        </div>
-                    </div>
-                </a>
-
-                {{-- Teams --}}
-                <a href="{{ route('admin.teams.index') }}" class="card group hover:shadow-xl transition-all duration-300 cursor-pointer">
-                    <div class="card-body">
-                        <div class="flex items-center justify-between">
-                            <div>
-                                <p class="text-sm text-slate-600 dark:text-slate-400">Teams</p>
-                                <p class="text-2xl font-bold text-slate-900 dark:text-white">{{ $stats['totalteams'] ?? 0 }}</p>
-                            </div>
-                            <div class="w-10 h-10 bg-purple-100 dark:bg-purple-900/30 rounded-lg flex items-center justify-center">
-                                <svg class="w-5 h-5 text-purple-600 dark:text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/>
-                                </svg>
-                            </div>
-                        </div>
-                    </div>
-                </a>
-
-                {{-- Minutes --}}
-                <a href="{{ route('admin.minutes.index') }}" class="card group hover:shadow-xl transition-all duration-300 cursor-pointer">
-                    <div class="card-body">
-                        <div class="flex items-center justify-between">
-                            <div>
-                                <p class="text-sm text-slate-600 dark:text-slate-400">Meeting Minutes</p>
-                                <p class="text-2xl font-bold text-slate-900 dark:text-white">{{ $stats['totalMinutes'] ?? 0 }}</p>
-                                <p class="text-xs text-emerald-600 mt-1">Last 30 days: {{ $stats['recentMinutes'] ?? 0 }}</p>
-                            </div>
-                            <div class="w-10 h-10 bg-indigo-100 dark:bg-indigo-900/30 rounded-lg flex items-center justify-center">
-                                <svg class="w-5 h-5 text-indigo-600 dark:text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
-                                </svg>
-                            </div>
-                        </div>
-                    </div>
-                </a>
-
-                {{-- Training Records --}}
-                <a href="{{ route('admin.training_session_records.index') }}" class="card group hover:shadow-xl transition-all duration-300 cursor-pointer">
-                    <div class="card-body">
-                        <div class="flex items-center justify-between">
-                            <div>
-                                <p class="text-sm text-slate-600 dark:text-slate-400">Training Records</p>
-                                <p class="text-2xl font-bold text-slate-900 dark:text-white">{{ $stats['totalTrainingRecords'] ?? 0 }}</p>
-                                <p class="text-xs text-emerald-600 mt-1">Recent: {{ $stats['recentTrainingRecords'] ?? 0 }}</p>
-                            </div>
-                            <div class="w-10 h-10 bg-green-100 dark:bg-green-900/30 rounded-lg flex items-center justify-center">
-                                <svg class="w-5 h-5 text-green-600 dark:text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"/>
-                                </svg>
-                            </div>
-                        </div>
-                    </div>
-                </a>
-
-                {{-- Inhouse Training --}}
-                <a href="{{ route('admin.inhousetrainings.index') }}" class="card group hover:shadow-xl transition-all duration-300 cursor-pointer">
-                    <div class="card-body">
-                        <div class="flex items-center justify-between">
-                            <div>
-                                <p class="text-sm text-slate-600 dark:text-slate-400">Inhouse Training</p>
-                                <p class="text-2xl font-bold text-slate-900 dark:text-white">{{ $stats['totalInhouseTraining'] ?? 0 }}</p>
-                                <p class="text-xs text-emerald-600 mt-1">Upcoming: {{ $stats['upcomingInhouseTraining'] ?? 0 }}</p>
-                            </div>
-                            <div class="w-10 h-10 bg-cyan-100 dark:bg-cyan-900/30 rounded-lg flex items-center justify-center">
-                                <svg class="w-5 h-5 text-cyan-600 dark:text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
-                                </svg>
-                            </div>
-                        </div>
-                    </div>
-                </a>
-
-                {{-- Equipment Breakdown --}}
-                <a href="{{ route('admin.sports-equipment.index') }}" class="card group hover:shadow-xl transition-all duration-300 cursor-pointer">
-                    <div class="card-body">
-                        <div class="flex items-center justify-between">
-                            <div>
-                                <p class="text-sm text-slate-600 dark:text-slate-400">Sports Equipment</p>
-                                <p class="text-2xl font-bold text-slate-900 dark:text-white">{{ $stats['totalSportsEquipment'] ?? 0 }}</p>
-                                <p class="text-xs text-slate-500 mt-1">Office: {{ $stats['totalOfficeEquipment'] ?? 0 }}</p>
-                            </div>
-                            <div class="w-10 h-10 bg-orange-100 dark:bg-orange-900/30 rounded-lg flex items-center justify-center">
-                                <svg class="w-5 h-5 text-orange-600 dark:text-orange-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/>
-                                </svg>
-                            </div>
-                        </div>
-                    </div>
-                </a>
-
-                {{-- Communications --}}
-                <a href="{{ route('admin.communications.index') }}" class="card group hover:shadow-xl transition-all duration-300 cursor-pointer">
-                    <div class="card-body">
-                        <div class="flex items-center justify-between">
-                            <div>
-                                <p class="text-sm text-slate-600 dark:text-slate-400">Communications</p>
-                                <p class="text-2xl font-bold text-slate-900 dark:text-white">{{ $stats['totalCommunications'] ?? 0 }}</p>
-                                <p class="text-xs text-emerald-600 mt-1">Recent (30 days): {{ $stats['recentCommunications'] ?? 0 }}</p>
-                            </div>
-                            <div class="w-10 h-10 bg-pink-100 dark:bg-pink-900/30 rounded-lg flex items-center justify-center">
-                                <svg class="w-5 h-5 text-pink-600 dark:text-pink-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
-                                </svg>
-                            </div>
-                        </div>
-                    </div>
-                </a>
-
-                {{-- Tasks --}}
-                <a href="{{ route('admin.tasks.index') }}" class="card group hover:shadow-xl transition-all duration-300 cursor-pointer">
-                    <div class="card-body">
-                        <div class="flex items-center justify-between">
-                            <div>
-                                <p class="text-sm text-slate-600 dark:text-slate-400">Tasks</p>
-                                <p class="text-2xl font-bold text-slate-900 dark:text-white">{{ $stats['totalTasks'] ?? 0 }}</p>
-                                <p class="text-xs text-amber-600 mt-1">Ongoing: {{ $stats['ongoingTasks'] ?? 0 }}</p>
-                                <p class="text-xs text-emerald-600">Completed: {{ $stats['completedTasks'] ?? 0 }}</p>
-                            </div>
-                            <div class="w-10 h-10 bg-red-100 dark:bg-red-900/30 rounded-lg flex items-center justify-center">
-                                <svg class="w-5 h-5 text-red-600 dark:text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
-                                </svg>
-                            </div>
-                        </div>
-                    </div>
-                </a>
-
-                {{-- Staff Tasks --}}
-                <a href="{{ route('tasks.index') }}" class="card group hover:shadow-xl transition-all duration-300 cursor-pointer">
-                    <div class="card-body">
-                        <div class="flex items-center justify-between">
-                            <div>
-                                <p class="text-sm text-slate-600 dark:text-slate-400">Staff Tasks</p>
-                                <p class="text-2xl font-bold text-slate-900 dark:text-white">{{ $stats['totalStaffTasks'] ?? 0 }}</p>
-                                <p class="text-xs text-amber-600 mt-1">Pending: {{ $stats['pendingStaffTasks'] ?? 0 }}</p>
-                                <p class="text-xs text-emerald-600">Completed: {{ $stats['completedStaffTasks'] ?? 0 }}</p>
-                            </div>
-                            <div class="w-10 h-10 bg-lime-100 dark:bg-lime-900/30 rounded-lg flex items-center justify-center">
-                                <svg class="w-5 h-5 text-lime-600 dark:text-lime-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                                </svg>
-                            </div>
-                        </div>
-                    </div>
-                </a>
-
-                {{-- Reports --}}
-                <a href="{{ route('reports.index') }}" class="card group hover:shadow-xl transition-all duration-300 cursor-pointer">
-                    <div class="card-body">
-                        <div class="flex items-center justify-between">
-                            <div>
-                                <p class="text-sm text-slate-600 dark:text-slate-400">Reports</p>
-                                <p class="text-2xl font-bold text-slate-900 dark:text-white">{{ $stats['totalReports'] ?? 0 }}</p>
-                            </div>
-                            <div class="w-10 h-10 bg-violet-100 dark:bg-violet-900/30 rounded-lg flex items-center justify-center">
-                                <svg class="w-5 h-5 text-violet-600 dark:text-violet-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
-                                </svg>
-                            </div>
-                        </div>
-                    </div>
-                </a>
-
-                {{-- Games --}}
-                <a href="{{ route('admin.games.index') }}" class="card group hover:shadow-xl transition-all duration-300 cursor-pointer">
-                    <div class="card-body">
-                        <div class="flex items-center justify-between">
-                            <div>
-                                <p class="text-sm text-slate-600 dark:text-slate-400">Games</p>
-                                <p class="text-2xl font-bold text-slate-900 dark:text-white">{{ $stats['totalGames'] ?? 0 }}</p>
-                                <p class="text-xs text-emerald-600 mt-1">Upcoming: {{ $stats['upcomingGames'] ?? 0 }}</p>
-                            </div>
-                            <div class="w-10 h-10 bg-yellow-100 dark:bg-yellow-900/30 rounded-lg flex items-center justify-center">
-                                <svg class="w-5 h-5 text-yellow-600 dark:text-yellow-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"/>
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                                </svg>
-                            </div>
-                        </div>
-                    </div>
-                </a>
-
-                {{-- Activity Plans --}}
-                <a href="{{ route('admin.activity-plans.index') }}" class="card group hover:shadow-xl transition-all duration-300 cursor-pointer">
-                    <div class="card-body">
-                        <div class="flex items-center justify-between">
-                            <div>
-                                <p class="text-sm text-slate-600 dark:text-slate-400">Activity Plans</p>
-                                <p class="text-2xl font-bold text-slate-900 dark:text-white">{{ $stats['totalActivityPlans'] ?? 0 }}</p>
-                            </div>
-                            <div class="w-10 h-10 bg-fuchsia-100 dark:bg-fuchsia-900/30 rounded-lg flex items-center justify-center">
-                                <svg class="w-5 h-5 text-fuchsia-600 dark:text-fuchsia-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
-                                </svg>
-                            </div>
-                        </div>
-                    </div>
-                </a>
-            </div>
-        </div>
-
         {{-- Attendance Summary --}}
         <div class="mb-8">
             <h2 class="text-xl font-bold text-slate-900 dark:text-white mb-4">✅ Attendance Overview</h2>
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <a href="{{ route('coach.attendance.index') }}" class="card group hover:shadow-xl transition-all duration-300 cursor-pointer">
+                <a href="{{ route('admin.student-attendance.index') }}" class="card group hover:shadow-xl transition-all duration-300 cursor-pointer">
                     <div class="card-body">
                         <div class="flex items-center justify-between">
                             <div>
@@ -651,9 +673,135 @@
             </div>
         </div>
 
+        {{-- Today's Student Attendance Table --}}
+        <div class="mb-8">
+            <div class="flex items-center justify-between mb-4">
+                <h2 class="text-xl font-bold text-slate-900 dark:text-white">📋 Today's Student Attendance</h2>
+                <a href="{{ route('admin.student-attendance.index') }}" class="text-sm text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 font-medium">
+                    View All →
+                </a>
+            </div>
+
+            {{-- Attendance Stats Summary --}}
+            @if(isset($todayAttendanceStats))
+            <div class="grid grid-cols-2 md:grid-cols-5 gap-4 mb-4">
+                <div class="bg-slate-100 dark:bg-slate-800 rounded-lg p-3 text-center">
+                    <p class="text-2xl font-bold text-slate-700 dark:text-slate-300">{{ $todayAttendanceStats['total'] ?? 0 }}</p>
+                    <p class="text-xs text-slate-500 dark:text-slate-400">Total Recorded</p>
+                </div>
+                <div class="bg-emerald-100 dark:bg-emerald-900/30 rounded-lg p-3 text-center">
+                    <p class="text-2xl font-bold text-emerald-600 dark:text-emerald-400">{{ $todayAttendanceStats['present'] ?? 0 }}</p>
+                    <p class="text-xs text-emerald-600 dark:text-emerald-400">Present</p>
+                </div>
+                <div class="bg-red-100 dark:bg-red-900/30 rounded-lg p-3 text-center">
+                    <p class="text-2xl font-bold text-red-600 dark:text-red-400">{{ $todayAttendanceStats['absent'] ?? 0 }}</p>
+                    <p class="text-xs text-red-600 dark:text-red-400">Absent</p>
+                </div>
+                <div class="bg-yellow-100 dark:bg-yellow-900/30 rounded-lg p-3 text-center">
+                    <p class="text-2xl font-bold text-yellow-600 dark:text-yellow-400">{{ $todayAttendanceStats['late'] ?? 0 }}</p>
+                    <p class="text-xs text-yellow-600 dark:text-yellow-400">Late</p>
+                </div>
+                <div class="bg-blue-100 dark:bg-blue-900/30 rounded-lg p-3 text-center">
+                    <p class="text-2xl font-bold text-blue-600 dark:text-blue-400">{{ $todayAttendanceStats['excused'] ?? 0 }}</p>
+                    <p class="text-xs text-blue-600 dark:text-blue-400">Excused</p>
+                </div>
+            </div>
+            @endif
+
+            {{-- Attendance Table --}}
+            <div class="card">
+                <div class="card-body p-0">
+                    @if(isset($todayAttendances) && $todayAttendances->count() > 0)
+                    <div class="overflow-x-auto">
+                        <table class="min-w-full divide-y divide-slate-200 dark:divide-slate-700">
+                            <thead class="bg-slate-50 dark:bg-slate-800">
+                                <tr>
+                                    <th class="px-4 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">Student</th>
+                                    <th class="px-4 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">Status</th>
+                                    <th class="px-4 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">Time</th>
+                                    <th class="px-4 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">Remarks</th>
+                                </tr>
+                            </thead>
+                            <tbody class="bg-white dark:bg-slate-900 divide-y divide-slate-200 dark:divide-slate-700">
+                                @foreach($todayAttendances as $attendance)
+                                <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
+                                    <td class="px-4 py-3 whitespace-nowrap">
+                                        <div class="flex items-center">
+                                            <div class="flex-shrink-0 h-8 w-8">
+                                                @if($attendance->student && $attendance->student->photo_path)
+                                                    <img class="h-8 w-8 rounded-full object-cover" src="{{ asset('storage/' . $attendance->student->photo_path) }}" alt="">
+                                                @else
+                                                    <div class="h-8 w-8 rounded-full bg-slate-300 dark:bg-slate-600 flex items-center justify-center">
+                                                        <span class="text-xs font-medium text-slate-600 dark:text-slate-300">
+                                                            {{ $attendance->student ? strtoupper(substr($attendance->student->first_name, 0, 1) . substr($attendance->student->second_name ?? '', 0, 1)) : '?' }}
+                                                        </span>
+                                                    </div>
+                                                @endif
+                                            </div>
+                                            <div class="ml-3">
+                                                <p class="text-sm font-medium text-slate-900 dark:text-white">
+                                                    {{ $attendance->student ? $attendance->student->first_name . ' ' . ($attendance->student->second_name ?? '') : 'Unknown Student' }}
+                                                </p>
+                                                <p class="text-xs text-slate-500 dark:text-slate-400">
+                                                    ID: {{ $attendance->student->student_id ?? $attendance->student_id }}
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="px-4 py-3 whitespace-nowrap">
+                                        @php
+                                            $statusColors = [
+                                                'present' => 'bg-emerald-100 text-emerald-800 dark:bg-emerald-900/30 dark:text-emerald-400',
+                                                'absent' => 'bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400',
+                                                'late' => 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-400',
+                                                'excused' => 'bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-400',
+                                            ];
+                                            $statusIcons = [
+                                                'present' => '✅',
+                                                'absent' => '❌',
+                                                'late' => '⏰',
+                                                'excused' => 'ℹ️',
+                                            ];
+                                        @endphp
+                                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium {{ $statusColors[$attendance->status] ?? 'bg-slate-100 text-slate-800' }}">
+                                            {{ $statusIcons[$attendance->status] ?? '' }} {{ ucfirst($attendance->status) }}
+                                        </span>
+                                    </td>
+                                    <td class="px-4 py-3 whitespace-nowrap text-sm text-slate-500 dark:text-slate-400">
+                                        {{ $attendance->created_at->format('h:i A') }}
+                                    </td>
+                                    <td class="px-4 py-3 whitespace-nowrap text-sm text-slate-500 dark:text-slate-400">
+                                        {{ $attendance->remarks ?? '-' }}
+                                    </td>
+                                </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                    @else
+                    <div class="p-8 text-center">
+                        <div class="w-16 h-16 mx-auto mb-4 bg-slate-100 dark:bg-slate-800 rounded-full flex items-center justify-center">
+                            <svg class="w-8 h-8 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
+                            </svg>
+                        </div>
+                        <h3 class="text-lg font-medium text-slate-900 dark:text-white mb-2">No Attendance Recorded Today</h3>
+                        <p class="text-slate-500 dark:text-slate-400 mb-4">Start recording student attendance for {{ now()->format('F j, Y') }}</p>
+                        <a href="{{ route('students-modern.index') }}" class="inline-flex items-center px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white font-medium rounded-lg transition-colors">
+                            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                            </svg>
+                            Record Attendance
+                        </a>
+                    </div>
+                    @endif
+                </div>
+            </div>
+        </div>
+
         {{-- Upcoming Events --}}
         <div class="mb-8">
-            <h2 class="text-xl font-bold text-slate-900 dark:text-white mb-4">📅 Upcoming Events</h2>
+            <h2 class="text-xl font-bold text-slate-900 dark:text-white mb-4">📋 Upcoming Events</h2>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <a href="{{ route('admin.upcoming-events.index') }}" class="card group hover:shadow-xl transition-all duration-300 cursor-pointer">
                     <div class="card-body">
@@ -699,7 +847,7 @@
             <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
                 <a href="{{ route('admin.students.index') }}" class="card hover:shadow-lg transition-shadow">
                     <div class="card-body p-4 text-center">
-                        <div class="text-3xl mb-2">🎓</div>
+                        <div class="text-3xl mb-2">📋</div>
                         <div class="text-sm font-semibold text-slate-900">Students</div>
                         <div class="text-xs text-slate-500 mt-1">Manage</div>
                     </div>
@@ -713,42 +861,42 @@
                 </a>
                 <a href="{{ route('admin.sessions.index') }}" class="card hover:shadow-lg transition-shadow">
                     <div class="card-body p-4 text-center">
-                        <div class="text-3xl mb-2">📅</div>
+                        <div class="text-3xl mb-2">📋</div>
                         <div class="text-sm font-semibold text-slate-900">Sessions</div>
                         <div class="text-xs text-slate-500 mt-1">View All</div>
                     </div>
                 </a>
                 <a href="{{ route('admin.sessions.create') }}" class="card hover:shadow-lg transition-shadow">
                     <div class="card-body p-4 text-center">
-                        <div class="text-3xl mb-2">📝</div>
+                        <div class="text-3xl mb-2">📋</div>
                         <div class="text-sm font-semibold text-slate-900">New Session</div>
                         <div class="text-xs text-slate-500 mt-1">Schedule</div>
                     </div>
                 </a>
                 <a href="{{ route('admin.users.index') }}" class="card hover:shadow-lg transition-shadow">
                     <div class="card-body p-4 text-center">
-                        <div class="text-3xl mb-2">👥</div>
+                        <div class="text-3xl mb-2">📋</div>
                         <div class="text-sm font-semibold text-slate-900">Users</div>
                         <div class="text-xs text-slate-500 mt-1">Manage</div>
                     </div>
                 </a>
                 <a href="{{ route('admin.users.create') }}" class="card hover:shadow-lg transition-shadow">
                     <div class="card-body p-4 text-center">
-                        <div class="text-3xl mb-2">👤</div>
+                        <div class="text-3xl mb-2">📋</div>
                         <div class="text-sm font-semibold text-slate-900">New User</div>
                         <div class="text-xs text-slate-500 mt-1">Create</div>
                     </div>
                 </a>
                 <a href="{{ route('admin.groups.index') }}" class="card hover:shadow-lg transition-shadow">
                     <div class="card-body p-4 text-center">
-                        <div class="text-3xl mb-2">👨‍👩‍👧‍👦</div>
+                        <div class="text-3xl mb-2">📋</div>
                         <div class="text-sm font-semibold text-slate-900">Groups</div>
                         <div class="text-xs text-slate-500 mt-1">Manage</div>
                     </div>
                 </a>
                 <a href="{{ route('admin.branches.index') }}" class="card hover:shadow-lg transition-shadow">
                     <div class="card-body p-4 text-center">
-                        <div class="text-3xl mb-2">🏢</div>
+                        <div class="text-3xl mb-2">📋</div>
                         <div class="text-sm font-semibold text-slate-900">Branches</div>
                         <div class="text-xs text-slate-500 mt-1">Locations</div>
                     </div>
@@ -776,7 +924,7 @@
                 </a>
                 <a href="{{ route('accountant.invoices.index') }}" class="card hover:shadow-lg transition-shadow">
                     <div class="card-body p-4 text-center">
-                        <div class="text-3xl mb-2">📄</div>
+                        <div class="text-3xl mb-2">📋</div>
                         <div class="text-sm font-semibold text-slate-900">Invoices</div>
                         <div class="text-xs text-slate-500 mt-1">Billing</div>
                     </div>
@@ -784,41 +932,73 @@
             </div>
         </div>
 
-        <!-- Today's Sessions (polished) -->
+        <!-- Today's Incomes -->
         <div>
-            <h2 class="text-xl font-bold text-slate-900 mb-4">📅 Today's Sessions</h2>
-            <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
-                @if(($sessions ?? collect())->isEmpty())
+            <div class="flex items-center justify-between mb-4">
+                <h2 class="text-xl font-bold text-slate-900 dark:text-white">💰 Today's Incomes</h2>
+                <div class="flex items-center gap-4">
+                    <span class="px-3 py-1 bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-400 rounded-full text-sm font-semibold">
+                        Total: {{ number_format(($todayIncomeStats['total'] ?? 0) / 100, 0) }} RWF
+                    </span>
+                    <span class="px-3 py-1 bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400 rounded-full text-sm font-semibold">
+                        {{ $todayIncomeStats['count'] ?? 0 }} Records
+                    </span>
+                </div>
+            </div>
+            <div class="bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-slate-200 dark:border-slate-700 overflow-hidden">
+                @if(($todayIncomes ?? collect())->isEmpty())
                     <div class="text-center py-12">
-                        <svg class="mx-auto h-16 w-16 text-slate-300 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                        <svg class="mx-auto h-16 w-16 text-slate-300 dark:text-slate-600 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
                         </svg>
-                        <p class="text-slate-500 font-medium text-lg">No sessions scheduled for today</p>
-                        <a href="{{ route('admin.sessions.create') }}" class="inline-block mt-4 px-6 py-2 bg-indigo-600 text-white font-semibold rounded-lg hover:bg-indigo-700 transition">
-                            Schedule a Session
+                        <p class="text-slate-500 dark:text-slate-400 font-medium text-lg">No income recorded for today</p>
+                        <a href="{{ route('admin.incomes.create') }}" class="inline-block mt-4 px-6 py-2 bg-emerald-600 text-white font-semibold rounded-lg hover:bg-emerald-700 transition">
+                            Record Income
                         </a>
                     </div>
                 @else
-                    <div class="space-y-4">
-                        @foreach($sessions as $s)
-                            <div class="bg-slate-50 border border-slate-200 rounded-lg p-5 hover:border-indigo-300 hover:shadow-md transition-all">
-                                <div class="flex items-start justify-between gap-4">
-                                    <div class="flex-1 space-y-2">
-                                        <div class="font-bold text-slate-900 text-lg">{{ $s->date->format('M d, Y') }} • {{ $s->start_time }}–{{ $s->end_time }}</div>
-                                        <div class="flex flex-wrap gap-4 text-sm text-slate-600">
-                                            <span class="flex items-center gap-1"><span class="font-semibold">📍</span>{{ $s->location ?? 'N/A' }}</span>
-                                            <span class="flex items-center gap-1"><span class="font-semibold">👨‍🏫</span>{{ $s->coach->name ?? 'N/A' }}</span>
-                                            <span class="flex items-center gap-1"><span class="font-semibold">🏢</span>{{ $s->branch->name ?? 'N/A' }}</span>
-                                            <span class="flex items-center gap-1"><span class="font-semibold">👥</span>{{ $s->group->name ?? 'N/A' }}</span>
-                                        </div>
-                                        @if($s->description)
-                                            <p class="text-sm text-slate-600 mt-2">{{ Str::limit($s->description, 100) }}</p>
-                                        @endif
-                                    </div>
-                                    <a href="{{ route('admin.sessions.edit', $s) }}" class="px-4 py-2 bg-indigo-600 text-white font-semibold rounded-lg hover:bg-indigo-700 transition whitespace-nowrap">Edit</a>
-                                </div>
-                            </div>
-                        @endforeach
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-sm text-left">
+                            <thead class="bg-slate-50 dark:bg-slate-700">
+                                <tr class="text-slate-600 dark:text-slate-300">
+                                    <th class="px-4 py-3 font-semibold">Time</th>
+                                    <th class="px-4 py-3 font-semibold">Amount</th>
+                                    <th class="px-4 py-3 font-semibold">Category</th>
+                                    <th class="px-4 py-3 font-semibold">Source</th>
+                                    <th class="px-4 py-3 font-semibold">Branch</th>
+                                    <th class="px-4 py-3 font-semibold">Recorded By</th>
+                                    <th class="px-4 py-3 font-semibold">Notes</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-slate-200 dark:divide-slate-700">
+                                @foreach($todayIncomes as $income)
+                                    <tr class="hover:bg-slate-50 dark:hover:bg-slate-700/50 transition">
+                                        <td class="px-4 py-3 text-slate-900 dark:text-white">
+                                            {{ $income->received_at ? $income->received_at->format('H:i') : '-' }}
+                                        </td>
+                                        <td class="px-4 py-3">
+                                            <span class="font-bold text-emerald-600 dark:text-emerald-400">
+                                                {{ number_format($income->amount_cents / 100, 0) }} {{ $income->currency ?? 'RWF' }}
+                                            </span>
+                                        </td>
+                                        <td class="px-4 py-3">
+                                            <span class="px-2 py-1 bg-indigo-100 dark:bg-indigo-900/30 text-indigo-700 dark:text-indigo-400 rounded text-xs font-medium">
+                                                {{ ucfirst($income->category ?? '-') }}
+                                            </span>
+                                        </td>
+                                        <td class="px-4 py-3 text-slate-600 dark:text-slate-300">{{ $income->source ?? '-' }}</td>
+                                        <td class="px-4 py-3 text-slate-600 dark:text-slate-300">{{ $income->branch->name ?? '-' }}</td>
+                                        <td class="px-4 py-3 text-slate-600 dark:text-slate-300">{{ $income->recordedBy->name ?? '-' }}</td>
+                                        <td class="px-4 py-3 text-slate-500 dark:text-slate-400 text-xs">{{ Str::limit($income->notes, 30) ?? '-' }}</td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="px-4 py-3 bg-slate-50 dark:bg-slate-700 border-t border-slate-200 dark:border-slate-600">
+                        <a href="{{ route('admin.incomes.index') }}" class="text-indigo-600 dark:text-indigo-400 hover:underline text-sm font-medium">
+                            View All Incomes →
+                        </a>
                     </div>
                 @endif
             </div>
@@ -850,10 +1030,10 @@
                                 @foreach($recentStudents as $student)
                                     <tr class="border-t">
                                         <td class="px-3 py-2">{{ $student->first_name }} {{ $student->last_name }}</td>
-                                        <td class="px-3 py-2">{{ optional($student->group)->name ?? '—' }}</td>
-                                        <td class="px-3 py-2">{{ optional($student->branch)->name ?? '—' }}</td>
-                                        <td class="px-3 py-2">{{ $student->created_at ? $student->created_at->format('M d, Y') : '—' }}</td>
-                                        <td class="px-3 py-2">{{ ucfirst($student->status ?? '—') }}</td>
+                                        <td class="px-3 py-2">{{ optional($student->group)->name ?? '-' }}</td>
+                                        <td class="px-3 py-2">{{ optional($student->branch)->name ?? '-' }}</td>
+                                        <td class="px-3 py-2">{{ $student->created_at ? $student->created_at->format('M d, Y') : '-' }}</td>
+                                        <td class="px-3 py-2">{{ ucfirst($student->status ?? '-') }}</td>
                                     </tr>
                                 @endforeach
                             </tbody>
@@ -875,7 +1055,7 @@
 
                 <div class="card">
                     <div class="card-body p-4">
-                        <h3 class="font-semibold text-slate-900 mb-2 text-sm">👨‍🏫 Coach Workload (This Month)</h3>
+                        <h3 class="font-semibold text-slate-900 mb-2 text-sm">📋 Coach Workload (This Month)</h3>
                         <div class="h-48">
                             <canvas id="coachWorkloadChart" class="w-full h-full"></canvas>
                         </div>
@@ -961,7 +1141,7 @@
 
                 <div class="md:col-span-2 card">
                     <div class="card-body p-6">
-                        <h3 class="font-bold text-slate-900 mb-4">🎯 Performance Metrics</h3>
+                        <h3 class="font-bold text-slate-900 mb-4">📋 Performance Metrics</h3>
                         @php
                             $metricsBars = [
                                 ['Student Enrollment Rate', 'bg-gradient-to-r from-blue-500 to-blue-600', (isset($studentEnrollmentRate) ? $studentEnrollmentRate : 75) . '%'],

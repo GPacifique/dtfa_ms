@@ -137,10 +137,12 @@ Route::middleware(['auth'])->prefix('user')->group(function () {
 });
 
 
+// Welcome page (public - no auth required)
+Route::get('/', function () {
+    return view('welcome');
+})->name('welcome');
+
 Route::middleware(['auth'])->group(function () {
-    Route::get('/', function () {
-        return view('welcome');
-    });
 
     // Photo serving routes
     Route::get('/photos/students/{student}', [\App\Http\Controllers\PhotoController::class, 'showStudent'])
@@ -312,8 +314,8 @@ Route::middleware(['auth', 'role:admin|super-admin|accountant'])->prefix('admin'
     Route::delete('/expenses/{expense}', [\App\Http\Controllers\Admin\ExpensesController::class, 'destroy'])->name('admin.expenses.destroy');
 });
 
-Route::middleware(['auth', 'role:admin|super-admin'])->prefix('admin')->group(function () {
-    // Equipment Management
+Route::middleware(['auth', 'role:admin|super-admin|coach'])->prefix('admin')->group(function () {
+    // Equipment Management (coaches can view/manage equipment)
     // (moved below) Expenses routes now allow accountant role
 
     // Equipment Management
@@ -325,7 +327,7 @@ Route::middleware(['auth', 'role:admin|super-admin'])->prefix('admin')->group(fu
     Route::put('/equipment/{equipment}', [\App\Http\Controllers\Admin\EquipmentController::class, 'update'])->name('admin.equipment.update');
     Route::delete('/equipment/{equipment}', [\App\Http\Controllers\Admin\EquipmentController::class, 'destroy'])->name('admin.equipment.destroy');
 
-    // Branches Management
+    // Branches Management (coaches can view branches)
     Route::get('/branches', [\App\Http\Controllers\Admin\BranchesController::class, 'index'])->name('admin.branches.index');
     Route::get('/branches/create', [\App\Http\Controllers\Admin\BranchesController::class, 'create'])->name('admin.branches.create');
     Route::post('/branches', [\App\Http\Controllers\Admin\BranchesController::class, 'store'])->name('admin.branches.store');
@@ -365,7 +367,7 @@ Route::middleware(['auth'])->group(function () {
 });
 
 // Backward-compatible aliases for legacy admin student URLs
-Route::middleware(['auth', 'role:admin|super-admin'])
+Route::middleware(['auth', 'role:admin|super-admin|coach'])
     ->prefix('admin')
     ->group(function () {
         // Index and create

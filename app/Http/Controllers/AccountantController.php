@@ -81,6 +81,18 @@ class AccountantController extends Controller
             ->limit(10)
             ->get();
 
+        // Fetch recent incomes
+        $recentIncomes = \App\Models\Income::with('student')
+            ->latest('received_at')
+            ->limit(10)
+            ->get();
+
+        // Fetch recent expenses
+        $recentExpenses = Expense::with('approver')
+            ->latest('expense_date')
+            ->limit(10)
+            ->get();
+
         // Fees Status (counts): Paid via succeeded payments this month, Pending invoices, Overdue invoices
         $feesPaidCount = Payment::where('status', 'succeeded')
             ->whereBetween('paid_at', [$startOfMonth, $endOfMonth])
@@ -98,12 +110,38 @@ class AccountantController extends Controller
             $regCounts[] = (int) \App\Models\Student::whereBetween('created_at', [$start, $end])->count();
         }
 
+        // Finance Stats: Daily, Weekly, Monthly, Yearly income and expenses
+        $financeStats = [
+            'daily' => [
+                'income' => (\App\Models\Income::whereDate('received_at', now()->toDateString())->sum('amount_cents') +
+                            Payment::where('status', 'succeeded')->whereDate('paid_at', now()->toDateString())->sum('amount_cents')) / 100,
+                'expenses' => Expense::whereIn('status', ['approved', 'paid'])->whereDate('expense_date', now()->toDateString())->sum('amount_cents') / 100,
+            ],
+            'weekly' => [
+                'income' => (\App\Models\Income::whereBetween('received_at', [now()->startOfWeek(), now()->endOfWeek()])->sum('amount_cents') +
+                            Payment::where('status', 'succeeded')->whereBetween('paid_at', [now()->startOfWeek(), now()->endOfWeek()])->sum('amount_cents')) / 100,
+                'expenses' => Expense::whereIn('status', ['approved', 'paid'])->whereBetween('expense_date', [now()->startOfWeek(), now()->endOfWeek()])->sum('amount_cents') / 100,
+            ],
+            'monthly' => [
+                'income' => (\App\Models\Income::whereBetween('received_at', [now()->startOfMonth(), now()->endOfMonth()])->sum('amount_cents') +
+                            Payment::where('status', 'succeeded')->whereBetween('paid_at', [now()->startOfMonth(), now()->endOfMonth()])->sum('amount_cents')) / 100,
+                'expenses' => Expense::whereIn('status', ['approved', 'paid'])->whereBetween('expense_date', [now()->startOfMonth(), now()->endOfMonth()])->sum('amount_cents') / 100,
+            ],
+            'yearly' => [
+                'income' => (\App\Models\Income::whereBetween('received_at', [now()->startOfYear(), now()->endOfYear()])->sum('amount_cents') +
+                            Payment::where('status', 'succeeded')->whereBetween('paid_at', [now()->startOfYear(), now()->endOfYear()])->sum('amount_cents')) / 100,
+                'expenses' => Expense::whereIn('status', ['approved', 'paid'])->whereBetween('expense_date', [now()->startOfYear(), now()->endOfYear()])->sum('amount_cents') / 100,
+            ],
+        ];
+
         return view('accountant.dashboard', [
             'totalRevenueCents' => $totalRevenueCents,
             'outstandingCents' => $outstandingCents,
             'pendingInvoices' => $pendingInvoices,
             'overdueInvoices' => $overdueInvoices,
             'recentPayments' => $recentPayments,
+            'recentIncomes' => $recentIncomes,
+            'recentExpenses' => $recentExpenses,
             'activeSubscriptions' => $activeSubscriptions,
             'totalSubscriptions' => $totalSubscriptions,
             'succeededPayments' => $succeededPayments,
@@ -123,6 +161,7 @@ class AccountantController extends Controller
             'feesOverdueCount' => $feesOverdueCount,
             'regLabels' => $regLabels,
             'regCounts' => $regCounts,
+            'financeStats' => $financeStats,
         ]);
     }
 

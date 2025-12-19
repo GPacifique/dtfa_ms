@@ -14,6 +14,7 @@ use App\Models\Subscription;
 use App\Models\Invoice;
 use App\Models\Expense;
 use App\Models\Income;
+use App\Models\StudentAttendance;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Cache;
 
@@ -379,6 +380,50 @@ class AdminController extends Controller
             'expenseTotals' => $expenseTotals ?? [],
             'netflowTotals' => $netflowTotals ?? [],
             'recentStudents' => Student::orderBy('created_at', 'desc')->limit(10)->get(),
+            'todayAttendances' => StudentAttendance::with('student')
+                ->whereDate('attendance_date', now()->toDateString())
+                ->orderBy('created_at', 'desc')
+                ->limit(20)
+                ->get(),
+            'todayAttendanceStats' => [
+                'total' => StudentAttendance::whereDate('attendance_date', now()->toDateString())->count(),
+                'present' => StudentAttendance::whereDate('attendance_date', now()->toDateString())->where('status', 'present')->count(),
+                'absent' => StudentAttendance::whereDate('attendance_date', now()->toDateString())->where('status', 'absent')->count(),
+                'late' => StudentAttendance::whereDate('attendance_date', now()->toDateString())->where('status', 'late')->count(),
+                'excused' => StudentAttendance::whereDate('attendance_date', now()->toDateString())->where('status', 'excused')->count(),
+            ],
+            'todayIncomes' => Income::with(['branch', 'recordedBy'])
+                ->whereDate('received_at', now()->toDateString())
+                ->orderBy('received_at', 'desc')
+                ->limit(20)
+                ->get(),
+            'todayIncomeStats' => [
+                'total' => Income::whereDate('received_at', now()->toDateString())->sum('amount_cents'),
+                'count' => Income::whereDate('received_at', now()->toDateString())->count(),
+            ],
+            // Finance Summary by Period (Daily, Weekly, Monthly, Yearly)
+            'financeStats' => [
+                'daily' => [
+                    'income' => (Income::whereDate('received_at', now()->toDateString())->sum('amount_cents') +
+                                Payment::where('status', 'succeeded')->whereDate('paid_at', now()->toDateString())->sum('amount_cents')) / 100,
+                    'expenses' => Expense::whereIn('status', ['approved', 'paid'])->whereDate('expense_date', now()->toDateString())->sum('amount_cents') / 100,
+                ],
+                'weekly' => [
+                    'income' => (Income::whereBetween('received_at', [now()->startOfWeek(), now()->endOfWeek()])->sum('amount_cents') +
+                                Payment::where('status', 'succeeded')->whereBetween('paid_at', [now()->startOfWeek(), now()->endOfWeek()])->sum('amount_cents')) / 100,
+                    'expenses' => Expense::whereIn('status', ['approved', 'paid'])->whereBetween('expense_date', [now()->startOfWeek(), now()->endOfWeek()])->sum('amount_cents') / 100,
+                ],
+                'monthly' => [
+                    'income' => (Income::whereBetween('received_at', [now()->startOfMonth(), now()->endOfMonth()])->sum('amount_cents') +
+                                Payment::where('status', 'succeeded')->whereBetween('paid_at', [now()->startOfMonth(), now()->endOfMonth()])->sum('amount_cents')) / 100,
+                    'expenses' => Expense::whereIn('status', ['approved', 'paid'])->whereBetween('expense_date', [now()->startOfMonth(), now()->endOfMonth()])->sum('amount_cents') / 100,
+                ],
+                'yearly' => [
+                    'income' => (Income::whereBetween('received_at', [now()->startOfYear(), now()->endOfYear()])->sum('amount_cents') +
+                                Payment::where('status', 'succeeded')->whereBetween('paid_at', [now()->startOfYear(), now()->endOfYear()])->sum('amount_cents')) / 100,
+                    'expenses' => Expense::whereIn('status', ['approved', 'paid'])->whereBetween('expense_date', [now()->startOfYear(), now()->endOfYear()])->sum('amount_cents') / 100,
+                ],
+            ],
             'subsLabels' => $subsLabels,
             'subsActive' => $subsActive,
             'subsNew' => $subsNew,
