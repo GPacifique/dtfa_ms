@@ -26,30 +26,19 @@ trait HasPhoto
      */
     protected function getPhotoUrlFromPath(?string $path, string $initials, string $backgroundColor = '3b82f6'): string
     {
-        if ($path) {
-            // Use PhotoController routes for all models
-            if ($this instanceof \App\Models\Student) {
-                return route('photos.student', ['student' => $this->id]);
-            }
-
-            if ($this instanceof \App\Models\Staff) {
-                return route('photos.staff', ['staff' => $this->id]);
-            }
-
-            if ($this instanceof \App\Models\User) {
-                return route('photos.user', ['user' => $this->id]);
-            }
-
-            // Fallback to storage URL for other models
-            try {
-                return Storage::disk('public')->url(ltrim($path, '/'));
-            } catch (\Throwable $e) {
-                return asset('storage/' . ltrim($path, '/'));
-            }
+        // 1. Check if file exists in public storage
+        if ($path && Storage::disk('public')->exists($path)) {
+            return Storage::url($path);
         }
 
-        // Generate UI Avatar with initials as fallback
-        return $this->generateAvatarUrl($initials, $backgroundColor);
+        // 2. Fallback to SVG Avatar
+        $svg = <<<SVG
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
+    <rect width="128" height="128" fill="#f1f5f9"/>
+    <text x="50%" y="50%" font-family="ui-sans-serif, system-ui, sans-serif" font-size="52" font-weight="600" fill="#64748b" text-anchor="middle" dy=".35em">{$initials}</text>
+</svg>
+SVG;
+        return 'data:image/svg+xml;base64,' . base64_encode($svg);
     }
 
     /**

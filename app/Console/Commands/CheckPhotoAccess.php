@@ -101,7 +101,7 @@ class CheckPhotoAccess extends Command
 
                 // Show access URLs
                 $this->info("🌐 Access URLs:");
-                $this->line("   PhotoController: " . route('photos.student', ['student' => $student->id]));
+                $this->line("   PhotoController: " . route('student.photo', ['student' => $student->id]));
                 $this->line("   Storage URL: " . Storage::disk('public')->url($student->photo_path));
                 $this->line("   Asset URL: " . asset('storage/' . $student->photo_path));
                 $this->line("   Accessor: " . $student->photo_url);

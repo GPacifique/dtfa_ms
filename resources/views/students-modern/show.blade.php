@@ -45,7 +45,7 @@
             <div class="absolute inset-x-0 top-0 h-24 bg-gradient-to-r from-indigo-600 via-cyan-500 to-indigo-500 opacity-20 pointer-events-none"></div>
             <div class="relative p-6 md:p-8">
                 <div class="flex items-start gap-6">
-                    <img alt="Profile photo" src="{{ $student->photo_url ?? $student->photoUrl ?? \Illuminate\Support\Facades\Storage::url($student->photo_path ?? '') }}" class="w-20 h-20 rounded-xl object-cover ring-4 ring-white dark:ring-slate-800 shadow-md" />
+                    <img alt="Profile photo" src="{{ $student->photo_url }}" class="w-20 h-20 rounded-xl object-cover ring-4 ring-white dark:ring-slate-800 shadow-md" />
                     <div class="flex-1">
                         <div class="flex flex-wrap items-center gap-3">
                             <h1 class="text-2xl md:text-3xl font-bold tracking-tight text-slate-900 dark:text-white">{{ $student->first_name }} {{ $student->second_name }}</h1>

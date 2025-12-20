@@ -729,7 +729,7 @@
                                         <div class="flex items-center">
                                             <div class="flex-shrink-0 h-8 w-8">
                                                 @if($attendance->student && $attendance->student->photo_path)
-                                                    <img class="h-8 w-8 rounded-full object-cover" src="{{ asset('storage/' . $attendance->student->photo_path) }}" alt="">
+                                                    <img class="h-8 w-8 rounded-full object-cover" src="{{ $attendance->student->photo_url }}" alt="">
                                                 @else
                                                     <div class="h-8 w-8 rounded-full bg-slate-300 dark:bg-slate-600 flex items-center justify-center">
                                                         <span class="text-xs font-medium text-slate-600 dark:text-slate-300">

@@ -19,12 +19,13 @@ class PhotoController extends Controller
      */
     public function showStudent(Student $student)
     {
-        // Prefer configured default disk so controller works both locally and in cloud (S3)
-        $disk = config('filesystems.default', 'public');
+        // Use public disk for student photos
+        $disk = 'public';
         $path = $student->photo_path ?? $student->image_path ?? null;
 
         if (!$path || !Storage::disk($disk)->exists($path)) {
-            abort(404);
+            $initials = strtoupper(substr($student->first_name, 0, 1) . substr($student->second_name ?? '', 0, 1));
+            return $this->serveSvgAvatar($initials);
         }
 
         // If disk is local (public) we can return the file directly from disk path
@@ -82,7 +83,12 @@ class PhotoController extends Controller
      */
     public function showStaff(Staff $staff)
     {
-        return $this->servePhoto($staff->photo_path);
+        $path = $staff->photo_path;
+        if (!$path || !Storage::disk('public')->exists($path)) {
+            $initials = strtoupper(substr($staff->first_name, 0, 1) . substr($staff->last_name ?? '', 0, 1));
+            return $this->serveSvgAvatar($initials);
+        }
+        return $this->servePhoto($path);
     }
 
     /**
@@ -90,7 +96,30 @@ class PhotoController extends Controller
      */
     public function showUser(User $user)
     {
-        return $this->servePhoto($user->profile_picture_path);
+        $path = $user->profile_picture_path;
+        if (!$path || !Storage::disk('public')->exists($path)) {
+            $initials = strtoupper(substr($user->name, 0, 1));
+            return $this->serveSvgAvatar($initials);
+        }
+        return $this->servePhoto($path);
+    }
+
+    /**
+     * Generate and serve an SVG avatar with initials.
+     */
+    protected function serveSvgAvatar(string $initials)
+    {
+        $svg = <<<SVG
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
+    <rect width="128" height="128" fill="#f1f5f9"/>
+    <text x="50%" y="50%" font-family="ui-sans-serif, system-ui, sans-serif" font-size="52" font-weight="600" fill="#64748b" text-anchor="middle" dy=".35em">{$initials}</text>
+</svg>
+SVG;
+
+        return response($svg, 200, [
+            'Content-Type' => 'image/svg+xml',
+            'Cache-Control' => 'public, max-age=31536000, immutable',
+        ]);
     }
 
     /**
@@ -101,7 +130,8 @@ class PhotoController extends Controller
      */
     protected function servePhoto(?string $path)
     {
-        $disk = config('filesystems.default', 'public');
+        // Use public disk for photos
+        $disk = 'public';
 
         if (!$path || !Storage::disk($disk)->exists($path)) {
             abort(404);
