@@ -39,7 +39,7 @@ class AppServiceProvider extends ServiceProvider
         Schema::defaultStringLength(191);
 
         // Sidebar composer: compute counts once per request and share with the sidebar view
-        View::composer('layouts.sidebar', function ($view) {
+        View::composer(['layouts.sidebar', 'layouts.sidebar-navigation'], function ($view) {
             $data = [
                 'pendingTasksCount' => 0,
                 'unreadCommsCount' => 0,

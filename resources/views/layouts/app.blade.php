@@ -152,7 +152,9 @@
                 class="hidden lg:flex flex-col bg-slate-900 text-slate-300 transition-all duration-300 ease-in-out border-r border-slate-800 shrink-0"
             >
                 <div class="flex-1 overflow-y-auto py-4 custom-scrollbar">
-                    @include('layouts.sidebar')
+                    <nav class="space-y-1 px-2">
+                        @include('layouts.sidebar-navigation')
+                    </nav>
                 </div>
                 <!-- Sidebar Footer (Collapse Toggle) -->
                 <div class="p-4 border-t border-slate-800">
@@ -171,7 +173,9 @@
                         <button @click="$store.layout.mobileOpen = false" class="text-slate-400 hover:text-white"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg></button>
                     </div>
                     <div class="flex-1 overflow-y-auto py-4">
-                        @include('layouts.sidebar')
+                        <nav class="space-y-1 px-2">
+                            @include('layouts.sidebar-navigation')
+                        </nav>
                     </div>
                 </div>
             </div>
