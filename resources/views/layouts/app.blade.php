@@ -4,7 +4,26 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>{{ config('app.name', 'App') }} — {{ $title ?? ($heroTitle ?? 'Dashboard') }}</title>
+    <title>
+        @hasSection('meta_title')
+            @yield('meta_title')
+        @else
+            {{ config('app.name', 'App') }} — {{ $title ?? ($heroTitle ?? 'Dashboard') }}
+        @endif
+    </title>
+
+    <!-- Canonical URL -->
+    <link rel="canonical" href="{{ url()->current() }}">
+
+    <!-- Meta Description (override per page with @section('meta_description')) -->
+    <meta name="description" content="@yield('meta_description', 'Manage academy operations: schedules, attendance, payments, and reports.')">
+
+    <!-- Robots: avoid indexing admin/user areas -->
+    @if (request()->is('admin*') || request()->is('user*'))
+        <meta name="robots" content="noindex, nofollow">
+    @else
+        <meta name="robots" content="index, follow">
+    @endif
 
     <!-- Favicon -->
     <link rel="icon" type="image/jpeg" href="{{ asset('logo.jpeg') }}">
@@ -12,12 +31,32 @@
 
     <!-- Social Sharing / Link Previews -->
     <meta property="og:type" content="website">
-    <meta property="og:title" content="{{ config('app.name', 'App') }} — {{ $title ?? ($heroTitle ?? 'Dashboard') }}">
+    <meta property="og:title" content="@hasSection('meta_title')@yield('meta_title')@else{{ config('app.name', 'App') }} — {{ $title ?? ($heroTitle ?? 'Dashboard') }}@endif">
     <meta property="og:image" content="{{ asset('logo.jpeg') }}">
     <meta property="og:url" content="{{ url()->current() }}">
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="{{ config('app.name', 'App') }} — {{ $title ?? ($heroTitle ?? 'Dashboard') }}">
+        <meta name="twitter:title" content="@hasSection('meta_title')@yield('meta_title')@else{{ config('app.name', 'App') }} — {{ $title ?? ($heroTitle ?? 'Dashboard') }}@endif">
     <meta name="twitter:image" content="{{ asset('logo.jpeg') }}">
+        <meta name="twitter:site" content="@{{ config('app.name', 'App') }}">
+
+        <!-- JSON-LD Structured Data -->
+        <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "Organization",
+            "name": "{{ config('app.name', 'App') }}",
+            "url": "{{ url('/') }}",
+            "logo": "{{ asset('logo.jpeg') }}"
+        }
+        </script>
+        <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "WebSite",
+            "name": "{{ config('app.name', 'App') }}",
+            "url": "{{ url('/') }}"
+        }
+        </script>
 
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
@@ -25,6 +64,7 @@
     {{-- Vite: Tailwind CSS + Custom Styles --}}
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     @stack('head')
+    @stack('meta')
 </head>
 <body class="font-sans antialiased">
 <!-- Notification Alert -->
@@ -52,7 +92,7 @@
                     </svg>
                 </button>
                 <div class="flex items-center gap-2 font-semibold text-slate-700 dark:text-slate-200">
-                    <img src="{{ asset('logo.jpeg') }}" alt="Logo" class="w-6 h-6 rounded object-cover ring-1 ring-slate-300 dark:ring-slate-700">
+                    <img src="{{ asset('logo.jpeg') }}" alt="Logo" width="24" height="24" class="w-6 h-6 rounded object-cover ring-1 ring-slate-300 dark:ring-slate-700">
                     <span>{{ $title ?? 'Dashboard' }}</span>
                 </div>
             </div>

@@ -4,7 +4,26 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <meta name="description" content="Modern Sport Academy Management System - Manage members, coaches, schedules, attendance, and billing in one platform.">
+        <meta name="description" content="Modern Sport Academy Management System - Manage members, coaches, schedules, attendance, and billing in one platform.">
+        <link rel="canonical" href="{{ url()->current() }}">
+        <meta property="og:type" content="website">
+        <meta property="og:title" content="{{ config('app.name', 'Sport Academy MS') }} - Modern Academy Management Platform">
+        <meta property="og:description" content="Modern Sport Academy Management System - Manage members, coaches, schedules, attendance, and billing in one platform.">
+        <meta property="og:image" content="{{ asset('logo.jpeg') }}">
+        <meta property="og:url" content="{{ url()->current() }}">
+        <meta name="twitter:card" content="summary_large_image">
+        <meta name="twitter:title" content="{{ config('app.name', 'Sport Academy MS') }} - Modern Academy Management Platform">
+        <meta name="twitter:description" content="Modern Sport Academy Management System - Manage members, coaches, schedules, attendance, and billing in one platform.">
+        <meta name="twitter:image" content="{{ asset('logo.jpeg') }}">
+        <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "Organization",
+            "name": "{{ config('app.name', 'Sport Academy MS') }}",
+            "url": "{{ url('/') }}",
+            "logo": "{{ asset('logo.jpeg') }}"
+        }
+        </script>
     <meta name="theme-color" content="#ffffff">
     <title>{{ config('app.name', 'Sport Academy MS') }} - Modern Academy Management Platform</title>
 
@@ -116,7 +135,7 @@
                         aria-level="1"
                         data-count-up="true">
                         <span class="inline-flex items-center justify-center gap-4">
-                            <img src="{{ asset('logo.jpeg') }}" alt="Logo" class="w-12 h-12 md:w-14 md:h-14 rounded-md object-cover shadow ring-2 ring-blue-200 dark:ring-blue-800">
+                            <img src="{{ asset('logo.jpeg') }}" alt="Logo" width="56" height="56" class="w-12 h-12 md:w-14 md:h-14 rounded-md object-cover shadow ring-2 ring-blue-200 dark:ring-blue-800">
                             <span>
                                 All‑in‑One<br>
                                 <span class="gradient-text bg-gradient-to-r from-blue-600 via-purple-600 to-blue-600 bg-clip-text text-transparent animate-gradient-x">

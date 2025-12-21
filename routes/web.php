@@ -142,6 +142,9 @@ Route::get('/', function () {
     return view('welcome');
 })->name('welcome');
 
+// SEO: Dynamic sitemap
+Route::get('/sitemap.xml', [\App\Http\Controllers\SitemapController::class, 'index'])->name('sitemap');
+
 // Photo serving routes (public)
 Route::get('/photos/students/{student}', [\App\Http\Controllers\PhotoController::class, 'showStudent'])
     ->name('student.photo');
