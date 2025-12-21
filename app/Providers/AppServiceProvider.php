@@ -19,6 +19,8 @@ use App\Models\Communication;
 use App\Models\Subscription;
 use App\Models\Invoice;
 use App\Models\Expense;
+use App\Models\Group;
+use App\Models\Team;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -46,9 +48,19 @@ class AppServiceProvider extends ServiceProvider
                 'activeSubscriptions' => 0,
                 'pendingInvoices' => 0,
                 'pendingExpenses' => 0,
+                'totalgroup' => 0,
+                'totalteams' => 0,
             ];
 
             try {
+                if (Schema::hasTable('groups')) {
+                    $data['totalgroup'] = Group::count();
+                }
+
+                if (Schema::hasTable('teams')) {
+                    $data['totalteams'] = Team::count();
+                }
+
                 if (Schema::hasTable('staff_tasks')) {
                     $data['pendingTasksCount'] = StaffTask::where('status', '!=', 'done')->count();
                 }
