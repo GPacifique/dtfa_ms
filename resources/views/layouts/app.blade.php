@@ -31,13 +31,13 @@
 
     <!-- Social Sharing / Link Previews -->
     <meta property="og:type" content="website">
-    <meta property="og:title" content="@hasSection('meta_title')@yield('meta_title')@else{{ config('app.name', 'App') }} — {{ $title ?? ($heroTitle ?? 'Dashboard') }}@endif">
+    <meta property="og:title" content="{{ View::hasSection('meta_title') ? trim($__env->yieldContent('meta_title')) : (config('app.name', 'App').' — '.($title ?? ($heroTitle ?? 'Dashboard'))) }}">
     <meta property="og:image" content="{{ asset('logo.jpeg') }}">
     <meta property="og:url" content="{{ url()->current() }}">
     <meta name="twitter:card" content="summary_large_image">
-        <meta name="twitter:title" content="@hasSection('meta_title')@yield('meta_title')@else{{ config('app.name', 'App') }} — {{ $title ?? ($heroTitle ?? 'Dashboard') }}@endif">
+        <meta name="twitter:title" content="{{ View::hasSection('meta_title') ? trim($__env->yieldContent('meta_title')) : (config('app.name', 'App').' — '.($title ?? ($heroTitle ?? 'Dashboard'))) }}">
     <meta name="twitter:image" content="{{ asset('logo.jpeg') }}">
-        <meta name="twitter:site" content="@{{ config('app.name', 'App') }}">
+        <meta name="twitter:site" content="{{ config('app.name', 'App') }}">
 
         <!-- JSON-LD Structured Data -->
         <script type="application/ld+json">
