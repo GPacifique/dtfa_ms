@@ -17,8 +17,8 @@
         <meta name="twitter:image" content="{{ asset('logo.jpeg') }}">
         <script type="application/ld+json">
         {
-            "@context": "https://schema.org",
-            "@type": "Organization",
+            "@@context": "https://schema.org",
+            "@@type": "Organization",
             "name": "{{ config('app.name', 'Sport Academy MS') }}",
             "url": "{{ url('/') }}",
             "logo": "{{ asset('logo.jpeg') }}"
@@ -93,7 +93,8 @@
                                 Dashboard
                             </a>
                         </li>
-                    @else
+                    @endauth
+                    @guest
                         <li role="none">
                             <a href="{{ route('login') }}"
                                class="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors duration-200"
@@ -110,7 +111,7 @@
                                 </a>
                             </li>
                         @endif
-                    @endauth
+                    @endguest
                 @endif
             </ul>
         </div>
@@ -456,8 +457,8 @@
                         <address class="not-italic">
                             <ul class="footer-links space-y-2" role="list">
                                 <li role="listitem">
-                                    <a href="mailto:info@sportacademyms.com" class="text-gray-400 hover:text-white transition-colors duration-200 flex items-center">
-                                        <span class="mr-2">📧</span> info@sportacademyms.app.com
+                                    <a href="mailto:info@@sportacademyms.com" class="text-gray-400 hover:text-white transition-colors duration-200 flex items-center">
+                                        <span class="mr-2">📧</span> info@@sportacademyms.app.com
                                     </a>
                                 </li>
                                 <li role="listitem">
@@ -697,24 +698,24 @@
 
     <!-- Enhanced CSS Animations -->
     <style>
-        @keyframes ripple-animation {
+        @@keyframes ripple-animation {
             to {
                 transform: scale(4);
                 opacity: 0;
             }
         }
 
-        @keyframes float {
+        @@keyframes float {
             0%, 100% { transform: translateY(0px); }
             50% { transform: translateY(-20px); }
         }
 
-        @keyframes float-delayed {
+        @@keyframes float-delayed {
             0%, 100% { transform: translateY(0px); }
             50% { transform: translateY(-15px); }
         }
 
-        @keyframes gradient-x {
+        @@keyframes gradient-x {
             0%, 100% { background-position: 0% 50%; }
             50% { background-position: 100% 50%; }
         }
