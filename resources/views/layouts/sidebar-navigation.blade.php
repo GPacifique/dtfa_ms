@@ -483,3 +483,4 @@
                     </a>
                 @endif
             </div>
+            @endrole
