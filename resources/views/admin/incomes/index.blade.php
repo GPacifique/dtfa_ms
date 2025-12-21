@@ -34,7 +34,8 @@
         }
         $totalIncomeCents = (int) $q->sum('amount_cents');
         $totalRecords = (int) $q->count();
-        $avgIncomeRwf = $totalRecords > 0 ? floor(($totalIncomeCents / $totalRecords) / 100) : 0;
+        // Show amounts as stored (no conversion). Use raw cents average.
+        $avgIncomeCents = $totalRecords > 0 ? floor($totalIncomeCents / $totalRecords) : 0;
     @endphp
 
     <!-- Stats Card -->
@@ -43,7 +44,7 @@
             <div class="flex items-center justify-between">
                 <div>
                     <p class="text-emerald-100 text-sm font-medium uppercase tracking-wide">Total Income</p>
-                    <p class="text-4xl font-bold mt-2"><x-rwf :value="$totalIncomeCents" cents="true" class="text-white" /></p>
+                    <p class="text-4xl font-bold mt-2">{{ number_format($totalIncomeCents, 0) }} <span class="text-sm font-medium">{{ $incomes->first()->currency ?? 'RWF' }}</span></p>
                 </div>
                 <div class="bg-emerald-400 bg-opacity-30 rounded-lg p-4">
                     <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -72,7 +73,7 @@
             <div class="flex items-center justify-between">
                 <div>
                     <p class="text-purple-100 text-sm font-medium uppercase tracking-wide">Avg Income</p>
-                    <p class="text-4xl font-bold mt-2"><x-rwf :value="$avgIncomeRwf" cents="false" class="text-white" /></p>
+                    <p class="text-4xl font-bold mt-2">{{ number_format($avgIncomeCents, 0) }} <span class="text-sm font-medium">{{ $incomes->first()->currency ?? 'RWF' }}</span></p>
                     <p class="text-xs text-purple-100 mt-1">per entry</p>
                 </div>
                 <div class="bg-purple-400 bg-opacity-30 rounded-lg p-4">
@@ -153,7 +154,7 @@
                                 {{ $income->source }}
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm font-bold text-right text-emerald-600">
-                                <x-rwf :value="$income->amount_cents" :currency="$income->currency ?? 'RWF'" cents="true" />
+                                {{ number_format($income->amount_cents, 0) }} <span class="text-xs text-slate-500">{{ $income->currency ?? 'RWF' }}</span>
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                                 <a href="{{ route('admin.incomes.show', $income) }}" class="text-blue-600 hover:text-blue-900 mr-3 transition">View</a>
