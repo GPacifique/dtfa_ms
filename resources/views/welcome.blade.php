@@ -478,6 +478,7 @@
                 </div>
             </div>
         </footer>
+    </main>
 
     <!-- Enhanced Custom JavaScript for Welcome Page -->
     <script>
@@ -778,7 +779,6 @@
             background: rgba(75, 85, 99, 0.8);
         }
     </style>
-    </main>
 
     <!-- Custom Interactions JS (Legacy Fallback) -->
     @if(!app()->environment('production'))
@@ -786,3 +786,4 @@
     @endif
 </body>
 </html>
+
