@@ -41,6 +41,7 @@ SVG;
         return 'data:image/svg+xml;base64,' . base64_encode($svg);
     }
 
+
     /**
      * Generate a UI Avatar URL with initials.
      *

@@ -8,54 +8,140 @@
 @endpush
 
 @section('content')
-<div class="container">
+<div class="max-w-5xl mx-auto">
+    <div class="card p-6">
+        <h2 class="text-xl font-semibold text-slate-900 dark:text-white mb-1">Edit Income</h2>
+        <p class="text-sm text-slate-500 dark:text-slate-400 mb-6">Update the details of this income record.</p>
 
-    <form method="POST" action="{{ route('admin.incomes.update', $income) }}">
-        @csrf
-        @method('PUT')
+        @if ($errors->any())
+            <div class="mb-6 rounded-lg border border-red-200 dark:border-red-800 bg-red-50 dark:bg-red-900/20 p-4 text-sm text-red-700 dark:text-red-300">
+                <div class="font-semibold mb-1">Please fix the following:</div>
+                <ul class="list-disc list-inside space-y-0.5">
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
 
-        <div class="mb-3">
-            <label class="form-label">Branch</label>
-            <select name="branch_id" class="form-control">
-                <option value="">-- Select branch --</option>
-                @foreach($branches as $b)
-                    <option value="{{ $b->id }}" @if($income->branch_id == $b->id) selected @endif>{{ $b->name }}</option>
-                @endforeach
-            </select>
-        </div>
+        <form method="POST" action="{{ route('admin.incomes.update', $income) }}" class="space-y-8">
+            @csrf
+            @method('PUT')
 
-        <div class="mb-3">
-            <label class="form-label">Amount</label>
-            <input name="amount" type="text" class="form-control" value="{{ number_format($income->amount_cents, 0) }}" required>
-        </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Branch -->
+                <div class="col-span-1">
+                    <label for="branch_id" class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-1">Branch</label>
+                    <select id="branch_id" name="branch_id" class="w-full rounded-lg border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 focus:border-emerald-500 focus:ring-emerald-500">
+                        <option value="">-- Select branch --</option>
+                        @foreach($branches as $b)
+                            <option value="{{ $b->id }}" @selected(old('branch_id', $income->branch_id)==$b->id)>{{ $b->name }}</option>
+                        @endforeach
+                    </select>
+                    @error('branch_id')
+                        <p class="mt-1 text-xs text-red-600">{{ $message }}</p>
+                    @enderror
+                </div>
 
-        <div class="mb-3">
-            <label class="form-label">Currency</label>
-            <input name="currency" type="text" class="form-control" value="{{ $income->currency }}">
-        </div>
+                <!-- Amount -->
+                <div class="col-span-1">
+                    <label for="amount" class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-1">Amount <span class="text-red-600">*</span></label>
+                    <div class="relative">
+                        <input id="amount" name="amount" type="text" inputmode="numeric" autocomplete="off" placeholder="e.g. 250,000" value="{{ old('amount', number_format($income->amount_cents, 0)) }}" class="w-full rounded-lg border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 pr-16 text-slate-900 dark:text-slate-100 focus:border-emerald-500 focus:ring-emerald-500" required>
+                        <span class="absolute inset-y-0 right-3 inline-flex items-center text-xs text-slate-500">RWF</span>
+                    </div>
+                    <p class="mt-1 text-xs text-slate-500">Enter whole amount; commas allowed.</p>
+                    @error('amount')
+                        <p class="mt-1 text-xs text-red-600">{{ $message }}</p>
+                    @enderror
+                </div>
 
-        <div class="mb-3">
-            <label class="form-label">Category</label>
-            <input name="category" type="text" class="form-control" value="{{ $income->category }}">
-        </div>
+                <!-- Currency -->
+                <div class="col-span-1">
+                    <label for="currency" class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-1">Currency</label>
+                    <input id="currency" name="currency" type="text" value="{{ old('currency', $income->currency) }}" class="w-full uppercase rounded-lg border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 focus:border-emerald-500 focus:ring-emerald-500">
+                    <p class="mt-1 text-xs text-slate-500">ISO code (e.g., RWF, USD, EUR)</p>
+                    @error('currency')
+                        <p class="mt-1 text-xs text-red-600">{{ $message }}</p>
+                    @enderror
+                </div>
 
-        <div class="mb-3">
-            <label class="form-label">Source</label>
-            <input name="source" type="text" class="form-control" value="{{ $income->source }}">
-        </div>
+                <!-- Category -->
+                <div class="col-span-1">
+                    <label for="category" class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-1">Category</label>
+                    <input list="categoryOptions" id="category" name="category" type="text" value="{{ old('category', $income->category) }}" placeholder="e.g. sponsorship" class="w-full rounded-lg border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 focus:border-emerald-500 focus:ring-emerald-500">
+                    <datalist id="categoryOptions">
+                        <option value="fees" />
+                        <option value="donation" />
+                        <option value="sponsorship" />
+                        <option value="ticket_sales" />
+                        <option value="merchandise" />
+                        <option value="other" />
+                    </datalist>
+                    @error('category')
+                        <p class="mt-1 text-xs text-red-600">{{ $message }}</p>
+                    @enderror
+                </div>
 
-        <div class="mb-3">
-            <label class="form-label">Received At</label>
-            <input name="received_at" type="datetime-local" class="form-control" value="{{ $income->received_at?->format('Y-m-d\TH:i') }}">
-        </div>
+                <!-- Source -->
+                <div class="col-span-1">
+                    <label for="source" class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-1">Source</label>
+                    <input list="sourceOptions" id="source" name="source" type="text" value="{{ old('source', $income->source) }}" placeholder="e.g. mobile_money" class="w-full rounded-lg border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 focus:border-emerald-500 focus:ring-emerald-500">
+                    <datalist id="sourceOptions">
+                        <option value="cash" />
+                        <option value="mobile_money" />
+                        <option value="bank_transfer" />
+                        <option value="cheque" />
+                        <option value="other" />
+                    </datalist>
+                    @error('source')
+                        <p class="mt-1 text-xs text-red-600">{{ $message }}</p>
+                    @enderror
+                </div>
 
-        <div class="mb-3">
-            <label class="form-label">Notes</label>
-            <textarea name="notes" class="form-control">{{ $income->notes }}</textarea>
-        </div>
+                <!-- Received at -->
+                <div class="col-span-1">
+                    <label for="received_at" class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-1">Received At</label>
+                    <input id="received_at" name="received_at" type="datetime-local" value="{{ old('received_at', $income->received_at?->format('Y-m-d\\TH:i')) }}" class="w-full rounded-lg border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 focus:border-emerald-500 focus:ring-emerald-500">
+                    <p class="mt-1 text-xs text-slate-500">Uses current time if left blank.</p>
+                    @error('received_at')
+                        <p class="mt-1 text-xs text-red-600">{{ $message }}</p>
+                    @enderror
+                </div>
 
-        <button class="btn btn-primary">Save</button>
-        <a href="{{ route('admin.incomes.index') }}" class="btn btn-link">Cancel</a>
-    </form>
+                <!-- Notes -->
+                <div class="md:col-span-2">
+                    <label for="notes" class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-1">Notes</label>
+                    <textarea id="notes" name="notes" rows="3" class="w-full rounded-lg border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 focus:border-emerald-500 focus:ring-emerald-500" placeholder="Optional notes or references">{{ old('notes', $income->notes) }}</textarea>
+                    @error('notes')
+                        <p class="mt-1 text-xs text-red-600">{{ $message }}</p>
+                    @enderror
+                </div>
+            </div>
+
+            <div class="flex items-center justify-end gap-3 pt-2">
+                <a href="{{ route('admin.incomes.index') }}" class="px-4 py-2 rounded-lg border border-slate-300 text-slate-700 hover:bg-slate-50 dark:border-slate-700 dark:text-slate-200 dark:hover:bg-slate-800">Cancel</a>
+                <button class="btn-primary">Save Changes</button>
+            </div>
+        </form>
+    </div>
 </div>
 @endsection
+
+@push('scripts')
+<script>
+    // Simple currency formatting for amount (allows digits and commas)
+    (function() {
+        const el = document.getElementById('amount');
+        if (!el) return;
+        const format = (val) => {
+            const digits = (val || '').toString().replace(/[^0-9]/g, '');
+            return digits.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+        };
+        // Initial format if prefilled
+        el.value = format(el.value);
+        el.addEventListener('input', () => { el.value = format(el.value); });
+        el.addEventListener('blur', () => { el.value = format(el.value); });
+    })();
+</script>
+@endpush

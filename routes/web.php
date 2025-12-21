@@ -150,6 +150,11 @@ Route::get('/photos/staff/{staff}', [\App\Http\Controllers\PhotoController::clas
 Route::get('/photos/users/{user}', [\App\Http\Controllers\PhotoController::class, 'showUser'])
     ->name('photos.user');
 
+// Storage proxy route (handles /storage/* when symlink is unavailable)
+Route::get('/storage/{path}', [\App\Http\Controllers\StorageProxyController::class, 'show'])
+    ->where('path', '.*')
+    ->name('storage.proxy');
+
 Route::middleware(['auth'])->group(function () {
 
     // Guest dashboard (now protected)
