@@ -29,8 +29,7 @@
             <div class="text-right">
                 <div class="text-sm text-slate-500 dark:text-slate-400">Amount</div>
                 <div class="text-3xl md:text-4xl font-extrabold tracking-tight text-emerald-600 dark:text-emerald-400">
-                    {{ number_format($income->amount_cents, 0) }}
-                    <span class="text-base font-semibold text-slate-600 dark:text-slate-300 ml-1">{{ $income->currency ?? 'RWF' }}</span>
+                    <x-rwf :value="$income->amount_cents" :currency="$income->currency ?? 'RWF'" />
                 </div>
             </div>
         </div>

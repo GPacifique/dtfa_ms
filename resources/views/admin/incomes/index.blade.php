@@ -43,8 +43,7 @@
             <div class="flex items-center justify-between">
                 <div>
                     <p class="text-emerald-100 text-sm font-medium uppercase tracking-wide">Total Income</p>
-                    <p class="text-4xl font-bold mt-2">{{ number_format((int) floor($totalIncomeCents / 100)) }}</p>
-                    <p class="text-xs text-emerald-100 mt-1">RWF</p>
+                    <p class="text-4xl font-bold mt-2"><x-rwf :value="$totalIncomeCents" cents="true" class="text-white" /></p>
                 </div>
                 <div class="bg-emerald-400 bg-opacity-30 rounded-lg p-4">
                     <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -73,8 +72,8 @@
             <div class="flex items-center justify-between">
                 <div>
                     <p class="text-purple-100 text-sm font-medium uppercase tracking-wide">Avg Income</p>
-                    <p class="text-4xl font-bold mt-2">{{ number_format((int) $avgIncomeRwf) }}</p>
-                    <p class="text-xs text-purple-100 mt-1">RWF per entry</p>
+                    <p class="text-4xl font-bold mt-2"><x-rwf :value="$avgIncomeRwf" cents="false" class="text-white" /></p>
+                    <p class="text-xs text-purple-100 mt-1">per entry</p>
                 </div>
                 <div class="bg-purple-400 bg-opacity-30 rounded-lg p-4">
                     <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -154,7 +153,7 @@
                                 {{ $income->source }}
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm font-bold text-right text-emerald-600">
-                                {{ number_format((int) floor(($income->amount_cents ?? 0) / 100)) }} <span class="text-xs text-slate-500">{{ $income->currency ?? 'RWF' }}</span>
+                                <x-rwf :value="$income->amount_cents" :currency="$income->currency ?? 'RWF'" />
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                                 <a href="{{ route('admin.incomes.show', $income) }}" class="text-blue-600 hover:text-blue-900 mr-3 transition">View</a>
