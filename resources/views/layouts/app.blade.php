@@ -107,12 +107,12 @@
                     </svg>
                 </button>
                 @auth
-                @role('super-admin|admin|CEO|Technical Director')
-                    <a href="{{ route('admin.communications.create') }}" class="btn-secondary mr-2">Compose</a>
-                @endrole
+                    @role('super-admin|admin|CEO|Technical Director')
+                        <a href="{{ route('admin.communications.create') }}" class="btn-secondary mr-2">Compose</a>
+                    @endrole
 
-                <!-- User Profile Dropdown -->
-                <div x-data="{ open: false }" class="relative">
+                    <!-- User Profile Dropdown -->
+                    <div x-data="{ open: false }" class="relative">
                     <button @click="open = !open" @click.away="open = false" class="flex items-center gap-2 p-1 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors" title="User menu">
                         <img
                             src="{{ Auth::user()->profile_picture_url }}"
@@ -178,9 +178,9 @@
                             </form>
                         </div>
                     </div>
-                </div>
+                    </div>
                 @else
-                <a class="btn-primary" href="{{ route('login') }}">Login</a>
+                    <a class="btn-primary" href="{{ route('login') }}">Login</a>
                 @endauth
             </div>
         </header>
