@@ -848,90 +848,312 @@
         <div class="mb-8">
             <h2 class="text-xl font-bold text-slate-900 dark:text-white mb-4">⚡ Quick Actions</h2>
             <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
-                <a href="{{ route('admin.students.index') }}" class="card hover:shadow-lg transition-shadow">
+                
+                {{-- People --}}
+                @if(Route::has('students-modern.index'))
+                <a href="{{ route('students-modern.index') }}" class="card hover:shadow-lg transition-shadow">
                     <div class="card-body p-4 text-center">
-                        <div class="text-3xl mb-2">📋</div>
+                        <div class="text-3xl mb-2">🎓</div>
                         <div class="text-sm font-semibold text-slate-900">Students</div>
                         <div class="text-xs text-slate-500 mt-1">Manage</div>
                     </div>
                 </a>
-                <a href="{{ route('admin.students.create') }}" class="card hover:shadow-lg transition-shadow">
+                @endif
+
+                @if(Route::has('staff.index'))
+                <a href="{{ route('staff.index') }}" class="card hover:shadow-lg transition-shadow">
                     <div class="card-body p-4 text-center">
-                        <div class="text-3xl mb-2">➕</div>
-                        <div class="text-sm font-semibold text-slate-900">New Student</div>
-                        <div class="text-xs text-slate-500 mt-1">Add</div>
+                        <div class="text-3xl mb-2">👔</div>
+                        <div class="text-sm font-semibold text-slate-900">Staff</div>
+                        <div class="text-xs text-slate-500 mt-1">Profiles</div>
                     </div>
                 </a>
-                <a href="{{ route('admin.training_session_records.index') }}" class="card hover:shadow-lg transition-shadow">
+                @endif
+
+                @if(Route::has('admin.players.index'))
+                <a href="{{ route('admin.players.index') }}" class="card hover:shadow-lg transition-shadow">
                     <div class="card-body p-4 text-center">
-                        <div class="text-3xl mb-2">📋</div>
-                        <div class="text-sm font-semibold text-slate-900">Sessions</div>
-                        <div class="text-xs text-slate-500 mt-1">View All</div>
+                        <div class="text-3xl mb-2">🏃</div>
+                        <div class="text-sm font-semibold text-slate-900">Players</div>
+                        <div class="text-xs text-slate-500 mt-1">Match Players</div>
                     </div>
                 </a>
-                <a href="{{ route('admin.training_session_records.create') }}" class="card hover:shadow-lg transition-shadow">
-                    <div class="card-body p-4 text-center">
-                        <div class="text-3xl mb-2">📋</div>
-                        <div class="text-sm font-semibold text-slate-900">New Session</div>
-                        <div class="text-xs text-slate-500 mt-1">Schedule</div>
-                    </div>
-                </a>
+                @endif
+
+                @if(Route::has('admin.users.index'))
                 <a href="{{ route('admin.users.index') }}" class="card hover:shadow-lg transition-shadow">
                     <div class="card-body p-4 text-center">
-                        <div class="text-3xl mb-2">📋</div>
+                        <div class="text-3xl mb-2">👥</div>
                         <div class="text-sm font-semibold text-slate-900">Users</div>
-                        <div class="text-xs text-slate-500 mt-1">Manage</div>
+                        <div class="text-xs text-slate-500 mt-1">System Users</div>
                     </div>
                 </a>
-                <a href="{{ route('admin.users.create') }}" class="card hover:shadow-lg transition-shadow">
+                @endif
+
+                @if(Route::has('admin.roles.index'))
+                <a href="{{ route('admin.roles.index') }}" class="card hover:shadow-lg transition-shadow">
                     <div class="card-body p-4 text-center">
-                        <div class="text-3xl mb-2">📋</div>
-                        <div class="text-sm font-semibold text-slate-900">New User</div>
-                        <div class="text-xs text-slate-500 mt-1">Create</div>
+                        <div class="text-3xl mb-2">🛡️</div>
+                        <div class="text-sm font-semibold text-slate-900">Roles</div>
+                        <div class="text-xs text-slate-500 mt-1">Permissions</div>
                     </div>
                 </a>
-                <a href="{{ route('admin.groups.index') }}" class="card hover:shadow-lg transition-shadow">
+                @endif
+
+                {{-- Training --}}
+                @if(Route::has('admin.training_session_records.index'))
+                <a href="{{ route('admin.training_session_records.index') }}" class="card hover:shadow-lg transition-shadow">
                     <div class="card-body p-4 text-center">
-                        <div class="text-3xl mb-2">📋</div>
-                        <div class="text-sm font-semibold text-slate-900">Groups</div>
-                        <div class="text-xs text-slate-500 mt-1">Manage</div>
+                        <div class="text-3xl mb-2">📅</div>
+                        <div class="text-sm font-semibold text-slate-900">Sessions</div>
+                        <div class="text-xs text-slate-500 mt-1">Scheduling</div>
                     </div>
                 </a>
-                <a href="{{ route('admin.branches.index') }}" class="card hover:shadow-lg transition-shadow">
-                    <div class="card-body p-4 text-center">
-                        <div class="text-3xl mb-2">📋</div>
-                        <div class="text-sm font-semibold text-slate-900">Branches</div>
-                        <div class="text-xs text-slate-500 mt-1">Locations</div>
-                    </div>
-                </a>
-                <a href="{{ route('admin.equipment.index') }}" class="card hover:shadow-lg transition-shadow">
+                @endif
+
+                @if(Route::has('admin.games.index'))
+                <a href="{{ route('admin.games.index') }}" class="card hover:shadow-lg transition-shadow">
                     <div class="card-body p-4 text-center">
                         <div class="text-3xl mb-2">⚽</div>
-                        <div class="text-sm font-semibold text-slate-900">Equipment</div>
-                        <div class="text-xs text-slate-500 mt-1">Assets</div>
+                        <div class="text-sm font-semibold text-slate-900">Matches</div>
+                        <div class="text-xs text-slate-500 mt-1">Games</div>
                     </div>
                 </a>
-                <a href="{{ route('coach.attendance.index') }}" class="card hover:shadow-lg transition-shadow">
+                @endif
+
+                @if(Route::has('admin.minutes.index'))
+                <a href="{{ route('admin.minutes.index') }}" class="card hover:shadow-lg transition-shadow">
+                    <div class="card-body p-4 text-center">
+                        <div class="text-3xl mb-2">⏱️</div>
+                        <div class="text-sm font-semibold text-slate-900">Minutes</div>
+                        <div class="text-xs text-slate-500 mt-1">Records</div>
+                    </div>
+                </a>
+                @endif
+
+                @if(Route::has('admin.upcoming-events.index'))
+                <a href="{{ route('admin.upcoming-events.index') }}" class="card hover:shadow-lg transition-shadow">
+                    <div class="card-body p-4 text-center">
+                        <div class="text-3xl mb-2">🎉</div>
+                        <div class="text-sm font-semibold text-slate-900">Events</div>
+                        <div class="text-xs text-slate-500 mt-1">Upcoming</div>
+                    </div>
+                </a>
+                @endif
+
+                @if(Route::has('admin.activity-plans.index'))
+                <a href="{{ route('admin.activity-plans.index') }}" class="card hover:shadow-lg transition-shadow">
+                    <div class="card-body p-4 text-center">
+                        <div class="text-3xl mb-2">📝</div>
+                        <div class="text-sm font-semibold text-slate-900">Plans</div>
+                        <div class="text-xs text-slate-500 mt-1">Activities</div>
+                    </div>
+                </a>
+                @endif
+
+                @if(Route::has('admin.sports-equipment.index'))
+                <a href="{{ route('admin.sports-equipment.index') }}" class="card hover:shadow-lg transition-shadow">
+                    <div class="card-body p-4 text-center">
+                        <div class="text-3xl mb-2">👟</div>
+                        <div class="text-sm font-semibold text-slate-900">Sports Eq</div>
+                        <div class="text-xs text-slate-500 mt-1">Inventory</div>
+                    </div>
+                </a>
+                @endif
+
+                @if(Route::has('admin.office-equipment.index'))
+                <a href="{{ route('admin.office-equipment.index') }}" class="card hover:shadow-lg transition-shadow">
+                    <div class="card-body p-4 text-center">
+                        <div class="text-3xl mb-2">💻</div>
+                        <div class="text-sm font-semibold text-slate-900">Office Eq</div>
+                        <div class="text-xs text-slate-500 mt-1">Inventory</div>
+                    </div>
+                </a>
+                @endif
+
+                @if(Route::has('kit-manager.dashboard'))
+                <a href="{{ route('kit-manager.dashboard') }}" class="card hover:shadow-lg transition-shadow">
+                    <div class="card-body p-4 text-center">
+                        <div class="text-3xl mb-2">👕</div>
+                        <div class="text-sm font-semibold text-slate-900">Kit Mgr</div>
+                        <div class="text-xs text-slate-500 mt-1">Dashboard</div>
+                    </div>
+                </a>
+                @endif
+
+                @if(Route::has('admin.student-attendance.index'))
+                <a href="{{ route('admin.student-attendance.index') }}" class="card hover:shadow-lg transition-shadow">
                     <div class="card-body p-4 text-center">
                         <div class="text-3xl mb-2">✅</div>
-                        <div class="text-sm font-semibold text-slate-900">Attendance</div>
-                        <div class="text-xs text-slate-500 mt-1">Track</div>
+                        <div class="text-sm font-semibold text-slate-900">Student Att</div>
+                        <div class="text-xs text-slate-500 mt-1">Attendance</div>
                     </div>
                 </a>
-                <a href="{{ route('accountant.payments.index') }}" class="card hover:shadow-lg transition-shadow">
-                    <div class="card-body p-4 text-center">
-                        <div class="text-3xl mb-2">💰</div>
-                        <div class="text-sm font-semibold text-slate-900">Payments</div>
-                        <div class="text-xs text-slate-500 mt-1">Finance</div>
-                    </div>
-                </a>
-                <a href="{{ route('accountant.invoices.index') }}" class="card hover:shadow-lg transition-shadow">
+                @endif
+
+                @if(Route::has('admin.staff_attendances.index'))
+                <a href="{{ route('admin.staff_attendances.index') }}" class="card hover:shadow-lg transition-shadow">
                     <div class="card-body p-4 text-center">
                         <div class="text-3xl mb-2">📋</div>
+                        <div class="text-sm font-semibold text-slate-900">Staff Att</div>
+                        <div class="text-xs text-slate-500 mt-1">Attendance</div>
+                    </div>
+                </a>
+                @endif
+
+                @if(Route::has('admin.inhousetrainings.index'))
+                <a href="{{ route('admin.inhousetrainings.index') }}" class="card hover:shadow-lg transition-shadow">
+                    <div class="card-body p-4 text-center">
+                        <div class="text-3xl mb-2">🏫</div>
+                        <div class="text-sm font-semibold text-slate-900">Inhouse</div>
+                        <div class="text-xs text-slate-500 mt-1">Training</div>
+                    </div>
+                </a>
+                @endif
+
+                {{-- Finance --}}
+                @if(Route::has('accountant.subscriptions.index'))
+                <a href="{{ route('accountant.subscriptions.index') }}" class="card hover:shadow-lg transition-shadow">
+                    <div class="card-body p-4 text-center">
+                        <div class="text-3xl mb-2">💳</div>
+                        <div class="text-sm font-semibold text-slate-900">Subs</div>
+                        <div class="text-xs text-slate-500 mt-1">Subscriptions</div>
+                    </div>
+                </a>
+                @endif
+
+                @if(Route::has('admin.plans.index'))
+                <a href="{{ route('admin.plans.index') }}" class="card hover:shadow-lg transition-shadow">
+                    <div class="card-body p-4 text-center">
+                        <div class="text-3xl mb-2">🏷️</div>
+                        <div class="text-sm font-semibold text-slate-900">Plans</div>
+                        <div class="text-xs text-slate-500 mt-1">Pricing</div>
+                    </div>
+                </a>
+                @endif
+
+                @if(Route::has('accountant.invoices.index'))
+                <a href="{{ route('accountant.invoices.index') }}" class="card hover:shadow-lg transition-shadow">
+                    <div class="card-body p-4 text-center">
+                        <div class="text-3xl mb-2">📄</div>
                         <div class="text-sm font-semibold text-slate-900">Invoices</div>
                         <div class="text-xs text-slate-500 mt-1">Billing</div>
                     </div>
                 </a>
+                @endif
+
+                @if(Route::has('accountant.payments.index'))
+                <a href="{{ route('accountant.payments.index') }}" class="card hover:shadow-lg transition-shadow">
+                    <div class="card-body p-4 text-center">
+                        <div class="text-3xl mb-2">💰</div>
+                        <div class="text-sm font-semibold text-slate-900">Payments</div>
+                        <div class="text-xs text-slate-500 mt-1">Transactions</div>
+                    </div>
+                </a>
+                @endif
+
+                @if(Route::has('admin.incomes.index'))
+                <a href="{{ route('admin.incomes.index') }}" class="card hover:shadow-lg transition-shadow">
+                    <div class="card-body p-4 text-center">
+                        <div class="text-3xl mb-2">📈</div>
+                        <div class="text-sm font-semibold text-slate-900">Incomes</div>
+                        <div class="text-xs text-slate-500 mt-1">Revenue</div>
+                    </div>
+                </a>
+                @endif
+
+                @if(Route::has('admin.expenses.index'))
+                <a href="{{ route('admin.expenses.index') }}" class="card hover:shadow-lg transition-shadow">
+                    <div class="card-body p-4 text-center">
+                        <div class="text-3xl mb-2">📉</div>
+                        <div class="text-sm font-semibold text-slate-900">Expenses</div>
+                        <div class="text-xs text-slate-500 mt-1">Costs</div>
+                    </div>
+                </a>
+                @endif
+
+                {{-- Resources --}}
+                @if(Route::has('admin.equipment.index'))
+                <a href="{{ route('admin.equipment.index') }}" class="card hover:shadow-lg transition-shadow">
+                    <div class="card-body p-4 text-center">
+                        <div class="text-3xl mb-2">📦</div>
+                        <div class="text-sm font-semibold text-slate-900">Equipment</div>
+                        <div class="text-xs text-slate-500 mt-1">General</div>
+                    </div>
+                </a>
+                @endif
+
+                @if(Route::has('admin.branches.index'))
+                <a href="{{ route('admin.branches.index') }}" class="card hover:shadow-lg transition-shadow">
+                    <div class="card-body p-4 text-center">
+                        <div class="text-3xl mb-2">🏢</div>
+                        <div class="text-sm font-semibold text-slate-900">Branches</div>
+                        <div class="text-xs text-slate-500 mt-1">Locations</div>
+                    </div>
+                </a>
+                @endif
+
+                @if(Route::has('admin.groups.index'))
+                <a href="{{ route('admin.groups.index') }}" class="card hover:shadow-lg transition-shadow">
+                    <div class="card-body p-4 text-center">
+                        <div class="text-3xl mb-2">👥</div>
+                        <div class="text-sm font-semibold text-slate-900">Groups</div>
+                        <div class="text-xs text-slate-500 mt-1">Manage</div>
+                    </div>
+                </a>
+                @endif
+
+                @if(Route::has('admin.teams.index'))
+                <a href="{{ route('admin.teams.index') }}" class="card hover:shadow-lg transition-shadow">
+                    <div class="card-body p-4 text-center">
+                        <div class="text-3xl mb-2">🏆</div>
+                        <div class="text-sm font-semibold text-slate-900">Teams</div>
+                        <div class="text-xs text-slate-500 mt-1">Squads</div>
+                    </div>
+                </a>
+                @endif
+
+                @if(Route::has('admin.tasks.index'))
+                <a href="{{ route('admin.tasks.index') }}" class="card hover:shadow-lg transition-shadow">
+                    <div class="card-body p-4 text-center">
+                        <div class="text-3xl mb-2">✅</div>
+                        <div class="text-sm font-semibold text-slate-900">Tasks</div>
+                        <div class="text-xs text-slate-500 mt-1">To-Do</div>
+                    </div>
+                </a>
+                @endif
+
+                @if(Route::has('admin.communications.index'))
+                <a href="{{ route('admin.communications.index') }}" class="card hover:shadow-lg transition-shadow">
+                    <div class="card-body p-4 text-center">
+                        <div class="text-3xl mb-2">📧</div>
+                        <div class="text-sm font-semibold text-slate-900">Comms</div>
+                        <div class="text-xs text-slate-500 mt-1">Messages</div>
+                    </div>
+                </a>
+                @endif
+
+                {{-- Reports --}}
+                @if(Route::has('reports.index'))
+                <a href="{{ route('reports.index') }}" class="card hover:shadow-lg transition-shadow">
+                    <div class="card-body p-4 text-center">
+                        <div class="text-3xl mb-2">📊</div>
+                        <div class="text-sm font-semibold text-slate-900">Reports</div>
+                        <div class="text-xs text-slate-500 mt-1">Analytics</div>
+                    </div>
+                </a>
+                @endif
+
+                @if(Route::has('admin.imports.index'))
+                <a href="{{ route('admin.imports.index') }}" class="card hover:shadow-lg transition-shadow">
+                    <div class="card-body p-4 text-center">
+                        <div class="text-3xl mb-2">📥</div>
+                        <div class="text-sm font-semibold text-slate-900">Import</div>
+                        <div class="text-xs text-slate-500 mt-1">Data</div>
+                    </div>
+                </a>
+                @endif
+
             </div>
         </div>
 
