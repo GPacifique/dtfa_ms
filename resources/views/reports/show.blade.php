@@ -1,5 +1,8 @@
 @extends('layouts.app')
 
+@section('meta_title', 'Report #'.($report->no ?? $report->id).' — '.config('app.name', 'App'))
+@section('meta_description', 'Details for report '.($report->no ?? $report->id).': workstream '.($report->workstream ?? 'N/A').', activity '.($report->activity ?? 'N/A').', status '.($report->status ?? 'N/A').'.')
+
 @section('content')
 <div class="container">
     <h1>Report Details</h1>

@@ -1,5 +1,8 @@
 @extends('layouts.app')
 
+@section('meta_title', 'Reports — '.config('app.name', 'App'))
+@section('meta_description', 'Browse operational reports: workstreams, activities, statuses, and comments. Export PDFs or create new reports.')
+
 @section('content')
 <div class="container">
     <h1>Reports</h1>

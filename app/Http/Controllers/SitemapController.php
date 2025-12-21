@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Route;
+use App\Models\Report;
 
 class SitemapController extends Controller
 {
@@ -19,6 +20,20 @@ class SitemapController extends Controller
         }
         if (Route::has('register')) {
             $urls[] = [ 'loc' => route('register'), 'changefreq' => 'monthly', 'priority' => '0.5' ];
+        }
+
+        // Public reports index
+        if (Route::has('reports.index')) {
+            $urls[] = [ 'loc' => route('reports.index'), 'changefreq' => 'weekly', 'priority' => '0.7' ];
+        }
+        // Report detail pages (limit count)
+        try {
+            $reports = Report::query()->select(['id','no'])->latest('id')->limit(100)->get();
+            foreach ($reports as $r) {
+                $urls[] = [ 'loc' => route('reports.show', $r->id), 'changefreq' => 'monthly', 'priority' => '0.5' ];
+            }
+        } catch (\Throwable $e) {
+            // if table not available, skip gracefully
         }
 
         $xml = '<?xml version="1.0" encoding="UTF-8"?>';
