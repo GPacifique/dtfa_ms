@@ -31,32 +31,35 @@
 
     <!-- Social Sharing / Link Previews -->
     <meta property="og:type" content="website">
-    <meta property="og:title" content="{{ View::hasSection('meta_title') ? trim($__env->yieldContent('meta_title')) : (config('app.name', 'App').' — '.($title ?? ($heroTitle ?? 'Dashboard'))) }}">
+    @php
+        $pageTitle = View::hasSection('meta_title') ? trim($__env->yieldContent('meta_title')) : (config('app.name', 'App').' — '.($title ?? ($heroTitle ?? 'Dashboard')));
+    @endphp
+    <meta property="og:title" content="{{ $pageTitle }}">
     <meta property="og:image" content="{{ asset('logo.jpeg') }}">
     <meta property="og:url" content="{{ url()->current() }}">
     <meta name="twitter:card" content="summary_large_image">
-        <meta name="twitter:title" content="{{ View::hasSection('meta_title') ? trim($__env->yieldContent('meta_title')) : (config('app.name', 'App').' — '.($title ?? ($heroTitle ?? 'Dashboard'))) }}">
+    <meta name="twitter:title" content="{{ $pageTitle }}">
     <meta name="twitter:image" content="{{ asset('logo.jpeg') }}">
-        <meta name="twitter:site" content="{{ config('app.name', 'App') }}">
+    <meta name="twitter:site" content="{{ config('app.name', 'App') }}">
 
-        <!-- JSON-LD Structured Data -->
-        <script type="application/ld+json">
-        {
-            "@context": "https://schema.org",
-            "@type": "Organization",
-            "name": "{{ config('app.name', 'App') }}",
-            "url": "{{ url('/') }}",
-            "logo": "{{ asset('logo.jpeg') }}"
-        }
-        </script>
-        <script type="application/ld+json">
-        {
-            "@context": "https://schema.org",
-            "@type": "WebSite",
-            "name": "{{ config('app.name', 'App') }}",
-            "url": "{{ url('/') }}"
-        }
-        </script>
+    <!-- JSON-LD Structured Data -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        "name": "{{ config('app.name', 'App') }}",
+        "url": "{{ url('/') }}",
+        "logo": "{{ asset('logo.jpeg') }}"
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        "name": "{{ config('app.name', 'App') }}",
+        "url": "{{ url('/') }}"
+    }
+    </script>
 
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
