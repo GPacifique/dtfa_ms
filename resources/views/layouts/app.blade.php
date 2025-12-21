@@ -4,19 +4,21 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>
-        @hasSection('meta_title')
-            @yield('meta_title')
-        @else
-            {{ config('app.name', 'App') }} — {{ $title ?? ($heroTitle ?? 'Dashboard') }}
-        @endif
-    </title>
+    @php
+        $pageTitle = View::hasSection('meta_title')
+            ? trim($__env->yieldContent('meta_title'))
+            : (config('app.name', 'App') . ' — ' . ($title ?? ($heroTitle ?? 'Dashboard')));
+        $pageDescription = View::hasSection('meta_description')
+            ? trim($__env->yieldContent('meta_description'))
+            : 'Manage academy operations: schedules, attendance, payments, and reports.';
+    @endphp
+    <title>{{ $pageTitle }}</title>
 
     <!-- Canonical URL -->
     <link rel="canonical" href="{{ url()->current() }}">
 
     <!-- Meta Description (override per page with @section('meta_description')) -->
-    <meta name="description" content="@yield('meta_description', 'Manage academy operations: schedules, attendance, payments, and reports.')">
+    <meta name="description" content="{{ $pageDescription }}">
 
     <!-- Robots: avoid indexing admin/user areas -->
     @if (request()->is('admin*') || request()->is('user*'))
@@ -31,9 +33,6 @@
 
     <!-- Social Sharing / Link Previews -->
     <meta property="og:type" content="website">
-    @php
-        $pageTitle = View::hasSection('meta_title') ? trim($__env->yieldContent('meta_title')) : (config('app.name', 'App').' — '.($title ?? ($heroTitle ?? 'Dashboard')));
-    @endphp
     <meta property="og:title" content="{{ $pageTitle }}">
     <meta property="og:image" content="{{ asset('logo.jpeg') }}">
     <meta property="og:url" content="{{ url()->current() }}">
