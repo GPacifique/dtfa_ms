@@ -42,7 +42,10 @@
                         <path d="M4 5h12v2H4V5zm0 4h12v2H4V9zm0 4h12v2H4v-2z" />
                     </svg>
                 </button>
-                <div class="font-semibold text-slate-700 dark:text-slate-200">{{ $title ?? 'Dashboard' }}</div>
+                <div class="flex items-center gap-2 font-semibold text-slate-700 dark:text-slate-200">
+                    <img src="{{ asset('logo.jpeg') }}" alt="Logo" class="w-6 h-6 rounded object-cover ring-1 ring-slate-300 dark:ring-slate-700">
+                    <span>{{ $title ?? 'Dashboard' }}</span>
+                </div>
             </div>
             <div class="flex items-center gap-3">
                 @can('manage users')<span class="badge badge-slate">manage users</span>@endcan
