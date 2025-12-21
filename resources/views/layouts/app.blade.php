@@ -4,11 +4,20 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>{{ $title ?? config('app.name', 'App') }}</title>
+    <title>{{ config('app.name', 'App') }} — {{ $title ?? ($heroTitle ?? 'Dashboard') }}</title>
 
     <!-- Favicon -->
     <link rel="icon" type="image/jpeg" href="{{ asset('logo.jpeg') }}">
     <link rel="apple-touch-icon" href="{{ asset('logo.jpeg') }}">
+
+    <!-- Social Sharing / Link Previews -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="{{ config('app.name', 'App') }} — {{ $title ?? ($heroTitle ?? 'Dashboard') }}">
+    <meta property="og:image" content="{{ asset('logo.jpeg') }}">
+    <meta property="og:url" content="{{ url()->current() }}">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="{{ config('app.name', 'App') }} — {{ $title ?? ($heroTitle ?? 'Dashboard') }}">
+    <meta name="twitter:image" content="{{ asset('logo.jpeg') }}">
 
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
