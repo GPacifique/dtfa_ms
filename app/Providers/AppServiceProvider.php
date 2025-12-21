@@ -40,61 +40,66 @@ class AppServiceProvider extends ServiceProvider
         // Fix for MySQL "Specified key was too long" error
         Schema::defaultStringLength(191);
 
-        // Sidebar composer: compute counts once per request and share with the sidebar view
-        View::composer(['layouts.sidebar', 'layouts.sidebar-navigation'], function ($view) {
-            $data = [
-                'pendingTasksCount' => 0,
-                'unreadCommsCount' => 0,
-                'activeSubscriptions' => 0,
-                'pendingInvoices' => 0,
-                'pendingExpenses' => 0,
-                'totalgroup' => 0,
-                'totalteams' => 0,
-            ];
+        // Sidebar composer: compute counts once per request and share with all views
+        View::composer('*', function ($view) {
+            static $cachedData = null;
 
-            try {
-                if (Schema::hasTable('groups')) {
-                    $data['totalgroup'] = Group::count();
-                }
+            if ($cachedData === null) {
+                $data = [
+                    'pendingTasksCount' => 0,
+                    'unreadCommsCount' => 0,
+                    'activeSubscriptions' => 0,
+                    'pendingInvoices' => 0,
+                    'pendingExpenses' => 0,
+                    'totalgroup' => 0,
+                    'totalteams' => 0,
+                ];
 
-                if (Schema::hasTable('teams')) {
-                    $data['totalteams'] = Team::count();
-                }
-
-                if (Schema::hasTable('staff_tasks')) {
-                    $data['pendingTasksCount'] = StaffTask::where('status', '!=', 'done')->count();
-                }
-
-                if (Schema::hasTable('communications')) {
-                    $data['unreadCommsCount'] = Communication::count();
-                }
-
-                if (Schema::hasTable('subscriptions')) {
-                    $data['activeSubscriptions'] = Subscription::where('status', 'active')->count();
-                }
-
-                if (Schema::hasTable('invoices')) {
-                    $data['pendingInvoices'] = Invoice::whereIn('status', ['pending', 'overdue'])->count();
-                }
-
-                if (Schema::hasTable('expenses')) {
-                    $data['pendingExpenses'] = Expense::where('status', 'pending')->count();
-                }
-
-                // If authenticated and there's a Staff record for the user, compute staff-specific counts
-                $user = Auth::user();
-                if ($user && Schema::hasTable('staff')) {
-                    $staffRecord = Staff::where('email', $user->email)->first();
-                    if ($staffRecord) {
-                        $data['pendingTasksCount'] = StaffTask::where('assigned_to', $staffRecord->id)->where('status','!=','done')->count();
-                        $data['unreadCommsCount'] = Communication::whereJsonContains('recipients', $staffRecord->id)->count();
+                try {
+                    if (Schema::hasTable('groups')) {
+                        $data['totalgroup'] = Group::count();
                     }
+
+                    if (Schema::hasTable('teams')) {
+                        $data['totalteams'] = Team::count();
+                    }
+
+                    if (Schema::hasTable('staff_tasks')) {
+                        $data['pendingTasksCount'] = StaffTask::where('status', '!=', 'done')->count();
+                    }
+
+                    if (Schema::hasTable('communications')) {
+                        $data['unreadCommsCount'] = Communication::count();
+                    }
+
+                    if (Schema::hasTable('subscriptions')) {
+                        $data['activeSubscriptions'] = Subscription::where('status', 'active')->count();
+                    }
+
+                    if (Schema::hasTable('invoices')) {
+                        $data['pendingInvoices'] = Invoice::whereIn('status', ['pending', 'overdue'])->count();
+                    }
+
+                    if (Schema::hasTable('expenses')) {
+                        $data['pendingExpenses'] = Expense::where('status', 'pending')->count();
+                    }
+
+                    // If authenticated and there's a Staff record for the user, compute staff-specific counts
+                    $user = Auth::user();
+                    if ($user && Schema::hasTable('staff')) {
+                        $staffRecord = Staff::where('email', $user->email)->first();
+                        if ($staffRecord) {
+                            $data['pendingTasksCount'] = StaffTask::where('assigned_to', $staffRecord->id)->where('status','!=','done')->count();
+                            $data['unreadCommsCount'] = Communication::whereJsonContains('recipients', $staffRecord->id)->count();
+                        }
+                    }
+                } catch (\Exception $e) {
+                    // keep defaults on error
                 }
-            } catch (\Exception $e) {
-                // keep defaults on error
+                $cachedData = $data;
             }
 
-            $view->with($data);
+            $view->with($cachedData);
         });
 
         // Dashboard metrics composer: cache heavyweight aggregates for short period
