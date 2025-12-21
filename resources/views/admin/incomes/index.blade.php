@@ -153,7 +153,7 @@
                                 {{ $income->source }}
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm font-bold text-right text-emerald-600">
-                                <x-rwf :value="$income->amount_cents" :currency="$income->currency ?? 'RWF'" />
+                                <x-rwf :value="$income->amount_cents" :currency="$income->currency ?? 'RWF'" cents="true" />
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                                 <a href="{{ route('admin.incomes.show', $income) }}" class="text-blue-600 hover:text-blue-900 mr-3 transition">View</a>

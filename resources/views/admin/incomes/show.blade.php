@@ -29,7 +29,7 @@
             <div class="text-right">
                 <div class="text-sm text-slate-500 dark:text-slate-400">Amount</div>
                 <div class="text-3xl md:text-4xl font-extrabold tracking-tight text-emerald-600 dark:text-emerald-400">
-                    <x-rwf :value="$income->amount_cents" :currency="$income->currency ?? 'RWF'" />
+                    <x-rwf :value="$income->amount_cents" :currency="$income->currency ?? 'RWF'" cents="true" />
                 </div>
             </div>
         </div>
