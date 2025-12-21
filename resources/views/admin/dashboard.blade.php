@@ -23,7 +23,10 @@
         </div>
 
         <div class="relative z-10 container mx-auto px-6 py-8">
-            <h1 class="text-3xl md:text-4xl font-bold text-white mb-2">Admin Dashboard</h1>
+            <h1 class="flex items-center gap-3 text-3xl md:text-4xl font-bold text-white mb-2">
+                <img src="{{ asset('logo.jpeg') }}" alt="Logo" class="w-9 h-9 md:w-10 md:h-10 rounded-md object-cover shadow-sm ring-2 ring-white/20">
+                <span>Admin Dashboard</span>
+            </h1>
             <p class="text-emerald-100">A high-level view of academy operations</p>
         </div>
     </div>
