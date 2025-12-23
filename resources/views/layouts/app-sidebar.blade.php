@@ -22,13 +22,13 @@
 <!-- Notification Alert -->
 <x-notification-alert />
 
-<div class="flex h-screen overflow-hidden" @keydown.window.escape="$store.layout.mobileOpen = false">
+<div x-data="{}" class="flex h-screen overflow-hidden" @keydown.window.escape="$store.layout.mobileOpen = false">
 
     {{-- Sidebar --}}
     @include('layouts.sidebar')
 
     {{-- Main Content Area --}}
-    <div class="flex-1 flex flex-col overflow-hidden" x-data="{}" :class="$store.layout.sidebarOpen ? 'lg:ml-64' : 'lg:ml-20'">
+    <div class="flex-1 flex flex-col overflow-hidden" x-data="{}">
 
         {{-- Top Navigation --}}
         <header class="bg-white dark:bg-slate-800 border-b border-slate-200 dark:border-slate-700 shadow-sm z-10">
