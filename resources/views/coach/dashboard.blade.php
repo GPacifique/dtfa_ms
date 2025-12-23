@@ -238,8 +238,12 @@
                                         {{ $record->attendance_date ? \Carbon\Carbon::parse($record->attendance_date)->format('M d') : $record->created_at->format('M d') }}
                                     </td>
                                     <td class="px-4 py-3">
-                                        <span class="inline-flex items-center gap-1 px-2 py-1 rounded text-xs font-medium {{ $statusColors[$record->status] ?? 'bg-slate-100 text-slate-700' }}">
-                                            {{ $statusIcons[$record->status] ?? '' }} {{ ucfirst($record->status) }}
+                                        @php
+                                            $statusColor = $statusColors[$record->status] ?? 'bg-slate-100 text-slate-700';
+                                            $statusIcon = $statusIcons[$record->status] ?? '';
+                                        @endphp
+                                        <span class="inline-flex items-center gap-1 px-2 py-1 rounded text-xs font-medium {{ $statusColor }}">
+                                            {{ $statusIcon }} {{ ucfirst($record->status) }}
                                         </span>
                                     </td>
                                 </tr>
