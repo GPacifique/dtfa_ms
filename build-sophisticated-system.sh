@@ -51,8 +51,8 @@ php artisan view:cache
 
 # Set proper permissions
 echo "🔒 Setting permissions..."
-chmod -R 755 storage
-chmod -R 755 bootstrap/cache
+chmod -R 775 storage
+chmod -R 775 bootstrap/cache
 
 # Create symbolic link for storage
 echo "🔗 Creating storage link..."

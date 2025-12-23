@@ -39,9 +39,9 @@ php artisan view:clear
 php artisan route:clear
 
 echo "✅ Step 6: Setting proper permissions..."
-chmod -R 755 storage
-chmod -R 755 bootstrap/cache
-[ -d public/storage ] && chmod -R 755 public/storage
+chmod -R 775 storage
+chmod -R 775 bootstrap/cache
+[ -d public/storage ] && chmod -R 775 public/storage
 
 echo "✅ Step 7: Verifying image files..."
 STUDENT_PHOTOS=$(ls storage/app/public/photos/students/ 2>/dev/null | wc -l)

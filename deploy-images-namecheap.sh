@@ -43,15 +43,15 @@ php artisan route:cache
 php artisan view:cache
 
 echo "✅ Step 7: Set proper file permissions..."
-chmod -R 755 storage
-chmod -R 755 bootstrap/cache
-find storage -type f -exec chmod 644 {} \;
-find bootstrap/cache -type f -exec chmod 644 {} \;
+chmod -R 775 storage
+chmod -R 775 bootstrap/cache
+find storage -type f -exec chmod 664 {} \;
+find bootstrap/cache -type f -exec chmod 664 {} \;
 
 echo "✅ Step 8: Verify storage directory structure..."
 mkdir -p storage/app/public/photos/students
 mkdir -p storage/app/public/photos/staff
-chmod -R 755 storage/app/public
+chmod -R 775 storage/app/public
 
 echo "✅ Step 9: Count uploaded images..."
 STUDENT_COUNT=$(find storage/app/public/photos/students -type f 2>/dev/null | wc -l)

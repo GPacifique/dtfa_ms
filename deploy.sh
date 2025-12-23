@@ -18,9 +18,9 @@ composer install --no-dev --optimize-autoloader --no-interaction
 
 echo ""
 echo "🔧 Setting correct permissions..."
-chmod -R 755 storage bootstrap/cache 2>/dev/null
-find storage -type f -exec chmod 644 {} \; 2>/dev/null
-find bootstrap/cache -type f -exec chmod 644 {} \; 2>/dev/null
+chmod -R 775 storage bootstrap/cache 2>/dev/null
+find storage -type f -exec chmod 664 {} \; 2>/dev/null
+find bootstrap/cache -type f -exec chmod 664 {} \; 2>/dev/null
 
 echo ""
 echo "🗄️ Running database migrations..."
