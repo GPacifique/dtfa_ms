@@ -66,8 +66,8 @@ class CoachController extends Controller
         // Games/Matches stats
         $gamesCount = Game::count();
         $upcomingGames = Game::where('status', 'scheduled')
-            ->where('match_date', '>=', now())
-            ->orderBy('match_date')
+            ->where('date', '>=', now())
+            ->orderBy('date')
             ->limit(5)
             ->get();
 
@@ -78,7 +78,7 @@ class CoachController extends Controller
         // Upcoming Events
         $upcomingEventsCount = UpcomingEvent::where('status', 'upcoming')->count();
         $upcomingEvents = UpcomingEvent::where('status', 'upcoming')
-            ->orderBy('event_date')
+            ->orderBy('date')
             ->limit(5)
             ->get();
 

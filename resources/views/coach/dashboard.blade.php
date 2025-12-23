@@ -348,11 +348,11 @@
                         @foreach($upcomingEvents as $event)
                             <li class="p-3 bg-slate-50 dark:bg-slate-700/50 rounded-lg flex items-center justify-between">
                                 <div>
-                                    <div class="font-semibold text-slate-900 dark:text-white">{{ $event->title }}</div>
+                                    <div class="font-semibold text-slate-900 dark:text-white">{{ $event->event_name }}</div>
                                     <div class="text-sm text-slate-600 dark:text-slate-400">
-                                        {{ $event->event_date ? \Carbon\Carbon::parse($event->event_date)->format('M d, Y') : 'TBD' }}
-                                        @if($event->location)
-                                            • {{ $event->location }}
+                                        {{ $event->date ? \Carbon\Carbon::parse($event->date)->format('M d, Y') : 'TBD' }}
+                                        @if($event->venue)
+                                            • {{ $event->venue }}
                                         @endif
                                     </div>
                                 </div>
@@ -395,7 +395,10 @@
                                     </span>
                                 </div>
                                 <div class="text-sm text-slate-600 dark:text-slate-400">
-                                    {{ $game->match_date ? \Carbon\Carbon::parse($game->match_date)->format('M d, Y h:i A') : 'TBD' }}
+                                    {{ $game->date ? \Carbon\Carbon::parse($game->date)->format('M d, Y') : 'TBD' }}
+                                    @if($game->time)
+                                        {{ \Carbon\Carbon::parse($game->time)->format('h:i A') }}
+                                    @endif
                                     @if($game->venue)
                                         • {{ $game->venue }}
                                     @endif
