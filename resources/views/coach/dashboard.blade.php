@@ -2,6 +2,20 @@
 @extends('layouts.app')
 
 @section('content')
+@php
+    $statusColors = [
+        'present' => 'bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-400',
+        'absent' => 'bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-400',
+        'late' => 'bg-yellow-100 dark:bg-yellow-900/30 text-yellow-700 dark:text-yellow-400',
+        'excused' => 'bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400',
+    ];
+    $statusIcons = [
+        'present' => '✅',
+        'absent' => '❌',
+        'late' => '⏰',
+        'excused' => 'ℹ️',
+    ];
+@endphp
 <div class="space-y-6">
     <!-- Header -->
     <div class="flex items-center justify-between mb-6">
@@ -213,18 +227,8 @@
                         <tbody class="divide-y divide-slate-100 dark:divide-slate-700">
                             @foreach($recentAttendance->take(10) as $record)
                                 @php
-                                    $statusColors = [
-                                        'present' => 'bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-400',
-                                        'absent' => 'bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-400',
-                                        'late' => 'bg-yellow-100 dark:bg-yellow-900/30 text-yellow-700 dark:text-yellow-400',
-                                        'excused' => 'bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400',
-                                    ];
-                                    $statusIcons = [
-                                        'present' => '✅',
-                                        'absent' => '❌',
-                                        'late' => '⏰',
-                                        'excused' => 'ℹ️',
-                                    ];
+                                    $statusColor = $statusColors[$record->status] ?? 'bg-slate-100 text-slate-700';
+                                    $statusIcon = $statusIcons[$record->status] ?? '';
                                 @endphp
                                 <tr class="hover:bg-slate-50 dark:hover:bg-slate-700/30 transition">
                                     <td class="px-4 py-3">
