@@ -28,6 +28,17 @@ trait HasPhoto
     {
         // 1. Check if file exists in public storage
         if ($path && Storage::disk('public')->exists($path)) {
+            // Use PhotoController routes to bypass symlink issues on shared hosting
+            if ($this instanceof \App\Models\Student) {
+                return route('student.photo', $this);
+            }
+            if ($this instanceof \App\Models\Staff) {
+                return route('staff.photo', $this);
+            }
+            if ($this instanceof \App\Models\User) {
+                return route('user.photo', $this);
+            }
+
             return Storage::url($path);
         }
 

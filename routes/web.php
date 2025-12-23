@@ -16,8 +16,12 @@ use App\Http\Controllers\Admin\TeamController;
 use App\Http\Controllers\Admin\GroupsController;
 use App\Http\Controllers\Admin\TrainingSessionController;
 use App\Http\Controllers\Admin\StudentAttendanceController;
+use App\Http\Controllers\PhotoController;
 
-
+// Photo Routes - Serve images via controller to bypass symlink issues
+Route::get('/photos/students/{student}', [PhotoController::class, 'showStudent'])->name('student.photo');
+Route::get('/photos/staff/{staff}', [PhotoController::class, 'showStaff'])->name('staff.photo');
+Route::get('/photos/users/{user}', [PhotoController::class, 'showUser'])->name('user.photo');
 
 Route::middleware(['auth'])->group(function () {
     // Student Attendance (admin)
