@@ -2,6 +2,20 @@
 @extends('layouts.app')
 
 @section('content')
+@php
+    $statusColors = [
+        'present' => 'bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-400',
+        'absent' => 'bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-400',
+        'late' => 'bg-yellow-100 dark:bg-yellow-900/30 text-yellow-700 dark:text-yellow-400',
+        'excused' => 'bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400',
+    ];
+    $statusIcons = [
+        'present' => '✅',
+        'absent' => '❌',
+        'late' => '⏰',
+        'excused' => 'ℹ️',
+    ];
+@endphp
 <div class="space-y-6">
     <!-- Header -->
     <div class="flex items-center justify-between mb-6">
@@ -247,20 +261,6 @@
                                         {{ $record->attendance_date ? \Carbon\Carbon::parse($record->attendance_date)->format('M d, Y') : $record->created_at->format('M d, Y') }}
                                     </td>
                                     <td class="px-4 py-3">
-                                        @php
-                                            $statusColors = [
-                                                'present' => 'bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-400',
-                                                'absent' => 'bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-400',
-                                                'late' => 'bg-yellow-100 dark:bg-yellow-900/30 text-yellow-700 dark:text-yellow-400',
-                                                'excused' => 'bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400',
-                                            ];
-                                            $statusIcons = [
-                                                'present' => '✅',
-                                                'absent' => '❌',
-                                                'late' => '⏰',
-                                                'excused' => 'ℹ️',
-                                            ];
-                                        @endphp
                                         <span class="inline-flex items-center gap-1 px-2 py-1 rounded text-xs font-medium {{ $statusColors[$record->status] ?? 'bg-slate-100 text-slate-700' }}">
                                             {{ $statusIcons[$record->status] ?? '' }} {{ ucfirst($record->status) }}
                                         </span>
