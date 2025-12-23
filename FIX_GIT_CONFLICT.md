@@ -25,7 +25,7 @@ git stash drop
 cd ~/sportacademyms
 
 # Backup your local changes
-cp resources/views/layouts/app.blade.php resources/views/layouts/app.blade.php.backup
+cp resources/views/layouts/app.blade.php resources/views/layouts/.backup
 
 # Discard local changes and pull
 git reset --hard HEAD
