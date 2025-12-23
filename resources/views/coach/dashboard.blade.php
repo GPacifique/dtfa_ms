@@ -2,20 +2,6 @@
 @extends('layouts.app')
 
 @section('content')
-@php
-    $statusColors = [
-        'present' => 'bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-400',
-        'absent' => 'bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-400',
-        'late' => 'bg-yellow-100 dark:bg-yellow-900/30 text-yellow-700 dark:text-yellow-400',
-        'excused' => 'bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400',
-    ];
-    $statusIcons = [
-        'present' => '✅',
-        'absent' => '❌',
-        'late' => '⏰',
-        'excused' => 'ℹ️',
-    ];
-@endphp
 <div class="space-y-6">
     <!-- Header -->
     <div class="flex items-center justify-between mb-6">
@@ -251,10 +237,6 @@
                         </thead>
                         <tbody class="divide-y divide-slate-100 dark:divide-slate-700">
                             @foreach($recentAttendance as $record)
-                                @php
-                                    $statusColor = $statusColors[$record->status] ?? 'bg-slate-100 text-slate-700';
-                                    $statusIcon = $statusIcons[$record->status] ?? '';
-                                @endphp
                                 <tr class="hover:bg-slate-50 dark:hover:bg-slate-700/30 transition">
                                     <td class="px-4 py-3">
                                         <div class="font-medium text-slate-900 dark:text-white">
@@ -265,8 +247,22 @@
                                         {{ $record->attendance_date ? \Carbon\Carbon::parse($record->attendance_date)->format('M d, Y') : $record->created_at->format('M d, Y') }}
                                     </td>
                                     <td class="px-4 py-3">
-                                        <span class="inline-flex items-center gap-1 px-2 py-1 rounded text-xs font-medium {{ $statusColor }}">
-                                            {{ $statusIcon }} {{ ucfirst($record->status) }}
+                                        @php
+                                            $statusColors = [
+                                                'present' => 'bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-400',
+                                                'absent' => 'bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-400',
+                                                'late' => 'bg-yellow-100 dark:bg-yellow-900/30 text-yellow-700 dark:text-yellow-400',
+                                                'excused' => 'bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400',
+                                            ];
+                                            $statusIcons = [
+                                                'present' => '✅',
+                                                'absent' => '❌',
+                                                'late' => '⏰',
+                                                'excused' => 'ℹ️',
+                                            ];
+                                        @endphp
+                                        <span class="inline-flex items-center gap-1 px-2 py-1 rounded text-xs font-medium {{ $statusColors[$record->status] ?? 'bg-slate-100 text-slate-700' }}">
+                                            {{ $statusIcons[$record->status] ?? '' }} {{ ucfirst($record->status) }}
                                         </span>
                                     </td>
                                     <td class="px-4 py-3 text-sm text-slate-500 dark:text-slate-400">
@@ -352,11 +348,11 @@
                         @foreach($upcomingEvents as $event)
                             <li class="p-3 bg-slate-50 dark:bg-slate-700/50 rounded-lg flex items-center justify-between">
                                 <div>
-                                    <div class="font-semibold text-slate-900 dark:text-white">{{ $event->event_name }}</div>
+                                    <div class="font-semibold text-slate-900 dark:text-white">{{ $event->title }}</div>
                                     <div class="text-sm text-slate-600 dark:text-slate-400">
-                                        {{ $event->date ? \Carbon\Carbon::parse($event->date)->format('M d, Y') : 'TBD' }}
-                                        @if($event->venue)
-                                            • {{ $event->venue }}
+                                        {{ $event->event_date ? \Carbon\Carbon::parse($event->event_date)->format('M d, Y') : 'TBD' }}
+                                        @if($event->location)
+                                            • {{ $event->location }}
                                         @endif
                                     </div>
                                 </div>
@@ -399,10 +395,7 @@
                                     </span>
                                 </div>
                                 <div class="text-sm text-slate-600 dark:text-slate-400">
-                                    {{ $game->date ? \Carbon\Carbon::parse($game->date)->format('M d, Y') : 'TBD' }}
-                                    @if($game->time)
-                                        {{ \Carbon\Carbon::parse($game->time)->format('h:i A') }}
-                                    @endif
+                                    {{ $game->match_date ? \Carbon\Carbon::parse($game->match_date)->format('M d, Y h:i A') : 'TBD' }}
                                     @if($game->venue)
                                         • {{ $game->venue }}
                                     @endif
