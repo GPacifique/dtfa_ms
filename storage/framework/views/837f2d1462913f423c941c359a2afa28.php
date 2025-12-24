@@ -27,6 +27,11 @@
 
 <?php $__env->startSection('content'); ?>
 
+<div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
+    <h1 class="text-3xl font-bold text-slate-900 dark:text-white">👥 Staff Directory</h1>
+    <a href="<?php echo e(route('staff.create')); ?>" class="inline-flex items-center gap-2 px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition font-semibold">➕ New Staff</a>
+</div>
+
 <div class="bg-white dark:bg-slate-800 rounded-lg shadow p-6 mb-6">
     <form method="get" class="flex flex-col sm:flex-row gap-3 items-end">
         <div class="flex-1">
