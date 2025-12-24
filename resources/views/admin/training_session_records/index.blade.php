@@ -2,7 +2,7 @@
 
 @push('hero')
     <x-hero title="Training Session Records" subtitle="Filter and review training sessions">
-        <a href="{{ route('admin.training_session_records.create') }}" class="inline-flex items-center px-3 py-1.5 bg-green-600 text-white rounded-md text-sm">New Record</a>
+        <a href="{{ route('admin.training_session_records.create') }}" class="inline-flex items-center gap-2 px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition font-semibold">➕ New Record</a>
     </x-hero>
 @endpush
 
