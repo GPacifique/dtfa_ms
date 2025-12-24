@@ -257,9 +257,6 @@
                             <span x-show="$store.layout.sidebarOpen" x-transition class="truncate">Kit Manager Dashboard</span>
                         </a>
                     @endif
-                    @endrole
-                @endrole
-
 
 
                 @role('super-admin|accountant|admin|coach')

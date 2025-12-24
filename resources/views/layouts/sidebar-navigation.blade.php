@@ -207,7 +207,6 @@
                             <span x-show="$store.layout.sidebarOpen" x-transition class="truncate">Kit Manager Dashboard</span>
                         </a>
                     @endif
-                    @endrole
 
                     @if(Route::has('admin.student-attendance.index'))
                         <a href="{{ route('admin.student-attendance.index') }}" aria-label="Student Attendance" title="Student Attendance" class="nav-item flex items-center gap-3 px-3 py-2 rounded-md hover:bg-slate-800 transition {{ request()->routeIs('admin.student-attendance.*') ? 'active' : '' }}">
