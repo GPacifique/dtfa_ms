@@ -9,7 +9,7 @@
 <?php $attributes = $attributes->except(\Illuminate\View\AnonymousComponent::ignoredParameterNames()); ?>
 <?php endif; ?>
 <?php $component->withAttributes(['title' => 'Training Session Records','subtitle' => 'Filter and review training sessions']); ?>
-        <a href="<?php echo e(route('admin.training_session_records.create')); ?>" class="inline-flex items-center px-3 py-1.5 bg-green-600 text-white rounded-md text-sm">New Record</a>
+        <a href="<?php echo e(route('admin.training_session_records.create')); ?>" class="inline-flex items-center gap-2 px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition font-semibold">➕ New Record</a>
      <?php echo $__env->renderComponent(); ?>
 <?php endif; ?>
 <?php if (isset($__attributesOriginal04f02f1e0f152287a127192de01fe241)): ?>
