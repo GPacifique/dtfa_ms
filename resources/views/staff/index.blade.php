@@ -11,6 +11,28 @@
 
 @section('content')
 
+<div class="bg-white dark:bg-slate-800 rounded-lg shadow p-6 mb-6">
+    <form method="get" class="flex flex-col sm:flex-row gap-3 items-end">
+        <div class="flex-1">
+            <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">Search</label>
+            <input type="text" name="q" value="{{ request('q') }}" placeholder="Search by name, email, or phone..." class="w-full px-4 py-2 border border-slate-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-700 text-slate-900 dark:text-white focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
+        </div>
+        <div>
+            <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">Branch</label>
+            <select name="branch" class="px-4 py-2 border border-slate-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-700 text-slate-900 dark:text-white focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
+                <option value="">All Branches</option>
+                @foreach($staff->pluck('branch')->unique() as $branch)
+                    <option value="{{ $branch }}" {{ request('branch') === $branch ? 'selected' : '' }}>{{ $branch }}</option>
+                @endforeach
+            </select>
+        </div>
+        <div class="flex gap-2">
+            <button type="submit" class="px-6 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition font-medium">Search</button>
+            <a href="{{ route('staff.index') }}" class="px-6 py-2 border border-slate-300 dark:border-slate-600 text-slate-700 dark:text-slate-300 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-700 transition font-medium">Reset</a>
+        </div>
+    </form>
+</div>
+
 <div class="overflow-x-auto bg-white dark:bg-slate-800 rounded-lg shadow p-4">
     <table class="min-w-full text-sm border-collapse">
         <thead class="bg-gray-50 dark:bg-slate-700">
