@@ -1,14 +1,14 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="container mx-auto p-4">
-        <div class="flex justify-between items-center mb-4">
-            <h2 class="text-xl font-semibold">Players</h2>
-            <a href="{{ route('admin.players.create') }}" class="btn btn-primary">New Player</a>
+    <div class="max-w-6xl mx-auto p-6">
+        <div class="flex justify-between items-center mb-6">
+            <h1 class="text-3xl font-bold text-slate-900 dark:text-white">⚽ Players</h1>
+            <a href="{{ route('admin.players.create') }}" class="inline-flex items-center gap-2 px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition font-semibold">➕ New Player</a>
         </div>
 
-        <div class="bg-white shadow rounded p-4">
-            <table class="w-full table-auto">
+        <div class="bg-white dark:bg-slate-800 shadow rounded-lg p-4">
+            <table class="w-full text-sm">
                 <thead>
                     <tr>
                         <th>Name</th>

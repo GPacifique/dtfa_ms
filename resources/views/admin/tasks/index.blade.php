@@ -1,12 +1,10 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="p-6">
-    <div class="flex justify-between mb-4">
-        <h2 class="text-2xl font-bold">Task Management</h2>
-        <a href="{{ route('admin.tasks.create') }}" class="bg-blue-600 text-white px-4 py-2 rounded shadow">
-            + New Task
-        </a>
+<div class="max-w-6xl mx-auto p-6">
+    <div class="flex justify-between items-center mb-6">
+        <h1 class="text-3xl font-bold text-slate-900 dark:text-white">✓ Task Management</h1>
+        <a href="{{ route('admin.tasks.create') }}" class="inline-flex items-center gap-2 px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition font-semibold">➕ New Task</a>
     </div>
 
     @if(session('success'))

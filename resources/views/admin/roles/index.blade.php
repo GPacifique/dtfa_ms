@@ -2,7 +2,10 @@
 
 @section('content')
 <div class="max-w-6xl mx-auto p-6">
-    <h1 class="text-2xl font-bold mb-4">Role & Permission Management</h1>
+    <div class="flex justify-between items-center mb-6">
+        <h1 class="text-3xl font-bold text-slate-900 dark:text-white">👥 Role & Permission Management</h1>
+        <a href="{{ route('admin.roles.create') }}" class="inline-flex items-center gap-2 px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition font-semibold">➕ New Role</a>
+    </div>
 
     @if(session('status'))
         <div class="mb-4 p-3 rounded bg-green-100 text-green-800">{{ session('status') }}</div>

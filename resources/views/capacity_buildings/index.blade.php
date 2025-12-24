@@ -1,17 +1,16 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
+<div class="max-w-6xl mx-auto p-6">
+    <div class="flex justify-between items-center mb-6">
+        <h1 class="text-3xl font-bold text-slate-900 dark:text-white">🏫 In-House Trainings</h1>
+        <a href="{{ route('trainings.create') }}" class="inline-flex items-center gap-2 px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition font-semibold">➕ New Training</a>
+    </div>
 
-    <h2 class="mb-4">In-House Trainings</h2>
-
-    <a href="{{ route('trainings.create') }}" class="btn btn-primary mb-3">
-        + Add New Training
-    </a>
-
-    <table class="table table-bordered">
-        <thead>
-            <tr>
+    <div class="bg-white dark:bg-slate-800 rounded-lg shadow overflow-hidden">
+        <table class="w-full text-sm">
+            <thead class="bg-slate-50 dark:bg-slate-700/50 text-slate-600 dark:text-slate-300">
+                <tr class="border-b border-slate-200 dark:border-slate-700">
                 <th>ID</th>
                 <th>Training Name</th>
                 <th>Discipline</th>

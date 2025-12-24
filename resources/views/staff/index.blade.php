@@ -3,7 +3,7 @@
 @push('hero')
     <x-hero title="Staff Profiles" subtitle="Manage and review staff details">
         <div class="mt-4 flex items-center gap-3">
-            <a href="{{ route('staff.create') }}" class="btn-primary">New Staff</a>
+            <a href="{{ route('staff.create') }}" class="inline-flex items-center gap-2 px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition font-semibold">➕ New Staff</a>
             <span class="subtle">Total: {{ $staff->total() ?? count($staff) }}</span>
         </div>
     </x-hero>
