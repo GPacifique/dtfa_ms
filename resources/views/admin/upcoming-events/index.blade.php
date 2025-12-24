@@ -9,6 +9,10 @@
 @section('content')
 <div class="max-w-7xl mx-auto p-6">
 
+    <div class="flex items-center justify-between mb-6">
+        <h1 class="text-3xl font-bold text-slate-900 dark:text-white">📅 Upcoming Events</h1>
+        <a href="{{ route('admin.upcoming-events.create') }}" class="inline-flex items-center gap-2 px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition font-semibold">➕ New Event</a>
+    </div>
 
     <!-- Status Filter Tabs -->
     <div class="flex gap-2 mb-6 border-b border-gray-200 dark:border-neutral-700">
