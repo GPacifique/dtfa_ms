@@ -125,8 +125,8 @@ Route::middleware(['auth'])->group(function () {
     Route::delete('student/{student}/profile/photo', [\App\Http\Controllers\Student\ProfileController::class, 'deletePhoto'])->name('student.profile.deletePhoto');
 });
 
-// Kit Manager Dashboard (accessible to kit-manager role)
-Route::middleware(['auth', 'role:kit-manager|admin|super-admin'])->group(function () {
+// Kit Manager Dashboard (accessible to all authenticated users)
+Route::middleware(['auth'])->group(function () {
     Route::get('kit-manager/dashboard', [\App\Http\Controllers\KitManagerController::class, 'dashboard'])->name('kit-manager.dashboard');
 });
 
