@@ -2,9 +2,9 @@
 
 @section('content')
     <div class="max-w-6xl mx-auto p-6">
-        <div class="flex items-center justify-between mb-4">
-            <h1 class="text-2xl font-bold">Communications</h1>
-            <a href="{{ route('admin.communications.create') }}" class="px-3 py-2 bg-blue-600 text-white rounded">New</a>
+        <div class="flex items-center justify-between mb-6">
+            <h1 class="text-3xl font-bold text-slate-900 dark:text-white">💬 Communications</h1>
+            <a href="{{ route('admin.communications.create') }}" class="inline-flex items-center gap-2 px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition font-semibold">➕ New Message</a>
         </div>
 
         <div class="space-y-4">

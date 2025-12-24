@@ -3,8 +3,8 @@
 @section('content')
 <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
     <div class="flex items-center justify-between mb-6">
-        <h2 class="text-xl font-semibold">Staff Attendance</h2>
-        <a href="{{ route('admin.staff_attendances.create') }}" class="inline-flex items-center px-3 py-1.5 bg-green-600 text-white rounded-md text-sm">New</a>
+        <h1 class="text-3xl font-bold text-slate-900 dark:text-white">🕐 Staff Attendance</h1>
+        <a href="{{ route('admin.staff_attendances.create') }}" class="inline-flex items-center gap-2 px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition font-semibold">➕ Record Attendance</a>
     </div>
 
     <div class="bg-white shadow overflow-hidden sm:rounded-md">
