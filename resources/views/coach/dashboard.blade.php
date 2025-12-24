@@ -78,7 +78,7 @@
                             <tr class="hover:bg-slate-50 dark:hover:bg-slate-700/40 transition">
                                 <td class="p-4">
                                     <div class="flex items-center gap-3">
-                                        <img src="{{ $student->photo_url ?? 'https://via.placeholder.com/40' }}" class="w-10 h-10 rounded-full object-cover border border-slate-200 dark:border-slate-600" alt="{{ $student->first_name }}">
+                                        <img src="{{ $student->photo_url }}" class="w-10 h-10 rounded-full object-cover border border-slate-200 dark:border-slate-600" alt="{{ $student->first_name }}" loading="lazy" onerror="this.style.display='none'">
                                         <div>
                                             <p class="font-semibold text-slate-900 dark:text-white text-sm">{{ $student->first_name ?? 'N/A' }} {{ $student->second_name ?? '' }}</p>
                                             <p class="text-xs text-slate-500">{{ $student->group->name ?? 'No group' }}</p>
