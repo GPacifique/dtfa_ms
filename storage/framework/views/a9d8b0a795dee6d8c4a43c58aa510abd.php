@@ -25,6 +25,10 @@
 <?php $__env->startSection('content'); ?>
 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
 
+    <div class="flex items-center justify-between mb-6">
+        <h1 class="text-3xl font-bold text-slate-900 dark:text-white">📚 Training Session Records</h1>
+        <a href="<?php echo e(route('admin.training_session_records.create')); ?>" class="inline-flex items-center gap-2 px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition font-semibold">➕ New Record</a>
+    </div>
 
     <div class="bg-white shadow overflow-hidden sm:rounded-md">
         <div class="p-4 border-b">
