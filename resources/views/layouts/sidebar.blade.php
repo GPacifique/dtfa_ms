@@ -258,6 +258,7 @@
                         </a>
                     @endif
 
+                @endrole
 
                 @role('super-admin|accountant|admin|coach')
                     @if(Route::has('admin.training_session_records.index'))

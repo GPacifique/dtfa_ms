@@ -257,9 +257,6 @@
                             <span x-show="$store.layout.sidebarOpen" x-transition class="truncate">Kit Manager Dashboard</span>
                         </a>
                     <?php endif; ?>
-                    <?php endif; ?>
-                <?php endif; ?>
-
 
 
                 <?php if (\Illuminate\Support\Facades\Blade::check('role', 'super-admin|accountant|admin|coach')): ?>
