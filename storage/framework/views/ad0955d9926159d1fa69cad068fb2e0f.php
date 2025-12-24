@@ -258,6 +258,7 @@
                         </a>
                     <?php endif; ?>
 
+                <?php endif; ?>
 
                 <?php if (\Illuminate\Support\Facades\Blade::check('role', 'super-admin|accountant|admin|coach')): ?>
                     <?php if(Route::has('admin.training_session_records.index')): ?>
