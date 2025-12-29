@@ -75,6 +75,18 @@
                 </a>
             <?php endif; ?>
 
+            
+            <?php if(Route::has('admin.attendance-calendar')): ?>
+                <a href="<?php echo e(route('admin.attendance-calendar')); ?>" aria-label="Attendance Calendar" title="Attendance Calendar" class="nav-item flex items-center gap-3 px-3 py-2 rounded-md hover:bg-slate-800 transition <?php echo e(request()->routeIs('admin.attendance-calendar*') ? 'active' : ''); ?>">
+                    <span class="icon flex-shrink-0 w-6 h-6 flex items-center justify-center text-slate-200">
+                        <!-- Heroicon: Calendar -->
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+                    </span>
+                    <span class="sr-only">Attendance Calendar</span>
+                    <span x-show="$store.layout.sidebarOpen" x-transition class="truncate">Attendance Calendar</span>
+                </a>
+            <?php endif; ?>
+
 
             
             <div class="pt-4">
@@ -284,7 +296,8 @@
                             <span class="sr-only">Student Attendance</span>
                             <span x-show="$store.layout.sidebarOpen" x-transition class="truncate">Student Attendance</span>
                         </a>
-                    <?php elseif(Route::has('coach.attendance.index')): ?>
+                    <?php endif; ?>
+                    <?php if(Route::has('coach.attendance.index') && !Route::has('admin.student-attendance.index')): ?>
                         <a href="<?php echo e(route('coach.attendance.index')); ?>" aria-label="Student Attendance" title="Student Attendance" class="nav-item flex items-center gap-3 px-3 py-2 rounded-md hover:bg-slate-800 transition <?php echo e(request()->routeIs('coach.attendance.*') ? 'active' : ''); ?>">
                             <span class="icon flex-shrink-0 w-6 h-6 flex items-center justify-center text-slate-200">
                                 <!-- Heroicon: User Check -->

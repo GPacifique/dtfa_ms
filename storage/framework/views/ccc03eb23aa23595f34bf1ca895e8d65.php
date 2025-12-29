@@ -377,15 +377,34 @@
                                 <span class="px-2 py-0.5 bg-purple-100 dark:bg-purple-900/30 text-purple-800 dark:text-purple-300 text-xs rounded"><?php echo e($s->group->name); ?></span>
                             <?php endif; ?>
                         </div>
-                        <div class="mt-4 flex flex-col gap-2">
-                            <form method="POST" action="<?php echo e(route('students-modern.attendance', $s)); ?>" class="attendance-ajax-form" data-student-id="<?php echo e($s->id); ?>">
-                                <?php echo csrf_field(); ?>
-                                <input type="hidden" name="student_id" value="<?php echo e($s->id); ?>">
-                                <input type="hidden" name="status" value="present">
-                                <button type="submit" class="w-full text-center px-3 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg font-semibold transition text-sm">
-                                    ✅ Record Attendance
+                        <div class="mt-4">
+                            <div class="text-xs text-slate-500 dark:text-slate-400 mb-2 text-center">Record Attendance</div>
+                            <div class="flex items-center justify-center gap-1">
+                                <button type="button"
+                                        onclick="recordStudentAttendance(<?php echo e($s->id); ?>, '<?php echo e(addslashes($s->first_name . ' ' . $s->second_name)); ?>', 'present')"
+                                        class="status-btn px-3 py-2 rounded-lg text-xs font-medium transition bg-green-100 text-green-700 hover:bg-green-600 hover:text-white dark:bg-green-900/30 dark:text-green-400 dark:hover:bg-green-600 dark:hover:text-white"
+                                        title="Mark Present">
+                                    ✓
                                 </button>
-                            </form>
+                                <button type="button"
+                                        onclick="recordStudentAttendance(<?php echo e($s->id); ?>, '<?php echo e(addslashes($s->first_name . ' ' . $s->second_name)); ?>', 'absent')"
+                                        class="status-btn px-3 py-2 rounded-lg text-xs font-medium transition bg-red-100 text-red-700 hover:bg-red-600 hover:text-white dark:bg-red-900/30 dark:text-red-400 dark:hover:bg-red-600 dark:hover:text-white"
+                                        title="Mark Absent">
+                                    ✗
+                                </button>
+                                <button type="button"
+                                        onclick="recordStudentAttendance(<?php echo e($s->id); ?>, '<?php echo e(addslashes($s->first_name . ' ' . $s->second_name)); ?>', 'late')"
+                                        class="status-btn px-3 py-2 rounded-lg text-xs font-medium transition bg-yellow-100 text-yellow-700 hover:bg-yellow-600 hover:text-white dark:bg-yellow-900/30 dark:text-yellow-400 dark:hover:bg-yellow-600 dark:hover:text-white"
+                                        title="Mark Late">
+                                    ⏰
+                                </button>
+                                <button type="button"
+                                        onclick="recordStudentAttendance(<?php echo e($s->id); ?>, '<?php echo e(addslashes($s->first_name . ' ' . $s->second_name)); ?>', 'excused')"
+                                        class="status-btn px-3 py-2 rounded-lg text-xs font-medium transition bg-purple-100 text-purple-700 hover:bg-purple-600 hover:text-white dark:bg-purple-900/30 dark:text-purple-400 dark:hover:bg-purple-600 dark:hover:text-white"
+                                        title="Mark Excused">
+                                    📝
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -432,27 +451,31 @@
                                 </td>
                                 <td class="px-4 py-3 cursor-pointer" onclick="window.location='<?php echo e(route('students-modern.show', $s)); ?>'"><?php echo e($s->joined_at?->format('D m, Y') ?? '10-10-2025'); ?></td>
                                 <td class="px-4 py-3 text-right" onclick="event.stopPropagation()">
-                                    <div class="flex gap-2 justify-end items-center">
-                                        <div class="relative group">
-                                            <button type="button" onclick="toggleDropdown(this); return false;" class="px-3 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg font-semibold transition text-sm flex items-center gap-1">
-                                                ✅ Record
-                                                <svg class="w-4 h-4 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path></svg>
-                                            </button>
-                                            <div class="absolute right-0 top-full mt-1 hidden bg-white dark:bg-slate-800 shadow-lg rounded-lg z-50 min-w-48 dropdown-menu">
-                                                <button type="button" onclick="recordStudentAttendance(<?php echo e($s->id); ?>, '<?php echo e(addslashes($s->first_name . ' ' . $s->second_name)); ?>', 'present'); closeDropdown(this); return false;" class="w-full text-left px-4 py-2 hover:bg-emerald-50 dark:hover:bg-emerald-900/20 text-emerald-600 dark:text-emerald-400 font-semibold border-b border-slate-200 dark:border-slate-700">
-                                                    ✅ Present
-                                                </button>
-                                                <button type="button" onclick="recordStudentAttendance(<?php echo e($s->id); ?>, '<?php echo e(addslashes($s->first_name . ' ' . $s->second_name)); ?>', 'absent'); closeDropdown(this); return false;" class="w-full text-left px-4 py-2 hover:bg-red-50 dark:hover:bg-red-900/20 text-red-600 dark:text-red-400 font-semibold border-b border-slate-200 dark:border-slate-700">
-                                                    ❌ Absent
-                                                </button>
-                                                <button type="button" onclick="recordStudentAttendance(<?php echo e($s->id); ?>, '<?php echo e(addslashes($s->first_name . ' ' . $s->second_name)); ?>', 'late'); closeDropdown(this); return false;" class="w-full text-left px-4 py-2 hover:bg-yellow-50 dark:hover:bg-yellow-900/20 text-yellow-600 dark:text-yellow-400 font-semibold border-b border-slate-200 dark:border-slate-700">
-                                                    ⏰ Late
-                                                </button>
-                                                <button type="button" onclick="recordStudentAttendance(<?php echo e($s->id); ?>, '<?php echo e(addslashes($s->first_name . ' ' . $s->second_name)); ?>', 'excused'); closeDropdown(this); return false;" class="w-full text-left px-4 py-2 hover:bg-blue-50 dark:hover:bg-blue-900/20 text-blue-600 dark:text-blue-400 font-semibold">
-                                                    ℹ️ Excused
-                                                </button>
-                                            </div>
-                                        </div>
+                                    <div class="flex gap-1 justify-end items-center">
+                                        <button type="button"
+                                                onclick="recordStudentAttendance(<?php echo e($s->id); ?>, '<?php echo e(addslashes($s->first_name . ' ' . $s->second_name)); ?>', 'present')"
+                                                class="status-btn px-3 py-2 rounded-lg text-xs font-medium transition bg-green-100 text-green-700 hover:bg-green-600 hover:text-white dark:bg-green-900/30 dark:text-green-400 dark:hover:bg-green-600 dark:hover:text-white"
+                                                title="Mark Present">
+                                            ✓
+                                        </button>
+                                        <button type="button"
+                                                onclick="recordStudentAttendance(<?php echo e($s->id); ?>, '<?php echo e(addslashes($s->first_name . ' ' . $s->second_name)); ?>', 'absent')"
+                                                class="status-btn px-3 py-2 rounded-lg text-xs font-medium transition bg-red-100 text-red-700 hover:bg-red-600 hover:text-white dark:bg-red-900/30 dark:text-red-400 dark:hover:bg-red-600 dark:hover:text-white"
+                                                title="Mark Absent">
+                                            ✗
+                                        </button>
+                                        <button type="button"
+                                                onclick="recordStudentAttendance(<?php echo e($s->id); ?>, '<?php echo e(addslashes($s->first_name . ' ' . $s->second_name)); ?>', 'late')"
+                                                class="status-btn px-3 py-2 rounded-lg text-xs font-medium transition bg-yellow-100 text-yellow-700 hover:bg-yellow-600 hover:text-white dark:bg-yellow-900/30 dark:text-yellow-400 dark:hover:bg-yellow-600 dark:hover:text-white"
+                                                title="Mark Late">
+                                            ⏰
+                                        </button>
+                                        <button type="button"
+                                                onclick="recordStudentAttendance(<?php echo e($s->id); ?>, '<?php echo e(addslashes($s->first_name . ' ' . $s->second_name)); ?>', 'excused')"
+                                                class="status-btn px-3 py-2 rounded-lg text-xs font-medium transition bg-purple-100 text-purple-700 hover:bg-purple-600 hover:text-white dark:bg-purple-900/30 dark:text-purple-400 dark:hover:bg-purple-600 dark:hover:text-white"
+                                                title="Mark Excused">
+                                            📝
+                                        </button>
                                     </div>
                                 </td>
                             </tr>

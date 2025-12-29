@@ -89,6 +89,14 @@ class User extends Authenticatable
     }
 
     /**
+     * Alias for profile_picture_url for consistency with other models.
+     */
+    public function getPhotoUrlAttribute(): string
+    {
+        return $this->getProfilePictureUrlAttribute();
+    }
+
+    /**
      * Send a password reset notification to the user.
      */
     public function sendPasswordResetNotification($token): void

@@ -28,21 +28,32 @@ trait HasPhoto
     {
         // 1. Check if file exists in public storage
         if ($path && Storage::disk('public')->exists($path)) {
-            // Use PhotoController routes to bypass symlink issues on shared hosting
+            // Use absolute URLs with full domain for production compatibility
             if ($this instanceof \App\Models\Student) {
-                return route('student.photo', $this);
+                return url(route('student.photo', $this, false));
             }
             if ($this instanceof \App\Models\Staff) {
-                return route('staff.photo', $this);
+                return url(route('staff.photo', $this, false));
             }
             if ($this instanceof \App\Models\User) {
-                return route('user.photo', $this);
+                return url(route('user.photo', $this, false));
             }
 
-            return Storage::url($path);
+            // Direct storage URL with full domain
+            return url(Storage::url($path));
         }
 
-        // 2. Fallback to SVG Avatar
+        // 2. Check if path looks like an external URL (Cloudinary, S3, etc.)
+        if ($path && (str_starts_with($path, 'http://') || str_starts_with($path, 'https://'))) {
+            return $path;
+        }
+
+        // 3. Try direct storage path with full domain (for cases where file check fails but path exists)
+        if ($path) {
+            return url('/storage/' . ltrim($path, '/'));
+        }
+
+        // 4. Fallback to SVG Avatar
         $svg = <<<SVG
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
     <rect width="128" height="128" fill="#f1f5f9"/>

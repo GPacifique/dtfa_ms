@@ -15,13 +15,13 @@
             // Try PhotoController route if it exists
             try {
                 if (\Illuminate\Support\Facades\Route::has('photos.show')) {
-                    $url = route('photos.show', ['path' => $path]);
+                    $url = url(route('photos.show', ['path' => $path], false));
                 }
             } catch (\Throwable $e) {
                 $url = null;
             }
 
-            // Fallback to storage asset
+            // Fallback to storage URL with full domain
             if (!$url) {
                 // Common storage locations
                 $candidates = [
@@ -32,10 +32,15 @@
                 foreach ($candidates as $candidate) {
                     $candidatePath = public_path($candidate);
                     if (is_file($candidatePath)) {
-                        $url = asset($candidate);
+                        $url = url($candidate);
                         break;
                     }
                 }
+            }
+
+            // If still no URL but path exists, try direct storage URL
+            if (!$url) {
+                $url = url('/storage/' . ltrim($path, '/'));
             }
         }
     }

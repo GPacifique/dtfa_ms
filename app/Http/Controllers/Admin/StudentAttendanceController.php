@@ -6,6 +6,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Student;
 use App\Models\StudentAttendance;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -26,16 +27,30 @@ class StudentAttendanceController extends Controller
 	}
 public function index(Request $request)
 {
-$date = $request->get('date', now()->toDateString());
+	$date = $request->get('date', now()->toDateString());
+	$showAll = $request->get('show_all', false);
 
+	if ($showAll) {
+		// Show all active students (for recording new attendance)
+		$students = Student::where('status', 'active')
+			->with(['attendance' => function ($q) use ($date) {
+				$q->where('attendance_date', $date);
+			}, 'group'])
+			->orderBy('first_name')
+			->get();
+	} else {
+		// Show only students with attendance records for this date
+		$students = Student::whereHas('attendance', function ($q) use ($date) {
+				$q->where('attendance_date', $date);
+			})
+			->with(['attendance' => function ($q) use ($date) {
+				$q->where('attendance_date', $date);
+			}, 'group'])
+			->orderBy('first_name')
+			->get();
+	}
 
-$students = Student::where('status', 'active')
-->with(['attendance' => function ($q) use ($date) {
-$q->where('attendance_date', $date);
-}])->get();
-
-
-return view('attendance.index', compact('students', 'date'));
+	return view('attendance.index', compact('students', 'date', 'showAll'));
 }
 
 
@@ -210,5 +225,98 @@ return view('attendance.index', compact('students', 'date'));
 			Log::error('Auto-record today failed: ' . $e->getMessage());
 			return 0;
 		}
+	}
+
+	/**
+	 * Show attendance calendar view
+	 */
+	public function calendar(Request $request)
+	{
+		$month = $request->get('month', now()->format('Y-m'));
+		$currentMonth = Carbon::createFromFormat('Y-m', $month)->startOfMonth();
+		$startOfMonth = $currentMonth->copy()->startOfMonth();
+		$endOfMonth = $currentMonth->copy()->endOfMonth();
+
+		$prevMonth = $currentMonth->copy()->subMonth();
+		$nextMonth = $currentMonth->copy()->addMonth();
+
+		// Get attendance counts for each day of the month
+		$attendanceCounts = StudentAttendance::whereBetween('attendance_date', [$startOfMonth, $endOfMonth])
+			->selectRaw('attendance_date, status, COUNT(*) as count')
+			->groupBy('attendance_date', 'status')
+			->get()
+			->groupBy('attendance_date');
+
+		// Build calendar days array
+		$calendarDays = [];
+		$day = $startOfMonth->copy();
+
+		while ($day <= $endOfMonth) {
+			$dateStr = $day->format('Y-m-d');
+			$dayCounts = $attendanceCounts->get($dateStr, collect());
+
+			$calendarDays[] = [
+				'date' => $day->copy(),
+				'present_count' => $dayCounts->where('status', 'present')->sum('count'),
+				'absent_count' => $dayCounts->where('status', 'absent')->sum('count'),
+				'late_count' => $dayCounts->where('status', 'late')->sum('count'),
+				'excused_count' => $dayCounts->where('status', 'excused')->sum('count'),
+			];
+
+			$day->addDay();
+		}
+
+		return view('attendance.calendar', compact(
+			'currentMonth',
+			'startOfMonth',
+			'endOfMonth',
+			'prevMonth',
+			'nextMonth',
+			'calendarDays'
+		));
+	}
+
+	/**
+	 * Get attendance data for a specific day (AJAX)
+	 */
+	public function getDayAttendance(Request $request)
+	{
+		$date = $request->get('date', now()->toDateString());
+
+		$attendances = StudentAttendance::with(['student', 'student.branch', 'student.group'])
+			->where('attendance_date', $date)
+			->get();
+
+		$students = $attendances->map(function ($attendance) {
+			$student = $attendance->student;
+			// Access the photo_url accessor explicitly
+			$photoUrl = $student->photo_url;
+			return [
+				'id' => $student->id,
+				'name' => $student->first_name . ' ' . ($student->second_name ?? ''),
+				'photo_url' => $photoUrl,
+				'jersey_name' => $student->jersey_name ?? null,
+				'jersey_number' => $student->jersey_number ?? null,
+				'coach' => $student->coach ?? null,
+				'status' => $attendance->status,
+				'branch' => $student->branch->name ?? null,
+				'group' => $student->group->name ?? null,
+				'remarks' => $attendance->remarks,
+			];
+		});
+
+		$summary = [
+			'present' => $attendances->where('status', 'present')->count(),
+			'absent' => $attendances->where('status', 'absent')->count(),
+			'late' => $attendances->where('status', 'late')->count(),
+			'excused' => $attendances->where('status', 'excused')->count(),
+		];
+
+		return response()->json([
+			'success' => true,
+			'date' => $date,
+			'students' => $students,
+			'summary' => $summary,
+		]);
 	}
 }

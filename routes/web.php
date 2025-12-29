@@ -18,10 +18,15 @@ use App\Http\Controllers\Admin\TrainingSessionController;
 use App\Http\Controllers\Admin\StudentAttendanceController;
 use App\Http\Controllers\PhotoController;
 
-// Photo Routes - Serve images via controller to bypass symlink issues
+// Photo Routes - Serve images via controller to bypass symlink issues (PUBLIC ACCESS)
 Route::get('/photos/students/{student}', [PhotoController::class, 'showStudent'])->name('student.photo');
 Route::get('/photos/staff/{staff}', [PhotoController::class, 'showStaff'])->name('staff.photo');
 Route::get('/photos/users/{user}', [PhotoController::class, 'showUser'])->name('user.photo');
+
+// Storage proxy route (PUBLIC ACCESS - handles /storage/* when symlink is unavailable)
+Route::get('/storage/{path}', [\App\Http\Controllers\StorageProxyController::class, 'show'])
+    ->where('path', '.*')
+    ->name('storage.proxy');
 
 Route::middleware(['auth'])->group(function () {
     // Student Attendance (admin)
@@ -37,14 +42,16 @@ Route::middleware(['auth'])->group(function () {
 
 
 
-// Admin Student Attendance resource routes (fixes missing route error)
-Route::middleware(['auth', 'role:admin|super-admin|accountant'])
+// Admin Student Attendance resource routes - accessible to all authenticated users
+Route::middleware(['auth'])
     ->prefix('admin')
     ->name('admin.')
     ->group(function () {
         Route::resource('student-attendance', App\Http\Controllers\Admin\StudentAttendanceController::class);
         Route::post('student-attendance-auto-record', [App\Http\Controllers\Admin\StudentAttendanceController::class, 'autoRecordAll'])->name('student-attendance.auto-record');
         Route::post('student-attendance-quick-record', [App\Http\Controllers\Admin\StudentAttendanceController::class, 'quickRecord'])->name('student-attendance.quick-record');
+        Route::get('attendance-calendar', [App\Http\Controllers\Admin\StudentAttendanceController::class, 'calendar'])->name('attendance-calendar');
+        Route::get('attendance-calendar/day-data', [App\Http\Controllers\Admin\StudentAttendanceController::class, 'getDayAttendance'])->name('attendance-calendar.day-data');
     });
 
 // Coach check-in route for students (fixes missing route error)
@@ -148,19 +155,6 @@ Route::get('/', function () {
 
 // SEO: Dynamic sitemap
 Route::get('/sitemap.xml', [\App\Http\Controllers\SitemapController::class, 'index'])->name('sitemap');
-
-// Photo serving routes (public)
-Route::get('/photos/students/{student}', [\App\Http\Controllers\PhotoController::class, 'showStudent'])
-    ->name('student.photo');
-Route::get('/photos/staff/{staff}', [\App\Http\Controllers\PhotoController::class, 'showStaff'])
-    ->name('photos.staff');
-Route::get('/photos/users/{user}', [\App\Http\Controllers\PhotoController::class, 'showUser'])
-    ->name('photos.user');
-
-// Storage proxy route (handles /storage/* when symlink is unavailable)
-Route::get('/storage/{path}', [\App\Http\Controllers\StorageProxyController::class, 'show'])
-    ->where('path', '.*')
-    ->name('storage.proxy');
 
 Route::middleware(['auth'])->group(function () {
 
