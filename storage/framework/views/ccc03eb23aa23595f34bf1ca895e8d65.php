@@ -319,28 +319,6 @@
                     </div>
                 </div>
             </form>
-        </div>
-
-
-        <!-- Quick Search & Click-to-Record Section -->
-        <div class="bg-blue-50 dark:bg-blue-900/20 border-l-4 border-blue-400 p-6 mb-6 rounded">
-            <h2 class="text-lg font-bold mb-4 text-blue-900 dark:text-blue-300">Quick Attendance Entry</h2>
-            <div class="flex gap-4 mb-4">
-                <div class="flex-1">
-                    <input
-                        type="text"
-                        id="studentSearch"
-                        placeholder="Search student name or ID..."
-                        class="w-full border border-blue-300 dark:border-blue-600 bg-white dark:bg-slate-800 rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:text-white"
-                    />
-                </div>
-                <select id="attendanceStatus" class="border border-blue-300 dark:border-blue-600 bg-white dark:bg-slate-800 rounded px-4 py-2 dark:text-white">
-                    <option value="present">Present</option>
-                    <option value="absent">Absent</option>
-                    <option value="late">Late</option>
-                    <option value="excused">Excused</option>
-                </select>
-            </div>
 
             <!-- Search Results -->
             <div id="searchResults" class="max-h-64 overflow-y-auto"></div>
@@ -354,14 +332,16 @@
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
             <?php $__empty_1 = true; $__currentLoopData = $students; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $s): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
                 <div class="bg-white dark:bg-slate-900 rounded-xl shadow-sm border border-slate-200 dark:border-slate-800 overflow-hidden hover:shadow-lg transition">
-                    <div class="aspect-square bg-slate-100 dark:bg-slate-800 relative">
-                        <img src="<?php echo e($s->photo_url); ?>" alt="<?php echo e($s->first_name); ?> <?php echo e($s->second_name); ?>" class="w-full h-full object-cover">
+                    <a href="<?php echo e(route('students-modern.show', $s)); ?>" class="block aspect-square bg-slate-100 dark:bg-slate-800 relative cursor-pointer">
+                        <img src="<?php echo e($s->photo_url); ?>" alt="<?php echo e($s->first_name); ?> <?php echo e($s->second_name); ?>" class="w-full h-full object-cover hover:opacity-90 transition">
                         <?php if($s->status === 'active'): ?>
                             <div class="absolute top-2 right-2 bg-emerald-500 text-white text-xs font-bold rounded-full w-6 h-6 flex items-center justify-center">✓</div>
                         <?php endif; ?>
-                    </div>
+                    </a>
                     <div class="p-4">
-                        <h3 class="font-bold text-slate-900 dark:text-white truncate"><?php echo e($s->first_name); ?> <?php echo e($s->second_name); ?></h3>
+                        <a href="<?php echo e(route('students-modern.show', $s)); ?>" class="block">
+                            <h3 class="font-bold text-slate-900 dark:text-white truncate hover:text-blue-600 dark:hover:text-blue-400"><?php echo e($s->first_name); ?> <?php echo e($s->second_name); ?></h3>
+                        </a>
                         <p class="text-xs text-slate-500 dark:text-slate-400 truncate"><?php echo e($s->player_email ?? '—'); ?></p>
                         <?php if($s->jersey_number || $s->jersey_name): ?>
                             <p class="text-xs text-slate-600 dark:text-slate-400 truncate mt-1">

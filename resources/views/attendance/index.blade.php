@@ -149,9 +149,11 @@
                         data-jersey-number="{{ $student->jersey_number ?? '' }}">
                         <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-500">{{ $index + 1 }}</td>
                         <td class="px-4 py-3 whitespace-nowrap">
-                            <img src="{{ $student->photo_url }}" alt="{{ $student->first_name }}"
-                                 class="w-10 h-10 rounded-full object-cover border-2 border-gray-200"
-                                 onerror="this.src='https://ui-avatars.com/api/?name={{ urlencode($student->first_name . ' ' . $student->second_name) }}&background=3b82f6&color=fff'">
+                            <a href="{{ route('students-modern.show', $student) }}" class="block">
+                                <img src="{{ $student->photo_url }}" alt="{{ $student->first_name }}"
+                                     class="w-10 h-10 rounded-full object-cover border-2 border-gray-200 hover:border-blue-500 hover:scale-110 transition"
+                                     onerror="this.src='https://ui-avatars.com/api/?name={{ urlencode($student->first_name . ' ' . $student->second_name) }}&background=3b82f6&color=fff'">
+                            </a>
                         </td>
                         <td class="px-4 py-3 whitespace-nowrap">
                             <div class="font-medium text-gray-900">{{ $student->first_name }} {{ $student->second_name }}</div>

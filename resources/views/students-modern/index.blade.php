@@ -58,14 +58,16 @@
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
             @forelse($students as $s)
                 <div class="bg-white dark:bg-slate-900 rounded-xl shadow-sm border border-slate-200 dark:border-slate-800 overflow-hidden hover:shadow-lg transition">
-                    <div class="aspect-square bg-slate-100 dark:bg-slate-800 relative">
-                        <img src="{{ $s->photo_url }}" alt="{{ $s->first_name }} {{ $s->second_name }}" class="w-full h-full object-cover">
+                    <a href="{{ route('students-modern.show', $s) }}" class="block aspect-square bg-slate-100 dark:bg-slate-800 relative cursor-pointer">
+                        <img src="{{ $s->photo_url }}" alt="{{ $s->first_name }} {{ $s->second_name }}" class="w-full h-full object-cover hover:opacity-90 transition">
                         @if($s->status === 'active')
                             <div class="absolute top-2 right-2 bg-emerald-500 text-white text-xs font-bold rounded-full w-6 h-6 flex items-center justify-center">✓</div>
                         @endif
-                    </div>
+                    </a>
                     <div class="p-4">
-                        <h3 class="font-bold text-slate-900 dark:text-white truncate">{{ $s->first_name }} {{ $s->second_name }}</h3>
+                        <a href="{{ route('students-modern.show', $s) }}" class="block">
+                            <h3 class="font-bold text-slate-900 dark:text-white truncate hover:text-blue-600 dark:hover:text-blue-400">{{ $s->first_name }} {{ $s->second_name }}</h3>
+                        </a>
                         <p class="text-xs text-slate-500 dark:text-slate-400 truncate">{{ $s->player_email ?? '—' }}</p>
                         @if($s->jersey_number || $s->jersey_name)
                             <p class="text-xs text-slate-600 dark:text-slate-400 truncate mt-1">

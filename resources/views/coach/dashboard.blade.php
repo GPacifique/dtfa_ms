@@ -78,9 +78,13 @@
                             <tr class="hover:bg-slate-50 dark:hover:bg-slate-700/40 transition">
                                 <td class="p-4">
                                     <div class="flex items-center gap-3">
-                                        <img src="{{ $student->photo_url }}" class="w-10 h-10 rounded-full object-cover border border-slate-200 dark:border-slate-600" alt="{{ $student->first_name }}" loading="lazy" onerror="this.style.display='none'">
+                                        <a href="{{ route('students-modern.show', $student) }}">
+                                            <img src="{{ $student->photo_url }}" class="w-10 h-10 rounded-full object-cover border border-slate-200 dark:border-slate-600 hover:border-blue-500 hover:scale-110 transition" alt="{{ $student->first_name }}" loading="lazy" onerror="this.style.display='none'">
+                                        </a>
                                         <div>
-                                            <p class="font-semibold text-slate-900 dark:text-white text-sm">{{ $student->first_name ?? 'N/A' }} {{ $student->second_name ?? '' }}</p>
+                                            <a href="{{ route('students-modern.show', $student) }}" class="hover:text-blue-600">
+                                                <p class="font-semibold text-slate-900 dark:text-white text-sm">{{ $student->first_name ?? 'N/A' }} {{ $student->second_name ?? '' }}</p>
+                                            </a>
                                             <p class="text-xs text-slate-500">{{ $student->group->name ?? 'No group' }}</p>
                                         </div>
                                     </div>
