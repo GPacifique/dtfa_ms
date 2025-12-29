@@ -45,28 +45,6 @@
                     </div>
                 </div>
             </form>
-        </div>
-
-
-        <!-- Quick Search & Click-to-Record Section -->
-        <div class="bg-blue-50 dark:bg-blue-900/20 border-l-4 border-blue-400 p-6 mb-6 rounded">
-            <h2 class="text-lg font-bold mb-4 text-blue-900 dark:text-blue-300">Quick Attendance Entry</h2>
-            <div class="flex gap-4 mb-4">
-                <div class="flex-1">
-                    <input
-                        type="text"
-                        id="studentSearch"
-                        placeholder="Search student name or ID..."
-                        class="w-full border border-blue-300 dark:border-blue-600 bg-white dark:bg-slate-800 rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:text-white"
-                    />
-                </div>
-                <select id="attendanceStatus" class="border border-blue-300 dark:border-blue-600 bg-white dark:bg-slate-800 rounded px-4 py-2 dark:text-white">
-                    <option value="present">Present</option>
-                    <option value="absent">Absent</option>
-                    <option value="late">Late</option>
-                    <option value="excused">Excused</option>
-                </select>
-            </div>
 
             <!-- Search Results -->
             <div id="searchResults" class="max-h-64 overflow-y-auto"></div>

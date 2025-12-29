@@ -28,19 +28,8 @@ trait HasPhoto
     {
         // 1. Check if file exists in public storage
         if ($path && Storage::disk('public')->exists($path)) {
-            // Use absolute URLs with full domain for production compatibility
-            if ($this instanceof \App\Models\Student) {
-                return url(route('student.photo', $this, false));
-            }
-            if ($this instanceof \App\Models\Staff) {
-                return url(route('staff.photo', $this, false));
-            }
-            if ($this instanceof \App\Models\User) {
-                return url(route('user.photo', $this, false));
-            }
-
-            // Direct storage URL with full domain
-            return url(Storage::url($path));
+            // Use direct storage URL for simplicity and reliability
+            return url('/storage/' . ltrim($path, '/'));
         }
 
         // 2. Check if path looks like an external URL (Cloudinary, S3, etc.)
