@@ -28,8 +28,8 @@ trait HasPhoto
     {
         // 1. Check if file exists in public storage
         if ($path && Storage::disk('public')->exists($path)) {
-            // Use direct storage URL for simplicity and reliability
-            return url('/storage/' . ltrim($path, '/'));
+            // Use asset() helper for proper URL generation across environments
+            return asset('storage/' . ltrim($path, '/'));
         }
 
         // 2. Check if path looks like an external URL (Cloudinary, S3, etc.)
@@ -37,9 +37,9 @@ trait HasPhoto
             return $path;
         }
 
-        // 3. Try direct storage path with full domain (for cases where file check fails but path exists)
+        // 3. Try direct storage path (for cases where file check fails but path exists)
         if ($path) {
-            return url('/storage/' . ltrim($path, '/'));
+            return asset('storage/' . ltrim($path, '/'));
         }
 
         // 4. Fallback to SVG Avatar
