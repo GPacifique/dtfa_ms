@@ -111,6 +111,14 @@
                                 </button>
                             </div>
                         </div>
+                        <div class="mt-3 pt-3 border-t border-slate-200 dark:border-slate-700 flex justify-end">
+                            <button type="button"
+                                    onclick="deleteStudent({{ $s->id }}, '{{ addslashes($s->first_name . ' ' . $s->second_name) }}')"
+                                    class="px-3 py-2 rounded-lg text-xs font-medium transition bg-red-100 text-red-700 hover:bg-red-600 hover:text-white dark:bg-red-900/30 dark:text-red-400 dark:hover:bg-red-600 dark:hover:text-white"
+                                    title="Delete Student">
+                                🗑️ Delete
+                            </button>
+                        </div>
                     </div>
                 </div>
             @empty
@@ -180,6 +188,12 @@
                                                 class="status-btn px-3 py-2 rounded-lg text-xs font-medium transition bg-purple-100 text-purple-700 hover:bg-purple-600 hover:text-white dark:bg-purple-900/30 dark:text-purple-400 dark:hover:bg-purple-600 dark:hover:text-white"
                                                 title="Mark Excused">
                                             📝
+                                        </button>
+                                        <button type="button"
+                                                onclick="deleteStudent({{ $s->id }}, '{{ addslashes($s->first_name . ' ' . $s->second_name) }}')"
+                                                class="status-btn px-3 py-2 rounded-lg text-xs font-medium transition bg-red-100 text-red-700 hover:bg-red-600 hover:text-white dark:bg-red-900/30 dark:text-red-400 dark:hover:bg-red-600 dark:hover:text-white"
+                                                title="Delete Student">
+                                            🗑️
                                         </button>
                                     </div>
                                 </td>
@@ -288,6 +302,43 @@ function recordStudentAttendance(studentId, studentName, status) {
     })
     .catch(error => {
         console.error('Fetch error:', error);
+        showNotificationModern('Error: ' + error.message, 'error');
+    });
+}
+
+// Function to delete a student
+function deleteStudent(studentId, studentName) {
+    if (!confirm(`Are you sure you want to delete ${studentName}? This action cannot be undone.`)) {
+        return;
+    }
+
+    const url = `{{ url('students-modern') }}/${studentId}`;
+
+    console.log('Deleting student:', studentId, studentName);
+    console.log('URL:', url);
+
+    fetch(url, {
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': csrfToken,
+            'Accept': 'application/json'
+        }
+    })
+    .then(response => {
+        console.log('Delete response status:', response.status);
+        if (response.ok) {
+            showNotificationModern(`✓ ${studentName} has been deleted`, 'success');
+            // Remove the student row/card from the DOM or reload the page
+            setTimeout(() => window.location.reload(), 1000);
+        } else {
+            return response.json().then(data => {
+                throw new Error(data.message || 'Failed to delete student');
+            });
+        }
+    })
+    .catch(error => {
+        console.error('Delete error:', error);
         showNotificationModern('Error: ' + error.message, 'error');
     });
 }
