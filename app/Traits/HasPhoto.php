@@ -26,10 +26,13 @@ trait HasPhoto
      */
     protected function getPhotoUrlFromPath(?string $path, string $initials, string $backgroundColor = '3b82f6'): string
     {
+        // Get base URL from environment for production compatibility
+        $baseUrl = rtrim(config('app.url'), '/');
+
         // 1. Check if file exists in public storage
         if ($path && Storage::disk('public')->exists($path)) {
-            // Use asset() helper for proper URL generation across environments
-            return asset('storage/' . ltrim($path, '/'));
+            // Use full URL with APP_URL for production compatibility
+            return $baseUrl . '/storage/' . ltrim($path, '/');
         }
 
         // 2. Check if path looks like an external URL (Cloudinary, S3, etc.)
@@ -39,7 +42,7 @@ trait HasPhoto
 
         // 3. Try direct storage path (for cases where file check fails but path exists)
         if ($path) {
-            return asset('storage/' . ltrim($path, '/'));
+            return $baseUrl . '/storage/' . ltrim($path, '/');
         }
 
         // 4. Fallback to SVG Avatar
