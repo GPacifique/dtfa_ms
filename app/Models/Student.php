@@ -69,8 +69,27 @@ class Student extends Model
         $second = $this->second_name ?? $this->last_name ?? 'T';
         $initials = strtoupper(mb_substr($this->first_name ?? 'S', 0, 1) . mb_substr($second, 0, 1));
 
-        // Use trait method for consistent photo URL handling
-        return $this->getPhotoUrlFromPath($this->photo_path, $initials, '3b82f6');
+        // If student has a photo, use the route-based URL (bypasses symlink issues on shared hosting)
+        if ($this->photo_path) {
+            return route('student.photo', $this->id);
+        }
+
+        // Fallback to SVG avatar
+        return $this->generateSvgAvatar($initials);
+    }
+
+    /**
+     * Generate an SVG avatar with initials
+     */
+    protected function generateSvgAvatar(string $initials): string
+    {
+        $svg = <<<SVG
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
+    <rect width="128" height="128" fill="#3b82f6"/>
+    <text x="50%" y="50%" font-family="ui-sans-serif, system-ui, sans-serif" font-size="52" font-weight="600" fill="#ffffff" text-anchor="middle" dy=".35em">{$initials}</text>
+</svg>
+SVG;
+        return 'data:image/svg+xml;base64,' . base64_encode($svg);
     }
 
     public function getAgeAttribute()

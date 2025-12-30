@@ -84,8 +84,19 @@ class User extends Authenticatable
         // Generate initials for fallback avatar
         $initials = strtoupper(mb_substr($this->name ?? 'U', 0, 1));
 
-        // Use trait method for consistent photo URL handling
-        return $this->getPhotoUrlFromPath($this->profile_picture_path, $initials, '3b82f6');
+        // If user has a profile picture, use the route-based URL (bypasses symlink issues on shared hosting)
+        if ($this->profile_picture_path) {
+            return route('user.photo', $this->id);
+        }
+
+        // Fallback to SVG avatar
+        $svg = <<<SVG
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
+    <rect width="128" height="128" fill="#3b82f6"/>
+    <text x="50%" y="50%" font-family="ui-sans-serif, system-ui, sans-serif" font-size="52" font-weight="600" fill="#ffffff" text-anchor="middle" dy=".35em">{$initials}</text>
+</svg>
+SVG;
+        return 'data:image/svg+xml;base64,' . base64_encode($svg);
     }
 
     /**

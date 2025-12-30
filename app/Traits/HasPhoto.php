@@ -29,23 +29,30 @@ trait HasPhoto
         // Get base URL from environment for production compatibility
         $baseUrl = rtrim(config('app.url'), '/');
 
-        // 1. Check if file exists in public storage
-        if ($path && Storage::disk('public')->exists($path)) {
-            // Use full URL with APP_URL for production compatibility
-            return $baseUrl . '/storage/' . ltrim($path, '/');
-        }
-
-        // 2. Check if path looks like an external URL (Cloudinary, S3, etc.)
+        // 1. Check if path looks like an external URL (Cloudinary, S3, etc.)
         if ($path && (str_starts_with($path, 'http://') || str_starts_with($path, 'https://'))) {
             return $path;
         }
 
-        // 3. Try direct storage path (for cases where file check fails but path exists)
+        // 2. If path exists, return full URL (skip file existence check for production compatibility)
+        // On shared hosting, Storage::exists() may fail even if file exists
         if ($path) {
-            return $baseUrl . '/storage/' . ltrim($path, '/');
+            // Clean up the path
+            $cleanPath = ltrim($path, '/');
+
+            // Try to check if file exists, but don't fail if check doesn't work
+            try {
+                $fileExists = Storage::disk('public')->exists($cleanPath);
+            } catch (\Exception $e) {
+                $fileExists = true; // Assume exists if we can't check
+            }
+
+            if ($fileExists || !empty($path)) {
+                return $baseUrl . '/storage/' . $cleanPath;
+            }
         }
 
-        // 4. Fallback to SVG Avatar
+        // 3. Fallback to SVG Avatar with initials
         $svg = <<<SVG
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
     <rect width="128" height="128" fill="#f1f5f9"/>
