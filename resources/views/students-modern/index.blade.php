@@ -317,24 +317,27 @@ function deleteStudent(studentId, studentName) {
     console.log('Deleting student:', studentId, studentName);
     console.log('URL:', url);
 
+    // Create form data with method spoofing for Laravel
+    const formData = new FormData();
+    formData.append('_method', 'DELETE');
+    formData.append('_token', csrfToken);
+
     fetch(url, {
-        method: 'DELETE',
+        method: 'POST',
         headers: {
-            'Content-Type': 'application/json',
             'X-CSRF-TOKEN': csrfToken,
-            'Accept': 'application/json'
-        }
+            'Accept': 'text/html,application/json'
+        },
+        body: formData
     })
     .then(response => {
         console.log('Delete response status:', response.status);
-        if (response.ok) {
+        if (response.ok || response.redirected) {
             showNotificationModern(`✓ ${studentName} has been deleted`, 'success');
-            // Remove the student row/card from the DOM or reload the page
+            // Reload the page after successful deletion
             setTimeout(() => window.location.reload(), 1000);
         } else {
-            return response.json().then(data => {
-                throw new Error(data.message || 'Failed to delete student');
-            });
+            throw new Error('Failed to delete student');
         }
     })
     .catch(error => {
