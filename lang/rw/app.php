@@ -440,4 +440,26 @@ return [
     'other_incomes' => 'Amafaranga yandi yinjiye',
     'netflow' => 'Isigaye',
     'scheduled' => 'Byateganyijwe',
+
+    // Capacity Building (In-House Trainings)
+    'manage_training_records' => 'Gucunga inyandiko n\'igihe by\'amahugurwa',
+    'add_new_training' => 'Ongeraho amahugurwa mashya',
+    'new_training' => 'Amahugurwa mashya',
+    'create_capacity_building' => 'Kurema kunoza ubushobozi',
+    'add_new_training_session' => 'Ongeraho isomo rishya ry\'amahugurwa',
+    'edit_capacity_building' => 'Hindura kunoza ubushobozi',
+    'update_training_details' => 'Kuvugurura amakuru y\'isomo ry\'amahugurwa',
+    'back_to_trainings' => 'Subira ku mahugurwa',
+
+    // Attendance Page
+    'back_to_sessions' => 'Subira ku masomo',
+    'notes' => 'Inyandiko',
+    'present' => 'Ahari',
+    'absent' => 'Yabuze',
+    'late' => 'Yatinze',
+    'excused' => 'Yabonywe uruhushya',
+    'no_students_found_session' => 'Nta banyeshuri babonetse kuri iki cyiciro cy\'itsinda/ishami.',
+    'save_attendance' => 'Bika ubuhari',
+    'mark_all_present' => 'Shyira bose ko bahari',
+    'confirm_mark_all_present' => 'Shyira abanyeshuri bose ko bahari?',
 ];

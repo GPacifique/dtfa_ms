@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @push('hero')
-    <x-hero title="Edit In-House Training" subtitle="Update training session details">
+    <x-hero title="{{ __('app.edit_capacity_building') }}" subtitle="{{ __('app.update_training_details') }}">
         <div class="mt-4">
 
         </div>

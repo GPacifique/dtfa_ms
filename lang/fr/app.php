@@ -440,4 +440,26 @@ return [
     'other_incomes' => 'Autres revenus',
     'netflow' => 'Flux net',
     'scheduled' => 'Planifié',
+
+    // Capacity Building (In-House Trainings)
+    'manage_training_records' => 'Gérer les enregistrements et horaires de formation',
+    'add_new_training' => 'Ajouter une nouvelle formation',
+    'new_training' => 'Nouvelle formation',
+    'create_capacity_building' => 'Créer un renforcement des capacités',
+    'add_new_training_session' => 'Ajouter une nouvelle session de formation',
+    'edit_capacity_building' => 'Modifier le renforcement des capacités',
+    'update_training_details' => 'Mettre à jour les détails de la session de formation',
+    'back_to_trainings' => 'Retour aux formations',
+
+    // Attendance Page
+    'back_to_sessions' => 'Retour aux sessions',
+    'notes' => 'Notes',
+    'present' => 'Présent',
+    'absent' => 'Absent',
+    'late' => 'En retard',
+    'excused' => 'Excusé',
+    'no_students_found_session' => 'Aucun étudiant trouvé pour le groupe/branche de cette session.',
+    'save_attendance' => 'Enregistrer la présence',
+    'mark_all_present' => 'Marquer tous présents',
+    'confirm_mark_all_present' => 'Marquer tous les étudiants présents?',
 ];

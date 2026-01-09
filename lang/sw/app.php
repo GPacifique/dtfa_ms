@@ -440,4 +440,26 @@ return [
     'other_incomes' => 'Mapato mengine',
     'netflow' => 'Mtiririko halisi',
     'scheduled' => 'Imepangwa',
+
+    // Capacity Building (In-House Trainings)
+    'manage_training_records' => 'Simamia rekodi na ratiba za mafunzo',
+    'add_new_training' => 'Ongeza mafunzo mapya',
+    'new_training' => 'Mafunzo mapya',
+    'create_capacity_building' => 'Unda kujenga uwezo',
+    'add_new_training_session' => 'Ongeza kipindi kipya cha mafunzo',
+    'edit_capacity_building' => 'Hariri kujenga uwezo',
+    'update_training_details' => 'Sasisha maelezo ya kipindi cha mafunzo',
+    'back_to_trainings' => 'Rudi kwa mafunzo',
+
+    // Attendance Page
+    'back_to_sessions' => 'Rudi kwa vipindi',
+    'notes' => 'Maelezo',
+    'present' => 'Yupo',
+    'absent' => 'Hayupo',
+    'late' => 'Amechelewa',
+    'excused' => 'Ameruhusiwa',
+    'no_students_found_session' => 'Hakuna wanafunzi waliopatikana kwa kikundi/tawi la kipindi hiki.',
+    'save_attendance' => 'Hifadhi mahudhurio',
+    'mark_all_present' => 'Weka wote wapo',
+    'confirm_mark_all_present' => 'Weka wanafunzi wote wapo?',
 ];

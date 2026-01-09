@@ -1,9 +1,9 @@
 @extends('layouts.app')
 
 @push('hero')
-    <x-hero title="In-House Trainings" subtitle="Manage training records and schedules">
+    <x-hero title="{{ __('app.capacity_building') }}" subtitle="{{ __('app.manage_training_records') }}">
         <div class="mt-4">
-            <a href="{{ route('admin.inhousetrainings.create') }}" class="btn-primary">➕ Add New Training</a>
+            <a href="{{ route('admin.inhousetrainings.create') }}" class="btn-primary">➕ {{ __('app.add_new_training') }}</a>
         </div>
     </x-hero>
 @endpush
@@ -12,8 +12,8 @@
 <div class="max-w-7xl mx-auto p-6">
 
     <div class="flex items-center justify-between mb-6">
-        <h1 class="text-3xl font-bold text-slate-900 dark:text-white">🏫 In-House Trainings</h1>
-        <a href="{{ route('admin.inhousetrainings.create') }}" class="inline-flex items-center gap-2 px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition font-semibold">➕ New Training</a>
+        <h1 class="text-3xl font-bold text-slate-900 dark:text-white">🏫 {{ __('app.capacity_building') }}</h1>
+        <a href="{{ route('admin.inhousetrainings.create') }}" class="inline-flex items-center gap-2 px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition font-semibold">➕ {{ __('app.new_training') }}</a>
     </div>
 
     <div class="bg-white dark:bg-neutral-900 shadow rounded-lg overflow-hidden">

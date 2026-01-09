@@ -438,4 +438,26 @@ return [
     'other_incomes' => 'Other incomes',
     'netflow' => 'Netflow',
     'scheduled' => 'Scheduled',
+
+    // Capacity Building (In-House Trainings)
+    'manage_training_records' => 'Manage training records and schedules',
+    'add_new_training' => 'Add New Training',
+    'new_training' => 'New Training',
+    'create_capacity_building' => 'Create Capacity Building',
+    'add_new_training_session' => 'Add a new training session',
+    'edit_capacity_building' => 'Edit Capacity Building',
+    'update_training_details' => 'Update training session details',
+    'back_to_trainings' => 'Back to Trainings',
+
+    // Attendance Page
+    'back_to_sessions' => 'Back to Sessions',
+    'notes' => 'Notes',
+    'present' => 'Present',
+    'absent' => 'Absent',
+    'late' => 'Late',
+    'excused' => 'Excused',
+    'no_students_found_session' => 'No students found for this session\'s group/branch.',
+    'save_attendance' => 'Save Attendance',
+    'mark_all_present' => 'Mark All Present',
+    'confirm_mark_all_present' => 'Mark all students present?',
 ];
