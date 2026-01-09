@@ -43,20 +43,16 @@ class CommunicationController extends Controller
         $data['sender_id'] = auth()->id();
         $communication = Communication::create($data);
 
-        // send emails to those in `staff` table (or to both users+staff if audience=all)
-        // Default to 'all' so pressing Send without choosing still targets everyone.
-        $audience = $communication->audience ?? 'all';
+        // Send emails to ALL users and staff for every communication
         $emails = collect();
 
-        if ($audience === 'staff' || $audience === 'all') {
-            $staffEmails = Staff::whereNotNull('email')->pluck('email')->filter()->unique();
-            $emails = $emails->merge($staffEmails);
-        }
+        // Get all staff emails
+        $staffEmails = Staff::whereNotNull('email')->pluck('email')->filter()->unique();
+        $emails = $emails->merge($staffEmails);
 
-        if ($audience === 'all') {
-            $userEmails = User::whereNotNull('email')->pluck('email')->filter()->unique();
-            $emails = $emails->merge($userEmails);
-        }
+        // Get all user emails
+        $userEmails = User::whereNotNull('email')->pluck('email')->filter()->unique();
+        $emails = $emails->merge($userEmails);
 
         // Normalize to array and chunk for batched dispatch
         $emails = $emails->unique()->values()->all();
