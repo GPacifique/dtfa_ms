@@ -16,7 +16,7 @@ class CommunicationController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-        $this->middleware('role:super-admin|admin|CEO|Technical Director');
+        // Accessible to all logged-in users
     }
 
     public function index()
