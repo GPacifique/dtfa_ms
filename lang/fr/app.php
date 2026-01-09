@@ -10,7 +10,7 @@ return [
     'players' => 'Joueurs',
     'training' => 'Formation',
     'training_sessions' => 'Séances d\'entraînement',
-    'training_records' => 'Registres de formation',
+    'training_records' => 'Fiche d\'entraînement',
     'matches' => 'Matchs',
     'games' => 'Jeux',
     'attendance' => 'Présence',
