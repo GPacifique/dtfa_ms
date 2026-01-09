@@ -75,7 +75,12 @@ class TrainingSessionRecordController extends Controller
 
     public function create()
     {
-        return $this->prepare();
+        $sessions = TrainingSession::orderBy('date', 'desc')->get(['id','date','location','group_name']);
+        $branches = $sessions->pluck('location')->filter()->unique()->values();
+        $pitches = ['IPRC Kicukiro- Football', 'Green Hills Academy', 'Star School -Masaka', 'Nyamagana Stadium', 'IPRC-Kigali -Basketball'];
+        $coaches = User::role('coach')->get(['id', 'name']);
+
+        return view('admin.training_session_records.create', compact('sessions', 'branches', 'pitches', 'coaches'));
     }
 
     public function store(Request $request)
