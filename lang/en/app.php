@@ -160,8 +160,16 @@ return [
     'confirm_password' => 'Confirm Password',
     'remember_me' => 'Remember Me',
     'forgot_password' => 'Forgot Password?',
+    'forgot_password_description' => 'No problem. Just enter your email address and we will send you a password reset link.',
     'reset_password' => 'Reset Password',
+    'reset_password_description' => 'Enter your new password below to complete the reset process.',
     'send_reset_link' => 'Send Password Reset Link',
+    'back_to_login' => 'Back to Login',
+    'new_password' => 'New Password',
+    'enter_email' => 'Enter your email address',
+    'enter_new_password' => 'Enter your new password',
+    'confirm_new_password' => 'Confirm your new password',
+    'password_reset_success' => 'Your password has been reset successfully.',
 
     // Pagination
     'showing' => 'Showing',

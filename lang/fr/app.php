@@ -160,8 +160,16 @@ return [
     'confirm_password' => 'Confirmer le mot de passe',
     'remember_me' => 'Se souvenir de moi',
     'forgot_password' => 'Mot de passe oublié?',
+    'forgot_password_description' => 'Pas de problème. Entrez simplement votre adresse e-mail et nous vous enverrons un lien de réinitialisation.',
     'reset_password' => 'Réinitialiser le mot de passe',
+    'reset_password_description' => 'Entrez votre nouveau mot de passe ci-dessous pour terminer le processus.',
     'send_reset_link' => 'Envoyer le lien de réinitialisation',
+    'back_to_login' => 'Retour à la connexion',
+    'new_password' => 'Nouveau mot de passe',
+    'enter_email' => 'Entrez votre adresse e-mail',
+    'enter_new_password' => 'Entrez votre nouveau mot de passe',
+    'confirm_new_password' => 'Confirmez votre nouveau mot de passe',
+    'password_reset_success' => 'Votre mot de passe a été réinitialisé avec succès.',
 
     // Pagination
     'showing' => 'Affichage de',

@@ -160,8 +160,16 @@ return [
     'confirm_password' => 'Emeza ijambo ry\'ibanga',
     'remember_me' => 'Unyibuke',
     'forgot_password' => 'Wibagiwe ijambo ry\'ibanga?',
+    'forgot_password_description' => 'Nta kibazo. Andika aderesi yawe ya imeri natwe tuzohereza urusobe rwo guhindura ijambo ry\'ibanga.',
     'reset_password' => 'Hindura ijambo ry\'ibanga',
+    'reset_password_description' => 'Andika ijambo ry\'ibanga rishya hepfo kugira ngo urangize.',
     'send_reset_link' => 'Ohereza uburyo bwo guhindura',
+    'back_to_login' => 'Subira aho winjirira',
+    'new_password' => 'Ijambo ry\'ibanga rishya',
+    'enter_email' => 'Andika aderesi yawe ya imeri',
+    'enter_new_password' => 'Andika ijambo ry\'ibanga rishya',
+    'confirm_new_password' => 'Emeza ijambo ry\'ibanga rishya',
+    'password_reset_success' => 'Ijambo ry\'ibanga ryawe ryahindutse neza.',
 
     // Pagination
     'showing' => 'Kwerekana',

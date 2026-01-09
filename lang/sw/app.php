@@ -160,8 +160,16 @@ return [
     'confirm_password' => 'Thibitisha neno la siri',
     'remember_me' => 'Nikumbuke',
     'forgot_password' => 'Umesahau neno la siri?',
+    'forgot_password_description' => 'Hakuna shida. Ingiza tu anwani yako ya barua pepe na tutakutumia kiungo cha kuweka upya.',
     'reset_password' => 'Weka upya neno la siri',
+    'reset_password_description' => 'Ingiza neno lako jipya la siri hapa chini ili kukamilisha mchakato.',
     'send_reset_link' => 'Tuma kiungo cha kuweka upya',
+    'back_to_login' => 'Rudi kwenye kuingia',
+    'new_password' => 'Neno jipya la siri',
+    'enter_email' => 'Ingiza anwani yako ya barua pepe',
+    'enter_new_password' => 'Ingiza neno lako jipya la siri',
+    'confirm_new_password' => 'Thibitisha neno lako jipya la siri',
+    'password_reset_success' => 'Neno lako la siri limewekwa upya kwa mafanikio.',
 
     // Pagination
     'showing' => 'Kuonyesha',
