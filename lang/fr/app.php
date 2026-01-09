@@ -433,7 +433,7 @@ return [
     'file_storage_adequate' => 'Stockage fichiers: Adéquat',
     'backup_last_2_hours' => 'Sauvegarde: Il y a 2 heures',
     'performance_metrics' => 'Métriques de performance',
-    'student_enrollment_rate' => 'Taux d'inscription joueurs',
+    'student_enrollment_rate' => 'Taux d\'inscription joueurs',
     'session_attendance' => 'Présence aux sessions',
     'revenue_target' => 'Objectif de revenus',
     'equipment_status' => 'État des équipements',
