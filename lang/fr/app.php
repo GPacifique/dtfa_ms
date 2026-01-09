@@ -54,6 +54,8 @@ return [
 
     // Common Labels
     'name' => 'Nom',
+    'first_name' => 'Prénom',
+    'last_name' => 'Nom de famille',
     'email' => 'Email',
     'phone' => 'Téléphone',
     'address' => 'Adresse',

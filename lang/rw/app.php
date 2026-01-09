@@ -53,8 +53,8 @@ return [
     'actions' => 'Ibikorwa',
 
     // Common Labels
-    'name' => 'Izina',
-    'email' => 'Imeli',
+    'name' => 'Izina',    'first_name' => 'Izina ry\'mbere',
+    'last_name' => 'Izina ry\'umuryango',    'email' => 'Imeli',
     'phone' => 'Telefoni',
     'address' => 'Aderesi',
     'date' => 'Itariki',

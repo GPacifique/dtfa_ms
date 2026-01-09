@@ -54,6 +54,8 @@ return [
 
     // Common Labels
     'name' => 'Jina',
+    'first_name' => 'Jina la kwanza',
+    'last_name' => 'Jina la ukoo',
     'email' => 'Barua pepe',
     'phone' => 'Simu',
     'address' => 'Anwani',
