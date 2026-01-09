@@ -462,4 +462,7 @@ return [
     'save_attendance' => 'Enregistrer la présence',
     'mark_all_present' => 'Marquer tous présents',
     'confirm_mark_all_present' => 'Marquer tous les joueurs présents?',
+
+    // Training Records
+    'no_training_records' => 'Aucune fiche d\'entraînement',
 ];

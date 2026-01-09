@@ -462,4 +462,7 @@ return [
     'save_attendance' => 'Bika ubuhari',
     'mark_all_present' => 'Shyira bose ko bahari',
     'confirm_mark_all_present' => 'Shyira abakinnyi bose ko bahari?',
+
+    // Training Records
+    'no_training_records' => 'Nta nyandiko z\'imyitozo',
 ];

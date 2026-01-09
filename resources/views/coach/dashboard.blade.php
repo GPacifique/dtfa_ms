@@ -134,31 +134,33 @@
         </div>
     </div>
 
-    <!-- Recent Attendance -->
+    <!-- Recent Training Records -->
     <div class="bg-white dark:bg-slate-800 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-700">
         <div class="p-6 border-b border-slate-200 dark:border-slate-700 flex items-center justify-between">
-            <h2 class="text-lg font-bold text-slate-900 dark:text-white">📊 {{ __('app.recent_attendance') }}</h2>
-            <a href="{{ route('coach.attendance.index') }}" class="text-sm text-indigo-600 dark:text-indigo-400 hover:underline font-medium">{{ __('app.view_all') }} →</a>
+            <h2 class="text-lg font-bold text-slate-900 dark:text-white">📊 {{ __('app.training_records') }}</h2>
+            <a href="{{ route('admin.training_session_records.index') }}" class="text-sm text-indigo-600 dark:text-indigo-400 hover:underline font-medium">{{ __('app.view_all') }} →</a>
         </div>
         <div class="overflow-x-auto">
             <table class="w-full">
                 <tbody class="divide-y divide-slate-200 dark:divide-slate-700">
-                    @forelse($recentAttendance->take(8) as $r)
+                    @forelse($recentTrainingRecords->take(8) as $record)
                         <tr class="hover:bg-slate-50 dark:hover:bg-slate-700/40 transition">
                             <td class="p-4">
                                 <div>
-                                    <p class="font-semibold text-slate-900 dark:text-white text-sm">{{ $r->student->first_name ?? 'Unknown' }}</p>
-                                    <p class="text-xs text-slate-500">{{ $r->attendance_date ?? $r->created_at->format('M d, Y') }}</p>
+                                    <p class="font-semibold text-slate-900 dark:text-white text-sm">{{ $record->main_topic ?? $record->training_objective ?? 'Training Session' }}</p>
+                                    <p class="text-xs text-slate-500">{{ $record->date?->format('M d, Y') }} • {{ $record->branch }}</p>
                                 </div>
                             </td>
                             <td class="p-4 text-right">
-                                <span class="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-full bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-400">✅ {{ ucfirst($r->status) }}</span>
+                                <span class="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-full bg-indigo-100 dark:bg-indigo-900/30 text-indigo-700 dark:text-indigo-400">
+                                    {{ $record->sport_discipline ?? 'Sport' }}
+                                </span>
                             </td>
                         </tr>
                     @empty
                         <tr>
                             <td colspan="2" class="p-12 text-center">
-                                <p class="text-slate-500 dark:text-slate-400 font-medium">{{ __('app.no_attendance_records') }}</p>
+                                <p class="text-slate-500 dark:text-slate-400 font-medium">{{ __('app.no_training_records') }}</p>
                             </td>
                         </tr>
                     @endforelse

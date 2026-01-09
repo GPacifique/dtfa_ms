@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\TrainingSession;
 use App\Models\Student;
 use App\Models\StudentAttendance;
+use App\Models\TrainingSessionRecord;
 use App\Models\Communication;
 use App\Models\Team;
 use App\Models\Game;
@@ -60,6 +61,12 @@ class CoachController extends Controller
             ->limit(15)
             ->get();
 
+        // Recent Training Records (Fiches d'entraînement)
+        $recentTrainingRecords = TrainingSessionRecord::where('coach_id', $coach->id)
+            ->latest()
+            ->limit(10)
+            ->get();
+
         // Teams count (show all - teams are not branch-specific)
         $teamsCount = Team::count();
 
@@ -103,6 +110,7 @@ class CoachController extends Controller
             'recentStudents' => $recentStudents,
             'attendanceRate' => $attendanceRate,
             'recentAttendance' => $recentAttendance,
+            'recentTrainingRecords' => $recentTrainingRecords,
             'teamsCount' => $teamsCount,
             'gamesCount' => $gamesCount,
             'upcomingGames' => $upcomingGames,

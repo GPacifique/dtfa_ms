@@ -462,4 +462,7 @@ return [
     'save_attendance' => 'Hifadhi mahudhurio',
     'mark_all_present' => 'Weka wote wapo',
     'confirm_mark_all_present' => 'Weka wachezaji wote wapo?',
+
+    // Training Records
+    'no_training_records' => 'Hakuna rekodi za mafunzo',
 ];

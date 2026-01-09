@@ -460,4 +460,7 @@ return [
     'save_attendance' => 'Save Attendance',
     'mark_all_present' => 'Mark All Present',
     'confirm_mark_all_present' => 'Mark all players present?',
+
+    // Training Records
+    'no_training_records' => 'No training records yet',
 ];
