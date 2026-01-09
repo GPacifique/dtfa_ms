@@ -18,8 +18,10 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
-        // Add locale middleware globally (before other middleware)
-        $middleware->append(SetLocale::class);
+        // Add locale middleware to web group (needs session access)
+        $middleware->web(append: [
+            SetLocale::class,
+        ]);
 
         // Add URL parameter decryption middleware globally
         $middleware->append(DecryptUrlParameters::class);
