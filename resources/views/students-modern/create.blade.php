@@ -286,9 +286,12 @@
                             </div>
                             <div>
                                 <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">Program</label>
-                                <input type="text" name="program" value="{{ old('program') }}"
-                                       class="w-full px-4 py-2.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-slate-900 dark:text-white placeholder-slate-400 focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition"
-                                       placeholder="Training program">
+                                <select name="program"
+                                       class="w-full px-4 py-2.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-slate-900 dark:text-white focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition">
+                                    <option value="">Select Program</option>
+                                    <option value="Self Sponsored" {{ old('program') == 'Self Sponsored' ? 'selected' : '' }}>Self Sponsored</option>
+                                    <option value="DTFA Sponsored" {{ old('program') == 'DTFA Sponsored' ? 'selected' : '' }}>DTFA Sponsored</option>
+                                </select>
                             </div>
                         </div>
 

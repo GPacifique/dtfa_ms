@@ -484,8 +484,8 @@ Route::middleware(['auth', 'verified', 'role:CEO|admin|super-admin|accountant'])
     Route::get('/dashboard', [\App\Http\Controllers\CeoController::class, 'index'])->name('ceo.dashboard');
 });
 
-// Communications admin CRUD
-Route::middleware(['auth', 'verified', 'role:admin|super-admin|CEO|Technical Director|accountant'])->prefix('admin')->group(function () {
+// Communications admin CRUD - accessible to all logged-in users
+Route::middleware(['auth', 'verified'])->prefix('admin')->group(function () {
     Route::resource('communications', \App\Http\Controllers\Admin\CommunicationController::class, ['as' => 'admin'])->only(['index','create','store','show','destroy']);
 });
 
