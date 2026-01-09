@@ -1,11 +1,11 @@
 @extends('layouts.app')
 
 @section('hero')
-    <x-hero title="Training Session Records" subtitle="Filter and review training sessions" gradient="emerald">
+    <x-hero title="{{ __('app.training_records') }}" subtitle="{{ __('app.filter_and_review') }}" gradient="emerald">
         <div class="mt-4">
             <a href="{{ route('admin.training_session_records.create') }}" class="inline-flex items-center gap-2 px-5 py-2.5 bg-white hover:bg-slate-50 text-emerald-700 font-semibold rounded-xl shadow-lg transition-all duration-200 hover:-translate-y-0.5">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
-                New Record
+                {{ __('app.new_record') }}
             </a>
         </div>
     </x-hero>
@@ -18,9 +18,9 @@
         <div class="p-4 border-b">
             <form method="GET" class="flex flex-wrap gap-3 items-end">
                 <div>
-                    <label class="block text-xs text-gray-500">Branch</label>
+                    <label class="block text-xs text-gray-500">{{ __('app.branch') }}</label>
                     <select name="branch" class="mt-1 block w-40 rounded-md border-gray-300 shadow-sm">
-                        <option value="">All</option>
+                        <option value="">{{ __('app.all') }}</option>
                         @if(!empty($branches))
                             @foreach($branches as $b)
                                 <option value="{{ $b }}" {{ request('branch') === $b ? 'selected' : '' }}>{{ $b }}</option>
@@ -30,9 +30,9 @@
                 </div>
 
                 <div>
-                    <label class="block text-xs text-gray-500">Pitch</label>
+                    <label class="block text-xs text-gray-500">{{ __('app.pitch') }}</label>
                     <select name="training_pitch" class="mt-1 block w-40 rounded-md border-gray-300 shadow-sm">
-                        <option value="">All</option>
+                        <option value="">{{ __('app.all') }}</option>
                         @if(!empty($pitches))
                             @foreach($pitches as $p)
                                 <option value="{{ $p }}" {{ request('training_pitch') === $p ? 'selected' : '' }}>{{ $p }}</option>
@@ -42,9 +42,9 @@
                 </div>
 
                 <div>
-                    <label class="block text-xs text-gray-500">Coach</label>
+                    <label class="block text-xs text-gray-500">{{ __('app.coach') }}</label>
                     <select name="coach_id" class="mt-1 block w-48 rounded-md border-gray-300 shadow-sm">
-                        <option value="">All</option>
+                        <option value="">{{ __('app.all') }}</option>
                         @if(!empty($coaches))
                             @foreach($coaches as $c)
                                 <option value="{{ $c->id }}" {{ request('coach_id') == $c->id ? 'selected' : '' }}>{{ $c->name }}</option>
@@ -54,24 +54,24 @@
                 </div>
 
                 <div>
-                    <label class="block text-xs text-gray-500">Date</label>
+                    <label class="block text-xs text-gray-500">{{ __('app.date') }}</label>
                     <input type="date" name="date" value="{{ request('date') }}" class="mt-1 block w-40 rounded-md border-gray-300 shadow-sm" />
                 </div>
 
                 <div class="ml-2">
-                    <button type="submit" class="px-3 py-1.5 bg-indigo-600 text-white rounded-md text-sm">Filter</button>
-                    <a href="{{ route('admin.training_session_records.index') }}" class="ml-2 px-3 py-1.5 border rounded-md text-sm">Reset</a>
+                    <button type="submit" class="px-3 py-1.5 bg-indigo-600 text-white rounded-md text-sm">{{ __('app.filter') }}</button>
+                    <a href="{{ route('admin.training_session_records.index') }}" class="ml-2 px-3 py-1.5 border rounded-md text-sm">{{ __('app.reset') }}</a>
                 </div>
             </form>
         </div>
         <table class="min-w-full divide-y divide-gray-200">
             <thead class="bg-gray-50">
                 <tr>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Date</th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Coach</th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Pitch</th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Attendees</th>
-                    <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase">Actions</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">{{ __('app.date') }}</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">{{ __('app.coach') }}</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">{{ __('app.pitch') }}</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">{{ __('app.attendees') }}</th>
+                    <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase">{{ __('app.actions') }}</th>
                 </tr>
             </thead>
             <tbody class="bg-white divide-y divide-gray-200">
@@ -85,18 +85,18 @@
                             @if(!$record->number_of_kids && !$record->incident_report && !$record->comments)
                                 <!-- Not yet reported: show Prepare and Report buttons -->
                                 <a href="{{ route('admin.training_session_records.prepare', $record) }}" class="inline-flex items-center px-3 py-1.5 bg-blue-600 text-white text-xs rounded-md hover:bg-blue-700 mr-2">
-                                    📝 Prepare
+                                    📝 {{ __('app.prepare') }}
                                 </a>
                                 <a href="{{ route('admin.training_session_records.report', $record) }}" class="inline-flex items-center px-3 py-1.5 bg-emerald-600 text-white text-xs rounded-md hover:bg-emerald-700 mr-2">
-                                    📊 Report
+                                    📊 {{ __('app.report') }}
                                 </a>
                             @else
                                 <!-- Already reported: show View Report and Edit buttons -->
                                 <a href="{{ route('admin.training_session_records.show', $record) }}" class="inline-flex items-center px-3 py-1.5 bg-purple-600 text-white text-xs rounded-md hover:bg-purple-700 mr-2">
-                                    👁️ View Report
+                                    👁️ {{ __('app.view_report') }}
                                 </a>
                                 <a href="{{ route('admin.training_session_records.edit', $record) }}" class="inline-flex items-center px-3 py-1.5 bg-yellow-600 text-white text-xs rounded-md hover:bg-yellow-700 mr-2">
-                                    ✏️ Edit
+                                    ✏️ {{ __('app.edit') }}
                                 </a>
                             @endif
                             <form action="{{ route('admin.training_session_records.destroy', $record) }}" method="POST" class="inline-block" onsubmit="return confirm('Delete this record?')">

@@ -181,4 +181,70 @@ return [
     'new_match' => 'Mechi mpya',
     'new_record' => 'Rekodi mpya',
     'filter_and_review' => 'Chuja na ukague',
+
+    // Sidebar Sections
+    'people' => 'Watu',
+    'finance' => 'Fedha',
+    'communication' => 'Mawasiliano',
+    'system' => 'Mfumo',
+
+    // Sidebar Menu Items
+    'attendance_calendar' => 'Kalenda ya mahudhurio',
+    'staff_profiles' => 'Wasifu wa wafanyakazi',
+    'match_players' => 'Wachezaji wa mechi',
+    'users' => 'Watumiaji',
+    'roles_permissions' => 'Majukumu na ruhusa',
+    'training_scheduling' => 'Ratiba ya mafunzo',
+    'minutes' => 'Kumbukumbu za mkutano',
+    'upcoming_events' => 'Matukio yajayo',
+    'activity_plans' => 'Mipango ya shughuli',
+    'sports_equipment' => 'Vifaa vya michezo',
+    'office_equipment' => 'Vifaa vya ofisi',
+    'kit_manager' => 'Meneja wa vifaa',
+    'kit_manager_dashboard' => 'Dashibodi ya meneja wa vifaa',
+    'student_attendance' => 'Mahudhurio ya wanafunzi',
+    'staff_attendance' => 'Mahudhurio ya wafanyakazi',
+    'capacity_building' => 'Kujenga uwezo',
+    'inhouse_training' => 'Mafunzo ya ndani',
+    'subscriptions' => 'Usajili',
+    'plans' => 'Mipango',
+    'invoices' => 'Ankara',
+    'payments' => 'Malipo',
+    'expenses' => 'Gharama',
+    'salaries' => 'Mishahara',
+    'payslips' => 'Slips za mshahara',
+    'financial_reports' => 'Ripoti za fedha',
+    'communications' => 'Mawasiliano',
+    'tasks' => 'Kazi',
+    'audit_logs' => 'Rekodi za ukaguzi',
+    'compose' => 'Tunga',
+    'my_profile' => 'Wasifu wangu',
+    'admin_panel' => 'Paneli ya msimamizi',
+
+    // Resources Section
+    'resources' => 'Rasilimali',
+    'equipment' => 'Vifaa',
+    'branches' => 'Matawi',
+    'groups' => 'Vikundi',
+    'teams' => 'Timu',
+    'incomes' => 'Mapato',
+
+    // Report Actions
+    'prepare' => 'Andaa',
+    'report' => 'Ripoti',
+    'view_report' => 'Tazama ripoti',
+    'export_pdf' => 'Hamisha PDF',
+    'export_excel' => 'Hamisha Excel',
+    'new_record' => 'Rekodi mpya',
+    'filter_and_review' => 'Chuja na kagua',
+
+    // Table Headers
+    'attendees' => 'Waliohudhuria',
+    'pitch' => 'Uwanja',
+    'coach' => 'Kocha',
+
+    // Student Management
+    'student' => 'Mwanafunzi',
+    'manage_student_profiles' => 'Dhibiti wasifu wa wanafunzi, fuatilia mahudhurio na ufuatilie maendeleo',
+    'bulk' => 'Kwa wingi',
 ];

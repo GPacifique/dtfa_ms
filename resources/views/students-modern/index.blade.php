@@ -15,23 +15,23 @@
             <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
                 <div>
                     <h1 class="text-3xl lg:text-4xl font-bold text-white tracking-tight">
-                        Students Management
+                        {{ __('app.manage_students') }}
                     </h1>
                     <p class="mt-2 text-indigo-100 text-sm lg:text-base">
-                        Manage student profiles, track attendance, and monitor progress
+                        {{ __('app.manage_student_profiles') }}
                     </p>
                     <div class="mt-4 flex flex-wrap items-center gap-2 sm:gap-4 text-sm">
                         <div class="flex items-center gap-2 bg-gradient-to-r from-cyan-500/30 to-blue-500/30 backdrop-blur-sm rounded-full px-3 sm:px-4 py-1.5 sm:py-2 border border-white/20">
                             <svg class="w-4 h-4 sm:w-5 sm:h-5 text-cyan-300" fill="currentColor" viewBox="0 0 20 20">
                                 <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"/>
                             </svg>
-                            <span class="font-semibold text-white text-xs sm:text-sm">{{ $students->total() ?? $students->count() }} Students</span>
+                            <span class="font-semibold text-white text-xs sm:text-sm">{{ $students->total() ?? $students->count() }} {{ __('app.students') }}</span>
                         </div>
                         <div class="flex items-center gap-2 bg-gradient-to-r from-emerald-500/30 to-green-500/30 backdrop-blur-sm rounded-full px-3 sm:px-4 py-1.5 sm:py-2 border border-white/20">
                             <svg class="w-4 h-4 sm:w-5 sm:h-5 text-emerald-300" fill="currentColor" viewBox="0 0 20 20">
                                 <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
                             </svg>
-                            <span class="font-semibold text-white text-xs sm:text-sm">{{ $students->where('status', 'active')->count() }} Active</span>
+                            <span class="font-semibold text-white text-xs sm:text-sm">{{ $students->where('status', 'active')->count() }} {{ __('app.active') }}</span>
                         </div>
                     </div>
                 </div>
@@ -41,14 +41,14 @@
                         <svg class="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"/>
                         </svg>
-                        <span class="hidden xs:inline">Bulk </span>Attendance
+                        <span class="hidden xs:inline">{{ __('app.bulk') }} </span>{{ __('app.attendance') }}
                     </a>
                     <a href="{{ route('students-modern.create') }}"
                        class="inline-flex items-center gap-1.5 sm:gap-2 bg-white hover:bg-gradient-to-r hover:from-violet-50 hover:to-pink-50 text-fuchsia-700 font-semibold px-3 sm:px-5 py-2 sm:py-2.5 text-sm sm:text-base rounded-xl shadow-lg transition-all duration-200 hover:-translate-y-0.5 hover:scale-105 border border-white/50">
                         <svg class="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
                         </svg>
-                        <span class="hidden xs:inline">Add </span>Student
+                        <span class="hidden xs:inline">{{ __('app.add') }} </span>{{ __('app.student') }}
                     </a>
                 </div>
             </div>

@@ -181,4 +181,70 @@ return [
     'new_match' => 'Umukino mushya',
     'new_record' => 'Inyandiko nshya',
     'filter_and_review' => 'Gutondeka no gusuzuma',
+
+    // Sidebar Sections
+    'people' => 'Abantu',
+    'finance' => 'Imari',
+    'communication' => 'Itumanaho',
+    'system' => 'Sisitemu',
+
+    // Sidebar Menu Items
+    'attendance_calendar' => 'Kalindari y\'ubwitabire',
+    'staff_profiles' => 'Umwirondoro w\'abakozi',
+    'match_players' => 'Abakinnyi b\'umukino',
+    'users' => 'Abakoresha',
+    'roles_permissions' => 'Inshingano n\'uburenganzira',
+    'training_scheduling' => 'Gutegura imyitozo',
+    'minutes' => 'Inyandikomvugo',
+    'upcoming_events' => 'Ibirori biri imbere',
+    'activity_plans' => 'Gahunda z\'ibikorwa',
+    'sports_equipment' => 'Ibikoresho by\'imikino',
+    'office_equipment' => 'Ibikoresho by\'ibiro',
+    'kit_manager' => 'Umucunga ibikoresho',
+    'kit_manager_dashboard' => 'Ikibaho cy\'umucunga ibikoresho',
+    'student_attendance' => 'Ubwitabire bw\'abanyeshuri',
+    'staff_attendance' => 'Ubwitabire bw\'abakozi',
+    'capacity_building' => 'Gukomeza ubushobozi',
+    'inhouse_training' => 'Amahugurwa yo mu kigo',
+    'subscriptions' => 'Kwiyandikisha',
+    'plans' => 'Gahunda',
+    'invoices' => 'Amafakitire',
+    'payments' => 'Ubwishyu',
+    'expenses' => 'Ibyakoreshejwe',
+    'salaries' => 'Umushahara',
+    'payslips' => 'Urupapuro rw\'umushahara',
+    'financial_reports' => 'Raporo z\'imari',
+    'communications' => 'Itumanaho',
+    'tasks' => 'Imirimo',
+    'audit_logs' => 'Inyandiko z\'igenzura',
+    'compose' => 'Kwandika',
+    'my_profile' => 'Umwirondoro wanjye',
+    'admin_panel' => 'Ikibaho cy\'ubuyobozi',
+
+    // Resources Section
+    'resources' => 'Ibikoresho',
+    'equipment' => 'Ibikoresho',
+    'branches' => 'Amashami',
+    'groups' => 'Amatsinda',
+    'teams' => 'Amakipe',
+    'incomes' => 'Inyungu',
+
+    // Report Actions
+    'prepare' => 'Gutegura',
+    'report' => 'Raporo',
+    'view_report' => 'Reba raporo',
+    'export_pdf' => 'Kuramo PDF',
+    'export_excel' => 'Kuramo Excel',
+    'new_record' => 'Inyandiko nshya',
+    'filter_and_review' => 'Gutora no gusuzuma',
+
+    // Table Headers
+    'attendees' => 'Abitabiriye',
+    'pitch' => 'Ikibuga',
+    'coach' => 'Umutoza',
+
+    // Student Management
+    'student' => 'Umunyeshuri',
+    'manage_student_profiles' => 'Gucunga umwirondoro w\'abanyeshuri, gukurikirana ubwitabire no gukurikirana iterambere',
+    'bulk' => 'Byinshi',
 ];

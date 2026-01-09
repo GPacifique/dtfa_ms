@@ -178,7 +178,71 @@ return [
     'new_student' => 'New Student',
     'new_staff' => 'New Staff',
     'new_training_session' => 'New Training Session',
+
+    // Sidebar Sections
+    'people' => 'People',
+    'finance' => 'Finance',
+    'communication' => 'Communication',
+    'system' => 'System',
+
+    // Sidebar Menu Items
+    'attendance_calendar' => 'Attendance Calendar',
+    'staff_profiles' => 'Staff Profiles',
+    'match_players' => 'Match Players',
+    'users' => 'Users',
+    'roles_permissions' => 'Roles & Permissions',
+    'training_scheduling' => 'Training Scheduling',
+    'minutes' => 'Minutes',
+    'upcoming_events' => 'Upcoming Events',
+    'activity_plans' => 'Activity Plans',
+    'sports_equipment' => 'Sports Equipment',
+    'office_equipment' => 'Office Equipment',
+    'kit_manager' => 'Kit Manager',
+    'kit_manager_dashboard' => 'Kit Manager Dashboard',
+    'student_attendance' => 'Student Attendance',
+    'staff_attendance' => 'Staff Attendance',
+    'capacity_building' => 'Capacity Building',
+    'inhouse_training' => 'Inhouse Training',
+    'subscriptions' => 'Subscriptions',
+    'plans' => 'Plans',
+    'invoices' => 'Invoices',
+    'payments' => 'Payments',
+    'expenses' => 'Expenses',
+    'salaries' => 'Salaries',
+    'payslips' => 'Payslips',
+    'financial_reports' => 'Financial Reports',
+    'communications' => 'Communications',
+    'tasks' => 'Tasks',
+    'audit_logs' => 'Audit Logs',
+    'compose' => 'Compose',
+    'my_profile' => 'My Profile',
+    'admin_panel' => 'Admin Panel',
     'new_match' => 'New Match',
     'new_record' => 'New Record',
     'filter_and_review' => 'Filter and review',
+
+    // Resources Section
+    'resources' => 'Resources',
+    'equipment' => 'Equipment',
+    'branches' => 'Branches',
+    'groups' => 'Groups',
+    'teams' => 'Teams',
+    'incomes' => 'Incomes',
+
+    // Report Actions
+    'prepare' => 'Prepare',
+    'report' => 'Report',
+    'view_report' => 'View Report',
+    'export_pdf' => 'Export PDF',
+    'export_excel' => 'Export Excel',
+
+    // Table Headers
+    'attendees' => 'Attendees',
+    'pitch' => 'Pitch',
+    'coach' => 'Coach',
+
+    // Student Management
+    'student' => 'Student',
+    'manage_student_profiles' => 'Manage student profiles, track attendance, and monitor progress',
+    'bulk' => 'Bulk',
 ];

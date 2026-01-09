@@ -50,7 +50,7 @@
                 </button>
                 @auth
                 @role('super-admin|admin|CEO|Technical Director')
-                    <a href="{{ route('admin.communications.create') }}" class="btn-secondary mr-2">Compose</a>
+                    <a href="{{ route('admin.communications.create') }}" class="btn-secondary mr-2">{{ __('app.compose') }}</a>
                 @endrole
 
                 <!-- User Profile Dropdown -->
@@ -90,7 +90,7 @@
                                 @click="open = false"
                                 class="block px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700"
                             >
-                                👤 My Profile
+                                👤 {{ __('app.my_profile') }}
                             </a>
                             @if(auth()->user()->hasRole(['admin', 'super-admin']))
                                 <a
@@ -98,7 +98,7 @@
                                     @click="open = false"
                                     class="block px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700"
                                 >
-                                    ⚙️ Admin Panel
+                                    ⚙️ {{ __('app.admin_panel') }}
                                 </a>
                             @endif
                             <a
@@ -106,7 +106,7 @@
                                 @click="open = false"
                                 class="block px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700"
                             >
-                                📊 Dashboard
+                                📊 {{ __('app.dashboard') }}
                             </a>
                             <div class="border-t border-slate-200 dark:border-slate-700 my-1"></div>
                             <form action="{{ route('logout') }}" method="POST" class="block">
@@ -115,14 +115,14 @@
                                     type="submit"
                                     class="w-full text-left px-4 py-2 text-sm text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20"
                                 >
-                                    🚪 Logout
+                                    🚪 {{ __('app.logout') }}
                                 </button>
                             </form>
                         </div>
                     </div>
                 </div>
                 @else
-                <a class="btn-primary" href="{{ route('login') }}">Login</a>
+                <a class="btn-primary" href="{{ route('login') }}">{{ __('app.login') }}</a>
                 @endauth
             </div>
         </header>

@@ -181,4 +181,70 @@ return [
     'new_match' => 'Nouveau match',
     'new_record' => 'Nouvel enregistrement',
     'filter_and_review' => 'Filtrer et examiner',
+
+    // Sidebar Sections
+    'people' => 'Personnes',
+    'finance' => 'Finance',
+    'communication' => 'Communication',
+    'system' => 'Système',
+
+    // Sidebar Menu Items
+    'attendance_calendar' => 'Calendrier de présence',
+    'staff_profiles' => 'Profils du personnel',
+    'match_players' => 'Joueurs de match',
+    'users' => 'Utilisateurs',
+    'roles_permissions' => 'Rôles et permissions',
+    'training_scheduling' => 'Planification de la formation',
+    'minutes' => 'Procès-verbaux',
+    'upcoming_events' => 'Événements à venir',
+    'activity_plans' => 'Plans d\'activités',
+    'sports_equipment' => 'Équipement sportif',
+    'office_equipment' => 'Équipement de bureau',
+    'kit_manager' => 'Gestionnaire de kit',
+    'kit_manager_dashboard' => 'Tableau de bord du gestionnaire de kit',
+    'student_attendance' => 'Présence des étudiants',
+    'staff_attendance' => 'Présence du personnel',
+    'capacity_building' => 'Renforcement des capacités',
+    'inhouse_training' => 'Formation interne',
+    'subscriptions' => 'Abonnements',
+    'plans' => 'Plans',
+    'invoices' => 'Factures',
+    'payments' => 'Paiements',
+    'expenses' => 'Dépenses',
+    'salaries' => 'Salaires',
+    'payslips' => 'Fiches de paie',
+    'financial_reports' => 'Rapports financiers',
+    'communications' => 'Communications',
+    'tasks' => 'Tâches',
+    'audit_logs' => 'Journaux d\'audit',
+    'compose' => 'Composer',
+    'my_profile' => 'Mon profil',
+    'admin_panel' => 'Panneau d\'administration',
+
+    // Resources Section
+    'resources' => 'Ressources',
+    'equipment' => 'Équipement',
+    'branches' => 'Branches',
+    'groups' => 'Groupes',
+    'teams' => 'Équipes',
+    'incomes' => 'Revenus',
+
+    // Report Actions
+    'prepare' => 'Préparer',
+    'report' => 'Rapport',
+    'view_report' => 'Voir le rapport',
+    'export_pdf' => 'Exporter PDF',
+    'export_excel' => 'Exporter Excel',
+    'new_record' => 'Nouveau enregistrement',
+    'filter_and_review' => 'Filtrer et réviser',
+
+    // Table Headers
+    'attendees' => 'Participants',
+    'pitch' => 'Terrain',
+    'coach' => 'Entraîneur',
+
+    // Student Management
+    'student' => 'Étudiant',
+    'manage_student_profiles' => 'Gérer les profils des étudiants, suivre la présence et surveiller les progrès',
+    'bulk' => 'En masse',
 ];
