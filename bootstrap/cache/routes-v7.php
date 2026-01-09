@@ -13,7 +13,7 @@ app('router')->setCompiledRoutes(
         array (
           0 => 
           array (
-            '_route' => 'generated::NP1vDdVXpmlei3Rq',
+            '_route' => 'generated::NS1JMZczMhjo2kc9',
           ),
           1 => NULL,
           2 => 
@@ -975,7 +975,7 @@ app('router')->setCompiledRoutes(
         array (
           0 => 
           array (
-            '_route' => 'generated::i4F9H5JQ7Err8cah',
+            '_route' => 'generated::95JaxYhJF601N27J',
           ),
           1 => NULL,
           2 => 
@@ -2217,7 +2217,7 @@ app('router')->setCompiledRoutes(
         array (
           0 => 
           array (
-            '_route' => 'generated::yJKBZkb1JqXq43kX',
+            '_route' => 'generated::xz1aGe0EZASm2NAX',
           ),
           1 => NULL,
           2 => 
@@ -2253,7 +2253,7 @@ app('router')->setCompiledRoutes(
         array (
           0 => 
           array (
-            '_route' => 'generated::1KpZfswObwy7Hmfl',
+            '_route' => 'generated::F72Eoxj5zE9WkEbj',
           ),
           1 => NULL,
           2 => 
@@ -2383,7 +2383,7 @@ app('router')->setCompiledRoutes(
         array (
           0 => 
           array (
-            '_route' => 'generated::ZRx3ZYpZkhexuCGo',
+            '_route' => 'generated::Dpi9Q2W5ewGXaSfq',
           ),
           1 => NULL,
           2 => 
@@ -7469,7 +7469,7 @@ app('router')->setCompiledRoutes(
   ),
   'attributes' => 
   array (
-    'generated::NP1vDdVXpmlei3Rq' => 
+    'generated::NS1JMZczMhjo2kc9' => 
     array (
       'methods' => 
       array (
@@ -7497,8 +7497,8 @@ app('router')->setCompiledRoutes(
                     return response(\\Illuminate\\Support\\Facades\\View::file(\'C:\\\\Users\\\\USER\\\\Desktop\\\\projects\\\\htdocs\\\\GitHub\\\\dtfa_ms\\\\vendor\\\\laravel\\\\framework\\\\src\\\\Illuminate\\\\Foundation\\\\Configuration\'.\'/../resources/health-up.blade.php\', [
                         \'exception\' => $exception,
                     ]), status: $exception ? 500 : 200);
-                }";s:5:"scope";s:54:"Illuminate\\Foundation\\Configuration\\ApplicationBuilder";s:4:"this";N;s:4:"self";s:32:"00000000000005970000000000000000";}}',
-        'as' => 'generated::NP1vDdVXpmlei3Rq',
+                }";s:5:"scope";s:54:"Illuminate\\Foundation\\Configuration\\ApplicationBuilder";s:4:"this";N;s:4:"self";s:32:"00000000000007a70000000000000000";}}',
+        'as' => 'generated::NS1JMZczMhjo2kc9',
       ),
       'fallback' => false,
       'defaults' => 
@@ -7641,7 +7641,7 @@ app('router')->setCompiledRoutes(
                         $config,
                         $isProduction
                     ))($request, $path);
-                }";s:5:"scope";s:47:"Illuminate\\Filesystem\\FilesystemServiceProvider";s:4:"this";N;s:4:"self";s:32:"00000000000009710000000000000000";}}',
+                }";s:5:"scope";s:47:"Illuminate\\Filesystem\\FilesystemServiceProvider";s:4:"this";N;s:4:"self";s:32:"00000000000008d90000000000000000";}}',
         'as' => 'storage.local',
       ),
       'fallback' => false,
@@ -11597,7 +11597,7 @@ app('router')->setCompiledRoutes(
         ),
         'uses' => 'O:55:"Laravel\\SerializableClosure\\UnsignedSerializableClosure":1:{s:12:"serializable";O:46:"Laravel\\SerializableClosure\\Serializers\\Native":5:{s:3:"use";a:0:{}s:8:"function";s:44:"function () {
     return \\view(\'welcome\');
-}";s:5:"scope";s:37:"Illuminate\\Routing\\RouteFileRegistrar";s:4:"this";N;s:4:"self";s:32:"00000000000008660000000000000000";}}',
+}";s:5:"scope";s:37:"Illuminate\\Routing\\RouteFileRegistrar";s:4:"this";N;s:4:"self";s:32:"00000000000007ce0000000000000000";}}',
         'namespace' => NULL,
         'prefix' => '',
         'where' => 
@@ -11756,7 +11756,7 @@ app('router')->setCompiledRoutes(
 
     // Default for regular users
     return \\redirect()->route(\'user.dashboard\');
-}";s:5:"scope";s:37:"Illuminate\\Routing\\RouteFileRegistrar";s:4:"this";N;s:4:"self";s:32:"00000000000008b10000000000000000";}}',
+}";s:5:"scope";s:37:"Illuminate\\Routing\\RouteFileRegistrar";s:4:"this";N;s:4:"self";s:32:"00000000000008190000000000000000";}}',
         'namespace' => NULL,
         'prefix' => '',
         'where' => 
@@ -11893,7 +11893,7 @@ app('router')->setCompiledRoutes(
       'waitSeconds' => NULL,
       'withTrashed' => false,
     ),
-    'generated::i4F9H5JQ7Err8cah' => 
+    'generated::95JaxYhJF601N27J' => 
     array (
       'methods' => 
       array (
@@ -11912,13 +11912,13 @@ app('router')->setCompiledRoutes(
         ),
         'uses' => 'O:55:"Laravel\\SerializableClosure\\UnsignedSerializableClosure":1:{s:12:"serializable";O:46:"Laravel\\SerializableClosure\\Serializers\\Native":5:{s:3:"use";a:0:{}s:8:"function";s:62:"function () {
     return \'Hello admin — you have access.\';
-}";s:5:"scope";s:37:"Illuminate\\Routing\\RouteFileRegistrar";s:4:"this";N;s:4:"self";s:32:"00000000000008b40000000000000000";}}',
+}";s:5:"scope";s:37:"Illuminate\\Routing\\RouteFileRegistrar";s:4:"this";N;s:4:"self";s:32:"000000000000081c0000000000000000";}}',
         'namespace' => NULL,
         'prefix' => '',
         'where' => 
         array (
         ),
-        'as' => 'generated::i4F9H5JQ7Err8cah',
+        'as' => 'generated::95JaxYhJF601N27J',
       ),
       'fallback' => false,
       'defaults' => 
@@ -16341,7 +16341,7 @@ app('router')->setCompiledRoutes(
           1 => 'auth',
           2 => 'verified',
         ),
-        'uses' => 'O:55:"Laravel\\SerializableClosure\\UnsignedSerializableClosure":1:{s:12:"serializable";O:46:"Laravel\\SerializableClosure\\Serializers\\Native":5:{s:3:"use";a:0:{}s:8:"function";s:67:"function () { return \\redirect()->route(\'students-modern.index\'); }";s:5:"scope";s:37:"Illuminate\\Routing\\RouteFileRegistrar";s:4:"this";N;s:4:"self";s:32:"00000000000009bb0000000000000000";}}',
+        'uses' => 'O:55:"Laravel\\SerializableClosure\\UnsignedSerializableClosure":1:{s:12:"serializable";O:46:"Laravel\\SerializableClosure\\Serializers\\Native":5:{s:3:"use";a:0:{}s:8:"function";s:67:"function () { return \\redirect()->route(\'students-modern.index\'); }";s:5:"scope";s:37:"Illuminate\\Routing\\RouteFileRegistrar";s:4:"this";N;s:4:"self";s:32:"00000000000009230000000000000000";}}',
         'namespace' => NULL,
         'prefix' => '/admin',
         'where' => 
@@ -16379,7 +16379,7 @@ app('router')->setCompiledRoutes(
           1 => 'auth',
           2 => 'verified',
         ),
-        'uses' => 'O:55:"Laravel\\SerializableClosure\\UnsignedSerializableClosure":1:{s:12:"serializable";O:46:"Laravel\\SerializableClosure\\Serializers\\Native":5:{s:3:"use";a:0:{}s:8:"function";s:68:"function () { return \\redirect()->route(\'students-modern.create\'); }";s:5:"scope";s:37:"Illuminate\\Routing\\RouteFileRegistrar";s:4:"this";N;s:4:"self";s:32:"00000000000009cd0000000000000000";}}',
+        'uses' => 'O:55:"Laravel\\SerializableClosure\\UnsignedSerializableClosure":1:{s:12:"serializable";O:46:"Laravel\\SerializableClosure\\Serializers\\Native":5:{s:3:"use";a:0:{}s:8:"function";s:68:"function () { return \\redirect()->route(\'students-modern.create\'); }";s:5:"scope";s:37:"Illuminate\\Routing\\RouteFileRegistrar";s:4:"this";N;s:4:"self";s:32:"00000000000009350000000000000000";}}',
         'namespace' => NULL,
         'prefix' => '/admin',
         'where' => 
@@ -16416,7 +16416,7 @@ app('router')->setCompiledRoutes(
           1 => 'auth',
           2 => 'verified',
         ),
-        'uses' => 'O:55:"Laravel\\SerializableClosure\\UnsignedSerializableClosure":1:{s:12:"serializable";O:46:"Laravel\\SerializableClosure\\Serializers\\Native":5:{s:3:"use";a:0:{}s:8:"function";s:67:"function () { return \\redirect()->route(\'students-modern.store\'); }";s:5:"scope";s:37:"Illuminate\\Routing\\RouteFileRegistrar";s:4:"this";N;s:4:"self";s:32:"000000000000093f0000000000000000";}}',
+        'uses' => 'O:55:"Laravel\\SerializableClosure\\UnsignedSerializableClosure":1:{s:12:"serializable";O:46:"Laravel\\SerializableClosure\\Serializers\\Native":5:{s:3:"use";a:0:{}s:8:"function";s:67:"function () { return \\redirect()->route(\'students-modern.store\'); }";s:5:"scope";s:37:"Illuminate\\Routing\\RouteFileRegistrar";s:4:"this";N;s:4:"self";s:32:"00000000000008a70000000000000000";}}',
         'namespace' => NULL,
         'prefix' => '/admin',
         'where' => 
@@ -16454,7 +16454,7 @@ app('router')->setCompiledRoutes(
           1 => 'auth',
           2 => 'verified',
         ),
-        'uses' => 'O:55:"Laravel\\SerializableClosure\\UnsignedSerializableClosure":1:{s:12:"serializable";O:46:"Laravel\\SerializableClosure\\Serializers\\Native":5:{s:3:"use";a:0:{}s:8:"function";s:84:"function ($student) { return \\redirect()->route(\'students-modern.show\', $student); }";s:5:"scope";s:37:"Illuminate\\Routing\\RouteFileRegistrar";s:4:"this";N;s:4:"self";s:32:"00000000000009360000000000000000";}}',
+        'uses' => 'O:55:"Laravel\\SerializableClosure\\UnsignedSerializableClosure":1:{s:12:"serializable";O:46:"Laravel\\SerializableClosure\\Serializers\\Native":5:{s:3:"use";a:0:{}s:8:"function";s:84:"function ($student) { return \\redirect()->route(\'students-modern.show\', $student); }";s:5:"scope";s:37:"Illuminate\\Routing\\RouteFileRegistrar";s:4:"this";N;s:4:"self";s:32:"000000000000089e0000000000000000";}}',
         'namespace' => NULL,
         'prefix' => '/admin',
         'where' => 
@@ -16492,7 +16492,7 @@ app('router')->setCompiledRoutes(
           1 => 'auth',
           2 => 'verified',
         ),
-        'uses' => 'O:55:"Laravel\\SerializableClosure\\UnsignedSerializableClosure":1:{s:12:"serializable";O:46:"Laravel\\SerializableClosure\\Serializers\\Native":5:{s:3:"use";a:0:{}s:8:"function";s:84:"function ($student) { return \\redirect()->route(\'students-modern.edit\', $student); }";s:5:"scope";s:37:"Illuminate\\Routing\\RouteFileRegistrar";s:4:"this";N;s:4:"self";s:32:"00000000000009410000000000000000";}}',
+        'uses' => 'O:55:"Laravel\\SerializableClosure\\UnsignedSerializableClosure":1:{s:12:"serializable";O:46:"Laravel\\SerializableClosure\\Serializers\\Native":5:{s:3:"use";a:0:{}s:8:"function";s:84:"function ($student) { return \\redirect()->route(\'students-modern.edit\', $student); }";s:5:"scope";s:37:"Illuminate\\Routing\\RouteFileRegistrar";s:4:"this";N;s:4:"self";s:32:"00000000000008a90000000000000000";}}',
         'namespace' => NULL,
         'prefix' => '/admin',
         'where' => 
@@ -16529,7 +16529,7 @@ app('router')->setCompiledRoutes(
           1 => 'auth',
           2 => 'verified',
         ),
-        'uses' => 'O:55:"Laravel\\SerializableClosure\\UnsignedSerializableClosure":1:{s:12:"serializable";O:46:"Laravel\\SerializableClosure\\Serializers\\Native":5:{s:3:"use";a:0:{}s:8:"function";s:86:"function ($student) { return \\redirect()->route(\'students-modern.update\', $student); }";s:5:"scope";s:37:"Illuminate\\Routing\\RouteFileRegistrar";s:4:"this";N;s:4:"self";s:32:"00000000000009450000000000000000";}}',
+        'uses' => 'O:55:"Laravel\\SerializableClosure\\UnsignedSerializableClosure":1:{s:12:"serializable";O:46:"Laravel\\SerializableClosure\\Serializers\\Native":5:{s:3:"use";a:0:{}s:8:"function";s:86:"function ($student) { return \\redirect()->route(\'students-modern.update\', $student); }";s:5:"scope";s:37:"Illuminate\\Routing\\RouteFileRegistrar";s:4:"this";N;s:4:"self";s:32:"00000000000008ad0000000000000000";}}',
         'namespace' => NULL,
         'prefix' => '/admin',
         'where' => 
@@ -16569,7 +16569,7 @@ app('router')->setCompiledRoutes(
         ),
         'uses' => 'O:55:"Laravel\\SerializableClosure\\UnsignedSerializableClosure":1:{s:12:"serializable";O:46:"Laravel\\SerializableClosure\\Serializers\\Native":5:{s:3:"use";a:0:{}s:8:"function";s:106:"function ($student) {
             return \\redirect()->route(\'students-modern.update\', $student);
-        }";s:5:"scope";s:37:"Illuminate\\Routing\\RouteFileRegistrar";s:4:"this";N;s:4:"self";s:32:"00000000000009480000000000000000";}}',
+        }";s:5:"scope";s:37:"Illuminate\\Routing\\RouteFileRegistrar";s:4:"this";N;s:4:"self";s:32:"00000000000008b00000000000000000";}}',
         'namespace' => NULL,
         'prefix' => '/admin',
         'where' => 
@@ -16606,7 +16606,7 @@ app('router')->setCompiledRoutes(
           1 => 'auth',
           2 => 'verified',
         ),
-        'uses' => 'O:55:"Laravel\\SerializableClosure\\UnsignedSerializableClosure":1:{s:12:"serializable";O:46:"Laravel\\SerializableClosure\\Serializers\\Native":5:{s:3:"use";a:0:{}s:8:"function";s:87:"function ($student) { return \\redirect()->route(\'students-modern.destroy\', $student); }";s:5:"scope";s:37:"Illuminate\\Routing\\RouteFileRegistrar";s:4:"this";N;s:4:"self";s:32:"00000000000009470000000000000000";}}',
+        'uses' => 'O:55:"Laravel\\SerializableClosure\\UnsignedSerializableClosure":1:{s:12:"serializable";O:46:"Laravel\\SerializableClosure\\Serializers\\Native":5:{s:3:"use";a:0:{}s:8:"function";s:87:"function ($student) { return \\redirect()->route(\'students-modern.destroy\', $student); }";s:5:"scope";s:37:"Illuminate\\Routing\\RouteFileRegistrar";s:4:"this";N;s:4:"self";s:32:"00000000000008af0000000000000000";}}',
         'namespace' => NULL,
         'prefix' => '/admin',
         'where' => 
@@ -18207,7 +18207,7 @@ app('router')->setCompiledRoutes(
       'waitSeconds' => NULL,
       'withTrashed' => false,
     ),
-    'generated::yJKBZkb1JqXq43kX' => 
+    'generated::xz1aGe0EZASm2NAX' => 
     array (
       'methods' => 
       array (
@@ -18228,7 +18228,7 @@ app('router')->setCompiledRoutes(
         'where' => 
         array (
         ),
-        'as' => 'generated::yJKBZkb1JqXq43kX',
+        'as' => 'generated::xz1aGe0EZASm2NAX',
       ),
       'fallback' => false,
       'defaults' => 
@@ -18282,7 +18282,7 @@ app('router')->setCompiledRoutes(
       'waitSeconds' => NULL,
       'withTrashed' => false,
     ),
-    'generated::1KpZfswObwy7Hmfl' => 
+    'generated::F72Eoxj5zE9WkEbj' => 
     array (
       'methods' => 
       array (
@@ -18303,7 +18303,7 @@ app('router')->setCompiledRoutes(
         'where' => 
         array (
         ),
-        'as' => 'generated::1KpZfswObwy7Hmfl',
+        'as' => 'generated::F72Eoxj5zE9WkEbj',
       ),
       'fallback' => false,
       'defaults' => 
@@ -18623,7 +18623,7 @@ app('router')->setCompiledRoutes(
       'waitSeconds' => NULL,
       'withTrashed' => false,
     ),
-    'generated::ZRx3ZYpZkhexuCGo' => 
+    'generated::Dpi9Q2W5ewGXaSfq' => 
     array (
       'methods' => 
       array (
@@ -18644,7 +18644,7 @@ app('router')->setCompiledRoutes(
         'where' => 
         array (
         ),
-        'as' => 'generated::ZRx3ZYpZkhexuCGo',
+        'as' => 'generated::Dpi9Q2W5ewGXaSfq',
       ),
       'fallback' => false,
       'defaults' => 
@@ -21570,7 +21570,7 @@ app('router')->setCompiledRoutes(
           1 => 'auth',
           2 => 'verified',
         ),
-        'uses' => 'O:55:"Laravel\\SerializableClosure\\UnsignedSerializableClosure":1:{s:12:"serializable";O:46:"Laravel\\SerializableClosure\\Serializers\\Native":5:{s:3:"use";a:0:{}s:8:"function";s:84:"function ($student) { return \\redirect()->route(\'students-modern.show\', $student); }";s:5:"scope";s:37:"Illuminate\\Routing\\RouteFileRegistrar";s:4:"this";N;s:4:"self";s:32:"00000000000009430000000000000000";}}',
+        'uses' => 'O:55:"Laravel\\SerializableClosure\\UnsignedSerializableClosure":1:{s:12:"serializable";O:46:"Laravel\\SerializableClosure\\Serializers\\Native":5:{s:3:"use";a:0:{}s:8:"function";s:84:"function ($student) { return \\redirect()->route(\'students-modern.show\', $student); }";s:5:"scope";s:37:"Illuminate\\Routing\\RouteFileRegistrar";s:4:"this";N;s:4:"self";s:32:"00000000000008ab0000000000000000";}}',
         'namespace' => NULL,
         'prefix' => '/admin',
         'where' => 
@@ -21608,7 +21608,7 @@ app('router')->setCompiledRoutes(
           1 => 'auth',
           2 => 'verified',
         ),
-        'uses' => 'O:55:"Laravel\\SerializableClosure\\UnsignedSerializableClosure":1:{s:12:"serializable";O:46:"Laravel\\SerializableClosure\\Serializers\\Native":5:{s:3:"use";a:0:{}s:8:"function";s:84:"function ($student) { return \\redirect()->route(\'students-modern.show\', $student); }";s:5:"scope";s:37:"Illuminate\\Routing\\RouteFileRegistrar";s:4:"this";N;s:4:"self";s:32:"00000000000009bd0000000000000000";}}',
+        'uses' => 'O:55:"Laravel\\SerializableClosure\\UnsignedSerializableClosure":1:{s:12:"serializable";O:46:"Laravel\\SerializableClosure\\Serializers\\Native":5:{s:3:"use";a:0:{}s:8:"function";s:84:"function ($student) { return \\redirect()->route(\'students-modern.show\', $student); }";s:5:"scope";s:37:"Illuminate\\Routing\\RouteFileRegistrar";s:4:"this";N;s:4:"self";s:32:"00000000000009250000000000000000";}}',
         'namespace' => NULL,
         'prefix' => '/admin',
         'where' => 
@@ -21646,7 +21646,7 @@ app('router')->setCompiledRoutes(
           1 => 'auth',
           2 => 'verified',
         ),
-        'uses' => 'O:55:"Laravel\\SerializableClosure\\UnsignedSerializableClosure":1:{s:12:"serializable";O:46:"Laravel\\SerializableClosure\\Serializers\\Native":5:{s:3:"use";a:0:{}s:8:"function";s:67:"function () { return \\redirect()->route(\'students-modern.index\'); }";s:5:"scope";s:37:"Illuminate\\Routing\\RouteFileRegistrar";s:4:"this";N;s:4:"self";s:32:"000000000000094b0000000000000000";}}',
+        'uses' => 'O:55:"Laravel\\SerializableClosure\\UnsignedSerializableClosure":1:{s:12:"serializable";O:46:"Laravel\\SerializableClosure\\Serializers\\Native":5:{s:3:"use";a:0:{}s:8:"function";s:67:"function () { return \\redirect()->route(\'students-modern.index\'); }";s:5:"scope";s:37:"Illuminate\\Routing\\RouteFileRegistrar";s:4:"this";N;s:4:"self";s:32:"00000000000008b30000000000000000";}}',
         'namespace' => NULL,
         'prefix' => '/admin',
         'where' => 
@@ -21683,7 +21683,7 @@ app('router')->setCompiledRoutes(
           1 => 'auth',
           2 => 'verified',
         ),
-        'uses' => 'O:55:"Laravel\\SerializableClosure\\UnsignedSerializableClosure":1:{s:12:"serializable";O:46:"Laravel\\SerializableClosure\\Serializers\\Native":5:{s:3:"use";a:0:{}s:8:"function";s:67:"function () { return \\redirect()->route(\'students-modern.index\'); }";s:5:"scope";s:37:"Illuminate\\Routing\\RouteFileRegistrar";s:4:"this";N;s:4:"self";s:32:"00000000000009cf0000000000000000";}}',
+        'uses' => 'O:55:"Laravel\\SerializableClosure\\UnsignedSerializableClosure":1:{s:12:"serializable";O:46:"Laravel\\SerializableClosure\\Serializers\\Native":5:{s:3:"use";a:0:{}s:8:"function";s:67:"function () { return \\redirect()->route(\'students-modern.index\'); }";s:5:"scope";s:37:"Illuminate\\Routing\\RouteFileRegistrar";s:4:"this";N;s:4:"self";s:32:"00000000000009370000000000000000";}}',
         'namespace' => NULL,
         'prefix' => '/admin',
         'where' => 
@@ -21728,7 +21728,7 @@ app('router')->setCompiledRoutes(
             $user->assignRole(\'admin\');
         }
         return \\redirect()->route(\'admin.dashboard\')->with(\'status\', \'You are now an admin\');
-    }";s:5:"scope";s:37:"Illuminate\\Routing\\RouteFileRegistrar";s:4:"this";N;s:4:"self";s:32:"00000000000009720000000000000000";}}',
+    }";s:5:"scope";s:37:"Illuminate\\Routing\\RouteFileRegistrar";s:4:"this";N;s:4:"self";s:32:"00000000000008da0000000000000000";}}',
         'namespace' => NULL,
         'prefix' => '',
         'where' => 
