@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@php($title = 'Kit Manager Dashboard')
+@php($title = __('app.kit_manager_dashboard'))
 
 @section('content')
 <div class="py-4 md:py-6 px-3 sm:px-4 md:px-6 lg:px-8">
@@ -10,22 +10,22 @@
         <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
             <div class="min-w-0">
                 <h1 class="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white truncate">
-                    Equipment Dashboard
+                    {{ __('app.equipment_dashboard') }}
                 </h1>
                 <p class="text-sm sm:text-base text-slate-600 dark:text-slate-400 mt-1">
-                    Real-time equipment inventory and status overview
+                    {{ __('app.real_time_overview') }}
                 </p>
             </div>
 
             <div class="flex flex-col xs:flex-row gap-2 flex-shrink-0">
                 <a href="{{ route('admin.sports-equipment.index') }}"
                    class="btn btn-secondary text-xs sm:text-sm px-3 sm:px-4 py-2">
-                    Sports Equip
+                    {{ __('app.sports_equip') }}
                 </a>
 
                 <a href="{{ route('admin.office-equipment.index') }}"
                    class="btn btn-secondary text-xs sm:text-sm px-3 sm:px-4 py-2">
-                    Office Equip
+                    {{ __('app.office_equip') }}
                 </a>
             </div>
         </div>
@@ -40,13 +40,13 @@
             <div class="flex items-start justify-between gap-3">
                 <div class="flex-1 min-w-0">
                     <p class="text-xs sm:text-sm font-medium text-slate-600 dark:text-slate-400 truncate">
-                        Sports Equipment
+                        {{ __('app.sports_equipment') }}
                     </p>
                     <p class="text-2xl sm:text-3xl md:text-4xl font-bold text-blue-600 dark:text-blue-400 mt-1 sm:mt-2">
                         {{ $sportsEquipmentTotal }}
                     </p>
                     <p class="text-xs text-slate-500 dark:text-slate-500 mt-1 sm:mt-2">
-                        Total inventory
+                        {{ __('app.total_inventory') }}
                     </p>
                 </div>
 
@@ -67,13 +67,13 @@
             <div class="flex items-start justify-between gap-3">
                 <div class="flex-1 min-w-0">
                     <p class="text-xs sm:text-sm font-medium text-slate-600 dark:text-slate-400 truncate">
-                        Office Equipment
+                        {{ __('app.office_equipment') }}
                     </p>
                     <p class="text-2xl sm:text-3xl md:text-4xl font-bold text-emerald-600 dark:text-emerald-400 mt-1 sm:mt-2">
                         {{ $officeEquipmentTotal }}
                     </p>
                     <p class="text-xs text-slate-500 dark:text-slate-500 mt-1 sm:mt-2">
-                        Total inventory
+                        {{ __('app.total_inventory') }}
                     </p>
                 </div>
 
@@ -93,7 +93,7 @@
             <div class="flex items-start justify-between gap-3">
                 <div class="flex-1 min-w-0">
                     <p class="text-xs sm:text-sm font-medium text-slate-600 dark:text-slate-400 truncate">
-                        In Active Use
+                        {{ __('app.in_active_use') }}
                     </p>
 
                     @php
@@ -107,7 +107,7 @@
                     </p>
 
                     <p class="text-xs text-slate-500 dark:text-slate-500 mt-1 sm:mt-2 truncate">
-                        {{ $utilization }}% utilization
+                        {{ $utilization }}% {{ __('app.utilization') }}
                     </p>
                 </div>
 
@@ -135,7 +135,7 @@
 
                 <div class="flex-1 min-w-0">
                     <p class="text-xs sm:text-sm font-medium text-slate-600 dark:text-slate-400 truncate">
-                        Needs Attention
+                        {{ __('app.needs_attention') }}
                     </p>
 
                     <p class="text-2xl sm:text-3xl md:text-4xl font-bold text-amber-600 dark:text-amber-400 mt-1 sm:mt-2">
@@ -143,7 +143,7 @@
                     </p>
 
                     <p class="text-xs text-slate-500 dark:text-slate-500 mt-1 sm:mt-2 truncate">
-                        Damaged + Warranty expiring
+                        {{ __('app.damaged_warranty_expiring') }}
                     </p>
                 </div>
 

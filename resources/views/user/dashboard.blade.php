@@ -3,10 +3,10 @@
 @section('content')
     <div class="max-w-4xl mx-auto mt-10 bg-white dark:bg-neutral-900 p-8 rounded shadow space-y-6">
         <div class="flex items-center justify-between">
-            <h1 class="text-3xl font-bold text-indigo-700 dark:text-indigo-300 flex items-center gap-2"> User Dashboard</h1>
+            <h1 class="text-3xl font-bold text-indigo-700 dark:text-indigo-300 flex items-center gap-2"> {{ __('app.user_dashboard') }}</h1>
             <div class="flex items-center gap-2">
-                <a href="{{ route('user.profile.show', Auth::user()) }}" class="inline-flex items-center px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded">👤 My Profile</a>
-                <a href="{{ route('profile.edit') }}" class="inline-flex items-center px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded">⚙️ Edit Profile</a>
+                <a href="{{ route('user.profile.show', Auth::user()) }}" class="inline-flex items-center px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded">👤 {{ __('app.my_profile') }}</a>
+                <a href="{{ route('profile.edit') }}" class="inline-flex items-center px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded">⚙️ {{ __('app.edit_profile') }}</a>
             </div>
         </div>
 
@@ -25,24 +25,24 @@
                 </div>
                 <div class="flex-1">
                     <h3 class="text-lg font-bold text-amber-800 dark:text-amber-300 mb-1">
-                        ⏳ Limited System Access
+                        ⏳ {{ __('app.limited_access') }}
                     </h3>
                     <p class="text-amber-700 dark:text-amber-400 text-sm leading-relaxed mb-3">
-                        Your account is currently pending approval. You have limited access to the system features.
-                        Once a <strong>System Administrator</strong> reviews and approves your account, you will gain full access to all available modules.
+                        {{ __('app.pending_approval') }}
+                        {{ __('app.admin_approval_note') }}
                     </p>
                     <div class="flex flex-wrap items-center gap-3">
                         <div class="flex items-center gap-2 text-xs text-amber-600 dark:text-amber-500 bg-amber-100 dark:bg-amber-900/40 px-3 py-1.5 rounded-full">
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
                             </svg>
-                            <span>Awaiting Admin Approval</span>
+                            <span>{{ __('app.awaiting_admin_approval') }}</span>
                         </div>
                         <div class="flex items-center gap-2 text-xs text-amber-600 dark:text-amber-500 bg-amber-100 dark:bg-amber-900/40 px-3 py-1.5 rounded-full">
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
                             </svg>
-                            <span>Role: Basic User</span>
+                            <span>{{ __('app.role_basic_user') }}</span>
                         </div>
                     </div>
                 </div>
@@ -50,43 +50,43 @@
 
             <div class="relative mt-4 pt-4 border-t border-amber-200 dark:border-amber-700/50">
                 <p class="text-xs text-amber-600 dark:text-amber-500">
-                    💡 <strong>Tip:</strong> Please ensure your profile information is complete and accurate. This helps administrators verify your account faster.
-                    If you have any questions, please contact the system administrator.
+                    💡 <strong>{{ __('app.profile_tip') }}</strong>
+                    {{ __('app.contact_admin') }}
                 </p>
             </div>
         </div>
 
         <div class="text-slate-700 dark:text-slate-200 text-lg">
-            Welcome, <span class="font-semibold">{{ Auth::user()->name ?? 'User' }}</span>! This is your personalized dashboard.
+            {{ __('app.welcome') }}, <span class="font-semibold">{{ Auth::user()->name ?? 'User' }}</span>! {{ __('app.personalized_dashboard') }}
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
             <a href="#" class="block p-6 bg-indigo-50 dark:bg-neutral-800 rounded-lg shadow hover:shadow-lg transition border border-indigo-100 dark:border-neutral-700">
                 <div class="text-2xl mb-2"></div>
-                <div class="font-bold text-lg mb-1">View Students</div>
-                <div class="text-slate-600 dark:text-slate-400 text-sm">Browse, add, or edit student records.</div>
+                <div class="font-bold text-lg mb-1">{{ __('app.view_students') }}</div>
+                <div class="text-slate-600 dark:text-slate-400 text-sm">{{ __('app.browse_add_edit_students') }}</div>
             </a>
 
             <div class="p-6 bg-white dark:bg-neutral-800 rounded-lg shadow border border-slate-200 dark:border-neutral-700">
-                <h3 class="font-semibold mb-2">Quick Stats</h3>
+                <h3 class="font-semibold mb-2">{{ __('app.quick_stats') }}</h3>
                 <div class="grid grid-cols-1 gap-3">
-                    <x-stat-row label="My Attendance" :value="($myAttendanceRate ?? 0) . '%'" />
-                    <x-stat-row label="Upcoming Sessions" :value="$upcomingSessionsCount ?? 0" />
-                    <x-stat-row label="Recent Notices" :value="($recentCommunications->count() ?? 0)" />
+                    <x-stat-row :label="__('app.my_attendance')" :value="($myAttendanceRate ?? 0) . '%'" />
+                    <x-stat-row :label="__('app.upcoming_sessions')" :value="$upcomingSessionsCount ?? 0" />
+                    <x-stat-row :label="__('app.recent_notices')" :value="($recentCommunications->count() ?? 0)" />
                 </div>
             </div>
 
             <a href="{{ route('profile.edit') }}" class="block p-6 bg-blue-50 dark:bg-neutral-800 rounded-lg shadow hover:shadow-lg transition border border-blue-100 dark:border-neutral-700">
                 <div class="text-2xl mb-2"></div>
-                <div class="font-bold text-lg mb-1">Edit Profile</div>
-                <div class="text-slate-600 dark:text-slate-400 text-sm">Update your account information and password.</div>
+                <div class="font-bold text-lg mb-1">{{ __('app.edit_profile') }}</div>
+                <div class="text-slate-600 dark:text-slate-400 text-sm">{{ __('app.update_account_info') }}</div>
             </a>
         </div>
 
         <div class="bg-white dark:bg-neutral-800 rounded-lg shadow-md border border-slate-200 dark:border-neutral-700 p-6">
-            <h2 class="text-lg font-semibold text-slate-900 dark:text-gray-100 mb-4">Upcoming Training Sessions</h2>
+            <h2 class="text-lg font-semibold text-slate-900 dark:text-gray-100 mb-4">{{ __('app.upcoming_training_sessions') }}</h2>
             @if(($upcomingSessions ?? collect())->isEmpty())
-                <div class="text-sm text-slate-600 dark:text-slate-300">No upcoming sessions scheduled.</div>
+                <div class="text-sm text-slate-600 dark:text-slate-300">{{ __('app.no_upcoming_sessions') }}</div>
             @else
                 <ul class="space-y-2">
                     @foreach($upcomingSessions as $s)
@@ -101,7 +101,7 @@
 
         @if(($recentCommunications ?? collect())->isNotEmpty())
         <div class="bg-white dark:bg-neutral-800 rounded-lg shadow-md border border-slate-200 dark:border-neutral-700 p-6">
-            <h2 class="text-lg font-semibold text-slate-900 dark:text-gray-100 mb-4">Recent Communications</h2>
+            <h2 class="text-lg font-semibold text-slate-900 dark:text-gray-100 mb-4">{{ __('app.recent_communications') }}</h2>
             <ul class="space-y-2">
                 @foreach($recentCommunications as $c)
                     <li class="flex items-center justify-between p-3 bg-slate-50 dark:bg-neutral-900 rounded border border-slate-200 dark:border-neutral-700">
