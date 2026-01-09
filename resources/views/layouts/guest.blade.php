@@ -38,6 +38,25 @@
 
         <script src="{{ asset('js/notification-helper.js') }}"></script>
 
+        <!-- Password Toggle Script -->
+        <script>
+            function togglePassword(fieldId) {
+                const input = document.getElementById(fieldId);
+                const eyeOpen = document.getElementById(fieldId + '-eye-open');
+                const eyeClosed = document.getElementById(fieldId + '-eye-closed');
+
+                if (input.type === 'password') {
+                    input.type = 'text';
+                    eyeOpen.classList.remove('hidden');
+                    eyeClosed.classList.add('hidden');
+                } else {
+                    input.type = 'password';
+                    eyeOpen.classList.add('hidden');
+                    eyeClosed.classList.remove('hidden');
+                }
+            }
+        </script>
+
         <!-- Floating WhatsApp Button -->
         <a href="https://wa.me/250786163963" target="_blank" rel="noopener noreferrer"
            class="whatsapp-float"
