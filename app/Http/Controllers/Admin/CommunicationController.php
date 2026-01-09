@@ -43,16 +43,19 @@ class CommunicationController extends Controller
         $data['sender_id'] = auth()->id();
         $communication = Communication::create($data);
 
-        // Send emails to ALL users and staff for every communication
+        // Send emails based on audience selection
+        $audience = $communication->audience ?? 'all';
         $emails = collect();
 
-        // Get all staff emails
+        // Get staff emails (always included)
         $staffEmails = Staff::whereNotNull('email')->pluck('email')->filter()->unique();
         $emails = $emails->merge($staffEmails);
 
-        // Get all user emails
-        $userEmails = User::whereNotNull('email')->pluck('email')->filter()->unique();
-        $emails = $emails->merge($userEmails);
+        // Get user emails only if audience is 'all'
+        if ($audience === 'all') {
+            $userEmails = User::whereNotNull('email')->pluck('email')->filter()->unique();
+            $emails = $emails->merge($userEmails);
+        }
 
         // Normalize to array and chunk for batched dispatch
         $emails = $emails->unique()->values()->all();
