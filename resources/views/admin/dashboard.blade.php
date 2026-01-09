@@ -1,5 +1,5 @@
 ﻿@extends('layouts.app')
-@section('title', 'Admin Dashboard')
+@section('title', __('app.admin_dashboard'))
 
 @section('content')
 @php
@@ -25,9 +25,9 @@
         <div class="relative z-10 container mx-auto px-6 py-8">
             <h1 class="flex items-center gap-3 text-3xl md:text-4xl font-bold text-white mb-2">
                 <img src="{{ asset('logo.jpeg') }}" alt="Logo" class="w-9 h-9 md:w-10 md:h-10 rounded-md object-cover shadow-sm ring-2 ring-white/20">
-                <span>Admin Dashboard</span>
+                <span>{{ __('app.admin_dashboard') }}</span>
             </h1>
-            <p class="text-emerald-100">A high-level view of academy operations</p>
+            <p class="text-emerald-100">{{ __('app.high_level_view') }}</p>
         </div>
     </div>
 
@@ -40,12 +40,12 @@
                 <div class="card-body">
                     <div class="flex items-start justify-between">
                         <div class="flex-1">
-                            <p class="text-sm font-medium text-slate-600 dark:text-slate-400 mb-1">Students</p>
+                            <p class="text-sm font-medium text-slate-600 dark:text-slate-400 mb-1">{{ __('app.students') }}</p>
                             <h3 class="text-3xl font-bold text-blue-600 dark:text-blue-400" data-animate-count>
                                 {{ $stats['totalStudents'] ?? 0 }}
                             </h3>
                             <p class="text-xs text-slate-500 dark:text-slate-400 mt-2">
-                                All time registered
+                                {{ __('app.all_time_registered') }}
                             </p>
                         </div>
                         <div class="w-12 h-12 bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
@@ -62,12 +62,12 @@
                 <div class="card-body">
                     <div class="flex items-start justify-between">
                         <div class="flex-1">
-                            <p class="text-sm font-medium text-slate-600 dark:text-slate-400 mb-1">Active Students</p>
+                            <p class="text-sm font-medium text-slate-600 dark:text-slate-400 mb-1">{{ __('app.active_students') }}</p>
                             <h3 class="text-3xl font-bold text-emerald-600 dark:text-emerald-400" data-animate-count>
                                 {{ $stats['activeStudents'] ?? 0 }}
                             </h3>
                             <p class="text-xs text-slate-500 dark:text-slate-400 mt-2">
-                                Currently enrolled
+                                {{ __('app.currently_enrolled') }}
                             </p>
                         </div>
                         <div class="w-12 h-12 bg-gradient-to-br from-emerald-500 to-emerald-600 rounded-xl flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
@@ -84,12 +84,12 @@
                 <div class="card-body">
                     <div class="flex items-start justify-between">
                         <div class="flex-1">
-                            <p class="text-sm font-medium text-slate-600 dark:text-slate-400 mb-1">Sessions ({{ $rangeLabel ?? 'Today' }})</p>
+                            <p class="text-sm font-medium text-slate-600 dark:text-slate-400 mb-1">{{ __('app.sessions') }} ({{ $rangeLabel ?? __('app.today') }})</p>
                             <h3 class="text-3xl font-bold text-purple-600 dark:text-purple-400" data-animate-count>
                                 {{ $stats['todaySessions'] ?? 0 }}
                             </h3>
                             <p class="text-xs text-slate-500 dark:text-slate-400 mt-2">
-                                Scheduled
+                                {{ __('app.scheduled') }}
                             </p>
                         </div>
                         <div class="w-12 h-12 bg-gradient-to-br from-purple-500 to-purple-600 rounded-xl flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
@@ -106,7 +106,7 @@
                 <div class="card-body">
                     <div class="flex items-start justify-between">
                         <div class="flex-1">
-                            <p class="text-sm font-medium text-slate-600 dark:text-slate-400 mb-1">Revenue (This Month)</p>
+                            <p class="text-sm font-medium text-slate-600 dark:text-slate-400 mb-1">{{ __('app.revenue_this_month') }}</p>
                             <h3 class="text-3xl font-bold text-teal-600 dark:text-teal-400" data-animate-count>
                                 {{ number_format((int) floor((($stats['revenueThisMonth'] ?? 0) + ($stats['incomeThisMonth'] ?? 0)) / 100)) }} RWF
                             </h3>
@@ -114,9 +114,9 @@
                                 RWF
                             </p>
                             <div class="text-xs text-slate-500 dark:text-slate-400 mt-2">
-                                <div>Payments: {{ number_format((int) floor(($stats['revenueThisMonth'] ?? 0)/100)) }} RWF</div>
-                                <div>Subscriptions (this month): {{ number_format((int) floor(($stats['subscriptionRevenueThisMonth'] ?? 0)/100)) }} RWF</div>
-                                <div>Other incomes: {{ number_format((int) floor(($stats['incomeThisMonth'] ?? 0)/100)) }} RWF</div>
+                                <div>{{ __('app.payments') }}: {{ number_format((int) floor(($stats['revenueThisMonth'] ?? 0)/100)) }} RWF</div>
+                                <div>{{ __('app.subscriptions') }} ({{ strtolower(__('app.this_month')) }}): {{ number_format((int) floor(($stats['subscriptionRevenueThisMonth'] ?? 0)/100)) }} RWF</div>
+                                <div>{{ __('app.other_incomes') }}: {{ number_format((int) floor(($stats['incomeThisMonth'] ?? 0)/100)) }} RWF</div>
                             </div>
                         </div>
                         <div class="w-12 h-12 bg-gradient-to-br from-teal-500 to-teal-600 rounded-xl flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
@@ -135,11 +135,11 @@
             <div class="card lg:col-span-2">
                 <div class="card-body">
                     <div class="flex items-center justify-between mb-4">
-                        <h3 class="text-xl md:text-2xl font-semibold text-slate-900 dark:text-white">💰 Income vs Expenses (Last 12 Months)</h3>
+                        <h3 class="text-xl md:text-2xl font-semibold text-slate-900 dark:text-white">💰 {{ __('app.income_vs_expenses') }} ({{ __('app.last_12_months') }})</h3>
                         <div class="flex items-center gap-4 text-sm">
-                            <span class="flex items-center gap-1"><span class="w-3 h-3 rounded-full bg-emerald-500"></span> Income</span>
-                            <span class="flex items-center gap-1"><span class="w-3 h-3 rounded-full bg-red-500"></span> Expenses</span>
-                            <span class="flex items-center gap-1"><span class="w-3 h-3 rounded-sm bg-blue-500"></span> Net Profit</span>
+                            <span class="flex items-center gap-1"><span class="w-3 h-3 rounded-full bg-emerald-500"></span> {{ __('app.income') }}</span>
+                            <span class="flex items-center gap-1"><span class="w-3 h-3 rounded-full bg-red-500"></span> {{ __('app.expenses') }}</span>
+                            <span class="flex items-center gap-1"><span class="w-3 h-3 rounded-sm bg-blue-500"></span> {{ __('app.net_profit') }}</span>
                         </div>
                     </div>
                     <div class="h-80">
@@ -157,7 +157,7 @@
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"/>
                     </svg>
                 </div>
-                <h2 class="text-xl md:text-2xl font-bold text-slate-900 dark:text-white">Finance Summary</h2>
+                <h2 class="text-xl md:text-2xl font-bold text-slate-900 dark:text-white">{{ __('app.finance_summary') }}</h2>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4">
@@ -168,21 +168,21 @@
                             <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
                             </svg>
-                            <h4 class="font-semibold text-blue-800 dark:text-blue-300">Today</h4>
+                            <h4 class="font-semibold text-blue-800 dark:text-blue-300">{{ __('app.today') }}</h4>
                         </div>
                         <div class="space-y-2">
                             <div class="flex justify-between items-center">
-                                <span class="text-sm text-slate-600 dark:text-slate-400">Income</span>
+                                <span class="text-sm text-slate-600 dark:text-slate-400">{{ __('app.income') }}</span>
                                 <span class="font-bold text-emerald-600">{{ number_format($financeStats['daily']['income'] ?? 0) }} RWF</span>
                             </div>
                             <div class="flex justify-between items-center">
-                                <span class="text-sm text-slate-600 dark:text-slate-400">Expenses</span>
+                                <span class="text-sm text-slate-600 dark:text-slate-400">{{ __('app.expenses') }}</span>
                                 <span class="font-bold text-red-600">{{ number_format($financeStats['daily']['expenses'] ?? 0) }} RWF</span>
                             </div>
                             <hr class="border-slate-300 dark:border-slate-600">
                             @php $dailyBalance = ($financeStats['daily']['income'] ?? 0) - ($financeStats['daily']['expenses'] ?? 0); @endphp
                             <div class="flex justify-between items-center">
-                                <span class="text-sm font-medium text-slate-700 dark:text-slate-300">Balance</span>
+                                <span class="text-sm font-medium text-slate-700 dark:text-slate-300">{{ __('app.balance') }}</span>
                                 <span class="font-bold text-lg {{ $dailyBalance >= 0 ? 'text-emerald-700' : 'text-red-700' }}">
                                     {{ $dailyBalance >= 0 ? '+' : '' }}{{ number_format($dailyBalance) }} RWF
                                 </span>
@@ -198,21 +198,21 @@
                             <svg class="w-5 h-5 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
                             </svg>
-                            <h4 class="font-semibold text-purple-800 dark:text-purple-300">This Week</h4>
+                            <h4 class="font-semibold text-purple-800 dark:text-purple-300">{{ __('app.this_week') }}</h4>
                         </div>
                         <div class="space-y-2">
                             <div class="flex justify-between items-center">
-                                <span class="text-sm text-slate-600 dark:text-slate-400">Income</span>
+                                <span class="text-sm text-slate-600 dark:text-slate-400">{{ __('app.income') }}</span>
                                 <span class="font-bold text-emerald-600">{{ number_format($financeStats['weekly']['income'] ?? 0) }} RWF</span>
                             </div>
                             <div class="flex justify-between items-center">
-                                <span class="text-sm text-slate-600 dark:text-slate-400">Expenses</span>
+                                <span class="text-sm text-slate-600 dark:text-slate-400">{{ __('app.expenses') }}</span>
                                 <span class="font-bold text-red-600">{{ number_format($financeStats['weekly']['expenses'] ?? 0) }} RWF</span>
                             </div>
                             <hr class="border-slate-300 dark:border-slate-600">
                             @php $weeklyBalance = ($financeStats['weekly']['income'] ?? 0) - ($financeStats['weekly']['expenses'] ?? 0); @endphp
                             <div class="flex justify-between items-center">
-                                <span class="text-sm font-medium text-slate-700 dark:text-slate-300">Balance</span>
+                                <span class="text-sm font-medium text-slate-700 dark:text-slate-300">{{ __('app.balance') }}</span>
                                 <span class="font-bold text-lg {{ $weeklyBalance >= 0 ? 'text-emerald-700' : 'text-red-700' }}">
                                     {{ $weeklyBalance >= 0 ? '+' : '' }}{{ number_format($weeklyBalance) }} RWF
                                 </span>
@@ -228,21 +228,21 @@
                             <svg class="w-5 h-5 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
                             </svg>
-                            <h4 class="font-semibold text-amber-800 dark:text-amber-300">This Month</h4>
+                            <h4 class="font-semibold text-amber-800 dark:text-amber-300">{{ __('app.this_month') }}</h4>
                         </div>
                         <div class="space-y-2">
                             <div class="flex justify-between items-center">
-                                <span class="text-sm text-slate-600 dark:text-slate-400">Income</span>
+                                <span class="text-sm text-slate-600 dark:text-slate-400">{{ __('app.income') }}</span>
                                 <span class="font-bold text-emerald-600">{{ number_format($financeStats['monthly']['income'] ?? 0) }} RWF</span>
                             </div>
                             <div class="flex justify-between items-center">
-                                <span class="text-sm text-slate-600 dark:text-slate-400">Expenses</span>
+                                <span class="text-sm text-slate-600 dark:text-slate-400">{{ __('app.expenses') }}</span>
                                 <span class="font-bold text-red-600">{{ number_format($financeStats['monthly']['expenses'] ?? 0) }} RWF</span>
                             </div>
                             <hr class="border-slate-300 dark:border-slate-600">
                             @php $monthlyBalance = ($financeStats['monthly']['income'] ?? 0) - ($financeStats['monthly']['expenses'] ?? 0); @endphp
                             <div class="flex justify-between items-center">
-                                <span class="text-sm font-medium text-slate-700 dark:text-slate-300">Balance</span>
+                                <span class="text-sm font-medium text-slate-700 dark:text-slate-300">{{ __('app.balance') }}</span>
                                 <span class="font-bold text-lg {{ $monthlyBalance >= 0 ? 'text-emerald-700' : 'text-red-700' }}">
                                     {{ $monthlyBalance >= 0 ? '+' : '' }}{{ number_format($monthlyBalance) }} RWF
                                 </span>
@@ -258,21 +258,21 @@
                             <svg class="w-5 h-5 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
                             </svg>
-                            <h4 class="font-semibold text-emerald-800 dark:text-emerald-300">This Year</h4>
+                            <h4 class="font-semibold text-emerald-800 dark:text-emerald-300">{{ __('app.this_year') }}</h4>
                         </div>
                         <div class="space-y-2">
                             <div class="flex justify-between items-center">
-                                <span class="text-sm text-slate-600 dark:text-slate-400">Income</span>
+                                <span class="text-sm text-slate-600 dark:text-slate-400">{{ __('app.income') }}</span>
                                 <span class="font-bold text-emerald-600">{{ number_format($financeStats['yearly']['income'] ?? 0) }} RWF</span>
                             </div>
                             <div class="flex justify-between items-center">
-                                <span class="text-sm text-slate-600 dark:text-slate-400">Expenses</span>
+                                <span class="text-sm text-slate-600 dark:text-slate-400">{{ __('app.expenses') }}</span>
                                 <span class="font-bold text-red-600">{{ number_format($financeStats['yearly']['expenses'] ?? 0) }} RWF</span>
                             </div>
                             <hr class="border-slate-300 dark:border-slate-600">
                             @php $yearlyBalance = ($financeStats['yearly']['income'] ?? 0) - ($financeStats['yearly']['expenses'] ?? 0); @endphp
                             <div class="flex justify-between items-center">
-                                <span class="text-sm font-medium text-slate-700 dark:text-slate-300">Balance</span>
+                                <span class="text-sm font-medium text-slate-700 dark:text-slate-300">{{ __('app.balance') }}</span>
                                 <span class="font-bold text-lg {{ $yearlyBalance >= 0 ? 'text-emerald-700' : 'text-red-700' }}">
                                     {{ $yearlyBalance >= 0 ? '+' : '' }}{{ number_format($yearlyBalance) }} RWF
                                 </span>
@@ -287,7 +287,7 @@
             <div class="card">
                 <div class="card-body">
                     <div class="flex items-center justify-between mb-2">
-                        <h3 class="text-xl md:text-2xl font-semibold text-slate-900 dark:text-white">Monthly Registrations</h3>
+                        <h3 class="text-xl md:text-2xl font-semibold text-slate-900 dark:text-white">{{ __('app.monthly_registrations') }}</h3>
                     </div>
                     <canvas id="adminRegistrationsChart" height="200"></canvas>
                 </div>
@@ -295,7 +295,7 @@
             <div class="card">
                 <div class="card-body">
                     <div class="flex items-center justify-between mb-2">
-                        <h3 class="text-xl md:text-2xl font-semibold text-slate-900 dark:text-white">Fees Status</h3>
+                        <h3 class="text-xl md:text-2xl font-semibold text-slate-900 dark:text-white">{{ __('app.fees_status') }}</h3>
                     </div>
                     <canvas id="adminFeesChart" height="200"></canvas>
                 </div>
@@ -303,7 +303,7 @@
             <div class="card">
                 <div class="card-body">
                     <div class="flex items-center justify-between mb-2">
-                        <h3 class="text-xl md:text-2xl font-semibold text-slate-900 dark:text-white">Subscriptions (Last 6 months)</h3>
+                        <h3 class="text-xl md:text-2xl font-semibold text-slate-900 dark:text-white">{{ __('app.subscriptions_last_6_months') }}</h3>
                     </div>
                     <canvas id="adminSubscriptionsChart" height="200"></canvas>
                 </div>
@@ -482,7 +482,7 @@
                 <div class="card-body">
                     <div class="flex items-start justify-between">
                         <div class="flex-1">
-                            <p class="text-sm font-medium text-slate-600 dark:text-slate-400 mb-1">Income (This Month)</p>
+                            <p class="text-sm font-medium text-slate-600 dark:text-slate-400 mb-1">{{ __('app.income_this_month') }}</p>
                             <h3 class="text-3xl font-bold text-emerald-600 dark:text-emerald-400" data-animate-count>
                                 {{ number_format((int) floor(($stats['incomeThisMonth'] ?? 0)/100)) }} RWF
                             </h3>
@@ -501,11 +501,11 @@
                 <div class="card-body">
                     <div class="flex items-start justify-between">
                         <div class="flex-1">
-                            <p class="text-sm font-medium text-slate-600 dark:text-slate-400 mb-1">Total Income</p>
+                            <p class="text-sm font-medium text-slate-600 dark:text-slate-400 mb-1">{{ __('app.total_income') }}</p>
                             <h3 class="text-3xl font-bold text-slate-900" data-animate-count>
                                 {{ number_format((int) floor(($stats['totalIncome'] ?? 0)/100)) }} RWF
                             </h3>
-                            <p class="text-xs text-slate-500 dark:text-slate-400 mt-2">All time</p>
+                            <p class="text-xs text-slate-500 dark:text-slate-400 mt-2">{{ __('app.all_time') }}</p>
                         </div>
                         <div class="w-12 h-12 bg-gradient-to-br from-slate-500 to-slate-600 rounded-xl flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
                             <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -520,7 +520,7 @@
                 <div class="card-body">
                     <div class="flex items-start justify-between">
                         <div class="flex-1">
-                            <p class="text-sm font-medium text-slate-600 dark:text-slate-400 mb-1">Subscription Revenue (This Month)</p>
+                            <p class="text-sm font-medium text-slate-600 dark:text-slate-400 mb-1">{{ __('app.subscription_revenue_this_month') }}</p>
                             <h3 class="text-3xl font-bold text-amber-600 dark:text-amber-400" data-animate-count>
                                 {{ number_format((int) floor(($stats['subscriptionRevenueThisMonth'] ?? 0)/100)) }}
                             </h3>
@@ -539,11 +539,11 @@
                 <div class="card-body">
                     <div class="flex items-start justify-between">
                         <div class="flex-1">
-                            <p class="text-sm font-medium text-slate-600 dark:text-slate-400 mb-1">Total Subscription Revenue</p>
+                            <p class="text-sm font-medium text-slate-600 dark:text-slate-400 mb-1">{{ __('app.total_subscription_revenue') }}</p>
                             <h3 class="text-3xl font-bold text-slate-900" data-animate-count>
                                 {{ number_format((int) floor(($stats['totalSubscriptionRevenue'] ?? 0)/100)) }}
                             </h3>
-                            <p class="text-xs text-slate-500 dark:text-slate-400 mt-2">All time</p>
+                            <p class="text-xs text-slate-500 dark:text-slate-400 mt-2">{{ __('app.all_time') }}</p>
                         </div>
                         <div class="w-12 h-12 bg-gradient-to-br from-slate-700 to-slate-800 rounded-xl flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
                             <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -561,7 +561,7 @@
                 <div class="card-body">
                     <div class="flex items-center justify-between">
                         <div>
-                            <p class="text-sm text-slate-600 dark:text-slate-400">Branches</p>
+                            <p class="text-sm text-slate-600 dark:text-slate-400">{{ __('app.branches') }}</p>
                             <p class="text-2xl font-bold text-slate-900 dark:text-white">{{ $stats['totalBranches'] ?? 0 }}</p>
                         </div>
                         <div class="w-10 h-10 bg-indigo-100 dark:bg-indigo-900/30 rounded-lg flex items-center justify-center">
@@ -577,7 +577,7 @@
                 <div class="card-body">
                     <div class="flex items-center justify-between">
                         <div>
-                            <p class="text-sm text-slate-600 dark:text-slate-400">Groups</p>
+                            <p class="text-sm text-slate-600 dark:text-slate-400">{{ __('app.groups') }}</p>
                             <p class="text-2xl font-bold text-slate-900 dark:text-white">{{ $stats['totalGroups'] ?? 0 }}</p>
                         </div>
                         <div class="w-10 h-10 bg-purple-100 dark:bg-purple-900/30 rounded-lg flex items-center justify-center">
@@ -593,7 +593,7 @@
                 <div class="card-body">
                     <div class="flex items-center justify-between">
                         <div>
-                            <p class="text-sm text-slate-600 dark:text-slate-400">Subscriptions</p>
+                            <p class="text-sm text-slate-600 dark:text-slate-400">{{ __('app.subscriptions') }}</p>
                             <p class="text-2xl font-bold text-slate-900 dark:text-white">{{ $stats['activeSubscriptions'] ?? 0 }}</p>
                         </div>
                         <div class="w-10 h-10 bg-amber-100 dark:bg-amber-900/30 rounded-lg flex items-center justify-center">
@@ -609,7 +609,7 @@
                 <div class="card-body">
                     <div class="flex items-center justify-between">
                         <div>
-                            <p class="text-sm text-slate-600 dark:text-slate-400">Equipment</p>
+                            <p class="text-sm text-slate-600 dark:text-slate-400">{{ __('app.equipment') }}</p>
                             <p class="text-2xl font-bold text-slate-900 dark:text-white">{{ $stats['totalEquipment'] ?? 0 }}</p>
                         </div>
                         <div class="w-10 h-10 bg-teal-100 dark:bg-teal-900/30 rounded-lg flex items-center justify-center">
@@ -624,13 +624,13 @@
 
         {{-- Attendance Summary --}}
         <div class="mb-8">
-            <h2 class="text-xl font-bold text-slate-900 dark:text-white mb-4">✅ Attendance Overview</h2>
+            <h2 class="text-xl font-bold text-slate-900 dark:text-white mb-4">✅ {{ __('app.attendance_overview') }}</h2>
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                 <a href="{{ route('admin.student-attendance.index') }}" class="card group hover:shadow-xl transition-all duration-300 cursor-pointer">
                     <div class="card-body">
                         <div class="flex items-center justify-between">
                             <div>
-                                <p class="text-sm text-slate-600 dark:text-slate-400">Student Attendance</p>
+                                <p class="text-sm text-slate-600 dark:text-slate-400">{{ __('app.student_attendance') }}</p>
                                 <p class="text-2xl font-bold text-slate-900 dark:text-white">{{ $stats['totalStudentAttendance'] ?? 0 }}</p>
                             </div>
                             <div class="w-10 h-10 bg-blue-100 dark:bg-blue-900/30 rounded-lg flex items-center justify-center">
@@ -646,7 +646,7 @@
                     <div class="card-body">
                         <div class="flex items-center justify-between">
                             <div>
-                                <p class="text-sm text-slate-600 dark:text-slate-400">Coach Attendance</p>
+                                <p class="text-sm text-slate-600 dark:text-slate-400">{{ __('app.coach_attendance') }}</p>
                                 <p class="text-2xl font-bold text-slate-900 dark:text-white">{{ $stats['totalCoachAttendance'] ?? 0 }}</p>
                             </div>
                             <div class="w-10 h-10 bg-green-100 dark:bg-green-900/30 rounded-lg flex items-center justify-center">
@@ -662,7 +662,7 @@
                     <div class="card-body">
                         <div class="flex items-center justify-between">
                             <div>
-                                <p class="text-sm text-slate-600 dark:text-slate-400">Staff Attendance</p>
+                                <p class="text-sm text-slate-600 dark:text-slate-400">{{ __('app.staff_attendance') }}</p>
                                 <p class="text-2xl font-bold text-slate-900 dark:text-white">{{ $stats['totalStaffAttendance'] ?? 0 }}</p>
                             </div>
                             <div class="w-10 h-10 bg-purple-100 dark:bg-purple-900/30 rounded-lg flex items-center justify-center">
@@ -679,9 +679,9 @@
         {{-- Today's Student Attendance Table --}}
         <div class="mb-8">
             <div class="flex items-center justify-between mb-4">
-                <h2 class="text-xl font-bold text-slate-900 dark:text-white">📋 Today's Student Attendance</h2>
+                <h2 class="text-xl font-bold text-slate-900 dark:text-white">📋 {{ __('app.todays_student_attendance') }}</h2>
                 <a href="{{ route('admin.student-attendance.index') }}" class="text-sm text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 font-medium">
-                    View All →
+                    {{ __('app.view_all_arrow') }}
                 </a>
             </div>
 
@@ -690,23 +690,23 @@
             <div class="grid grid-cols-2 md:grid-cols-5 gap-4 mb-4">
                 <div class="bg-slate-100 dark:bg-slate-800 rounded-lg p-3 text-center">
                     <p class="text-2xl font-bold text-slate-700 dark:text-slate-300">{{ $todayAttendanceStats['total'] ?? 0 }}</p>
-                    <p class="text-xs text-slate-500 dark:text-slate-400">Total Recorded</p>
+                    <p class="text-xs text-slate-500 dark:text-slate-400">{{ __('app.total_recorded') }}</p>
                 </div>
                 <div class="bg-emerald-100 dark:bg-emerald-900/30 rounded-lg p-3 text-center">
                     <p class="text-2xl font-bold text-emerald-600 dark:text-emerald-400">{{ $todayAttendanceStats['present'] ?? 0 }}</p>
-                    <p class="text-xs text-emerald-600 dark:text-emerald-400">Present</p>
+                    <p class="text-xs text-emerald-600 dark:text-emerald-400">{{ __('app.present') }}</p>
                 </div>
                 <div class="bg-red-100 dark:bg-red-900/30 rounded-lg p-3 text-center">
                     <p class="text-2xl font-bold text-red-600 dark:text-red-400">{{ $todayAttendanceStats['absent'] ?? 0 }}</p>
-                    <p class="text-xs text-red-600 dark:text-red-400">Absent</p>
+                    <p class="text-xs text-red-600 dark:text-red-400">{{ __('app.absent') }}</p>
                 </div>
                 <div class="bg-yellow-100 dark:bg-yellow-900/30 rounded-lg p-3 text-center">
                     <p class="text-2xl font-bold text-yellow-600 dark:text-yellow-400">{{ $todayAttendanceStats['late'] ?? 0 }}</p>
-                    <p class="text-xs text-yellow-600 dark:text-yellow-400">Late</p>
+                    <p class="text-xs text-yellow-600 dark:text-yellow-400">{{ __('app.late') }}</p>
                 </div>
                 <div class="bg-blue-100 dark:bg-blue-900/30 rounded-lg p-3 text-center">
                     <p class="text-2xl font-bold text-blue-600 dark:text-blue-400">{{ $todayAttendanceStats['excused'] ?? 0 }}</p>
-                    <p class="text-xs text-blue-600 dark:text-blue-400">Excused</p>
+                    <p class="text-xs text-blue-600 dark:text-blue-400">{{ __('app.excused') }}</p>
                 </div>
             </div>
             @endif
@@ -719,10 +719,10 @@
                         <table class="min-w-full divide-y divide-slate-200 dark:divide-slate-700">
                             <thead class="bg-slate-50 dark:bg-slate-800">
                                 <tr>
-                                    <th class="px-4 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">Student</th>
-                                    <th class="px-4 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">Status</th>
-                                    <th class="px-4 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">Time</th>
-                                    <th class="px-4 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">Remarks</th>
+                                    <th class="px-4 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">{{ __('app.student') }}</th>
+                                    <th class="px-4 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">{{ __('app.status') }}</th>
+                                    <th class="px-4 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">{{ __('app.time') }}</th>
+                                    <th class="px-4 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">{{ __('app.remarks') }}</th>
                                 </tr>
                             </thead>
                             <tbody class="bg-white dark:bg-slate-900 divide-y divide-slate-200 dark:divide-slate-700">
@@ -788,13 +788,13 @@
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
                             </svg>
                         </div>
-                        <h3 class="text-lg font-medium text-slate-900 dark:text-white mb-2">No Attendance Recorded Today</h3>
-                        <p class="text-slate-500 dark:text-slate-400 mb-4">Start recording student attendance for {{ now()->format('F j, Y') }}</p>
+                        <h3 class="text-lg font-medium text-slate-900 dark:text-white mb-2">{{ __('app.no_attendance_recorded_today') }}</h3>
+                        <p class="text-slate-500 dark:text-slate-400 mb-4">{{ __('app.start_recording_attendance') }} {{ now()->format('F j, Y') }}</p>
                         <a href="{{ route('students-modern.index') }}" class="inline-flex items-center px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white font-medium rounded-lg transition-colors">
                             <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
                             </svg>
-                            Record Attendance
+                            {{ __('app.record_attendance') }}
                         </a>
                     </div>
                     @endif
@@ -804,15 +804,15 @@
 
         {{-- Upcoming Events --}}
         <div class="mb-8">
-            <h2 class="text-xl font-bold text-slate-900 dark:text-white mb-4">📋 Upcoming Events</h2>
+            <h2 class="text-xl font-bold text-slate-900 dark:text-white mb-4">📋 {{ __('app.upcoming_events') }}</h2>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <a href="{{ route('admin.upcoming-events.index') }}" class="card group hover:shadow-xl transition-all duration-300 cursor-pointer">
                     <div class="card-body">
                         <div class="flex items-center justify-between">
                             <div>
-                                <p class="text-sm text-slate-600 dark:text-slate-400">Total Events</p>
+                                <p class="text-sm text-slate-600 dark:text-slate-400">{{ __('app.total_events') }}</p>
                                 <p class="text-2xl font-bold text-slate-900 dark:text-white">{{ $stats['totalUpcomingEvents'] ?? 0 }}</p>
-                                <p class="text-xs text-emerald-600 mt-1">Future: {{ $stats['futureEvents'] ?? 0 }}</p>
+                                <p class="text-xs text-emerald-600 mt-1">{{ __('app.future') }}: {{ $stats['futureEvents'] ?? 0 }}</p>
                             </div>
                             <div class="w-10 h-10 bg-rose-100 dark:bg-rose-900/30 rounded-lg flex items-center justify-center">
                                 <svg class="w-5 h-5 text-rose-600 dark:text-rose-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -827,9 +827,9 @@
                     <div class="card-body">
                         <div class="flex items-center justify-between">
                             <div>
-                                <p class="text-sm text-slate-600 dark:text-slate-400">Capacity Building</p>
+                                <p class="text-sm text-slate-600 dark:text-slate-400">{{ __('app.capacity_building') }}</p>
                                 <p class="text-2xl font-bold text-slate-900 dark:text-white">{{ $stats['capacityCount'] ?? 0 }}</p>
-                                <p class="text-xs text-slate-500 mt-1">Total Cost: {{ number_format(($stats['capacityTotalCost'] ?? 0)/100, 2) }} RWF</p>
+                                <p class="text-xs text-slate-500 mt-1">{{ __('app.total_cost') }}: {{ number_format(($stats['capacityTotalCost'] ?? 0)/100, 2) }} RWF</p>
                             </div>
                             <div class="w-10 h-10 bg-sky-100 dark:bg-sky-900/30 rounded-lg flex items-center justify-center">
                                 <svg class="w-5 h-5 text-sky-600 dark:text-sky-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -846,16 +846,16 @@
 
         {{-- Quick Actions Grid --}}
         <div class="mb-8">
-            <h2 class="text-xl font-bold text-slate-900 dark:text-white mb-4">⚡ Quick Actions</h2>
+            <h2 class="text-xl font-bold text-slate-900 dark:text-white mb-4">⚡ {{ __('app.quick_actions') }}</h2>
             <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
-                
+
                 {{-- People --}}
                 @if(Route::has('students-modern.index'))
                 <a href="{{ route('students-modern.index') }}" class="card hover:shadow-lg transition-shadow">
                     <div class="card-body p-4 text-center">
                         <div class="text-3xl mb-2">🎓</div>
-                        <div class="text-sm font-semibold text-slate-900">Students</div>
-                        <div class="text-xs text-slate-500 mt-1">Manage</div>
+                        <div class="text-sm font-semibold text-slate-900">{{ __('app.students') }}</div>
+                        <div class="text-xs text-slate-500 mt-1">{{ __('app.manage') }}</div>
                     </div>
                 </a>
                 @endif
@@ -864,8 +864,8 @@
                 <a href="{{ route('staff.index') }}" class="card hover:shadow-lg transition-shadow">
                     <div class="card-body p-4 text-center">
                         <div class="text-3xl mb-2">👔</div>
-                        <div class="text-sm font-semibold text-slate-900">Staff</div>
-                        <div class="text-xs text-slate-500 mt-1">Profiles</div>
+                        <div class="text-sm font-semibold text-slate-900">{{ __('app.staff') }}</div>
+                        <div class="text-xs text-slate-500 mt-1">{{ __('app.profiles') }}</div>
                     </div>
                 </a>
                 @endif
@@ -874,8 +874,8 @@
                 <a href="{{ route('admin.players.index') }}" class="card hover:shadow-lg transition-shadow">
                     <div class="card-body p-4 text-center">
                         <div class="text-3xl mb-2">🏃</div>
-                        <div class="text-sm font-semibold text-slate-900">Players</div>
-                        <div class="text-xs text-slate-500 mt-1">Match Players</div>
+                        <div class="text-sm font-semibold text-slate-900">{{ __('app.players') }}</div>
+                        <div class="text-xs text-slate-500 mt-1">{{ __('app.match_players') }}</div>
                     </div>
                 </a>
                 @endif
@@ -884,8 +884,8 @@
                 <a href="{{ route('admin.users.index') }}" class="card hover:shadow-lg transition-shadow">
                     <div class="card-body p-4 text-center">
                         <div class="text-3xl mb-2">👥</div>
-                        <div class="text-sm font-semibold text-slate-900">Users</div>
-                        <div class="text-xs text-slate-500 mt-1">System Users</div>
+                        <div class="text-sm font-semibold text-slate-900">{{ __('app.users') }}</div>
+                        <div class="text-xs text-slate-500 mt-1">{{ __('app.system_users') }}</div>
                     </div>
                 </a>
                 @endif
@@ -894,8 +894,8 @@
                 <a href="{{ route('admin.roles.index') }}" class="card hover:shadow-lg transition-shadow">
                     <div class="card-body p-4 text-center">
                         <div class="text-3xl mb-2">🛡️</div>
-                        <div class="text-sm font-semibold text-slate-900">Roles</div>
-                        <div class="text-xs text-slate-500 mt-1">Permissions</div>
+                        <div class="text-sm font-semibold text-slate-900">{{ __('app.roles') }}</div>
+                        <div class="text-xs text-slate-500 mt-1">{{ __('app.permissions') }}</div>
                     </div>
                 </a>
                 @endif
@@ -905,8 +905,8 @@
                 <a href="{{ route('admin.training_session_records.index') }}" class="card hover:shadow-lg transition-shadow">
                     <div class="card-body p-4 text-center">
                         <div class="text-3xl mb-2">📅</div>
-                        <div class="text-sm font-semibold text-slate-900">Sessions</div>
-                        <div class="text-xs text-slate-500 mt-1">Scheduling</div>
+                        <div class="text-sm font-semibold text-slate-900">{{ __('app.sessions') }}</div>
+                        <div class="text-xs text-slate-500 mt-1">{{ __('app.scheduling') }}</div>
                     </div>
                 </a>
                 @endif
@@ -915,8 +915,8 @@
                 <a href="{{ route('admin.games.index') }}" class="card hover:shadow-lg transition-shadow">
                     <div class="card-body p-4 text-center">
                         <div class="text-3xl mb-2">⚽</div>
-                        <div class="text-sm font-semibold text-slate-900">Matches</div>
-                        <div class="text-xs text-slate-500 mt-1">Games</div>
+                        <div class="text-sm font-semibold text-slate-900">{{ __('app.matches') }}</div>
+                        <div class="text-xs text-slate-500 mt-1">{{ __('app.games') }}</div>
                     </div>
                 </a>
                 @endif
@@ -925,8 +925,8 @@
                 <a href="{{ route('admin.minutes.index') }}" class="card hover:shadow-lg transition-shadow">
                     <div class="card-body p-4 text-center">
                         <div class="text-3xl mb-2">⏱️</div>
-                        <div class="text-sm font-semibold text-slate-900">Minutes</div>
-                        <div class="text-xs text-slate-500 mt-1">Records</div>
+                        <div class="text-sm font-semibold text-slate-900">{{ __('app.minutes') }}</div>
+                        <div class="text-xs text-slate-500 mt-1">{{ __('app.records') }}</div>
                     </div>
                 </a>
                 @endif
@@ -935,8 +935,8 @@
                 <a href="{{ route('admin.upcoming-events.index') }}" class="card hover:shadow-lg transition-shadow">
                     <div class="card-body p-4 text-center">
                         <div class="text-3xl mb-2">🎉</div>
-                        <div class="text-sm font-semibold text-slate-900">Events</div>
-                        <div class="text-xs text-slate-500 mt-1">Upcoming</div>
+                        <div class="text-sm font-semibold text-slate-900">{{ __('app.events') }}</div>
+                        <div class="text-xs text-slate-500 mt-1">{{ __('app.upcoming') }}</div>
                     </div>
                 </a>
                 @endif
@@ -945,8 +945,8 @@
                 <a href="{{ route('admin.activity-plans.index') }}" class="card hover:shadow-lg transition-shadow">
                     <div class="card-body p-4 text-center">
                         <div class="text-3xl mb-2">📝</div>
-                        <div class="text-sm font-semibold text-slate-900">Plans</div>
-                        <div class="text-xs text-slate-500 mt-1">Activities</div>
+                        <div class="text-sm font-semibold text-slate-900">{{ __('app.plans') }}</div>
+                        <div class="text-xs text-slate-500 mt-1">{{ __('app.activities') }}</div>
                     </div>
                 </a>
                 @endif
@@ -955,8 +955,8 @@
                 <a href="{{ route('admin.sports-equipment.index') }}" class="card hover:shadow-lg transition-shadow">
                     <div class="card-body p-4 text-center">
                         <div class="text-3xl mb-2">👟</div>
-                        <div class="text-sm font-semibold text-slate-900">Sports Eq</div>
-                        <div class="text-xs text-slate-500 mt-1">Inventory</div>
+                        <div class="text-sm font-semibold text-slate-900">{{ __('app.sports_equipment') }}</div>
+                        <div class="text-xs text-slate-500 mt-1">{{ __('app.inventory') }}</div>
                     </div>
                 </a>
                 @endif
@@ -965,8 +965,8 @@
                 <a href="{{ route('admin.office-equipment.index') }}" class="card hover:shadow-lg transition-shadow">
                     <div class="card-body p-4 text-center">
                         <div class="text-3xl mb-2">💻</div>
-                        <div class="text-sm font-semibold text-slate-900">Office Eq</div>
-                        <div class="text-xs text-slate-500 mt-1">Inventory</div>
+                        <div class="text-sm font-semibold text-slate-900">{{ __('app.office_equipment') }}</div>
+                        <div class="text-xs text-slate-500 mt-1">{{ __('app.inventory') }}</div>
                     </div>
                 </a>
                 @endif
@@ -975,8 +975,8 @@
                 <a href="{{ route('kit-manager.dashboard') }}" class="card hover:shadow-lg transition-shadow">
                     <div class="card-body p-4 text-center">
                         <div class="text-3xl mb-2">👕</div>
-                        <div class="text-sm font-semibold text-slate-900">Kit Mgr</div>
-                        <div class="text-xs text-slate-500 mt-1">Dashboard</div>
+                        <div class="text-sm font-semibold text-slate-900">{{ __('app.kit_manager') }}</div>
+                        <div class="text-xs text-slate-500 mt-1">{{ __('app.dashboard') }}</div>
                     </div>
                 </a>
                 @endif
@@ -985,8 +985,8 @@
                 <a href="{{ route('admin.student-attendance.index') }}" class="card hover:shadow-lg transition-shadow">
                     <div class="card-body p-4 text-center">
                         <div class="text-3xl mb-2">✅</div>
-                        <div class="text-sm font-semibold text-slate-900">Student Att</div>
-                        <div class="text-xs text-slate-500 mt-1">Attendance</div>
+                        <div class="text-sm font-semibold text-slate-900">{{ __('app.student_att') }}</div>
+                        <div class="text-xs text-slate-500 mt-1">{{ __('app.attendance') }}</div>
                     </div>
                 </a>
                 @endif
@@ -995,8 +995,8 @@
                 <a href="{{ route('admin.staff_attendances.index') }}" class="card hover:shadow-lg transition-shadow">
                     <div class="card-body p-4 text-center">
                         <div class="text-3xl mb-2">📋</div>
-                        <div class="text-sm font-semibold text-slate-900">Staff Att</div>
-                        <div class="text-xs text-slate-500 mt-1">Attendance</div>
+                        <div class="text-sm font-semibold text-slate-900">{{ __('app.staff_att') }}</div>
+                        <div class="text-xs text-slate-500 mt-1">{{ __('app.attendance') }}</div>
                     </div>
                 </a>
                 @endif
@@ -1005,8 +1005,8 @@
                 <a href="{{ route('admin.inhousetrainings.index') }}" class="card hover:shadow-lg transition-shadow">
                     <div class="card-body p-4 text-center">
                         <div class="text-3xl mb-2">🏫</div>
-                        <div class="text-sm font-semibold text-slate-900">Inhouse</div>
-                        <div class="text-xs text-slate-500 mt-1">Training</div>
+                        <div class="text-sm font-semibold text-slate-900">{{ __('app.inhouse_training') }}</div>
+                        <div class="text-xs text-slate-500 mt-1">{{ __('app.training') }}</div>
                     </div>
                 </a>
                 @endif
@@ -1016,8 +1016,8 @@
                 <a href="{{ route('accountant.subscriptions.index') }}" class="card hover:shadow-lg transition-shadow">
                     <div class="card-body p-4 text-center">
                         <div class="text-3xl mb-2">💳</div>
-                        <div class="text-sm font-semibold text-slate-900">Subs</div>
-                        <div class="text-xs text-slate-500 mt-1">Subscriptions</div>
+                        <div class="text-sm font-semibold text-slate-900">{{ __('app.subscriptions') }}</div>
+                        <div class="text-xs text-slate-500 mt-1">{{ __('app.subscriptions') }}</div>
                     </div>
                 </a>
                 @endif
@@ -1026,8 +1026,8 @@
                 <a href="{{ route('admin.plans.index') }}" class="card hover:shadow-lg transition-shadow">
                     <div class="card-body p-4 text-center">
                         <div class="text-3xl mb-2">🏷️</div>
-                        <div class="text-sm font-semibold text-slate-900">Plans</div>
-                        <div class="text-xs text-slate-500 mt-1">Pricing</div>
+                        <div class="text-sm font-semibold text-slate-900">{{ __('app.plans') }}</div>
+                        <div class="text-xs text-slate-500 mt-1">{{ __('app.pricing') }}</div>
                     </div>
                 </a>
                 @endif
@@ -1036,8 +1036,8 @@
                 <a href="{{ route('accountant.invoices.index') }}" class="card hover:shadow-lg transition-shadow">
                     <div class="card-body p-4 text-center">
                         <div class="text-3xl mb-2">📄</div>
-                        <div class="text-sm font-semibold text-slate-900">Invoices</div>
-                        <div class="text-xs text-slate-500 mt-1">Billing</div>
+                        <div class="text-sm font-semibold text-slate-900">{{ __('app.invoices') }}</div>
+                        <div class="text-xs text-slate-500 mt-1">{{ __('app.billing') }}</div>
                     </div>
                 </a>
                 @endif
@@ -1046,8 +1046,8 @@
                 <a href="{{ route('accountant.payments.index') }}" class="card hover:shadow-lg transition-shadow">
                     <div class="card-body p-4 text-center">
                         <div class="text-3xl mb-2">💰</div>
-                        <div class="text-sm font-semibold text-slate-900">Payments</div>
-                        <div class="text-xs text-slate-500 mt-1">Transactions</div>
+                        <div class="text-sm font-semibold text-slate-900">{{ __('app.payments') }}</div>
+                        <div class="text-xs text-slate-500 mt-1">{{ __('app.transactions') }}</div>
                     </div>
                 </a>
                 @endif
@@ -1056,8 +1056,8 @@
                 <a href="{{ route('admin.incomes.index') }}" class="card hover:shadow-lg transition-shadow">
                     <div class="card-body p-4 text-center">
                         <div class="text-3xl mb-2">📈</div>
-                        <div class="text-sm font-semibold text-slate-900">Incomes</div>
-                        <div class="text-xs text-slate-500 mt-1">Revenue</div>
+                        <div class="text-sm font-semibold text-slate-900">{{ __('app.incomes') }}</div>
+                        <div class="text-xs text-slate-500 mt-1">{{ __('app.revenue') }}</div>
                     </div>
                 </a>
                 @endif
@@ -1066,8 +1066,8 @@
                 <a href="{{ route('admin.expenses.index') }}" class="card hover:shadow-lg transition-shadow">
                     <div class="card-body p-4 text-center">
                         <div class="text-3xl mb-2">📉</div>
-                        <div class="text-sm font-semibold text-slate-900">Expenses</div>
-                        <div class="text-xs text-slate-500 mt-1">Costs</div>
+                        <div class="text-sm font-semibold text-slate-900">{{ __('app.expenses') }}</div>
+                        <div class="text-xs text-slate-500 mt-1">{{ __('app.costs') }}</div>
                     </div>
                 </a>
                 @endif
@@ -1077,8 +1077,8 @@
                 <a href="{{ route('admin.equipment.index') }}" class="card hover:shadow-lg transition-shadow">
                     <div class="card-body p-4 text-center">
                         <div class="text-3xl mb-2">📦</div>
-                        <div class="text-sm font-semibold text-slate-900">Equipment</div>
-                        <div class="text-xs text-slate-500 mt-1">General</div>
+                        <div class="text-sm font-semibold text-slate-900">{{ __('app.equipment') }}</div>
+                        <div class="text-xs text-slate-500 mt-1">{{ __('app.general') }}</div>
                     </div>
                 </a>
                 @endif
@@ -1087,8 +1087,8 @@
                 <a href="{{ route('admin.branches.index') }}" class="card hover:shadow-lg transition-shadow">
                     <div class="card-body p-4 text-center">
                         <div class="text-3xl mb-2">🏢</div>
-                        <div class="text-sm font-semibold text-slate-900">Branches</div>
-                        <div class="text-xs text-slate-500 mt-1">Locations</div>
+                        <div class="text-sm font-semibold text-slate-900">{{ __('app.branches') }}</div>
+                        <div class="text-xs text-slate-500 mt-1">{{ __('app.locations') }}</div>
                     </div>
                 </a>
                 @endif
@@ -1097,8 +1097,8 @@
                 <a href="{{ route('admin.groups.index') }}" class="card hover:shadow-lg transition-shadow">
                     <div class="card-body p-4 text-center">
                         <div class="text-3xl mb-2">👥</div>
-                        <div class="text-sm font-semibold text-slate-900">Groups</div>
-                        <div class="text-xs text-slate-500 mt-1">Manage</div>
+                        <div class="text-sm font-semibold text-slate-900">{{ __('app.groups') }}</div>
+                        <div class="text-xs text-slate-500 mt-1">{{ __('app.manage') }}</div>
                     </div>
                 </a>
                 @endif
@@ -1107,8 +1107,8 @@
                 <a href="{{ route('admin.teams.index') }}" class="card hover:shadow-lg transition-shadow">
                     <div class="card-body p-4 text-center">
                         <div class="text-3xl mb-2">🏆</div>
-                        <div class="text-sm font-semibold text-slate-900">Teams</div>
-                        <div class="text-xs text-slate-500 mt-1">Squads</div>
+                        <div class="text-sm font-semibold text-slate-900">{{ __('app.teams') }}</div>
+                        <div class="text-xs text-slate-500 mt-1">{{ __('app.squads') }}</div>
                     </div>
                 </a>
                 @endif
@@ -1117,8 +1117,8 @@
                 <a href="{{ route('admin.tasks.index') }}" class="card hover:shadow-lg transition-shadow">
                     <div class="card-body p-4 text-center">
                         <div class="text-3xl mb-2">✅</div>
-                        <div class="text-sm font-semibold text-slate-900">Tasks</div>
-                        <div class="text-xs text-slate-500 mt-1">To-Do</div>
+                        <div class="text-sm font-semibold text-slate-900">{{ __('app.tasks') }}</div>
+                        <div class="text-xs text-slate-500 mt-1">{{ __('app.to_do') }}</div>
                     </div>
                 </a>
                 @endif
@@ -1127,8 +1127,8 @@
                 <a href="{{ route('admin.communications.index') }}" class="card hover:shadow-lg transition-shadow">
                     <div class="card-body p-4 text-center">
                         <div class="text-3xl mb-2">📧</div>
-                        <div class="text-sm font-semibold text-slate-900">Comms</div>
-                        <div class="text-xs text-slate-500 mt-1">Messages</div>
+                        <div class="text-sm font-semibold text-slate-900">{{ __('app.communications') }}</div>
+                        <div class="text-xs text-slate-500 mt-1">{{ __('app.messages') }}</div>
                     </div>
                 </a>
                 @endif
@@ -1138,8 +1138,8 @@
                 <a href="{{ route('reports.index') }}" class="card hover:shadow-lg transition-shadow">
                     <div class="card-body p-4 text-center">
                         <div class="text-3xl mb-2">📊</div>
-                        <div class="text-sm font-semibold text-slate-900">Reports</div>
-                        <div class="text-xs text-slate-500 mt-1">Analytics</div>
+                        <div class="text-sm font-semibold text-slate-900">{{ __('app.reports') }}</div>
+                        <div class="text-xs text-slate-500 mt-1">{{ __('app.analytics') }}</div>
                     </div>
                 </a>
                 @endif
@@ -1148,8 +1148,8 @@
                 <a href="{{ route('admin.imports.index') }}" class="card hover:shadow-lg transition-shadow">
                     <div class="card-body p-4 text-center">
                         <div class="text-3xl mb-2">📥</div>
-                        <div class="text-sm font-semibold text-slate-900">Import</div>
-                        <div class="text-xs text-slate-500 mt-1">Data</div>
+                        <div class="text-sm font-semibold text-slate-900">{{ __('app.import') }}</div>
+                        <div class="text-xs text-slate-500 mt-1">{{ __('app.data') }}</div>
                     </div>
                 </a>
                 @endif
@@ -1160,13 +1160,13 @@
         <!-- Today's Incomes -->
         <div>
             <div class="flex items-center justify-between mb-4">
-                <h2 class="text-xl font-bold text-slate-900 dark:text-white">💰 Today's Incomes</h2>
+                <h2 class="text-xl font-bold text-slate-900 dark:text-white">💰 {{ __('app.todays_incomes') }}</h2>
                 <div class="flex items-center gap-4">
                     <span class="px-3 py-1 bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-400 rounded-full text-sm font-semibold">
-                        Total: {{ number_format(($todayIncomeStats['total'] ?? 0) / 100, 0) }} RWF
+                        {{ __('app.total') }}: {{ number_format(($todayIncomeStats['total'] ?? 0) / 100, 0) }} RWF
                     </span>
                     <span class="px-3 py-1 bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400 rounded-full text-sm font-semibold">
-                        {{ $todayIncomeStats['count'] ?? 0 }} Records
+                        {{ $todayIncomeStats['count'] ?? 0 }} {{ __('app.records') }}
                     </span>
                 </div>
             </div>
@@ -1176,9 +1176,9 @@
                         <svg class="mx-auto h-16 w-16 text-slate-300 dark:text-slate-600 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
                         </svg>
-                        <p class="text-slate-500 dark:text-slate-400 font-medium text-lg">No income recorded for today</p>
+                        <p class="text-slate-500 dark:text-slate-400 font-medium text-lg">{{ __('app.no_income_recorded_today') }}</p>
                         <a href="{{ route('admin.incomes.create') }}" class="inline-block mt-4 px-6 py-2 bg-emerald-600 text-white font-semibold rounded-lg hover:bg-emerald-700 transition">
-                            Record Income
+                            {{ __('app.record_income') }}
                         </a>
                     </div>
                 @else
@@ -1186,13 +1186,13 @@
                         <table class="w-full text-sm text-left">
                             <thead class="bg-slate-50 dark:bg-slate-700">
                                 <tr class="text-slate-600 dark:text-slate-300">
-                                    <th class="px-4 py-3 font-semibold">Time</th>
-                                    <th class="px-4 py-3 font-semibold">Amount</th>
-                                    <th class="px-4 py-3 font-semibold">Category</th>
-                                    <th class="px-4 py-3 font-semibold">Source</th>
-                                    <th class="px-4 py-3 font-semibold">Branch</th>
-                                    <th class="px-4 py-3 font-semibold">Recorded By</th>
-                                    <th class="px-4 py-3 font-semibold">Notes</th>
+                                    <th class="px-4 py-3 font-semibold">{{ __('app.time') }}</th>
+                                    <th class="px-4 py-3 font-semibold">{{ __('app.amount') }}</th>
+                                    <th class="px-4 py-3 font-semibold">{{ __('app.category') }}</th>
+                                    <th class="px-4 py-3 font-semibold">{{ __('app.source') }}</th>
+                                    <th class="px-4 py-3 font-semibold">{{ __('app.branch') }}</th>
+                                    <th class="px-4 py-3 font-semibold">{{ __('app.recorded_by') }}</th>
+                                    <th class="px-4 py-3 font-semibold">{{ __('app.notes') }}</th>
                                 </tr>
                             </thead>
                             <tbody class="divide-y divide-slate-200 dark:divide-slate-700">
@@ -1222,7 +1222,7 @@
                     </div>
                     <div class="px-4 py-3 bg-slate-50 dark:bg-slate-700 border-t border-slate-200 dark:border-slate-600">
                         <a href="{{ route('admin.incomes.index') }}" class="text-indigo-600 dark:text-indigo-400 hover:underline text-sm font-medium">
-                            View All Incomes →
+                            {{ __('app.view_all_incomes') }} →
                         </a>
                     </div>
                 @endif
@@ -1231,24 +1231,24 @@
 
         <!-- Analytics & Insights Section -->
         <div>
-            <h2 class="text-xl font-bold text-slate-900 mb-4">📈 Analytics & Insights</h2>
+            <h2 class="text-xl font-bold text-slate-900 mb-4">📈 {{ __('app.analytics_insights') }}</h2>
 
         <!-- Recent Students -->
         <div class="mt-6">
-            <h3 class="text-lg font-semibold text-slate-900 mb-3">🆕 Recent Students</h3>
+            <h3 class="text-lg font-semibold text-slate-900 mb-3">🆕 {{ __('app.recent_students') }}</h3>
             <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-4">
                 @if(($recentStudents ?? collect())->isEmpty())
-                    <div class="text-center py-6 text-slate-500">No recent students</div>
+                    <div class="text-center py-6 text-slate-500">{{ __('app.no_recent_students') }}</div>
                 @else
                     <div class="overflow-x-auto">
                         <table class="w-full text-sm text-left">
                             <thead>
                                 <tr class="text-slate-600">
-                                    <th class="px-3 py-2">Name</th>
-                                    <th class="px-3 py-2">Group</th>
-                                    <th class="px-3 py-2">Branch</th>
-                                    <th class="px-3 py-2">Enrolled</th>
-                                    <th class="px-3 py-2">Status</th>
+                                    <th class="px-3 py-2">{{ __('app.name') }}</th>
+                                    <th class="px-3 py-2">{{ __('app.group') }}</th>
+                                    <th class="px-3 py-2">{{ __('app.branch') }}</th>
+                                    <th class="px-3 py-2">{{ __('app.enrolled') }}</th>
+                                    <th class="px-3 py-2">{{ __('app.status') }}</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -1271,7 +1271,7 @@
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div class="card">
                     <div class="card-body p-4">
-                        <h3 class="font-semibold text-slate-900 mb-2 text-sm">📊 Weekly Session Trends (Last 8 Weeks)</h3>
+                        <h3 class="font-semibold text-slate-900 mb-2 text-sm">📊 {{ __('app.weekly_session_trends') }}</h3>
                         <div class="h-48">
                             <canvas id="sessionTrendsChart" class="w-full h-full"></canvas>
                         </div>
@@ -1280,7 +1280,7 @@
 
                 <div class="card">
                     <div class="card-body p-4">
-                        <h3 class="font-semibold text-slate-900 mb-2 text-sm">📋 Coach Workload (This Month)</h3>
+                        <h3 class="font-semibold text-slate-900 mb-2 text-sm">📋 {{ __('app.coach_workload') }}</h3>
                         <div class="h-48">
                             <canvas id="coachWorkloadChart" class="w-full h-full"></canvas>
                         </div>
@@ -1289,7 +1289,7 @@
 
                 <div class="card">
                     <div class="card-body p-4">
-                        <h3 class="font-semibold text-slate-900 mb-2 text-sm">💸 Income / Expenses / Netflow (12m)</h3>
+                        <h3 class="font-semibold text-slate-900 mb-2 text-sm">💸 {{ __('app.income_expenses_netflow') }}</h3>
                         <div class="h-48">
                             <canvas id="financeFlowChart" class="w-full h-full"></canvas>
                         </div>
@@ -1300,40 +1300,40 @@
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mt-6">
                 <div class="card">
                     <div class="card-body p-5">
-                        <div class="text-xs text-slate-500 font-semibold">Equipment Utilization</div>
+                        <div class="text-xs text-slate-500 font-semibold">{{ __('app.equipment_utilization') }}</div>
                         <div class="mt-2 text-2xl font-bold text-slate-900">{{ $equipmentUtilization ?? 0 }}%</div>
-                        <div class="text-xs text-slate-400 mt-1">Assets in use</div>
+                        <div class="text-xs text-slate-400 mt-1">{{ __('app.assets_in_use') }}</div>
                     </div>
                 </div>
 
                 <div class="card">
                     <div class="card-body p-5">
-                        <div class="text-xs text-slate-500 font-semibold">Net Profit (Month)</div>
+                        <div class="text-xs text-slate-500 font-semibold">{{ __('app.net_profit_month') }}</div>
                         <div class="mt-2 text-2xl font-bold {{ ($netProfit ?? 0) >= 0 ? 'text-emerald-600' : 'text-rose-600' }}">
                             {{ number_format(($netProfit ?? 0)/100, 2) }} RWF
                         </div>
-                        <div class="text-xs text-slate-400 mt-1">Revenue minus expenses</div>
+                        <div class="text-xs text-slate-400 mt-1">{{ __('app.revenue_minus_expenses') }}</div>
                         <div class="mt-3 text-xs text-slate-500">
-                            <div>Expenses (This Month): <span class="font-medium">{{ number_format(($stats['totalExpensesThisMonth'] ?? 0)/100, 2) }} RWF</span></div>
-                            <div>Total Expenses: <span class="font-medium">{{ number_format(($stats['totalExpenses'] ?? 0)/100, 2) }} RWF</span></div>
-                            <div>Pending Expenses: <span class="font-medium">{{ $stats['pendingExpenses'] ?? 0 }}</span></div>
+                            <div>{{ __('app.expenses_this_month') }}: <span class="font-medium">{{ number_format(($stats['totalExpensesThisMonth'] ?? 0)/100, 2) }} RWF</span></div>
+                            <div>{{ __('app.total_expenses') }}: <span class="font-medium">{{ number_format(($stats['totalExpenses'] ?? 0)/100, 2) }} RWF</span></div>
+                            <div>{{ __('app.pending_expenses') }}: <span class="font-medium">{{ $stats['pendingExpenses'] ?? 0 }}</span></div>
                         </div>
                     </div>
                 </div>
 
                 <div class="card">
                     <div class="card-body p-5">
-                        <div class="text-xs text-slate-500 font-semibold">Groups / Coaches</div>
+                        <div class="text-xs text-slate-500 font-semibold">{{ __('app.groups_coaches') }}</div>
                         <div class="mt-2 text-2xl font-bold text-slate-900">{{ $stats['totalGroups'] ?? 0 }} / {{ $stats['coachUsers'] ?? 0 }}</div>
-                        <div class="text-xs text-slate-400 mt-1">Active groupings</div>
+                        <div class="text-xs text-slate-400 mt-1">{{ __('app.active_groupings') }}</div>
                     </div>
                 </div>
 
                 <div class="card">
                     <div class="card-body p-5">
-                        <div class="text-xs text-slate-500 font-semibold">Sessions This Week</div>
+                        <div class="text-xs text-slate-500 font-semibold">{{ __('app.sessions_this_week') }}</div>
                         <div class="mt-2 text-2xl font-bold text-slate-900">{{ $stats['sessionsThisWeek'] ?? 0 }}</div>
-                        <div class="text-xs text-slate-400 mt-1">Scheduled</div>
+                        <div class="text-xs text-slate-400 mt-1">{{ __('app.scheduled') }}</div>
                     </div>
                 </div>
             </div>
@@ -1342,23 +1342,23 @@
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-6">
                 <div class="card">
                     <div class="card-body p-6">
-                        <h3 class="font-bold text-indigo-900 mb-4">⚙️ System Health</h3>
+                        <h3 class="font-bold text-indigo-900 mb-4">⚙️ {{ __('app.system_health') }}</h3>
                         <div class="space-y-3">
                             <div class="flex items-center gap-3 p-3 bg-emerald-50 border border-emerald-300 rounded-lg">
                                 <span class="text-xl">✅</span>
-                                <span class="text-sm font-semibold text-emerald-900">Database: Optimal</span>
+                                <span class="text-sm font-semibold text-emerald-900">{{ __('app.database_optimal') }}</span>
                             </div>
                             <div class="flex items-center gap-3 p-3 bg-emerald-50 border border-emerald-300 rounded-lg">
                                 <span class="text-xl">✅</span>
-                                <span class="text-sm font-semibold text-emerald-900">API Endpoints: Responsive</span>
+                                <span class="text-sm font-semibold text-emerald-900">{{ __('app.api_endpoints_responsive') }}</span>
                             </div>
                             <div class="flex items-center gap-3 p-3 bg-emerald-50 border border-emerald-300 rounded-lg">
                                 <span class="text-xl">✅</span>
-                                <span class="text-sm font-semibold text-emerald-900">File Storage: Adequate</span>
+                                <span class="text-sm font-semibold text-emerald-900">{{ __('app.file_storage_adequate') }}</span>
                             </div>
                             <div class="flex items-center gap-3 p-3 bg-amber-50 border border-amber-300 rounded-lg">
                                 <span class="text-xl">⚠️</span>
-                                <span class="text-sm font-semibold text-amber-900">Backup: Last 2 hours ago</span>
+                                <span class="text-sm font-semibold text-amber-900">{{ __('app.backup_last_2_hours') }}</span>
                             </div>
                         </div>
                     </div>
@@ -1366,13 +1366,13 @@
 
                 <div class="md:col-span-2 card">
                     <div class="card-body p-6">
-                        <h3 class="font-bold text-slate-900 mb-4">📋 Performance Metrics</h3>
+                        <h3 class="font-bold text-slate-900 mb-4">📋 {{ __('app.performance_metrics') }}</h3>
                         @php
                             $metricsBars = [
-                                ['Student Enrollment Rate', 'bg-gradient-to-r from-blue-500 to-blue-600', (isset($studentEnrollmentRate) ? $studentEnrollmentRate : 75) . '%'],
-                                ['Session Attendance', 'bg-gradient-to-r from-emerald-500 to-emerald-600', (isset($sessionAttendanceRate) ? $sessionAttendanceRate : 83) . '%'],
-                                ['Revenue Target', 'bg-gradient-to-r from-amber-500 to-amber-600', (isset($revenueProgress) ? $revenueProgress : 66) . '%'],
-                                ['Equipment Status', 'bg-gradient-to-r from-green-500 to-green-600', (isset($equipmentUtilPct) ? $equipmentUtilPct : 80) . '%'],
+                                [__('app.student_enrollment_rate'), 'bg-gradient-to-r from-blue-500 to-blue-600', (isset($studentEnrollmentRate) ? $studentEnrollmentRate : 75) . '%'],
+                                [__('app.session_attendance'), 'bg-gradient-to-r from-emerald-500 to-emerald-600', (isset($sessionAttendanceRate) ? $sessionAttendanceRate : 83) . '%'],
+                                [__('app.revenue_target'), 'bg-gradient-to-r from-amber-500 to-amber-600', (isset($revenueProgress) ? $revenueProgress : 66) . '%'],
+                                [__('app.equipment_status'), 'bg-gradient-to-r from-green-500 to-green-600', (isset($equipmentUtilPct) ? $equipmentUtilPct : 80) . '%'],
                             ];
                         @endphp
                         <div class="space-y-4">
