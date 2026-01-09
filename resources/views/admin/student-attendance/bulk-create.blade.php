@@ -8,7 +8,7 @@
         <div class="card mb-6">
             <div class="card-body">
                 <h1 class="text-2xl font-bold text-slate-900 dark:text-white mb-6">📝 Bulk Attendance Entry</h1>
-                <p class="text-slate-600 dark:text-slate-400 mb-6">Select a training session, then mark attendance for all students in that session.</p>
+                <p class="text-slate-600 dark:text-slate-400 mb-6">Select a training session, then mark attendance for all players in that session.</p>
 
                 {{-- Session Selection --}}
                 <div class="mb-8">
@@ -51,7 +51,7 @@
                 <div class="card mb-6">
                     <div class="card-body">
                         <div class="flex items-center justify-between mb-4">
-                            <h2 class="text-xl font-bold text-slate-900 dark:text-white">Students Attendance</h2>
+                            <h2 class="text-xl font-bold text-slate-900 dark:text-white">Players Attendance</h2>
                             <div class="flex gap-2">
                                 <button type="button" onclick="markAllPresentAndSubmit()" class="px-3 py-1 bg-green-600 text-white text-sm rounded hover:bg-green-700 transition">
                                     Mark All Present & Save
@@ -61,7 +61,7 @@
                         </div>
 
                         <div id="studentsList" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                            <!-- Students will be loaded here -->
+                            <!-- Players will be loaded here -->
                         </div>
                     </div>
                 </div>

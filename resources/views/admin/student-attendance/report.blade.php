@@ -13,7 +13,7 @@
         </div>
 
         <div class="relative z-10 container mx-auto px-6 py-8">
-            <h1 class="text-3xl md:text-4xl font-bold text-white mb-2">📊 Student Attendance Report</h1>
+            <h1 class="text-3xl md:text-4xl font-bold text-white mb-2">📊 Player Attendance Report</h1>
             <p class="text-blue-100">Comprehensive analytics and statistics</p>
         </div>
     </div>

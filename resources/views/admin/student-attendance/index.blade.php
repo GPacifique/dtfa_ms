@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title', 'Student Attendance Records')
+@section('title', 'Player Attendance Records')
 
 @section('content')
 <div class="min-h-screen bg-gradient-to-br from-violet-50 via-pink-50 to-cyan-50 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900">
@@ -11,8 +11,8 @@
         <div class="absolute -bottom-24 -left-24 w-96 h-96 bg-gradient-to-br from-cyan-400/30 to-blue-500/30 rounded-full blur-3xl animate-pulse" style="animation-delay: 1s"></div>
 
         <div class="relative z-10 container mx-auto px-6 py-8">
-            <h1 class="text-3xl md:text-4xl font-bold text-white mb-2 drop-shadow-lg">📋 Student Attendance Records</h1>
-            <p class="text-white/90 text-lg">Comprehensive student attendance tracking and management</p>
+            <h1 class="text-3xl md:text-4xl font-bold text-white mb-2 drop-shadow-lg">📋 Player Attendance Records</h1>
+            <p class="text-white/90 text-lg">Comprehensive player attendance tracking and management</p>
         </div>
     </div>
 
@@ -92,9 +92,9 @@
                 <form method="GET" action="{{ route('admin.student-attendance.index') }}" class="space-y-4">
                     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
                         <div>
-                            <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Student</label>
+                            <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Player</label>
                             <select name="student_id" class="w-full border border-slate-300 dark:border-neutral-600 rounded-lg px-3 py-2 dark:bg-neutral-800 dark:text-white">
-                                <option value="">All Students</option>
+                                <option value="">All Players</option>
                                 @foreach($students as $student)
                                     <option value="{{ $student->id }}" @selected(request('student_id') == $student->id)>
                                         {{ $student->first_name }} {{ $student->second_name }} {{ $student->last_name }}
@@ -168,7 +168,7 @@
                         <thead class="text-xs text-slate-700 dark:text-slate-300 uppercase bg-slate-50 dark:bg-neutral-800">
                             <tr>
                                 <th class="px-4 py-3">ID</th>
-                                <th class="px-4 py-3">Student</th>
+                                <th class="px-4 py-3">Player</th>
                                 <th class="px-4 py-3">Session Date</th>
                                 <th class="px-4 py-3">Session Time</th>
                                 <th class="px-4 py-3">Branch/Group</th>

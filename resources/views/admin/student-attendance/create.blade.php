@@ -7,16 +7,16 @@
 
         <div class="card">
             <div class="card-body">
-                <h1 class="text-2xl font-bold text-slate-900 dark:text-white mb-6">➕ Add Student Attendance Record</h1>
+                <h1 class="text-2xl font-bold text-slate-900 dark:text-white mb-6">➕ Add Player Attendance Record</h1>
 
                 <form method="POST" action="{{ route('admin.student-attendance.store') }}" class="space-y-6">
                     @csrf
 
-                    {{-- Student --}}
+                    {{-- Player --}}
                     <div>
-                        <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">Student *</label>
+                        <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">Player *</label>
                         <select name="student_id" required class="w-full border border-slate-300 dark:border-neutral-600 rounded-lg px-3 py-2 dark:bg-neutral-800 dark:text-white @error('student_id') border-red-500 @enderror">
-                            <option value="">Select Student</option>
+                            <option value="">Select Player</option>
                             @foreach($students as $student)
                                 <option value="{{ $student->id }}" @selected(old('student_id') == $student->id)>
                                     {{ $student->first_name }} {{ $student->second_name }} {{ $student->last_name }}

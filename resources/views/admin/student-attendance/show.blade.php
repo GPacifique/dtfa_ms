@@ -15,9 +15,9 @@
                 </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    {{-- Student Info --}}
+                    {{-- Player Info --}}
                     <div class="bg-slate-50 dark:bg-neutral-800 rounded-lg p-6">
-                        <h2 class="text-lg font-bold text-slate-900 dark:text-white mb-4">🎓 Student Information</h2>
+                        <h2 class="text-lg font-bold text-slate-900 dark:text-white mb-4">⚽ Player Information</h2>
                         <div class="space-y-3">
                             <div>
                                 <p class="text-xs text-slate-600 dark:text-slate-400 uppercase font-semibold">Name</p>
