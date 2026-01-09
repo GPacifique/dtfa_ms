@@ -239,7 +239,7 @@ class RolePermissionSeeder extends Seeder
         $superAdminEmail = 'superadmin@example.com';
         $superAdminUser = User::firstOrCreate(
             ['email' => $superAdminEmail],
-            ['name' => 'Super Admin', 'password' => bcrypt('password')]
+            ['name' => 'Super Admin', 'password' => bcrypt('password'), 'email_verified_at' => now()]
         );
         $superAdminUser->syncRoles(['super-admin']);
 
@@ -247,7 +247,7 @@ class RolePermissionSeeder extends Seeder
         $adminEmail = 'admin@example.com';
         $adminUser = User::firstOrCreate(
             ['email' => $adminEmail],
-            ['name' => 'Admin User', 'password' => bcrypt('password')]
+            ['name' => 'Admin User', 'password' => bcrypt('password'), 'email_verified_at' => now()]
         );
         $adminUser->syncRoles(['admin']);
 
@@ -255,7 +255,7 @@ class RolePermissionSeeder extends Seeder
         $ceoEmail = 'ceo@example.com';
         $ceoUser = User::firstOrCreate(
             ['email' => $ceoEmail],
-            ['name' => 'CEO', 'password' => bcrypt('password')]
+            ['name' => 'CEO', 'password' => bcrypt('password'), 'email_verified_at' => now()]
         );
         $ceoUser->syncRoles(['CEO']);
 
@@ -263,7 +263,7 @@ class RolePermissionSeeder extends Seeder
         $techEmail = 'techdir@example.com';
         $techUser = User::firstOrCreate(
             ['email' => $techEmail],
-            ['name' => 'Technical Director', 'password' => bcrypt('password')]
+            ['name' => 'Technical Director', 'password' => bcrypt('password'), 'email_verified_at' => now()]
         );
         $techUser->syncRoles(['Technical Director']);
 

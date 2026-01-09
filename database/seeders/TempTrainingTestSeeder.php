@@ -32,6 +32,7 @@ class TempTrainingTestSeeder extends Seeder
             'name' => 'Test Coach',
             'email' => $email,
             'password' => bcrypt('password'),
+            'email_verified_at' => now(),
             'branch_id' => $branch->id,
             'group_id' => $group->id,
         ]);

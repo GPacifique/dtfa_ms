@@ -28,7 +28,7 @@ Route::get('/storage/{path}', [\App\Http\Controllers\StorageProxyController::cla
     ->where('path', '.*')
     ->name('storage.proxy');
 
-Route::middleware(['auth'])->group(function () {
+Route::middleware(['auth', 'verified'])->group(function () {
     // Student Attendance (admin)
 
     Route::post('/students-modern/{student}/attendance', [CheckinController::class, 'store'])->name('students-modern.attendance');
@@ -43,7 +43,7 @@ Route::middleware(['auth'])->group(function () {
 
 
 // Admin Student Attendance resource routes - accessible to all authenticated users
-Route::middleware(['auth'])
+Route::middleware(['auth', 'verified'])
     ->prefix('admin')
     ->name('admin.')
     ->group(function () {
@@ -56,42 +56,42 @@ Route::middleware(['auth'])
 
 // Coach check-in route for students (fixes missing route error)
 
-Route::middleware(['auth'])->group(function () {
+Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/coach/checkin/{student}', [CheckinController::class, 'index'])->name('coach.checkin.index');
 });
-Route::prefix('admin')->name('admin.')->middleware(['auth', 'role:super-admin'])->group(function () {
+Route::prefix('admin')->name('admin.')->middleware(['auth', 'verified', 'role:super-admin'])->group(function () {
     Route::resource('users', App\Http\Controllers\Admin\UsersController::class);
     Route::post('users/{id}/restore', [App\Http\Controllers\Admin\UsersController::class, 'restore'])
         ->name('users.restore');
     Route::delete('users/{id}/force-delete', [App\Http\Controllers\Admin\UsersController::class, 'forceDelete'])
         ->name('users.forceDelete');
 });
-Route::middleware(['auth'])
+Route::middleware(['auth', 'verified'])
     ->prefix('admin')
     ->name('admin.')
     ->group(function () {
         Route::resource('inhousetrainings', App\Http\Controllers\Admin\InhouseTrainingController::class);
     });
 
-Route::middleware(['auth', 'role:admin|super-admin|accountant'])
+Route::middleware(['auth', 'verified', 'role:admin|super-admin|accountant'])
     ->prefix('admin')
     ->name('admin.')
     ->group(function () {
         Route::resource('tasks', App\Http\Controllers\Admin\TaskController::class);
     });
-    Route::middleware(['auth', 'role:admin|super-admin|accountant'])
+    Route::middleware(['auth', 'verified', 'role:admin|super-admin|accountant'])
     ->prefix('admin')
     ->name('admin.')
     ->group(function () {
         Route::resource('teams', App\Http\Controllers\Admin\TeamController::class);
     });
-    Route::middleware(['auth', 'role:admin|super-admin|accountant'])
+    Route::middleware(['auth', 'verified', 'role:admin|super-admin|accountant'])
     ->prefix('admin')
     ->name('admin.')
     ->group(function () {
         Route::resource('groups', App\Http\Controllers\Admin\GroupsController::class);
     });
-    Route::middleware(['auth', 'role:admin|super-admin|accountant'])
+    Route::middleware(['auth', 'verified', 'role:admin|super-admin|accountant'])
     ->prefix('admin')
     ->name('admin.')
     ->group(function () {
@@ -104,7 +104,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
 //public routes
 
-Route::prefix('admin')->name('admin.')->middleware(['auth'])->group(function () {
+Route::prefix('admin')->name('admin.')->middleware(['auth', 'verified'])->group(function () {
     Route::resource('capacity_buildings', \App\Http\Controllers\Admin\CapacityBuildingController::class);
 });
 
@@ -120,25 +120,25 @@ Route::get('reports-export/pdf', [ReportController::class, 'exportPdf'])->name('
 Route::get('reports-export/pdf/me', [ReportController::class, 'exportPdfForMe'])->middleware('auth')->name('reports.export.pdf.me');
 
 // Student self check-in (parents can check in their children)
-Route::middleware(['auth'])->group(function () {
+Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('student/checkin', [CheckinController::class, 'index'])->name('student.checkin.index');
     Route::post('student/checkin', [CheckinController::class, 'store'])->name('student.checkin.store');
 });
 
 // Student profile routes (update own profile and photo)
-Route::middleware(['auth'])->group(function () {
+Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('student/{student}/profile', [\App\Http\Controllers\Student\ProfileController::class, 'show'])->name('student.profile.show');
     Route::put('student/{student}/profile', [\App\Http\Controllers\Student\ProfileController::class, 'update'])->name('student.profile.update');
     Route::delete('student/{student}/profile/photo', [\App\Http\Controllers\Student\ProfileController::class, 'deletePhoto'])->name('student.profile.deletePhoto');
 });
 
 // Kit Manager Dashboard (accessible to all authenticated users)
-Route::middleware(['auth'])->group(function () {
+Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('kit-manager/dashboard', [\App\Http\Controllers\KitManagerController::class, 'dashboard'])->name('kit-manager.dashboard');
 });
 
 // User dashboard route for all authenticated users
-Route::middleware(['auth'])->prefix('user')->group(function () {
+Route::middleware(['auth', 'verified'])->prefix('user')->group(function () {
     Route::get('/dashboard', [\App\Http\Controllers\UserController::class, 'index'])->name('user.dashboard');
 
     // User profile routes (update own profile and picture)
@@ -156,7 +156,7 @@ Route::get('/', function () {
 // SEO: Dynamic sitemap
 Route::get('/sitemap.xml', [\App\Http\Controllers\SitemapController::class, 'index'])->name('sitemap');
 
-Route::middleware(['auth'])->group(function () {
+Route::middleware(['auth', 'verified'])->group(function () {
 
     // Guest dashboard (now protected)
     Route::get('/guest', [GuestController::class, 'index'])->name('guest.dashboard');
@@ -209,7 +209,7 @@ Route::get('/dashboard', function () {
     return redirect()->route('user.dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::middleware('auth')->group(function () {
+Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
@@ -218,12 +218,12 @@ Route::middleware('auth')->group(function () {
 // Example protected route - requires auth and admin role
 Route::get('/admin-only', function () {
     return 'Hello admin — you have access.';
-})->middleware(['auth', 'role:admin|coach']);
+})->middleware(['auth', 'verified', 'role:admin|coach']);
 
 // Legacy admin student public endpoints removed in favor of modern CRUD
 
 // Admin and User dashboards
-Route::middleware(['auth', 'role:admin|super-admin|accountant|coach'])->prefix('admin')->group(function () {
+Route::middleware(['auth', 'verified', 'role:admin|super-admin|accountant|coach'])->prefix('admin')->group(function () {
     Route::get('/dashboard', [\App\Http\Controllers\AdminController::class, 'index'])->name('admin.dashboard');
 
     // Note: User CRUD routes are defined at the top of this file using Route::resource('users', ...)
@@ -308,7 +308,7 @@ Route::middleware(['auth', 'role:admin|super-admin|accountant|coach'])->prefix('
 });
 
 // Expenses: allow accountant role alongside admin & super-admin
-Route::middleware(['auth', 'role:admin|super-admin|accountant'])->prefix('admin')->group(function () {
+Route::middleware(['auth', 'verified', 'role:admin|super-admin|accountant'])->prefix('admin')->group(function () {
     Route::get('/expenses', [\App\Http\Controllers\Admin\ExpensesController::class, 'index'])->name('admin.expenses.index');
     Route::get('/expenses/create', [\App\Http\Controllers\Admin\ExpensesController::class, 'create'])->name('admin.expenses.create');
     Route::post('/expenses', [\App\Http\Controllers\Admin\ExpensesController::class, 'store'])->name('admin.expenses.store');
@@ -320,7 +320,7 @@ Route::middleware(['auth', 'role:admin|super-admin|accountant'])->prefix('admin'
     Route::delete('/expenses/{expense}', [\App\Http\Controllers\Admin\ExpensesController::class, 'destroy'])->name('admin.expenses.destroy');
 });
 
-Route::middleware(['auth', 'role:admin|super-admin|coach|accountant'])->prefix('admin')->group(function () {
+Route::middleware(['auth', 'verified', 'role:admin|super-admin|coach|accountant'])->prefix('admin')->group(function () {
     // Equipment Management (coaches can view/manage equipment)
     // (moved below) Expenses routes now allow accountant role
 
@@ -366,14 +366,14 @@ Route::middleware(['auth', 'role:admin|super-admin|coach|accountant'])->prefix('
 // Legacy students CRUD removed; using students-modern resource instead
 
 // Modern Student CRUD (scaffolded with Tailwind + components)
-Route::middleware(['auth'])->group(function () {
+Route::middleware(['auth', 'verified'])->group(function () {
     Route::resource('students-modern', \App\Http\Controllers\StudentController::class);
     // Re-send registration confirmation email
     Route::post('students-modern/{student}/send-confirmation', [\App\Http\Controllers\Email\StudentRegistrationController::class, 'send'])->name('students-modern.send-confirmation');
 });
 
 // Backward-compatible aliases for legacy admin student URLs
-Route::middleware(['auth', 'role:admin|super-admin|coach|accountant'])
+Route::middleware(['auth', 'verified', 'role:admin|super-admin|coach|accountant'])
     ->prefix('admin')
     ->group(function () {
         // Index and create
@@ -408,7 +408,7 @@ Route::middleware(['auth', 'role:admin|super-admin|coach|accountant'])
     });
 
 // Role-based dashboards
-Route::middleware(['auth', 'role:coach|admin|super-admin'])->prefix('coach')->group(function () {
+Route::middleware(['auth', 'verified', 'role:coach|admin|super-admin'])->prefix('coach')->group(function () {
     Route::get('/dashboard', [\App\Http\Controllers\CoachController::class, 'index'])->name('coach.dashboard');
     // Attendance management
     Route::get('/attendance', [\App\Http\Controllers\Coach\AttendanceController::class, 'index'])->name('coach.attendance.index');
@@ -428,7 +428,7 @@ Route::middleware(['auth', 'role:coach|admin|super-admin'])->prefix('coach')->gr
     Route::get('/equipment/{equipment}', [\App\Http\Controllers\Admin\EquipmentController::class, 'show'])->name('coach.equipment.show');
 });
 
-Route::middleware(['auth', 'role:accountant|admin|super-admin'])->prefix('accountant')->group(function () {
+Route::middleware(['auth', 'verified', 'role:accountant|admin|super-admin'])->prefix('accountant')->group(function () {
     Route::get('/dashboard', [\App\Http\Controllers\AccountantController::class, 'index'])->name('accountant.dashboard');
     // Dashboard metrics endpoint for charts
     Route::get('/dashboard/metrics', [\App\Http\Controllers\AccountantController::class, 'metrics'])->name('accountant.dashboard.metrics');
@@ -462,7 +462,7 @@ Route::middleware(['auth', 'role:accountant|admin|super-admin'])->prefix('accoun
     Route::get('/equipment/{equipment}', [\App\Http\Controllers\Admin\EquipmentController::class, 'show'])->name('accountant.equipment.show');
 });
 
-Route::middleware(['auth', 'role:parent|admin|super-admin|accountant'])->prefix('parent')->group(function () {
+Route::middleware(['auth', 'verified', 'role:parent|admin|super-admin|accountant'])->prefix('parent')->group(function () {
     Route::get('/dashboard', [\App\Http\Controllers\ParentController::class, 'index'])->name('parent.dashboard');
     Route::get('/child/{student}/payments', [\App\Http\Controllers\ParentController::class, 'childPayments'])->name('parent.child-payments');
 });
@@ -477,17 +477,17 @@ require __DIR__.'/auth.php';
 require __DIR__.'/staff.php';
 
 // CEO dashboard
-Route::middleware(['auth', 'role:CEO|admin|super-admin|accountant'])->prefix('ceo')->group(function () {
+Route::middleware(['auth', 'verified', 'role:CEO|admin|super-admin|accountant'])->prefix('ceo')->group(function () {
     Route::get('/dashboard', [\App\Http\Controllers\CeoController::class, 'index'])->name('ceo.dashboard');
 });
 
 // Communications admin CRUD
-Route::middleware(['auth', 'role:admin|super-admin|CEO|Technical Director|accountant'])->prefix('admin')->group(function () {
+Route::middleware(['auth', 'verified', 'role:admin|super-admin|CEO|Technical Director|accountant'])->prefix('admin')->group(function () {
     Route::resource('communications', \App\Http\Controllers\Admin\CommunicationController::class, ['as' => 'admin'])->only(['index','create','store','show','destroy']);
 });
 
 // Capacity Building admin CRUD
-Route::middleware(['auth', 'role:admin|super-admin|accountant'])->prefix('admin')->group(function () {
+Route::middleware(['auth', 'verified', 'role:admin|super-admin|accountant'])->prefix('admin')->group(function () {
     Route::resource('capacity-buildings', \App\Http\Controllers\Admin\CapacityBuildingController::class, ['as' => 'admin']);
     // Stats
     Route::get('/capacity-buildings/stats', [\App\Http\Controllers\Admin\CapacityBuildingController::class, 'stats'])->name('admin.capacity-buildings.stats');
@@ -495,19 +495,19 @@ Route::middleware(['auth', 'role:admin|super-admin|accountant'])->prefix('admin'
 });
 
 // Training Session Records admin CRUD - allow coaches and accountants
-Route::middleware(['auth', 'role:admin|super-admin|coach|accountant'])->prefix('admin')->group(function () {
+Route::middleware(['auth', 'verified', 'role:admin|super-admin|coach|accountant'])->prefix('admin')->group(function () {
     Route::get('training_session_records/{training_session_record}/prepare', [\App\Http\Controllers\Admin\TrainingSessionRecordController::class, 'prepare'])->name('admin.training_session_records.prepare');
     Route::get('training_session_records/{training_session_record}/report', [\App\Http\Controllers\Admin\TrainingSessionRecordController::class, 'report'])->name('admin.training_session_records.report');
     Route::resource('training_session_records', \App\Http\Controllers\Admin\TrainingSessionRecordController::class, ['as' => 'admin']);
 });
 
 // Staff Attendance admin CRUD - allow coaches and accountants
-Route::middleware(['auth', 'role:admin|super-admin|coach|accountant'])->prefix('admin')->group(function () {
+Route::middleware(['auth', 'verified', 'role:admin|super-admin|coach|accountant'])->prefix('admin')->group(function () {
     Route::resource('staff_attendances', \App\Http\Controllers\Admin\StaffAttendanceController::class, ['as' => 'admin']);
 });
 
 // Students management: fully accessible to all authenticated users
-Route::middleware(['auth'])->prefix('admin')->group(function () {
+Route::middleware(['auth', 'verified'])->prefix('admin')->group(function () {
     Route::get('/students', function () { return redirect()->route('students-modern.index'); })->name('admin.students.index');
     Route::get('/students/{student}', function ($student) { return redirect()->route('students-modern.show', $student); })->name('admin.students.show');
     Route::get('/students/{student}/attendance', function ($student) { return redirect()->route('students-modern.show', $student); })->name('admin.students.attendance');
@@ -523,7 +523,7 @@ Route::middleware(['auth'])->prefix('admin')->group(function () {
 
 // Local-only helper to grant admin role to current user for development
 if (app()->environment('local')) {
-    Route::middleware(['auth'])->get('/dev/make-me-admin', function () {
+    Route::middleware(['auth', 'verified'])->get('/dev/make-me-admin', function () {
         $user = \Illuminate\Support\Facades\Auth::user();
         if (!$user) abort(403);
         if (method_exists($user, 'assignRole')) {

@@ -8,7 +8,7 @@ use App\Http\Controllers\Staff\StaffAttendanceController;
 use App\Http\Controllers\Staff\CommunicationController;
 use App\Http\Controllers\Staff\StaffTaskController;
 
-Route::middleware(['web','auth'])->group(function () {
+Route::middleware(['web','auth','verified'])->group(function () {
     Route::resource('staff', StaffController::class);
     Route::resource('capacity_buildings', CapacityBuildingController::class)->names('capacity_buildings');
     Route::resource('training_sessions', TrainingSessionRecordController::class)->names('training_sessions');

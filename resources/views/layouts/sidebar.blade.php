@@ -27,20 +27,22 @@
            class="fixed inset-y-0 left-0 h-screen bg-gradient-to-b from-slate-900 via-slate-800 to-slate-900 text-white transition-all duration-300 ease-in-out z-40 shadow-2xl border-r border-slate-700 overflow-y-auto"
            tabindex="0">
 
-        <!-- Edge Toggle Button (visible on desktop) -->
+        <!-- Floating Toggle Button (visible on desktop) -->
         <button
             @click="$store.layout.sidebarOpen = !$store.layout.sidebarOpen"
-            class="hidden lg:flex absolute -right-3 top-20 z-50 w-6 h-6 bg-slate-700 hover:bg-indigo-600 rounded-full items-center justify-center shadow-lg border-2 border-slate-600 hover:border-indigo-500 transition-all duration-200 group"
+            class="hidden lg:flex fixed z-[60] w-10 h-10 bg-gradient-to-br from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 rounded-full items-center justify-center shadow-xl hover:shadow-2xl border-2 border-white/20 transition-all duration-300 group hover:scale-110"
+            :class="$store.layout.sidebarOpen ? 'left-[15rem]' : 'left-[4rem]'"
+            style="top: 5rem;"
             :title="$store.layout.sidebarOpen ? 'Collapse sidebar' : 'Expand sidebar'"
         >
             <svg
-                class="w-3 h-3 text-slate-300 group-hover:text-white transition-transform duration-200"
+                class="w-5 h-5 text-white transition-transform duration-300"
                 :class="$store.layout.sidebarOpen ? '' : 'rotate-180'"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
             >
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 19l-7-7 7-7"/>
             </svg>
         </button>
 
@@ -60,7 +62,9 @@
 
 
         <!-- Navigation -->
-        <nav class="flex-1 overflow-y-auto px-3 py-4 space-y-1 custom-scrollbar" style="max-height: calc(100vh - 160px);">
+        <nav class="flex-1 overflow-y-auto px-3 py-4 space-y-1 custom-scrollbar"
+             style="max-height: calc(100vh - 160px);"
+             @click="if ($event.target.closest('a')) { $store.layout.mobileOpen = false; }">
 
 
             @php
