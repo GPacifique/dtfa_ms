@@ -83,6 +83,12 @@ return [
     // Student Related
     'student_name' => 'Izina ry\'umukinnyi',
     'student_id' => 'Nimero y\'umukinnyi',
+    'player' => 'Umukinnyi',
+    'select_from_players' => 'Hitamo mu bakinnyi banditse',
+    'select_player_optional' => 'Hitamo umukinnyi (si ngombwa)',
+    'select_player_hint' => 'Hitamo umukinnyi ahari kugira ngo amakuru ye yuzuzwe mu buryo bwikora, cyangwa wandike amakuru hepfo.',
+    'jersey_number' => 'Nimero y\'umwenda',
+    'team' => 'Ikipe',
     'guardian_name' => 'Izina ry\'umubyeyi',
     'guardian_phone' => 'Telefoni y\'umubyeyi',
     'school' => 'Ishuri',

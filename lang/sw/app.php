@@ -83,6 +83,12 @@ return [
     // Student Related
     'student_name' => 'Jina la mchezaji',
     'student_id' => 'Nambari ya mchezaji',
+    'player' => 'Mchezaji',
+    'select_from_players' => 'Chagua kutoka kwa wachezaji waliosajiliwa',
+    'select_player_optional' => 'Chagua mchezaji (si lazima)',
+    'select_player_hint' => 'Chagua mchezaji aliyepo kujaza maelezo yake kiotomatiki, au ingiza mwenyewe hapa chini.',
+    'jersey_number' => 'Nambari ya jezi',
+    'team' => 'Timu',
     'guardian_name' => 'Jina la mlezi',
     'guardian_phone' => 'Simu ya mlezi',
     'school' => 'Shule',

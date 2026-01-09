@@ -83,6 +83,12 @@ return [
     // Student Related
     'student_name' => 'Nom du joueur',
     'student_id' => 'ID joueur',
+    'player' => 'Joueur',
+    'select_from_players' => 'Sélectionner parmi les joueurs inscrits',
+    'select_player_optional' => 'Sélectionner un joueur (optionnel)',
+    'select_player_hint' => 'Sélectionnez un joueur existant pour remplir automatiquement ses détails, ou entrez manuellement ci-dessous.',
+    'jersey_number' => 'Numéro de maillot',
+    'team' => 'Équipe',
     'guardian_name' => 'Nom du tuteur',
     'guardian_phone' => 'Téléphone du tuteur',
     'school' => 'École',

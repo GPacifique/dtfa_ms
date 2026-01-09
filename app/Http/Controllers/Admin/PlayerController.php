@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Player;
 use App\Models\Team;
+use App\Models\Student;
 use Illuminate\Http\Request;
 
 class PlayerController extends Controller
@@ -18,18 +19,29 @@ class PlayerController extends Controller
     public function create()
     {
         $teams = Team::orderBy('name')->get();
-        return view('admin.players.create', compact('teams'));
+        $students = Student::orderBy('first_name')->get();
+        return view('admin.players.create', compact('teams', 'students'));
     }
 
     public function store(Request $request)
     {
         $data = $request->validate([
+            'student_id' => 'nullable|exists:students,id',
             'first_name' => 'required|string|max:255',
             'last_name' => 'nullable|string|max:255',
             'team_id' => 'nullable|exists:teams,id',
             'position' => 'nullable|string|max:100',
             'number' => 'nullable|integer',
         ]);
+
+        // If student selected, auto-fill from student data
+        if (!empty($data['student_id'])) {
+            $student = Student::find($data['student_id']);
+            if ($student) {
+                $data['first_name'] = $student->first_name;
+                $data['last_name'] = $student->second_name;
+            }
+        }
 
         Player::create($data);
         return redirect()->route('admin.players.index')->with('success', 'Player added.');

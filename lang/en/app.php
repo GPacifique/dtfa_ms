@@ -83,6 +83,12 @@ return [
     // Player Related
     'student_name' => 'Player Name',
     'student_id' => 'Player ID',
+    'player' => 'Player',
+    'select_from_players' => 'Select from Registered Players',
+    'select_player_optional' => 'Select player (optional)',
+    'select_player_hint' => 'Select an existing player to auto-fill their details, or enter manually below.',
+    'jersey_number' => 'Jersey Number',
+    'team' => 'Team',
     'guardian_name' => 'Guardian Name',
     'guardian_phone' => 'Guardian Phone',
     'school' => 'School',
