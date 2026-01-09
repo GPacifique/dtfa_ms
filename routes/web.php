@@ -153,6 +153,9 @@ Route::get('/', function () {
     return view('welcome');
 })->name('welcome');
 
+// Language Switcher
+Route::get('language/{locale}', [\App\Http\Controllers\LanguageController::class, 'switch'])->name('language.switch');
+
 // SEO: Dynamic sitemap
 Route::get('/sitemap.xml', [\App\Http\Controllers\SitemapController::class, 'index'])->name('sitemap');
 

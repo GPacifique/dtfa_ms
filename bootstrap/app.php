@@ -7,6 +7,7 @@ use Spatie\Permission\Middleware\RoleMiddleware;
 use Spatie\Permission\Middleware\PermissionMiddleware;
 use Spatie\Permission\Middleware\RoleOrPermissionMiddleware;
 use App\Http\Middleware\DecryptUrlParameters;
+use App\Http\Middleware\SetLocale;
 use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 use Illuminate\Support\Facades\Log;
 
@@ -17,6 +18,9 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
+        // Add locale middleware globally (before other middleware)
+        $middleware->append(SetLocale::class);
+
         // Add URL parameter decryption middleware globally
         $middleware->append(DecryptUrlParameters::class);
 
