@@ -9,6 +9,11 @@ return new class extends Migration
 {
     public function up(): void
     {
+        // Skip for SQLite - it doesn't support ALTER TABLE DROP FOREIGN KEY
+        if (DB::connection()->getDriverName() !== 'mysql') {
+            return;
+        }
+
         // Drop the problematic foreign key and recreate it
         DB::statement('ALTER TABLE student_attendance DROP FOREIGN KEY student_attendance_student_id_foreign');
 
@@ -18,6 +23,11 @@ return new class extends Migration
 
     public function down(): void
     {
+        // Skip for SQLite
+        if (DB::connection()->getDriverName() !== 'mysql') {
+            return;
+        }
+
         // Revert if needed
         DB::statement('ALTER TABLE student_attendance DROP FOREIGN KEY student_attendance_student_id_foreign');
     }

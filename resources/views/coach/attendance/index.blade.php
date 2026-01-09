@@ -1,13 +1,19 @@
 @extends('layouts.app')
 
-@section('content')
-    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
-        <h1 class="text-3xl font-bold text-slate-900 dark:text-white">📋 Attendance Sessions</h1>
-        <div class="flex gap-2">
-            <a href="{{ route('admin.student-attendance.create') }}" class="px-4 py-2 bg-green-600 text-white rounded-lg font-semibold hover:bg-green-700 transition">➕ New Attendance</a>
-            <a href="{{ route('coach.attendance.index') }}" class="px-4 py-2 bg-indigo-600 text-white rounded-lg font-semibold hover:bg-indigo-700 transition">🔄 Refresh</a>
+@push('hero')
+    <x-hero title="Attendance Sessions" subtitle="Record and manage student attendance" gradient="cyan">
+        <div class="mt-4 flex flex-wrap gap-2">
+            <a href="{{ route('admin.student-attendance.create') }}" class="inline-flex items-center gap-2 px-5 py-2.5 bg-white hover:bg-slate-50 text-cyan-700 font-semibold rounded-xl shadow-lg transition-all duration-200 hover:-translate-y-0.5">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
+                New Attendance
+            </a>
+            <a href="{{ route('coach.attendance.index') }}" class="px-4 py-2 bg-white/20 hover:bg-white/30 text-white font-semibold rounded-xl transition">🔄 Refresh</a>
         </div>
-    </div>
+    </x-hero>
+@endpush
+
+@section('content')
+<div class="max-w-6xl mx-auto p-6">
 
     <div class="bg-white dark:bg-slate-800 rounded-lg shadow p-6 mb-6">
         <form method="get" class="flex flex-col sm:flex-row gap-3 items-end">

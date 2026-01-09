@@ -2,19 +2,17 @@
 @section('title', 'Student Attendance Records')
 
 @section('content')
-<div class="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900">
+<div class="min-h-screen bg-gradient-to-br from-violet-50 via-pink-50 to-cyan-50 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900">
 
     {{-- Hero Section --}}
-    <div class="footer-like-hero relative overflow-hidden">
-        <div class="hero-blob-layer">
-            <div class="hero-blob blob-1"></div>
-            <div class="hero-blob blob-2"></div>
-            <div class="hero-blob blob-3"></div>
-        </div>
+    <div class="relative overflow-hidden bg-gradient-to-r from-violet-600 via-fuchsia-600 to-pink-600 rounded-2xl shadow-2xl mx-4 sm:mx-6 mt-4">
+        <div class="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg width=%2230%22 height=%2230%22 viewBox=%220 0 30 30%22 fill=%22none%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cpath d=%22M1.22676 0C1.91374 0 2.45351 0.539773 2.45351 1.22676C2.45351 1.91374 1.91374 2.45351 1.22676 2.45351C0.539773 2.45351 0 1.91374 0 1.22676C0 0.539773 0.539773 0 1.22676 0Z%22 fill=%22rgba(255,255,255,0.07)%22/%3E%3C/svg%3E')] opacity-50"></div>
+        <div class="absolute -top-24 -right-24 w-96 h-96 bg-gradient-to-br from-yellow-400/30 to-orange-500/30 rounded-full blur-3xl animate-pulse"></div>
+        <div class="absolute -bottom-24 -left-24 w-96 h-96 bg-gradient-to-br from-cyan-400/30 to-blue-500/30 rounded-full blur-3xl animate-pulse" style="animation-delay: 1s"></div>
 
         <div class="relative z-10 container mx-auto px-6 py-8">
-            <h1 class="text-3xl md:text-4xl font-bold text-white mb-2">📋 Student Attendance Records</h1>
-            <p class="text-blue-100">Comprehensive student attendance tracking and management</p>
+            <h1 class="text-3xl md:text-4xl font-bold text-white mb-2 drop-shadow-lg">📋 Student Attendance Records</h1>
+            <p class="text-white/90 text-lg">Comprehensive student attendance tracking and management</p>
         </div>
     </div>
 

@@ -1,18 +1,18 @@
 @extends('layouts.app')
 
 @push('hero')
-    <x-hero title="Training Session Records" subtitle="Filter and review training sessions">
-        <a href="{{ route('admin.training_session_records.create') }}" class="inline-flex items-center gap-2 px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition font-semibold">➕ New Record</a>
+    <x-hero title="Training Session Records" subtitle="Filter and review training sessions" gradient="emerald">
+        <div class="mt-4">
+            <a href="{{ route('admin.training_session_records.create') }}" class="inline-flex items-center gap-2 px-5 py-2.5 bg-white hover:bg-slate-50 text-emerald-700 font-semibold rounded-xl shadow-lg transition-all duration-200 hover:-translate-y-0.5">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
+                New Record
+            </a>
+        </div>
     </x-hero>
 @endpush
 
 @section('content')
 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-
-    <div class="flex items-center justify-between mb-6">
-        <h1 class="text-3xl font-bold text-slate-900 dark:text-white">📚 Training Session Records</h1>
-        <a href="{{ route('admin.training_session_records.create') }}" class="inline-flex items-center gap-2 px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition font-semibold">➕ New Record</a>
-    </div>
 
     <div class="bg-white shadow overflow-hidden sm:rounded-md">
         <div class="p-4 border-b">

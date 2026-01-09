@@ -4,24 +4,30 @@
 
 @section('content')
 <div class="container mx-auto py-8 px-4">
-    <!-- Header -->
-    <div class="flex flex-col lg:flex-row justify-between items-start lg:items-center mb-6 gap-4">
-        <div>
-            <h1 class="text-2xl font-bold text-gray-800">Student Attendance</h1>
-            <p class="text-gray-600 mt-1">{{ \Carbon\Carbon::parse($date)->format('l, F j, Y') }}</p>
-        </div>
-        <div class="flex flex-wrap gap-3">
-            <a href="{{ route('admin.attendance-calendar') }}" class="bg-slate-600 text-white px-4 py-2 rounded-lg hover:bg-slate-700 transition flex items-center gap-2">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
-                Calendar View
-            </a>
-            <form method="GET" action="{{ route('admin.student-attendance.index') }}" class="flex gap-2">
-                <input type="date" name="date" value="{{ $date }}" class="border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
-                @if($showAll ?? false)
-                    <input type="hidden" name="show_all" value="1">
-                @endif
-                <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition">Go</button>
-            </form>
+    {{-- Hero Section --}}
+    <div class="relative overflow-hidden bg-gradient-to-r from-cyan-600 via-blue-600 to-indigo-600 rounded-2xl shadow-2xl mb-6">
+        <div class="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg width=%2230%22 height=%2230%22 viewBox=%220 0 30 30%22 fill=%22none%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cpath d=%22M1.22676 0C1.91374 0 2.45351 0.539773 2.45351 1.22676C2.45351 1.91374 1.91374 2.45351 1.22676 2.45351C0.539773 2.45351 0 1.91374 0 1.22676C0 0.539773 0.539773 0 1.22676 0Z%22 fill=%22rgba(255,255,255,0.07)%22/%3E%3C/svg%3E')] opacity-50"></div>
+        <div class="absolute -top-24 -right-24 w-96 h-96 bg-gradient-to-br from-yellow-400/30 to-orange-500/30 rounded-full blur-3xl animate-pulse"></div>
+        <div class="absolute -bottom-24 -left-24 w-96 h-96 bg-gradient-to-br from-purple-400/30 to-pink-500/30 rounded-full blur-3xl animate-pulse" style="animation-delay: 1s"></div>
+
+        <div class="relative z-10 px-6 py-8 flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4">
+            <div>
+                <h1 class="text-3xl md:text-4xl font-bold text-white drop-shadow-lg">📋 Student Attendance</h1>
+                <p class="text-white/90 mt-1">{{ \Carbon\Carbon::parse($date)->format('l, F j, Y') }}</p>
+            </div>
+            <div class="flex flex-wrap gap-3">
+                <a href="{{ route('admin.attendance-calendar') }}" class="inline-flex items-center gap-2 px-4 py-2.5 bg-white/20 hover:bg-white/30 backdrop-blur-sm text-white font-semibold rounded-xl transition">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+                    Calendar
+                </a>
+                <form method="GET" action="{{ route('admin.student-attendance.index') }}" class="flex gap-2">
+                    <input type="date" name="date" value="{{ $date }}" class="px-3 py-2 bg-white/20 backdrop-blur-sm border border-white/30 text-white rounded-xl focus:ring-2 focus:ring-white/50 focus:border-transparent placeholder-white/70">
+                    @if($showAll ?? false)
+                        <input type="hidden" name="show_all" value="1">
+                    @endif
+                    <button type="submit" class="px-4 py-2 bg-white hover:bg-slate-50 text-blue-700 font-semibold rounded-xl shadow-lg transition">Go</button>
+                </form>
+            </div>
         </div>
     </div>
 

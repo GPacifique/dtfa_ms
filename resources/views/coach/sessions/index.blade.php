@@ -1,24 +1,18 @@
 @extends('layouts.app')
 
 @push('hero')
-    <x-hero title="My Sessions" subtitle="View and manage your training sessions">
-        <a href="{{ route('admin.training_session_records.create') }}" class="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 font-semibold transition">+ New Session</a>
+    <x-hero title="My Sessions" subtitle="View and manage your training sessions" gradient="violet">
+        <div class="mt-4">
+            <a href="{{ route('admin.training_session_records.create') }}" class="inline-flex items-center gap-2 px-5 py-2.5 bg-white hover:bg-slate-50 text-violet-700 font-semibold rounded-xl shadow-lg transition-all duration-200 hover:-translate-y-0.5">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
+                New Session
+            </a>
+        </div>
     </x-hero>
 @endpush
 
 @section('content')
 <div class="max-w-6xl mx-auto p-6">
-
-    @if (session('status'))
-        <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4" role="alert">
-            <span class="block sm:inline">{{ session('status') }}</span>
-        </div>
-    @endif
-
-    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
-        <h1 class="text-3xl font-bold text-slate-900 dark:text-white">📚 My Sessions</h1>
-        <a href="{{ route('admin.training_session_records.create') }}" class="inline-flex items-center gap-2 px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition font-semibold">➕ New Session</a>
-    </div>
 
     <div class="bg-white dark:bg-slate-800 rounded-lg shadow p-6 mb-6">
         <form method="get" class="flex flex-col sm:flex-row gap-3 items-end">

@@ -27,8 +27,13 @@ class AttendanceController extends Controller
     {
         $this->authorizeSession($session);
 
-        // Show all students, not just by branch/group
-        $students = Student::orderBy('first_name')->orderBy('second_name')->get();
+        // Show students belonging to the same branch and group as the session
+        $students = Student::query()
+            ->when($session->branch_id, fn($q) => $q->where('branch_id', $session->branch_id))
+            ->when($session->group_id, fn($q) => $q->where('group_id', $session->group_id))
+            ->orderBy('first_name')
+            ->orderBy('second_name')
+            ->get();
 
         $existing = StudentAttendance::where('training_session_id', $session->id)
             ->pluck('status', 'student_id');
@@ -51,8 +56,12 @@ class AttendanceController extends Controller
             'attendance.*.status' => ['required', 'in:present,absent'],
         ]);
 
-        // All students are valid
-        $validStudentIds = Student::pluck('id')->all();
+        // Only students belonging to the session's branch/group are valid
+        $validStudentIds = Student::query()
+            ->when($session->branch_id, fn($q) => $q->where('branch_id', $session->branch_id))
+            ->when($session->group_id, fn($q) => $q->where('group_id', $session->group_id))
+            ->pluck('id')
+            ->all();
 
         DB::transaction(function () use ($data, $session, $validStudentIds) {
             foreach ($data['attendance'] as $row) {

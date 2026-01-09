@@ -24,9 +24,25 @@
                $store.layout.mobileOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'
            ].join(' ')
            "
-           class="fixed inset-y-0 left-0 h-screen bg-gradient-to-b from-slate-900 via-slate-800 to-slate-900 text-white transition-transform duration-300 ease-in-out z-40 shadow-2xl border-r border-slate-700 overflow-y-auto"
+           class="fixed inset-y-0 left-0 h-screen bg-gradient-to-b from-slate-900 via-slate-800 to-slate-900 text-white transition-all duration-300 ease-in-out z-40 shadow-2xl border-r border-slate-700 overflow-y-auto"
            tabindex="0">
 
+        <!-- Edge Toggle Button (visible on desktop) -->
+        <button
+            @click="$store.layout.sidebarOpen = !$store.layout.sidebarOpen"
+            class="hidden lg:flex absolute -right-3 top-20 z-50 w-6 h-6 bg-slate-700 hover:bg-indigo-600 rounded-full items-center justify-center shadow-lg border-2 border-slate-600 hover:border-indigo-500 transition-all duration-200 group"
+            :title="$store.layout.sidebarOpen ? 'Collapse sidebar' : 'Expand sidebar'"
+        >
+            <svg
+                class="w-3 h-3 text-slate-300 group-hover:text-white transition-transform duration-200"
+                :class="$store.layout.sidebarOpen ? '' : 'rotate-180'"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+            >
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+            </svg>
+        </button>
 
         <!-- Logo Header -->
         <div class="flex items-center justify-between px-4 py-6 border-b border-slate-700">
@@ -39,13 +55,6 @@
                         <span class="text-lg font-semibold">DTFA</span>
                     </div>
                 </a>
-            </div>
-
-
-            <div class="flex items-center space-x-2">
-                <button data-toggle-sidebar @click="$store.layout.sidebarOpen = !$store.layout.sidebarOpen" :aria-expanded="String($store.layout.sidebarOpen)" class="p-2 rounded-md hover:bg-slate-800">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
-                </button>
             </div>
         </div>
 

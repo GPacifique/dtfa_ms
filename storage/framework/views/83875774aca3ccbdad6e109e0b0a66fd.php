@@ -48,7 +48,7 @@
 </footer>
 
 <!-- Simple modals (privacy / terms / help) -->
-<?php if (! $__env->hasRenderedOnce('5cf131d5-c5de-4a04-9136-756ed8b0322d')): $__env->markAsRenderedOnce('5cf131d5-c5de-4a04-9136-756ed8b0322d'); ?>
+<?php if (! $__env->hasRenderedOnce('91191435-f048-4129-bd5c-ec06cb018457')): $__env->markAsRenderedOnce('91191435-f048-4129-bd5c-ec06cb018457'); ?>
     <?php $__env->startPush('footer-scripts'); ?>
         <script>
             function showModal(id){

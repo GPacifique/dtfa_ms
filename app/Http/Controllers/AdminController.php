@@ -279,7 +279,10 @@ class AdminController extends Controller
         $equipmentUtilization = $equipmentCount > 0 ? round(($equipmentInUse / $equipmentCount) * 100, 1) : 0;
 
         // Capacity building monthly totals (last 12 months)
-        $capacityByMonth = \App\Models\CapacityBuilding::selectRaw("DATE_FORMAT(start_date, '%Y-%m') as month, SUM(cost_amount) as total")
+        $dateFormat = config('database.default') === 'sqlite'
+            ? "strftime('%Y-%m', start_date)"
+            : "DATE_FORMAT(start_date, '%Y-%m')";
+        $capacityByMonth = \App\Models\CapacityBuilding::selectRaw("{$dateFormat} as month, SUM(cost_amount) as total")
             ->whereNotNull('start_date')
             ->whereBetween('start_date', [now()->subMonths(11)->startOfMonth()->toDateString(), now()->endOfMonth()->toDateString()])
             ->groupBy('month')
@@ -295,7 +298,10 @@ class AdminController extends Controller
         $financeEnd = now()->endOfMonth()->toDateString();
 
         // Payments (succeeded)
-        $paymentsByMonth = \App\Models\Payment::selectRaw("DATE_FORMAT(paid_at, '%Y-%m') as month, SUM(amount_cents) as total")
+        $paymentDateFormat = config('database.default') === 'sqlite'
+            ? "strftime('%Y-%m', paid_at)"
+            : "DATE_FORMAT(paid_at, '%Y-%m')";
+        $paymentsByMonth = \App\Models\Payment::selectRaw("{$paymentDateFormat} as month, SUM(amount_cents) as total")
             ->where('status', 'succeeded')
             ->whereNotNull('paid_at')
             ->whereBetween('paid_at', [$financeStart, $financeEnd])
@@ -305,7 +311,10 @@ class AdminController extends Controller
             ->keyBy('month');
 
         // Other incomes (Income model)
-        $otherIncomeByMonth = \App\Models\Income::selectRaw("DATE_FORMAT(received_at, '%Y-%m') as month, SUM(amount_cents) as total")
+        $incomeDateFormat = config('database.default') === 'sqlite'
+            ? "strftime('%Y-%m', received_at)"
+            : "DATE_FORMAT(received_at, '%Y-%m')";
+        $otherIncomeByMonth = \App\Models\Income::selectRaw("{$incomeDateFormat} as month, SUM(amount_cents) as total")
             ->whereNotNull('received_at')
             ->whereBetween('received_at', [$financeStart, $financeEnd])
             ->groupBy('month')
@@ -314,7 +323,10 @@ class AdminController extends Controller
             ->keyBy('month');
 
         // Expenses (approved/paid)
-        $expensesByMonth = \App\Models\Expense::selectRaw("DATE_FORMAT(expense_date, '%Y-%m') as month, SUM(amount_cents) as total")
+        $expenseDateFormat = config('database.default') === 'sqlite'
+            ? "strftime('%Y-%m', expense_date)"
+            : "DATE_FORMAT(expense_date, '%Y-%m')";
+        $expensesByMonth = \App\Models\Expense::selectRaw("{$expenseDateFormat} as month, SUM(amount_cents) as total")
             ->whereIn('status', ['approved', 'paid'])
             ->whereNotNull('expense_date')
             ->whereBetween('expense_date', [$financeStart, $financeEnd])

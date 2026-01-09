@@ -22,7 +22,12 @@ class StudentsController extends Controller {
 
     public function create()
     {
-        $coaches = User::role('coach')->orderBy('name')->get(['id','name','email']);
+        $coach = Auth::user();
+        // Only show coaches from the same branch
+        $coaches = User::role('coach')
+            ->when($coach->branch_id, fn($q) => $q->where('branch_id', $coach->branch_id))
+            ->orderBy('name')
+            ->get(['id','name','email']);
         return view('coach.students.create', compact('coaches'));
     }
 
@@ -35,7 +40,12 @@ class StudentsController extends Controller {
 
     public function edit(Student $student)
     {
-        $coaches = User::role('coach')->orderBy('name')->get(['id','name','email']);
+        $coach = Auth::user();
+        // Only show coaches from the same branch
+        $coaches = User::role('coach')
+            ->when($coach->branch_id, fn($q) => $q->where('branch_id', $coach->branch_id))
+            ->orderBy('name')
+            ->get(['id','name','email']);
         return view('coach.students.edit', compact('student','coaches'));
     }
 
@@ -46,9 +56,12 @@ class StudentsController extends Controller {
     }
     public function index(Request $request)
     {
+        $coach = Auth::user();
         $q = trim((string) $request->get('q'));
 
-        $students = Student::with(['parent', 'group'])
+        $students = Student::with(['parent', 'group', 'branch'])
+            ->when($coach->branch_id, fn($query) => $query->where('branch_id', $coach->branch_id))
+            ->when($coach->group_id, fn($query) => $query->where('group_id', $coach->group_id))
             ->when($q !== '', function ($query) use ($q) {
                 $query->where(function ($sub) use ($q) {
                     $sub->where('first_name', 'like', "%$q%")
@@ -56,8 +69,8 @@ class StudentsController extends Controller {
                         ->orWhere('phone', 'like', "%$q%");
                 });
             })
-                ->orderBy('first_name')
-                ->orderBy('second_name')
+            ->orderBy('first_name')
+            ->orderBy('second_name')
             ->paginate(15)
             ->withQueryString();
 

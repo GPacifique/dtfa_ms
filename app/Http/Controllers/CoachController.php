@@ -60,10 +60,10 @@ class CoachController extends Controller
             ->limit(15)
             ->get();
 
-        // Teams count
+        // Teams count (show all - teams are not branch-specific)
         $teamsCount = Team::count();
 
-        // Games/Matches stats
+        // Games/Matches stats (show all - games are not branch-specific)
         $gamesCount = Game::count();
         $upcomingGames = Game::where('status', 'scheduled')
             ->where('date', '>=', now())
@@ -71,9 +71,11 @@ class CoachController extends Controller
             ->limit(5)
             ->get();
 
-        // Equipment stats
-        $equipmentCount = SportsEquipment::count();
-        $equipmentGood = SportsEquipment::where('condition', 'good')->count();
+        // Equipment stats - filter by coach's branch
+        $equipmentQuery = SportsEquipment::query()
+            ->when($coach->branch_id, fn($q) => $q->where('branch_id', $coach->branch_id));
+        $equipmentCount = $equipmentQuery->count();
+        $equipmentGood = $equipmentQuery->clone()->where('condition', 'good')->count();
 
         // Upcoming Events
         $upcomingEventsCount = UpcomingEvent::where('status', 'upcoming')->count();

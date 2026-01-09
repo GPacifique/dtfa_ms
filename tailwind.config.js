@@ -11,6 +11,9 @@ export default {
       fontFamily: {
         sans: ['Figtree', 'sans-serif'],
       },
+      screens: {
+        'xs': '475px',
+      },
     },
   },
   plugins: [],

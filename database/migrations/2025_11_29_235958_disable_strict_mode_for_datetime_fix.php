@@ -6,6 +6,11 @@ use Illuminate\Support\Facades\DB;
 return new class extends Migration {
     public function up(): void
     {
+        // Only run MySQL-specific commands on MySQL connections
+        if (DB::connection()->getDriverName() !== 'mysql') {
+            return;
+        }
+
         // Disable strict mode temporarily to allow adding column with invalid datetime values present
         DB::statement("SET sql_mode = ''");
 

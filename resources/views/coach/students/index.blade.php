@@ -1,16 +1,16 @@
 @extends('layouts.app')
 
 @push('hero')
-    <x-hero title="My Students" subtitle="Manage student profiles and attendance records">
-        <div class="mt-4 flex items-center gap-2">
+    <x-hero title="My Students" subtitle="Manage student profiles and attendance records" gradient="emerald">
+        <div class="mt-4 flex flex-wrap items-center gap-2">
             <form method="GET" class="flex items-center gap-2">
-                <input type="text" name="q" value="{{ $q}}" placeholder="Search by name or phone…" class="input" />
-                <button class="btn-secondary">🔍 Search</button>
+                <input type="text" name="q" value="{{ $q}}" placeholder="Search by name or phone…" class="px-4 py-2 bg-white/20 backdrop-blur-sm border border-white/30 text-white rounded-xl focus:ring-2 focus:ring-white/50 placeholder-white/70" />
+                <button class="px-4 py-2 bg-white hover:bg-slate-50 text-emerald-700 font-semibold rounded-xl shadow-lg transition">🔍 Search</button>
                 @if($q)
-                    <a href="#" class="btn-outline">Clear</a>
+                    <a href="#" class="px-4 py-2 bg-white/20 hover:bg-white/30 text-white font-semibold rounded-xl transition">Clear</a>
                 @endif
             </form>
-            <a href="{{ route('coach.dashboard') }}" class="btn-outline">← Back</a>
+            <a href="{{ route('coach.dashboard') }}" class="px-4 py-2 bg-white/20 hover:bg-white/30 text-white font-semibold rounded-xl transition">← Back</a>
         </div>
     </x-hero>
 @endpush
