@@ -501,6 +501,8 @@ Route::middleware(['auth', 'verified', 'role:admin|super-admin|accountant'])->pr
 Route::middleware(['auth', 'verified', 'role:admin|super-admin|coach|accountant'])->prefix('admin')->group(function () {
     Route::get('training_session_records/{training_session_record}/prepare', [\App\Http\Controllers\Admin\TrainingSessionRecordController::class, 'prepare'])->name('admin.training_session_records.prepare');
     Route::get('training_session_records/{training_session_record}/report', [\App\Http\Controllers\Admin\TrainingSessionRecordController::class, 'report'])->name('admin.training_session_records.report');
+    Route::post('training_session_records/{training_session_record}/start', [\App\Http\Controllers\Admin\TrainingSessionRecordController::class, 'start'])->name('admin.training_session_records.start');
+    Route::post('training_session_records/{training_session_record}/complete', [\App\Http\Controllers\Admin\TrainingSessionRecordController::class, 'complete'])->name('admin.training_session_records.complete');
     Route::resource('training_session_records', \App\Http\Controllers\Admin\TrainingSessionRecordController::class, ['as' => 'admin']);
 });
 

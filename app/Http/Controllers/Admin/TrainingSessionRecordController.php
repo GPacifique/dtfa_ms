@@ -37,6 +37,11 @@ class TrainingSessionRecordController extends Controller
     {
         $query = TrainingSessionRecord::query();
 
+        // Filter by status
+        if ($status = request()->query('status')) {
+            $query->where('status', $status);
+        }
+
         // filters: branch, training_pitch, coach_id, date
         if ($branch = request()->query('branch')) {
             $query->where('branch', $branch);
@@ -86,6 +91,7 @@ class TrainingSessionRecordController extends Controller
     public function store(Request $request)
     {
         $data = $request->validate([
+            'status' => 'nullable|in:scheduled,in_progress,completed',
             'date' => 'nullable|date',
             'training_days' => ['nullable', 'array'],
             'training_days.*' => ['in:Monday,Tuesday,Wednesday,Thursday,Friday,Saturday,Sunday'],
@@ -167,6 +173,7 @@ class TrainingSessionRecordController extends Controller
     public function update(Request $request, TrainingSessionRecord $trainingSessionRecord)
     {
         $data = $request->validate([
+            'status' => 'nullable|in:scheduled,in_progress,completed',
             'date' => 'nullable|date',
             'training_days' => ['nullable', 'array'],
             'training_days.*' => ['in:Monday,Tuesday,Wednesday,Thursday,Friday,Saturday,Sunday'],
@@ -228,5 +235,35 @@ class TrainingSessionRecordController extends Controller
     {
         $trainingSessionRecord->delete();
         return redirect()->route('admin.training_session_records.index')->with('success', 'Record deleted.');
+    }
+
+    /**
+     * Start a training session (change status to in_progress)
+     */
+    public function start(TrainingSessionRecord $trainingSessionRecord)
+    {
+        if ($trainingSessionRecord->status !== 'scheduled') {
+            return redirect()->back()->with('error', 'Session has already started or is completed.');
+        }
+
+        $trainingSessionRecord->update(['status' => 'in_progress']);
+
+        return redirect()->route('admin.training_session_records.index')
+            ->with('success', 'Training session started. You can now report on it.');
+    }
+
+    /**
+     * Complete a training session (change status to completed)
+     */
+    public function complete(TrainingSessionRecord $trainingSessionRecord)
+    {
+        if ($trainingSessionRecord->status === 'completed') {
+            return redirect()->back()->with('error', 'Session is already completed.');
+        }
+
+        $trainingSessionRecord->update(['status' => 'completed']);
+
+        return redirect()->route('admin.training_session_records.show', $trainingSessionRecord)
+            ->with('success', 'Training session marked as completed.');
     }
 }

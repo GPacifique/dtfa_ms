@@ -12,6 +12,7 @@ class TrainingSessionRecord extends Model
     protected $table = 'training_session_records';
 
     protected $fillable = [
+        'status',
         'coach_id',
         'coach_name',
         'branch',
@@ -53,4 +54,36 @@ class TrainingSessionRecord extends Model
         'date' => 'date',
         'training_days' => 'array',
     ];
+
+    /**
+     * Check if session is scheduled (not started)
+     */
+    public function isScheduled(): bool
+    {
+        return $this->status === 'scheduled';
+    }
+
+    /**
+     * Check if session is in progress
+     */
+    public function isInProgress(): bool
+    {
+        return $this->status === 'in_progress';
+    }
+
+    /**
+     * Check if session is completed
+     */
+    public function isCompleted(): bool
+    {
+        return $this->status === 'completed';
+    }
+
+    /**
+     * Check if session can be reported on (in_progress or completed)
+     */
+    public function canReport(): bool
+    {
+        return in_array($this->status, ['in_progress', 'completed']);
+    }
 }
