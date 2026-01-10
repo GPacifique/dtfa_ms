@@ -14,11 +14,34 @@ return new class extends Migration
             return;
         }
 
-        // Drop the problematic foreign key and recreate it
-        DB::statement('ALTER TABLE student_attendance DROP FOREIGN KEY student_attendance_student_id_foreign');
+        // Check if the foreign key exists before trying to drop it
+        $foreignKeyExists = DB::select("
+            SELECT CONSTRAINT_NAME
+            FROM information_schema.TABLE_CONSTRAINTS
+            WHERE CONSTRAINT_SCHEMA = DATABASE()
+            AND TABLE_NAME = 'student_attendance'
+            AND CONSTRAINT_NAME = 'student_attendance_student_id_foreign'
+            AND CONSTRAINT_TYPE = 'FOREIGN KEY'
+        ");
 
-        DB::statement('ALTER TABLE student_attendance ADD CONSTRAINT student_attendance_student_id_foreign
-            FOREIGN KEY (student_id) REFERENCES students(id) ON DELETE CASCADE ON UPDATE CASCADE');
+        if (!empty($foreignKeyExists)) {
+            DB::statement('ALTER TABLE student_attendance DROP FOREIGN KEY student_attendance_student_id_foreign');
+        }
+
+        // Check if foreign key doesn't exist before adding it
+        $foreignKeyExists = DB::select("
+            SELECT CONSTRAINT_NAME
+            FROM information_schema.TABLE_CONSTRAINTS
+            WHERE CONSTRAINT_SCHEMA = DATABASE()
+            AND TABLE_NAME = 'student_attendance'
+            AND CONSTRAINT_NAME = 'student_attendance_student_id_foreign'
+            AND CONSTRAINT_TYPE = 'FOREIGN KEY'
+        ");
+
+        if (empty($foreignKeyExists)) {
+            DB::statement('ALTER TABLE student_attendance ADD CONSTRAINT student_attendance_student_id_foreign
+                FOREIGN KEY (student_id) REFERENCES students(id) ON DELETE CASCADE ON UPDATE CASCADE');
+        }
     }
 
     public function down(): void
@@ -28,7 +51,18 @@ return new class extends Migration
             return;
         }
 
-        // Revert if needed
-        DB::statement('ALTER TABLE student_attendance DROP FOREIGN KEY student_attendance_student_id_foreign');
+        // Check if the foreign key exists before trying to drop it
+        $foreignKeyExists = DB::select("
+            SELECT CONSTRAINT_NAME
+            FROM information_schema.TABLE_CONSTRAINTS
+            WHERE CONSTRAINT_SCHEMA = DATABASE()
+            AND TABLE_NAME = 'student_attendance'
+            AND CONSTRAINT_NAME = 'student_attendance_student_id_foreign'
+            AND CONSTRAINT_TYPE = 'FOREIGN KEY'
+        ");
+
+        if (!empty($foreignKeyExists)) {
+            DB::statement('ALTER TABLE student_attendance DROP FOREIGN KEY student_attendance_student_id_foreign');
+        }
     }
 };
