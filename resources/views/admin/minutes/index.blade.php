@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@push('hero')
+@section('hero')
     <x-hero title="Meeting Minutes" subtitle="Plan, record, and track meeting outcomes" gradient="cyan">
         <div class="mt-4">
             <a href="{{ route('admin.minutes.create') }}" class="inline-flex items-center gap-2 px-5 py-2.5 bg-white hover:bg-slate-50 text-cyan-700 font-semibold rounded-xl shadow-lg transition-all duration-200 hover:-translate-y-0.5">
@@ -9,7 +9,7 @@
             </a>
         </div>
     </x-hero>
-@endpush
+@endsection
 
 @section('content')
 <div class="max-w-7xl mx-auto p-6">
