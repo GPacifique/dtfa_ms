@@ -50,7 +50,7 @@ return new class extends Migration
             });
         }
 
-        // Subscriptions indexes  
+        // Subscriptions indexes
         if (Schema::hasTable('subscriptions')) {
             Schema::table('subscriptions', function (Blueprint $table) {
                 if (!$this->hasIndex('subscriptions', 'subscriptions_status_index')) {
@@ -95,10 +95,10 @@ return new class extends Migration
         // Training sessions indexes
         if (Schema::hasTable('training_sessions')) {
             Schema::table('training_sessions', function (Blueprint $table) {
-                if (!$this->hasIndex('training_sessions', 'training_sessions_coach_id_index')) {
-                    $table->index('coach_id');
+                if (Schema::hasColumn('training_sessions', 'coach_user_id') && !$this->hasIndex('training_sessions', 'training_sessions_coach_user_id_index')) {
+                    $table->index('coach_user_id');
                 }
-                if (!$this->hasIndex('training_sessions', 'training_sessions_branch_id_index')) {
+                if (Schema::hasColumn('training_sessions', 'branch_id') && !$this->hasIndex('training_sessions', 'training_sessions_branch_id_index')) {
                     $table->index('branch_id');
                 }
             });
