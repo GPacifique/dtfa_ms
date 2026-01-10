@@ -164,20 +164,49 @@ class RolePermissionSeeder extends Seeder
 
         $techDirector->syncPermissions($techPermissions);
 
-        // COACH: Training sessions, teams, equipment, and viewing schedules
-        $coach->syncPermissions([
-            'view training sessions',
-            'create training sessions',
-            'edit training sessions',
-            'manage training sessions',
-            'view training schedule',
-            'view teams',
-            'manage teams',
-            'view students',
-            'view groups',
-            'view equipment',
-            'view dashboard',
-        ]);
+        // COACH: Full access EXCEPT finance modules
+        $coachExcluded = [
+            'view finances',
+            'manage finances',
+            'view financial reports',
+            'export financial data',
+            'view invoices',
+            'create invoices',
+            'edit invoices',
+            'delete invoices',
+            'manage invoices',
+            'view payments',
+            'create payments',
+            'edit payments',
+            'delete payments',
+            'record payments',
+            'manage payments',
+            'view expenses',
+            'create expenses',
+            'edit expenses',
+            'delete expenses',
+            'manage expenses',
+            'approve expenses',
+            'reject expenses',
+            'view subscriptions',
+            'create subscriptions',
+            'edit subscriptions',
+            'delete subscriptions',
+            'manage subscriptions',
+            'view subscription plans',
+            'create subscription plans',
+            'edit subscription plans',
+            'delete subscription plans',
+            'manage subscription plans',
+            'view own invoices',
+            'make payments',
+        ];
+
+        $coachPermissions = $allPermissions->filter(function ($p) use ($coachExcluded) {
+            return !in_array($p->name, $coachExcluded, true);
+        });
+
+        $coach->syncPermissions($coachPermissions);
 
         // ACCOUNTANT: Financial operations, invoices, payments, subscriptions, expenses, equipment
         $accountant->syncPermissions([
