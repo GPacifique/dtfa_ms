@@ -162,16 +162,38 @@
             </div>
         </div>
 
-        <!-- Staff Selection -->
-        <div class="mb-4">
+        <!-- Staff Selection with Searchable Multi-Select -->
+        <div class="mb-4" x-data="multiSelect({
+            items: {{ $staffs->map(fn($s) => ['id' => $s->id, 'name' => $s->first_name . ' ' . $s->last_name])->toJson() }},
+            selected: {{ $editing ? json_encode($game->staff_ids ?? []) : '[]' }},
+            inputName: 'staff_ids[]'
+        })">
             <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Staff Assignment</label>
-            <select name="staff_ids[]" multiple class="w-full border rounded-lg px-3 py-2 dark:bg-neutral-800 dark:border-neutral-700" {{ !$isScheduled ? 'disabled' : '' }}>
-                @foreach($staffs as $staff)
-                    <option value="{{ $staff->id }}" {{ $editing && in_array($staff->id, $game->staff_ids ?? []) ? 'selected' : '' }}>
-                        {{ $staff->name }}
-                    </option>
-                @endforeach
-            </select>
+            <div class="relative">
+                <div class="w-full min-h-[42px] border rounded-lg px-3 py-2 dark:bg-neutral-800 dark:border-neutral-700 cursor-text flex flex-wrap gap-2" @click="open = true; $nextTick(() => $refs.search.focus())">
+                    <template x-for="id in selectedIds" :key="id">
+                        <span class="inline-flex items-center gap-1 px-2 py-1 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 text-sm rounded-md">
+                            <span x-text="getItemName(id)"></span>
+                            <button type="button" @click.stop="toggleItem(id)" class="hover:text-blue-600" {{ !$isScheduled ? 'disabled' : '' }}>
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+                            </button>
+                        </span>
+                    </template>
+                    <input x-ref="search" type="text" x-model="search" @focus="open = true" placeholder="Search staff..." class="flex-1 min-w-[120px] outline-none bg-transparent text-sm dark:text-white" {{ !$isScheduled ? 'disabled' : '' }}>
+                </div>
+                <div x-show="open" @click.outside="open = false" x-transition class="absolute z-50 w-full mt-1 bg-white dark:bg-neutral-800 border dark:border-neutral-700 rounded-lg shadow-lg max-h-60 overflow-y-auto">
+                    <template x-for="item in filteredItems" :key="item.id">
+                        <div @click="toggleItem(item.id)" class="px-3 py-2 cursor-pointer hover:bg-gray-100 dark:hover:bg-neutral-700 flex items-center justify-between">
+                            <span x-text="item.name" class="text-sm dark:text-white"></span>
+                            <svg x-show="selectedIds.includes(item.id)" class="w-5 h-5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+                        </div>
+                    </template>
+                    <div x-show="filteredItems.length === 0" class="px-3 py-2 text-sm text-gray-500 dark:text-gray-400">No staff found</div>
+                </div>
+            </div>
+            <template x-for="id in selectedIds" :key="id">
+                <input type="hidden" name="staff_ids[]" :value="id">
+            </template>
             @error('staff_ids')<span class="text-red-600 text-sm">{{ $message }}</span>@enderror
             <label class="inline-flex items-center mt-2">
                 <input type="checkbox" name="notify_staff" class="form-checkbox" {{ $editing && $game->notify_staff ? 'checked' : '' }} {{ !$isScheduled ? 'disabled' : '' }}>
@@ -179,16 +201,38 @@
             </label>
         </div>
 
-        <!-- Player Selection -->
-        <div class="mb-4">
-            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Player List</label>
-            <select name="player_ids[]" multiple class="w-full border rounded-lg px-3 py-2 dark:bg-neutral-800 dark:border-neutral-700" {{ !$isScheduled ? 'disabled' : '' }}>
-                @foreach($players as $player)
-                    <option value="{{ $player->id }}" {{ $editing && in_array($player->id, $game->player_ids ?? []) ? 'selected' : '' }}>
-                        {{ $player->name }}
-                    </option>
-                @endforeach
-            </select>
+        <!-- Player Selection with Searchable Multi-Select -->
+        <div class="mb-4" x-data="multiSelect({
+            items: {{ $players->map(fn($p) => ['id' => $p->id, 'name' => $p->first_name . ' ' . ($p->second_name ?? $p->last_name ?? '')])->toJson() }},
+            selected: {{ $editing ? json_encode($game->player_ids ?? []) : '[]' }},
+            inputName: 'player_ids[]'
+        })">
+            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Player List (Students)</label>
+            <div class="relative">
+                <div class="w-full min-h-[42px] border rounded-lg px-3 py-2 dark:bg-neutral-800 dark:border-neutral-700 cursor-text flex flex-wrap gap-2" @click="open = true; $nextTick(() => $refs.search.focus())">
+                    <template x-for="id in selectedIds" :key="id">
+                        <span class="inline-flex items-center gap-1 px-2 py-1 bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 text-sm rounded-md">
+                            <span x-text="getItemName(id)"></span>
+                            <button type="button" @click.stop="toggleItem(id)" class="hover:text-green-600" {{ !$isScheduled ? 'disabled' : '' }}>
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+                            </button>
+                        </span>
+                    </template>
+                    <input x-ref="search" type="text" x-model="search" @focus="open = true" placeholder="Search players..." class="flex-1 min-w-[120px] outline-none bg-transparent text-sm dark:text-white" {{ !$isScheduled ? 'disabled' : '' }}>
+                </div>
+                <div x-show="open" @click.outside="open = false" x-transition class="absolute z-50 w-full mt-1 bg-white dark:bg-neutral-800 border dark:border-neutral-700 rounded-lg shadow-lg max-h-60 overflow-y-auto">
+                    <template x-for="item in filteredItems" :key="item.id">
+                        <div @click="toggleItem(item.id)" class="px-3 py-2 cursor-pointer hover:bg-gray-100 dark:hover:bg-neutral-700 flex items-center justify-between">
+                            <span x-text="item.name" class="text-sm dark:text-white"></span>
+                            <svg x-show="selectedIds.includes(item.id)" class="w-5 h-5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+                        </div>
+                    </template>
+                    <div x-show="filteredItems.length === 0" class="px-3 py-2 text-sm text-gray-500 dark:text-gray-400">No players found</div>
+                </div>
+            </div>
+            <template x-for="id in selectedIds" :key="id">
+                <input type="hidden" name="player_ids[]" :value="id">
+            </template>
             @error('player_ids')<span class="text-red-600 text-sm">{{ $message }}</span>@enderror
         </div>
     </div>
@@ -288,3 +332,36 @@
         </button>
     </div>
 </form>
+
+@push('scripts')
+<script>
+    document.addEventListener('alpine:init', () => {
+        Alpine.data('multiSelect', ({ items, selected, inputName }) => ({
+            items: items,
+            selectedIds: selected.map(id => parseInt(id)),
+            search: '',
+            open: false,
+
+            get filteredItems() {
+                if (!this.search) return this.items;
+                const searchLower = this.search.toLowerCase();
+                return this.items.filter(item => item.name.toLowerCase().includes(searchLower));
+            },
+
+            toggleItem(id) {
+                id = parseInt(id);
+                if (this.selectedIds.includes(id)) {
+                    this.selectedIds = this.selectedIds.filter(i => i !== id);
+                } else {
+                    this.selectedIds.push(id);
+                }
+            },
+
+            getItemName(id) {
+                const item = this.items.find(i => i.id === parseInt(id));
+                return item ? item.name : '';
+            }
+        }));
+    });
+</script>
+@endpush

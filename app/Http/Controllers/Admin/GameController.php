@@ -3,7 +3,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Game;
 use App\Models\Staff;
-use App\Models\Player;
+use App\Models\Student;
 use Illuminate\Http\Request;
 
 class GameController extends Controller
@@ -24,7 +24,7 @@ class GameController extends Controller
     public function create()
     {
         $staffs = Staff::all();
-        $players = Player::all();
+        $players = Student::where('status', 'active')->get();
         return view('admin.games.prepare', compact('staffs','players'));
     }
 
@@ -34,7 +34,7 @@ class GameController extends Controller
     public function prepare(Game $game = null)
     {
         $staffs = Staff::all();
-        $players = Player::all();
+        $players = Student::where('status', 'active')->get();
         return view('admin.games.prepare', compact('game', 'staffs', 'players'));
     }
 
@@ -74,7 +74,7 @@ class GameController extends Controller
     public function edit(Game $game)
     {
         $staffs = Staff::all();
-        $players = Player::all();
+        $players = Student::where('status', 'active')->get();
 
         // If match is scheduled, show prepare view
         if ($game->status === 'scheduled') {
@@ -91,7 +91,7 @@ class GameController extends Controller
     public function report(Game $game)
     {
         $staffs = Staff::all();
-        $players = Player::all();
+        $players = Student::where('status', 'active')->get();
         return view('admin.games.report', compact('game', 'staffs', 'players'));
     }
 
