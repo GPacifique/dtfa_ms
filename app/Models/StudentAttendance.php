@@ -18,6 +18,10 @@ protected $fillable = [
 'recorded_by'
 ];
 
+protected $casts = [
+'attendance_date' => 'datetime',
+];
+
 
 public function student()
 {
