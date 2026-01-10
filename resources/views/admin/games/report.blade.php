@@ -1,12 +1,12 @@
 @extends('layouts.app')
 
-@push('hero')
+@section('hero')
     <x-hero title="Match Report" subtitle="Record match outcome and statistics">
         <div class="mt-4">
             <a href="{{ route('admin.games.index') }}" class="btn-secondary">← Back to Matches</a>
         </div>
     </x-hero>
-@endpush
+@endsection
 
 @section('content')
 <div class="max-w-7xl mx-auto p-6">
@@ -74,58 +74,142 @@
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <!-- Yellow Cards Players -->
-                <div>
+                <div x-data="multiSelect({
+                    items: {{ $players->map(fn($p) => ['id' => $p->id, 'name' => $p->first_name . ' ' . ($p->second_name ?? $p->last_name ?? '')])->toJson() }},
+                    selected: {{ json_encode($game->yellow_cards_players ?? []) }},
+                    inputName: 'yellow_cards_players[]'
+                })">
                     <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">🟨 Yellow Cards (Players)</label>
-                    <select name="yellow_cards_players[]" multiple class="w-full border border-yellow-300 dark:border-yellow-700 rounded-lg px-4 py-3 dark:bg-neutral-800 focus:ring-2 focus:ring-yellow-500 focus:border-transparent h-32">
-                        @foreach($players as $player)
-                            <option value="{{ $player->id }}" {{ (in_array($player->id, $game->yellow_cards_players ?? [])) ? 'selected' : '' }}>
-                                {{ $player->name }}
-                            </option>
-                        @endforeach
-                    </select>
-                    <p class="text-xs text-gray-500 mt-1">Hold Ctrl (Cmd on Mac) to select multiple</p>
+                    <div class="relative">
+                        <div class="w-full min-h-[128px] border border-yellow-300 dark:border-yellow-700 rounded-lg px-4 py-3 dark:bg-neutral-800 cursor-text flex flex-wrap gap-2 content-start" @click="open = true; $nextTick(() => $refs.search.focus())">
+                            <template x-for="id in selectedIds" :key="id">
+                                <span class="inline-flex items-center gap-1 px-2 py-1 bg-yellow-100 dark:bg-yellow-900 text-yellow-800 dark:text-yellow-200 text-sm rounded-md">
+                                    <span x-text="getItemName(id)"></span>
+                                    <button type="button" @click.stop="toggleItem(id)" class="hover:text-yellow-600">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+                                    </button>
+                                </span>
+                            </template>
+                            <input x-ref="search" type="text" x-model="search" @focus="open = true" placeholder="Search players..." class="flex-1 min-w-[120px] outline-none bg-transparent text-sm dark:text-white">
+                        </div>
+                        <div x-show="open" @click.outside="open = false" x-transition class="absolute z-50 w-full mt-1 bg-white dark:bg-neutral-800 border dark:border-neutral-700 rounded-lg shadow-lg max-h-60 overflow-y-auto">
+                            <template x-for="item in filteredItems" :key="item.id">
+                                <div @click="toggleItem(item.id)" class="px-3 py-2 cursor-pointer hover:bg-yellow-50 dark:hover:bg-neutral-700 flex items-center justify-between">
+                                    <span x-text="item.name" class="text-sm dark:text-white"></span>
+                                    <svg x-show="selectedIds.includes(item.id)" class="w-5 h-5 text-yellow-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+                                </div>
+                            </template>
+                            <div x-show="filteredItems.length === 0" class="px-3 py-2 text-sm text-gray-500 dark:text-gray-400">No players found</div>
+                        </div>
+                    </div>
+                    <template x-for="id in selectedIds" :key="id">
+                        <input type="hidden" name="yellow_cards_players[]" :value="id">
+                    </template>
                     @error('yellow_cards_players')<span class="text-red-600 text-sm mt-1 block">{{ $message }}</span>@enderror
                 </div>
 
                 <!-- Red Cards Players -->
-                <div>
+                <div x-data="multiSelect({
+                    items: {{ $players->map(fn($p) => ['id' => $p->id, 'name' => $p->first_name . ' ' . ($p->second_name ?? $p->last_name ?? '')])->toJson() }},
+                    selected: {{ json_encode($game->red_cards_players ?? []) }},
+                    inputName: 'red_cards_players[]'
+                })">
                     <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">🟥 Red Cards (Players)</label>
-                    <select name="red_cards_players[]" multiple class="w-full border border-red-300 dark:border-red-700 rounded-lg px-4 py-3 dark:bg-neutral-800 focus:ring-2 focus:ring-red-500 focus:border-transparent h-32">
-                        @foreach($players as $player)
-                            <option value="{{ $player->id }}" {{ (in_array($player->id, $game->red_cards_players ?? [])) ? 'selected' : '' }}>
-                                {{ $player->name }}
-                            </option>
-                        @endforeach
-                    </select>
-                    <p class="text-xs text-gray-500 mt-1">Hold Ctrl (Cmd on Mac) to select multiple</p>
+                    <div class="relative">
+                        <div class="w-full min-h-[128px] border border-red-300 dark:border-red-700 rounded-lg px-4 py-3 dark:bg-neutral-800 cursor-text flex flex-wrap gap-2 content-start" @click="open = true; $nextTick(() => $refs.search.focus())">
+                            <template x-for="id in selectedIds" :key="id">
+                                <span class="inline-flex items-center gap-1 px-2 py-1 bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-200 text-sm rounded-md">
+                                    <span x-text="getItemName(id)"></span>
+                                    <button type="button" @click.stop="toggleItem(id)" class="hover:text-red-600">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+                                    </button>
+                                </span>
+                            </template>
+                            <input x-ref="search" type="text" x-model="search" @focus="open = true" placeholder="Search players..." class="flex-1 min-w-[120px] outline-none bg-transparent text-sm dark:text-white">
+                        </div>
+                        <div x-show="open" @click.outside="open = false" x-transition class="absolute z-50 w-full mt-1 bg-white dark:bg-neutral-800 border dark:border-neutral-700 rounded-lg shadow-lg max-h-60 overflow-y-auto">
+                            <template x-for="item in filteredItems" :key="item.id">
+                                <div @click="toggleItem(item.id)" class="px-3 py-2 cursor-pointer hover:bg-red-50 dark:hover:bg-neutral-700 flex items-center justify-between">
+                                    <span x-text="item.name" class="text-sm dark:text-white"></span>
+                                    <svg x-show="selectedIds.includes(item.id)" class="w-5 h-5 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+                                </div>
+                            </template>
+                            <div x-show="filteredItems.length === 0" class="px-3 py-2 text-sm text-gray-500 dark:text-gray-400">No players found</div>
+                        </div>
+                    </div>
+                    <template x-for="id in selectedIds" :key="id">
+                        <input type="hidden" name="red_cards_players[]" :value="id">
+                    </template>
                     @error('red_cards_players')<span class="text-red-600 text-sm mt-1 block">{{ $message }}</span>@enderror
                 </div>
 
                 <!-- Yellow Cards Staff -->
-                <div>
+                <div x-data="multiSelect({
+                    items: {{ $staffs->map(fn($s) => ['id' => $s->id, 'name' => $s->first_name . ' ' . $s->last_name])->toJson() }},
+                    selected: {{ json_encode($game->yellow_cards_staff ?? []) }},
+                    inputName: 'yellow_cards_staff[]'
+                })">
                     <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">🟨 Yellow Cards (Staff)</label>
-                    <select name="yellow_cards_staff[]" multiple class="w-full border border-yellow-300 dark:border-yellow-700 rounded-lg px-4 py-3 dark:bg-neutral-800 focus:ring-2 focus:ring-yellow-500 focus:border-transparent h-32">
-                        @foreach($staffs as $staff)
-                            <option value="{{ $staff->id }}" {{ (in_array($staff->id, $game->yellow_cards_staff ?? [])) ? 'selected' : '' }}>
-                                {{ $staff->name }}
-                            </option>
-                        @endforeach
-                    </select>
-                    <p class="text-xs text-gray-500 mt-1">Hold Ctrl (Cmd on Mac) to select multiple</p>
+                    <div class="relative">
+                        <div class="w-full min-h-[128px] border border-yellow-300 dark:border-yellow-700 rounded-lg px-4 py-3 dark:bg-neutral-800 cursor-text flex flex-wrap gap-2 content-start" @click="open = true; $nextTick(() => $refs.search.focus())">
+                            <template x-for="id in selectedIds" :key="id">
+                                <span class="inline-flex items-center gap-1 px-2 py-1 bg-yellow-100 dark:bg-yellow-900 text-yellow-800 dark:text-yellow-200 text-sm rounded-md">
+                                    <span x-text="getItemName(id)"></span>
+                                    <button type="button" @click.stop="toggleItem(id)" class="hover:text-yellow-600">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+                                    </button>
+                                </span>
+                            </template>
+                            <input x-ref="search" type="text" x-model="search" @focus="open = true" placeholder="Search staff..." class="flex-1 min-w-[120px] outline-none bg-transparent text-sm dark:text-white">
+                        </div>
+                        <div x-show="open" @click.outside="open = false" x-transition class="absolute z-50 w-full mt-1 bg-white dark:bg-neutral-800 border dark:border-neutral-700 rounded-lg shadow-lg max-h-60 overflow-y-auto">
+                            <template x-for="item in filteredItems" :key="item.id">
+                                <div @click="toggleItem(item.id)" class="px-3 py-2 cursor-pointer hover:bg-yellow-50 dark:hover:bg-neutral-700 flex items-center justify-between">
+                                    <span x-text="item.name" class="text-sm dark:text-white"></span>
+                                    <svg x-show="selectedIds.includes(item.id)" class="w-5 h-5 text-yellow-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+                                </div>
+                            </template>
+                            <div x-show="filteredItems.length === 0" class="px-3 py-2 text-sm text-gray-500 dark:text-gray-400">No staff found</div>
+                        </div>
+                    </div>
+                    <template x-for="id in selectedIds" :key="id">
+                        <input type="hidden" name="yellow_cards_staff[]" :value="id">
+                    </template>
                     @error('yellow_cards_staff')<span class="text-red-600 text-sm mt-1 block">{{ $message }}</span>@enderror
                 </div>
 
                 <!-- Red Cards Staff -->
-                <div>
+                <div x-data="multiSelect({
+                    items: {{ $staffs->map(fn($s) => ['id' => $s->id, 'name' => $s->first_name . ' ' . $s->last_name])->toJson() }},
+                    selected: {{ json_encode($game->red_cards_staff ?? []) }},
+                    inputName: 'red_cards_staff[]'
+                })">
                     <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">🟥 Red Cards (Staff)</label>
-                    <select name="red_cards_staff[]" multiple class="w-full border border-red-300 dark:border-red-700 rounded-lg px-4 py-3 dark:bg-neutral-800 focus:ring-2 focus:ring-red-500 focus:border-transparent h-32">
-                        @foreach($staffs as $staff)
-                            <option value="{{ $staff->id }}" {{ (in_array($staff->id, $game->red_cards_staff ?? [])) ? 'selected' : '' }}>
-                                {{ $staff->name }}
-                            </option>
-                        @endforeach
-                    </select>
-                    <p class="text-xs text-gray-500 mt-1">Hold Ctrl (Cmd on Mac) to select multiple</p>
+                    <div class="relative">
+                        <div class="w-full min-h-[128px] border border-red-300 dark:border-red-700 rounded-lg px-4 py-3 dark:bg-neutral-800 cursor-text flex flex-wrap gap-2 content-start" @click="open = true; $nextTick(() => $refs.search.focus())">
+                            <template x-for="id in selectedIds" :key="id">
+                                <span class="inline-flex items-center gap-1 px-2 py-1 bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-200 text-sm rounded-md">
+                                    <span x-text="getItemName(id)"></span>
+                                    <button type="button" @click.stop="toggleItem(id)" class="hover:text-red-600">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+                                    </button>
+                                </span>
+                            </template>
+                            <input x-ref="search" type="text" x-model="search" @focus="open = true" placeholder="Search staff..." class="flex-1 min-w-[120px] outline-none bg-transparent text-sm dark:text-white">
+                        </div>
+                        <div x-show="open" @click.outside="open = false" x-transition class="absolute z-50 w-full mt-1 bg-white dark:bg-neutral-800 border dark:border-neutral-700 rounded-lg shadow-lg max-h-60 overflow-y-auto">
+                            <template x-for="item in filteredItems" :key="item.id">
+                                <div @click="toggleItem(item.id)" class="px-3 py-2 cursor-pointer hover:bg-red-50 dark:hover:bg-neutral-700 flex items-center justify-between">
+                                    <span x-text="item.name" class="text-sm dark:text-white"></span>
+                                    <svg x-show="selectedIds.includes(item.id)" class="w-5 h-5 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+                                </div>
+                            </template>
+                            <div x-show="filteredItems.length === 0" class="px-3 py-2 text-sm text-gray-500 dark:text-gray-400">No staff found</div>
+                        </div>
+                    </div>
+                    <template x-for="id in selectedIds" :key="id">
+                        <input type="hidden" name="red_cards_staff[]" :value="id">
+                    </template>
                     @error('red_cards_staff')<span class="text-red-600 text-sm mt-1 block">{{ $message }}</span>@enderror
                 </div>
             </div>
@@ -163,3 +247,36 @@
     </form>
 </div>
 @endsection
+
+@push('scripts')
+<script>
+    document.addEventListener('alpine:init', () => {
+        Alpine.data('multiSelect', ({ items, selected, inputName }) => ({
+            items: items,
+            selectedIds: selected.map(id => parseInt(id)),
+            search: '',
+            open: false,
+
+            get filteredItems() {
+                if (!this.search) return this.items;
+                const searchLower = this.search.toLowerCase();
+                return this.items.filter(item => item.name.toLowerCase().includes(searchLower));
+            },
+
+            toggleItem(id) {
+                id = parseInt(id);
+                if (this.selectedIds.includes(id)) {
+                    this.selectedIds = this.selectedIds.filter(i => i !== id);
+                } else {
+                    this.selectedIds.push(id);
+                }
+            },
+
+            getItemName(id) {
+                const item = this.items.find(i => i.id === parseInt(id));
+                return item ? item.name : '';
+            }
+        }));
+    });
+</script>
+@endpush
