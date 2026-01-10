@@ -30,11 +30,11 @@
                 <div class="p-2 bg-white/20 backdrop-blur-sm rounded-xl shadow-lg">
                     <img src="{{ asset('logo.jpeg') }}" alt="Logo" width="40" height="40" class="w-9 h-9 md:w-10 md:h-10 rounded-lg object-cover">
                 </div>
-                <span>{{ $title }}</span>
+                <span>{!! html_entity_decode($title) !!}</span>
             </h1>
         @endif
         @if($subtitle)
-            <p class="text-white/90 text-lg font-medium">{{ $subtitle }}</p>
+            <p class="text-white/90 text-lg font-medium">{!! html_entity_decode($subtitle) !!}</p>
         @endif
         {{ $slot }}
     </div>
