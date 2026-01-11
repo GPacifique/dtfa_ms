@@ -1,10 +1,10 @@
 @extends('layouts.app')
 
-@push('hero')
+@section('hero')
     <x-hero title="Invoice Management" subtitle="Track and manage student invoices">
         <a href="{{ route('accountant.invoices.create') }}" class="inline-flex items-center px-5 py-2.5 bg-gradient-to-r from-violet-600 to-violet-700 hover:from-violet-700 hover:to-violet-800 text-white font-semibold rounded-lg shadow-lg transition transform hover:scale-105">Create Invoice</a>
     </x-hero>
-@endpush
+@endsection
 
 @section('content')
 <div class="container mx-auto px-4 py-8">

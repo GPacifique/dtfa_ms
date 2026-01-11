@@ -1,12 +1,12 @@
 @extends('layouts.app')
 
-@push('hero')
+@section('hero')
     <x-hero :title="__('app.attendance') . ': ' . ($session->date->format('M d, Y'))" :subtitle="$session->group->name ?? $session->group_name">
         <div class="mt-4">
             <a href="{{ route('admin.training_session_records.index') }}" class="btn-secondary">← {{ __('app.back_to_sessions') }}</a>
         </div>
     </x-hero>
-@endpush
+@endsection
 
 @section('content')
 <div class="max-w-4xl mx-auto p-6">

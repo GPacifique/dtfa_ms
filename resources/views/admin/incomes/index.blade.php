@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@push('hero')
+@section('hero')
     <x-hero title="Income Management" subtitle="Track and manage all revenue streams">
         <a href="{{ route('admin.incomes.create') }}"
            class="inline-flex items-center px-5 py-2.5 bg-gradient-to-r from-emerald-600 to-emerald-700 hover:from-emerald-700 hover:to-emerald-800 text-white font-semibold rounded-lg shadow-lg transition transform hover:scale-105">
@@ -10,7 +10,7 @@
             Record Income
         </a>
     </x-hero>
-@endpush
+@endsection
 
 @section('content')
 <div class="container mx-auto px-4 py-8">

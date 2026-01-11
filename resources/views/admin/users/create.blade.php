@@ -1,12 +1,12 @@
 @extends('layouts.app')
 
-@push('hero')
+@section('hero')
     <x-hero title="➕ Create New User" subtitle="Add a user and assign roles">
         <div class="mt-4">
             <a href="{{ route('admin.users.index') }}" class="btn-secondary">← Back to Users</a>
         </div>
     </x-hero>
-@endpush
+@endsection
 
 @section('content')
 <div class="container mx-auto px-6 py-8">

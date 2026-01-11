@@ -1,10 +1,10 @@
 @extends('layouts.app')
 
-@push('hero')
+@section('hero')
     <x-hero title="Record Income" subtitle="Add a new income entry">
         <a href="{{ route('admin.incomes.index') }}" class="inline-flex items-center px-4 py-2 bg-slate-200 hover:bg-slate-300 text-slate-800 rounded-lg">Back to Incomes</a>
     </x-hero>
-@endpush
+@endsection
 
 @section('content')
 <div class="max-w-5xl mx-auto">
@@ -142,4 +142,4 @@
         el.addEventListener('blur', () => { el.value = format(el.value); });
     })();
 </script>
-@endpush
+@endsection

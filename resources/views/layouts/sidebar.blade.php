@@ -355,57 +355,6 @@
                 <p x-show="$store.layout.sidebarOpen" class="px-3 text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">{{ __('app.finance') }}</p>
 
 
-                @if(Route::has('accountant.subscriptions.index'))
-                    <a href="{{ route('accountant.subscriptions.index') }}" aria-label="{{ __('app.subscriptions') }}" title="{{ __('app.subscriptions') }}" class="nav-item flex items-center gap-3 px-3 py-2 rounded-md hover:bg-slate-800 transition {{ request()->routeIs('accountant.subscriptions.*') ? 'active' : '' }}">
-                        <span class="icon flex-shrink-0 w-6 h-6 flex items-center justify-center text-slate-200">
-                            <svg class="w-5 h-5" aria-hidden="true" focusable="false" role="img" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4"/></svg>
-                        </span>
-                        <span class="sr-only">{{ __('app.subscriptions') }}</span>
-                        <span x-show="$store.layout.sidebarOpen" x-transition class="truncate">{{ __('app.subscriptions') }}</span>
-                        @if($activeSubscriptions > 0)
-                            <span class="ml-auto bg-emerald-500 text-white text-xs rounded-full px-2 py-0.5">{{ $activeSubscriptions }}</span>
-                        @endif
-                    </a>
-                @endif
-
-
-                @if(Route::has('admin.plans.index'))
-                    <a href="{{ route('admin.plans.index') }}" aria-label="{{ __('app.plans') }}" title="{{ __('app.plans') }}" class="nav-item flex items-center gap-3 px-3 py-2 rounded-md hover:bg-slate-800 transition {{ request()->routeIs('admin.plans.*') ? 'active' : '' }}">
-                        <span class="icon flex-shrink-0 w-6 h-6 flex items-center justify-center text-slate-200">
-                            <!-- Heroicon: Template / Clipboard List -->
-                            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6M9 16h6M7 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
-                        </span>
-                        <span class="sr-only">{{ __('app.plans') }}</span>
-                        <span x-show="$store.layout.sidebarOpen" x-transition class="truncate">{{ __('app.plans') }}</span>
-                    </a>
-                @endif
-
-
-                    @if(Route::has('accountant.invoices.index'))
-                    <a href="{{ route('accountant.invoices.index') }}" aria-label="{{ __('app.invoices') }}" title="{{ __('app.invoices') }}" class="nav-item flex items-center gap-3 px-3 py-2 rounded-md hover:bg-slate-800 transition {{ request()->routeIs('accountant.invoices.*') ? 'active' : '' }}">
-                        <span class="icon flex-shrink-0 w-6 h-6 flex items-center justify-center text-slate-200">
-                            <svg class="w-5 h-5" aria-hidden="true" focusable="false" role="img" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6"/></svg>
-                        </span>
-                        <span class="sr-only">{{ __('app.invoices') }}</span>
-                        <span x-show="$store.layout.sidebarOpen" x-transition class="truncate">{{ __('app.invoices') }}</span>
-                        @if($pendingInvoices > 0)
-                            <span class="ml-auto bg-amber-500 text-white text-xs rounded-full px-2 py-0.5">{{ $pendingInvoices }}</span>
-                        @endif
-                    </a>
-                @endif
-
-
-                    @if(Route::has('accountant.payments.index'))
-                    <a href="{{ route('accountant.payments.index') }}" aria-label="{{ __('app.payments') }}" title="{{ __('app.payments') }}" class="nav-item flex items-center gap-3 px-3 py-2 rounded-md hover:bg-slate-800 transition {{ request()->routeIs('accountant.payments.*') ? 'active' : '' }}">
-                        <span class="icon flex-shrink-0 w-6 h-6 flex items-center justify-center text-slate-200">
-                            <svg class="w-5 h-5" aria-hidden="true" focusable="false" role="img" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18"/></svg>
-                        </span>
-                        <span class="sr-only">{{ __('app.payments') }}</span>
-                        <span x-show="$store.layout.sidebarOpen" x-transition class="truncate">{{ __('app.payments') }}</span>
-                    </a>
-                @endif
-
-
                 @if(Route::has('admin.incomes.index'))
                     @php
                         // compute today's incomes total (stored in cents)
@@ -426,13 +375,13 @@
                         <span class="sr-only">{{ __('app.incomes') }}</span>
                         <span x-show="$store.layout.sidebarOpen" x-transition class="truncate">{{ __('app.incomes') }}</span>
                         @if($todayIncomeCents > 0)
-                            <span class="ml-auto bg-emerald-500 text-white text-xs rounded-full px-2 py-0.5">{{ number_format($todayIncomeCents/100, 2) }} RWF</span>
+                            <span class="ml-auto bg-emerald-500 text-white text-xs rounded-full px-2 py-0.5">{{ number_format($todayIncomeCents) }} RWF</span>
                         @endif
                     </a>
                 @endif
 
 
-                    @if(Route::has('admin.expenses.index'))
+                @if(Route::has('admin.expenses.index'))
                     <a href="{{ route('admin.expenses.index') }}" aria-label="{{ __('app.expenses') }}" title="{{ __('app.expenses') }}" class="nav-item flex items-center gap-3 px-3 py-2 rounded-md hover:bg-slate-800 transition {{ request()->routeIs('admin.expenses.*') ? 'active' : '' }}">
                         <span class="icon flex-shrink-0 w-6 h-6 flex items-center justify-center text-slate-200">
                             <svg class="w-5 h-5" aria-hidden="true" focusable="false" role="img" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2"/></svg>
@@ -442,6 +391,28 @@
                         @if($pendingExpenses > 0)
                             <span class="ml-auto bg-red-500 text-white text-xs rounded-full px-2 py-0.5">{{ $pendingExpenses }}</span>
                         @endif
+                    </a>
+                @endif
+
+                {{-- Income Categories --}}
+                @if(Route::has('accountant.income-categories.index'))
+                    <a href="{{ route('accountant.income-categories.index') }}" aria-label="{{ __('app.income_categories') }}" title="{{ __('app.income_categories') }}" class="nav-item flex items-center gap-3 px-3 py-2 rounded-md hover:bg-slate-800 transition {{ request()->routeIs('accountant.income-categories.*') ? 'active' : '' }}">
+                        <span class="icon flex-shrink-0 w-6 h-6 flex items-center justify-center text-slate-200">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"/></svg>
+                        </span>
+                        <span class="sr-only">{{ __('app.income_categories') }}</span>
+                        <span x-show="$store.layout.sidebarOpen" x-transition class="truncate">{{ __('app.income_categories') }}</span>
+                    </a>
+                @endif
+
+                {{-- Expense Categories --}}
+                @if(Route::has('accountant.expense-categories.index'))
+                    <a href="{{ route('accountant.expense-categories.index') }}" aria-label="{{ __('app.expense_categories') }}" title="{{ __('app.expense_categories') }}" class="nav-item flex items-center gap-3 px-3 py-2 rounded-md hover:bg-slate-800 transition {{ request()->routeIs('accountant.expense-categories.*') ? 'active' : '' }}">
+                        <span class="icon flex-shrink-0 w-6 h-6 flex items-center justify-center text-slate-200">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"/></svg>
+                        </span>
+                        <span class="sr-only">{{ __('app.expense_categories') }}</span>
+                        <span x-show="$store.layout.sidebarOpen" x-transition class="truncate">{{ __('app.expense_categories') }}</span>
                     </a>
                 @endif
             </div>

@@ -1,13 +1,13 @@
 @php($title = 'Equipment Management')
 @extends('layouts.app')
 
-@push('hero')
+@section('hero')
     <x-hero title="Equipment Management" subtitle="Manage sports equipment and inventory">
         <div class="mt-4">
             <a href="{{ route('admin.equipment.create') }}" class="btn-primary">Add Equipment</a>
         </div>
     </x-hero>
-@endpush
+@endsection
 
 @section('content')
     <div class="space-y-6">

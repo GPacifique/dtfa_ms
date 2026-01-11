@@ -1,10 +1,10 @@
 @extends('layouts.app')
 
-@push('hero')
+@section('hero')
     <x-hero title="Prepare Training Session" subtitle="Plan and schedule training session details">
 
     </x-hero>
-@endpush
+@endsection
 
 @section('content')
 <div class="max-w-7xl mx-auto p-6">

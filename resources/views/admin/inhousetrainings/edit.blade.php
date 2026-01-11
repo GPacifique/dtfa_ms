@@ -1,12 +1,12 @@
 @extends('layouts.app')
 
-@push('hero')
+@section('hero')
     <x-hero title="{{ __('app.edit_capacity_building') }}" subtitle="{{ __('app.update_training_details') }}">
         <div class="mt-4">
 
         </div>
     </x-hero>
-@endpush
+@endsection
 
 @section('content')
 <div class="max-w-4xl mx-auto p-6">

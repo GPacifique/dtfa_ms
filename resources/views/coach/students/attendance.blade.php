@@ -1,13 +1,13 @@
 @extends('layouts.app')
 
-@push('hero')
+@section('hero')
     <x-hero title="Attendance History" :subtitle="$student->first_name . ' ' . $student->second_name">
         <div class="mt-4 flex items-center gap-2">
             <a href="{{ route('coach.students.show', $student) }}" class="btn-outline">👁️ Profile</a>
             <a href="{{ route('coach.students.index') }}" class="btn-secondary">← Back to Students</a>
         </div>
     </x-hero>
-@endpush
+@endsection
 
 @section('content')
 <div class="max-w-5xl mx-auto p-6 space-y-6">

@@ -119,59 +119,93 @@
 
     <!-- Hero Section (Enhanced) -->
     <main id="main-content">
-        <section class="hero relative overflow-hidden bg-gradient-to-br from-blue-50 via-white to-purple-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 py-20 lg:py-32"
+        <section class="hero relative overflow-hidden bg-gradient-to-br from-blue-50 via-white to-purple-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 py-20 lg:py-32 min-h-[90vh] flex items-center"
                  role="region"
                  aria-label="Hero section with main platform introduction"
                  data-enhanced="true">
             <!-- Animated Background Elements -->
-            <div class="absolute inset-0 overflow-hidden">
-                <div class="absolute -top-40 -right-32 w-80 h-80 bg-blue-200 dark:bg-blue-900 rounded-full opacity-20 animate-float"></div>
-                <div class="absolute -bottom-40 -left-32 w-96 h-96 bg-purple-200 dark:bg-purple-900 rounded-full opacity-20 animate-float-delayed"></div>
+            <div class="absolute inset-0 overflow-hidden pointer-events-none">
+                <div class="floating-element floating-element-1"></div>
+                <div class="floating-element floating-element-2"></div>
+                <div class="floating-element floating-element-3"></div>
+                <div class="absolute top-1/4 left-1/4 w-2 h-2 bg-blue-500 rounded-full animate-ping"></div>
+                <div class="absolute top-3/4 right-1/4 w-3 h-3 bg-purple-500 rounded-full animate-ping" style="animation-delay: 1s;"></div>
+                <div class="absolute bottom-1/4 left-1/3 w-2 h-2 bg-emerald-500 rounded-full animate-ping" style="animation-delay: 2s;"></div>
             </div>
 
             <div class="container relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="hero-content text-center max-w-4xl mx-auto">
-                    <h1 class="text-5xl md:text-6xl lg:text-7xl font-bold mb-6 leading-tight"
+                    <h1 class="hero-title text-5xl md:text-6xl lg:text-7xl font-bold mb-6 leading-tight"
                         role="heading"
-                        aria-level="1"
-                        data-count-up="true">
-                        <span class="inline-flex items-center justify-center gap-4">
-                            <img src="{{ asset('logo.jpeg') }}" alt="Logo" width="56" height="56" class="w-12 h-12 md:w-14 md:h-14 rounded-md object-cover shadow ring-2 ring-blue-200 dark:ring-blue-800">
+                        aria-level="1">
+                        <span class="inline-flex items-center justify-center gap-4 flex-wrap">
+                            <img src="{{ asset('logo.jpeg') }}" alt="Logo" width="56" height="56" class="w-14 h-14 md:w-16 md:h-16 rounded-xl object-cover shadow-lg ring-4 ring-blue-200 dark:ring-blue-800 animate-pulse-glow">
                             <span>
-                                All‑in‑One<br>
-                                <span class="gradient-text bg-gradient-to-r from-blue-600 via-purple-600 to-blue-600 bg-clip-text text-transparent animate-gradient-x">
-                                    Sport Academy Management System
+                                <span class="block text-gray-800 dark:text-white">Dream Big.</span>
+                                <span class="text-gradient block">
+                                    Train Hard. Achieve Greatness.
                                 </span>
                             </span>
                         </span>
                     </h1>
-                    <p class="hero-subtitle text-xl md:text-2xl text-gray-600 dark:text-gray-300 mb-8 max-w-3xl mx-auto leading-relaxed"
-                       role="doc-subtitle"
-                       data-fade-in="true">
-                        Manage Students, coaches, schedules, attendance, payments, and reports in one secure, easy-to-use platform.
+                    <p class="hero-subtitle text-xl md:text-2xl text-gray-600 dark:text-gray-300 mb-4 max-w-3xl mx-auto leading-relaxed">
+                        🏆 Every champion was once a beginner. Your journey to excellence starts here.
                     </p>
-                    <div class="hero-buttons flex flex-col sm:flex-row gap-4 justify-center items-center"
-                         role="group"
-                         aria-label="Primary actions"
-                         data-stagger-animation="true">
+                    <p class="text-lg text-gray-500 dark:text-gray-400 mb-8 max-w-2xl mx-auto italic animate-text-glow">
+                        "Success is not final, failure is not fatal: it is the courage to continue that counts."
+                    </p>
+                    <div class="hero-buttons flex flex-col sm:flex-row gap-4 justify-center items-center">
                         <a href="{{ route('register') }}"
-                           class="btn btn-primary btn-lg px-8 py-4 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-xl font-semibold hover:from-blue-700 hover:to-purple-700 transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl"
-                           role="button"
-                           data-ripple="true">
-                            Get Started
-                            <span class="ml-2">→</span>
+                           class="btn btn-primary btn-lg px-8 py-4 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-xl font-semibold hover:from-blue-700 hover:to-purple-700 transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-2xl group">
+                            <span class="flex items-center">
+                                🚀 Start Your Journey
+                                <svg class="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+                                </svg>
+                            </span>
                         </a>
                         <a href="#modules"
-                           class="btn btn-secondary btn-lg px-8 py-4 border-2 border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-xl font-semibold hover:border-blue-500 hover:text-blue-600 transition-all duration-300"
-                           role="button"
-                           aria-label="Explore features section"
-                           data-scroll-to="modules">
-                            Explore Features
+                           class="btn btn-secondary btn-lg px-8 py-4 border-2 border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-xl font-semibold hover:border-blue-500 hover:text-blue-600 hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-all duration-300 group">
+                            <span class="flex items-center">
+                                Discover What's Possible
+                                <svg class="w-5 h-5 ml-2 group-hover:translate-y-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"/>
+                                </svg>
+                            </span>
                         </a>
+                    </div>
+
+                    <!-- Motivational Stats -->
+                    <div class="hero-stats mt-16 grid grid-cols-1 sm:grid-cols-3 gap-8 max-w-3xl mx-auto">
+                        <div class="stat-card text-center p-6 rounded-2xl bg-white/50 dark:bg-gray-800/50 backdrop-blur-sm border border-gray-200/50 dark:border-gray-700/50 transform hover:scale-105 transition-all duration-300">
+                            <div class="stat-number text-4xl md:text-5xl mb-2">💪</div>
+                            <div class="text-lg font-semibold text-gray-800 dark:text-white">Build Champions</div>
+                            <div class="text-sm text-gray-500 dark:text-gray-400 mt-1">Train the next generation</div>
+                        </div>
+                        <div class="stat-card text-center p-6 rounded-2xl bg-white/50 dark:bg-gray-800/50 backdrop-blur-sm border border-gray-200/50 dark:border-gray-700/50 transform hover:scale-105 transition-all duration-300">
+                            <div class="stat-number text-4xl md:text-5xl mb-2">⭐</div>
+                            <div class="text-lg font-semibold text-gray-800 dark:text-white">Excellence Awaits</div>
+                            <div class="text-sm text-gray-500 dark:text-gray-400 mt-1">Strive for greatness</div>
+                        </div>
+                        <div class="stat-card text-center p-6 rounded-2xl bg-white/50 dark:bg-gray-800/50 backdrop-blur-sm border border-gray-200/50 dark:border-gray-700/50 transform hover:scale-105 transition-all duration-300">
+                            <div class="stat-number text-4xl md:text-5xl mb-2">🎯</div>
+                            <div class="text-lg font-semibold text-gray-800 dark:text-white">Achieve Goals</div>
+                            <div class="text-sm text-gray-500 dark:text-gray-400 mt-1">Reach your potential</div>
+                        </div>
                     </div>
                 </div>
             </div>
+
+            <!-- Scroll Indicator -->
+            <div class="scroll-indicator text-gray-400 dark:text-gray-500">
+                <svg class="w-8 h-8 animate-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"/>
+                </svg>
+            </div>
         </section>
+
+        <!-- Section Divider -->
+        <div class="section-divider my-0"></div>
 
         <!-- Core Modules Section (Enhanced) -->
         <section id="modules"
@@ -182,10 +216,10 @@
             <div class="container max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <header class="section-title text-center mb-16" data-fade-in="true">
                     <h2 class="text-4xl md:text-5xl font-bold mb-4 text-gray-900 dark:text-white" role="heading" aria-level="2">
-                        Core Modules
+                        🛠️ Tools for Champions
                     </h2>
                     <p class="section-subtitle text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
-                        Everything you need to run your academy efficiently
+                        Everything you need to nurture talent, build discipline, and create future stars
                     </p>
                 </header>
 
@@ -440,7 +474,8 @@
                             </svg>
                             <span class="logo-text text-xl font-bold" id="footer-brand">Sport Academy MS</span>
                         </div>
-                        <p class="text-gray-400">All-in-one sport academy management platform</p>
+                        <p class="text-gray-400 mb-3">Building champions, one training session at a time.</p>
+                        <p class="text-sm text-gray-500 italic">"The only way to prove you're a good sport is to lose." — Ernie Banks</p>
                     </section>
 
                     <nav class="footer-section" aria-label="Quick navigation links">
@@ -475,6 +510,7 @@
                 </div>
 
                 <div class="footer-divider border-t border-gray-800 pt-8 text-center">
+                    <p class="text-lg text-gray-300 mb-2">🌟 Your potential is limitless. Start training today!</p>
                     <p class="text-gray-400">&copy; {{ date('Y') }} Sport Academy MS. All rights reserved.</p>
                 </div>
             </div>
@@ -698,41 +734,307 @@
 
     <!-- Enhanced CSS Animations -->
     <style>
-        @@keyframes ripple-animation {
-            to {
-                transform: scale(4);
-                opacity: 0;
-            }
+        /* Keyframe Animations */
+        @keyframes ripple-animation {
+            to { transform: scale(4); opacity: 0; }
         }
 
-        @@keyframes float {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-20px); }
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(2deg); }
         }
 
-        @@keyframes float-delayed {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-15px); }
+        @keyframes float-delayed {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-15px) rotate(-2deg); }
         }
 
-        @@keyframes gradient-x {
+        @keyframes gradient-x {
             0%, 100% { background-position: 0% 50%; }
             50% { background-position: 100% 50%; }
         }
 
-        .animate-float {
-            animation: float 6s ease-in-out infinite;
+        @keyframes pulse-glow {
+            0%, 100% { box-shadow: 0 0 20px rgba(59, 130, 246, 0.3); }
+            50% { box-shadow: 0 0 40px rgba(59, 130, 246, 0.6); }
         }
 
-        .animate-float-delayed {
-            animation: float-delayed 8s ease-in-out infinite;
+        @keyframes slide-up {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
-        .animate-gradient-x {
-            background-size: 200% 200%;
+        @keyframes slide-in-left {
+            from { opacity: 0; transform: translateX(-50px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        @keyframes slide-in-right {
+            from { opacity: 0; transform: translateX(50px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        @keyframes bounce-in {
+            0% { opacity: 0; transform: scale(0.3); }
+            50% { transform: scale(1.05); }
+            70% { transform: scale(0.9); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+
+        @keyframes shimmer {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
+        }
+
+        @keyframes rotate-slow {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        @keyframes text-glow {
+            0%, 100% { text-shadow: 0 0 10px rgba(59, 130, 246, 0.5); }
+            50% { text-shadow: 0 0 20px rgba(124, 58, 237, 0.8), 0 0 30px rgba(59, 130, 246, 0.6); }
+        }
+
+        /* Animation Classes */
+        .animate-float { animation: float 6s ease-in-out infinite; }
+        .animate-float-delayed { animation: float-delayed 8s ease-in-out infinite; }
+        .animate-gradient-x { background-size: 200% 200%; animation: gradient-x 3s ease infinite; }
+        .animate-pulse-glow { animation: pulse-glow 2s ease-in-out infinite; }
+        .animate-slide-up { animation: slide-up 0.8s ease-out forwards; }
+        .animate-bounce-in { animation: bounce-in 0.8s ease-out forwards; }
+        .animate-shimmer { background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent); background-size: 200% 100%; animation: shimmer 2s infinite; }
+        .animate-text-glow { animation: text-glow 3s ease-in-out infinite; }
+
+        /* Staggered Animations */
+        .stagger-1 { animation-delay: 0.1s; }
+        .stagger-2 { animation-delay: 0.2s; }
+        .stagger-3 { animation-delay: 0.3s; }
+        .stagger-4 { animation-delay: 0.4s; }
+        .stagger-5 { animation-delay: 0.5s; }
+
+        /* Hero Enhancements */
+        .hero-title {
+            animation: slide-up 1s ease-out forwards;
+        }
+
+        .hero-subtitle {
+            opacity: 0;
+            animation: slide-up 1s ease-out 0.3s forwards;
+        }
+
+        .hero-buttons {
+            opacity: 0;
+            animation: slide-up 1s ease-out 0.6s forwards;
+        }
+
+        .hero-stats {
+            opacity: 0;
+            animation: slide-up 1s ease-out 0.9s forwards;
+        }
+
+        /* Card Hover Effects */
+        .module-card {
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .module-card:hover {
+            transform: translateY(-12px) scale(1.02);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+        }
+
+        .module-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, transparent 100%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .module-card:hover::before {
+            opacity: 1;
+        }
+
+        /* Button Effects */
+        .btn-primary {
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .btn-primary::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s ease;
+            z-index: -1;
+        }
+
+        .btn-primary:hover::before {
+            left: 100%;
+        }
+
+        /* Glassmorphism Effects */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .dark .glass-card {
+            background: rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        /* Navbar Enhancement */
+        .navbar {
+            transition: all 0.3s ease;
+        }
+
+        .navbar.scrolled {
+            background: rgba(255, 255, 255, 0.95) !important;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .dark .navbar.scrolled {
+            background: rgba(17, 24, 39, 0.95) !important;
+        }
+
+        /* Logo Animation */
+        .logo svg {
+            transition: transform 0.3s ease;
+        }
+
+        .logo:hover svg {
+            transform: rotate(-10deg) scale(1.1);
+        }
+
+        /* Stats Counter Animation */
+        .stat-number {
+            display: inline-block;
+            transition: transform 0.3s ease;
+        }
+
+        .stat-number:hover {
+            transform: scale(1.2);
+        }
+
+        /* Floating Elements */
+        .floating-element {
+            position: absolute;
+            border-radius: 50%;
+            opacity: 0.1;
+            pointer-events: none;
+        }
+
+        .floating-element-1 {
+            width: 300px;
+            height: 300px;
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            top: -100px;
+            right: -100px;
+            animation: float 8s ease-in-out infinite;
+        }
+
+        .floating-element-2 {
+            width: 200px;
+            height: 200px;
+            background: linear-gradient(135deg, #10b981, #3b82f6);
+            bottom: -50px;
+            left: -50px;
+            animation: float-delayed 10s ease-in-out infinite;
+        }
+
+        .floating-element-3 {
+            width: 150px;
+            height: 150px;
+            background: linear-gradient(135deg, #f59e0b, #ef4444);
+            top: 50%;
+            right: 10%;
+            animation: float 12s ease-in-out infinite reverse;
+        }
+
+        /* Scroll Indicator */
+        .scroll-indicator {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateX(-50%) translateY(0); }
+            40% { transform: translateX(-50%) translateY(-15px); }
+            60% { transform: translateX(-50%) translateY(-7px); }
+        }
+
+        /* Section Divider */
+        .section-divider {
+            height: 4px;
+            background: linear-gradient(90deg, transparent, #3b82f6, #8b5cf6, transparent);
+            margin: 0 auto;
+            max-width: 200px;
+            border-radius: 2px;
+        }
+
+        /* Text Gradient */
+        .text-gradient {
+            background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 50%, #3b82f6 100%);
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
             animation: gradient-x 3s ease infinite;
         }
 
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 10px; }
+        ::-webkit-scrollbar-track { background: #f1f5f9; }
+        ::-webkit-scrollbar-thumb { background: linear-gradient(180deg, #3b82f6, #8b5cf6); border-radius: 5px; }
+        ::-webkit-scrollbar-thumb:hover { background: linear-gradient(180deg, #2563eb, #7c3aed); }
+        .dark ::-webkit-scrollbar-track { background: #1f2937; }
+
+        /* Parallax Effect */
+        .parallax-bg {
+            transform: translateZ(0);
+            will-change: transform;
+        }
+
+        /* Focus States */
+        a:focus, button:focus {
+            outline: 2px solid #3b82f6;
+            outline-offset: 2px;
+        }
+
+        /* Loading State */
+        .skeleton {
+            background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+            background-size: 200% 100%;
+            animation: shimmer 1.5s infinite;
+        }
+
+        /* Intersection Observer Animation Triggers */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease;
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Skip Navigation */
         .skip-navigation {
             position: absolute;
             left: -10000px;
@@ -747,39 +1049,123 @@
             width: auto;
             height: auto;
         }
-
-        /* Enhanced transitions for theme switching */
-        * {
-            transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
-        }
-
-        /* Custom scrollbar */
-        ::-webkit-scrollbar {
-            width: 8px;
-        }
-
-        ::-webkit-scrollbar-track {
-            background: transparent;
-        }
-
-        ::-webkit-scrollbar-thumb {
-            background: rgba(156, 163, 175, 0.5);
-            border-radius: 4px;
-        }
-
-        ::-webkit-scrollbar-thumb:hover {
-            background: rgba(156, 163, 175, 0.8);
-        }
-
-        /* Dark mode scrollbar */
-        .dark ::-webkit-scrollbar-thumb {
-            background: rgba(75, 85, 99, 0.5);
-        }
-
-        .dark ::-webkit-scrollbar-thumb:hover {
-            background: rgba(75, 85, 99, 0.8);
-        }
     </style>
+
+    <!-- Enhanced JavaScript -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Navbar scroll effect
+            const navbar = document.querySelector('.navbar');
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 50) {
+                    navbar.classList.add('scrolled');
+                } else {
+                    navbar.classList.remove('scrolled');
+                }
+            });
+
+            // Intersection Observer for reveal animations
+            const revealElements = document.querySelectorAll('.reveal, .module-card, [data-fade-in]');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach((entry, index) => {
+                    if (entry.isIntersecting) {
+                        setTimeout(() => {
+                            entry.target.classList.add('active');
+                            entry.target.style.opacity = '1';
+                            entry.target.style.transform = 'translateY(0)';
+                        }, index * 100);
+                    }
+                });
+            }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+
+            revealElements.forEach(el => {
+                el.style.opacity = '0';
+                el.style.transform = 'translateY(30px)';
+                el.style.transition = 'all 0.6s ease';
+                observer.observe(el);
+            });
+
+            // Smooth scroll for anchor links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }
+                });
+            });
+
+            // Parallax effect on mouse move
+            const hero = document.querySelector('.hero');
+            if (hero) {
+                hero.addEventListener('mousemove', (e) => {
+                    const floatingElements = hero.querySelectorAll('.floating-element, .animate-float, .animate-float-delayed');
+                    const x = (e.clientX / window.innerWidth - 0.5) * 20;
+                    const y = (e.clientY / window.innerHeight - 0.5) * 20;
+                    floatingElements.forEach((el, i) => {
+                        const speed = (i + 1) * 0.5;
+                        el.style.transform = `translate(${x * speed}px, ${y * speed}px)`;
+                    });
+                });
+            }
+
+            // Button ripple effect
+            document.querySelectorAll('.btn-primary, .btn-secondary').forEach(btn => {
+                btn.addEventListener('click', function(e) {
+                    const ripple = document.createElement('span');
+                    const rect = this.getBoundingClientRect();
+                    ripple.style.cssText = `
+                        position: absolute;
+                        background: rgba(255,255,255,0.3);
+                        border-radius: 50%;
+                        width: 100px;
+                        height: 100px;
+                        left: ${e.clientX - rect.left - 50}px;
+                        top: ${e.clientY - rect.top - 50}px;
+                        transform: scale(0);
+                        animation: ripple-animation 0.6s ease-out;
+                        pointer-events: none;
+                    `;
+                    this.style.position = 'relative';
+                    this.style.overflow = 'hidden';
+                    this.appendChild(ripple);
+                    setTimeout(() => ripple.remove(), 600);
+                });
+            });
+
+            // Counter animation for stats
+            const animateCounter = (el, target) => {
+                let current = 0;
+                const increment = target / 50;
+                const timer = setInterval(() => {
+                    current += increment;
+                    if (current >= target) {
+                        el.textContent = target.toLocaleString();
+                        clearInterval(timer);
+                    } else {
+                        el.textContent = Math.floor(current).toLocaleString();
+                    }
+                }, 30);
+            };
+
+            // Typing effect for hero subtitle
+            const typeText = (element, text, speed = 50) => {
+                let i = 0;
+                element.textContent = '';
+                const type = () => {
+                    if (i < text.length) {
+                        element.textContent += text.charAt(i);
+                        i++;
+                        setTimeout(type, speed);
+                    }
+                };
+                type();
+            };
+
+            console.log('🎉 Sport Academy - Welcome Page Enhanced!');
+        });
+    </script>
 
     <!-- Custom Interactions JS (Legacy Fallback) -->
     @if(!app()->environment('production'))

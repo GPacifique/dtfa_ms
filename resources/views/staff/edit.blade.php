@@ -1,12 +1,12 @@
 @extends('layouts.app')
 
-@push('hero')
+@section('hero')
     <x-hero title="Edit Staff Profile" subtitle="Update staff details and roles">
         <div class="mt-4 flex items-center gap-2">
 
         </div>
     </x-hero>
-@endpush
+@endsection
 
 @section('content')
     <div class="bg-white dark:bg-slate-800 rounded shadow p-6 mt-6">

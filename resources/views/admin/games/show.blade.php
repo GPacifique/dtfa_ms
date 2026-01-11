@@ -1,13 +1,13 @@
 @extends('layouts.app')
 
-@push('hero')
+@section('hero')
     <x-hero :title="$game->home_team . ' vs ' . $game->away_team" :subtitle="$game->date?->format('l, F d, Y') . ' at ' . ($game->time ?? '')">
         <div class="mt-4">
             <a href="{{ route('admin.games.index') }}" class="btn-secondary">← Back to Matches</a>
             <a href="{{ route('admin.games.edit', $game) }}" class="btn-outline">📝 Update Report</a>
         </div>
     </x-hero>
-@endpush
+@endsection
 
 @section('content')
 <div class="max-w-7xl mx-auto p-6">

@@ -11,7 +11,7 @@
                 @method('PUT')
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <x-form.input label="Name" name="name" :value="$plan->name" required />
-                    <x-form.input label="Price (cents)" name="price_cents" type="number" :value="$plan->price_cents" required />
+                    <x-form.input label="Price (RWF)" name="price_cents" type="number" :value="$plan->price_cents" required />
                     <x-form.input label="Currency" name="currency" :value="$plan->currency" />
                     <x-form.select label="Interval" name="interval">
                         <option value="monthly" @selected($plan->interval==='monthly')>Monthly</option>

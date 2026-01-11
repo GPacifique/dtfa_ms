@@ -1,13 +1,13 @@
 @extends('layouts.app')
 
-@push('hero')
+@section('hero')
     <x-hero :title="$training->training_name" subtitle="Training Details">
         <div class="mt-4 flex gap-2">
             <a href="{{ route('admin.inhousetrainings.index') }}" class="btn-secondary">← {{ __('app.back_to_trainings') }}</a>
             <a href="{{ route('admin.inhousetrainings.edit', $training->id) }}" class="btn-primary">Edit</a>
         </div>
     </x-hero>
-@endpush
+@endsection
 
 @section('content')
 <div class="max-w-4xl mx-auto p-6">

@@ -3,14 +3,8 @@
 
 @section('content')
 @php
-    $__subsLabels = isset($subsLabels) && is_array($subsLabels) ? $subsLabels : ['Jun','Jul','Aug','Sep','Oct','Nov'];
-    $__subsActive = isset($subsActive) && is_array($subsActive) ? $subsActive : [120, 135, 150, 160, 175, 190];
-    $__subsNew = isset($subsNew) && is_array($subsNew) ? $subsNew : [20, 25, 30, 28, 35, 40];
     $__regLabels = isset($regLabels) && is_array($regLabels) ? $regLabels : ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
     $__regCounts = isset($regCounts) && is_array($regCounts) ? $regCounts : [12, 19, 7, 15, 22, 18, 25, 17, 20, 23, 16, 21];
-    $__feesPaid = isset($feesPaidCount) ? (int)$feesPaidCount : 70;
-    $__feesPending = isset($feesPendingCount) ? (int)$feesPendingCount : 20;
-    $__feesOverdue = isset($feesOverdueCount) ? (int)$feesOverdueCount : 10;
 @endphp
 <div class="min-h-screen bg-gradient-to-br from-slate-50 via-emerald-50 to-teal-50 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900">
 
@@ -101,23 +95,18 @@
                 </div>
             </a>
 
-            {{-- Revenue --}}
-            <a href="{{ route('accountant.payments.index') }}" class="card group hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 cursor-pointer">
+            {{-- Total Income --}}
+            <a href="{{ route('admin.incomes.index') }}" class="card group hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 cursor-pointer">
                 <div class="card-body">
                     <div class="flex items-start justify-between">
                         <div class="flex-1">
-                            <p class="text-sm font-medium text-slate-600 dark:text-slate-400 mb-1">{{ __('app.revenue_this_month') }}</p>
+                            <p class="text-sm font-medium text-slate-600 dark:text-slate-400 mb-1">{{ __('app.income_this_month') }}</p>
                             <h3 class="text-3xl font-bold text-teal-600 dark:text-teal-400" data-animate-count>
-                                {{ number_format((int) floor((($stats['revenueThisMonth'] ?? 0) + ($stats['incomeThisMonth'] ?? 0)) / 100)) }} RWF
+                                {{ number_format($stats['incomeThisMonth'] ?? 0) }} RWF
                             </h3>
                             <p class="text-xs text-slate-500 dark:text-slate-400 mt-2">
-                                RWF
+                                {{ __('app.from_all_sources') }}
                             </p>
-                            <div class="text-xs text-slate-500 dark:text-slate-400 mt-2">
-                                <div>{{ __('app.payments') }}: {{ number_format((int) floor(($stats['revenueThisMonth'] ?? 0)/100)) }} RWF</div>
-                                <div>{{ __('app.subscriptions') }} ({{ strtolower(__('app.this_month')) }}): {{ number_format((int) floor(($stats['subscriptionRevenueThisMonth'] ?? 0)/100)) }} RWF</div>
-                                <div>{{ __('app.other_incomes') }}: {{ number_format((int) floor(($stats['incomeThisMonth'] ?? 0)/100)) }} RWF</div>
-                            </div>
                         </div>
                         <div class="w-12 h-12 bg-gradient-to-br from-teal-500 to-teal-600 rounded-xl flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
                             <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -283,7 +272,7 @@
             </div>
         </div>
 
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
             <div class="card">
                 <div class="card-body">
                     <div class="flex items-center justify-between mb-2">
@@ -295,17 +284,9 @@
             <div class="card">
                 <div class="card-body">
                     <div class="flex items-center justify-between mb-2">
-                        <h3 class="text-xl md:text-2xl font-semibold text-slate-900 dark:text-white">{{ __('app.fees_status') }}</h3>
+                        <h3 class="text-xl md:text-2xl font-semibold text-slate-900 dark:text-white">{{ __('app.expense_categories') }}</h3>
                     </div>
-                    <canvas id="adminFeesChart" height="200"></canvas>
-                </div>
-            </div>
-            <div class="card">
-                <div class="card-body">
-                    <div class="flex items-center justify-between mb-2">
-                        <h3 class="text-xl md:text-2xl font-semibold text-slate-900 dark:text-white">{{ __('app.subscriptions_last_6_months') }}</h3>
-                    </div>
-                    <canvas id="adminSubscriptionsChart" height="200"></canvas>
+                    <canvas id="adminExpenseCategoriesChart" height="200"></canvas>
                 </div>
             </div>
         </div>
@@ -329,7 +310,7 @@
                                 datasets: [
                                     {
                                         type: 'bar',
-                                        label: 'Income',
+                                        label: '{{ __('app.income') }}',
                                         data: incomeData,
                                         backgroundColor: 'rgba(16, 185, 129, 0.8)',
                                         borderColor: '#10b981',
@@ -339,7 +320,7 @@
                                     },
                                     {
                                         type: 'bar',
-                                        label: 'Expenses',
+                                        label: '{{ __('app.expenses') }}',
                                         data: expenseData,
                                         backgroundColor: 'rgba(239, 68, 68, 0.8)',
                                         borderColor: '#ef4444',
@@ -349,7 +330,7 @@
                                     },
                                     {
                                         type: 'line',
-                                        label: 'Net Profit',
+                                        label: '{{ __('app.net_profit') }}',
                                         data: netflowData,
                                         borderColor: '#3b82f6',
                                         backgroundColor: 'rgba(59, 130, 246, 0.1)',
@@ -413,7 +394,7 @@
                         data: {
                             labels: __regLabels,
                             datasets: [{
-                                label: 'Registrations',
+                                label: '{{ __('app.registrations') }}',
                                 data: __regCounts,
                                 backgroundColor: 'rgba(99, 102, 241, 0.5)',
                                 borderColor: '#6366f1',
@@ -423,60 +404,32 @@
                         options: { responsive: true, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true } } }
                     });
 
-                    const feesCtx = document.getElementById('adminFeesChart');
-                    const __feesPaid = @json($__feesPaid);
-                    const __feesPending = @json($__feesPending);
-                    const __feesOverdue = @json($__feesOverdue);
-                    new Chart(feesCtx, {
-                        type: 'doughnut',
-                        data: {
-                            labels: ['Paid', 'Pending', 'Overdue'],
-                            datasets: [{
-                                data: [__feesPaid, __feesPending, __feesOverdue],
-                                backgroundColor: ['#10b981', '#f59e0b', '#ef4444'],
-                                borderWidth: 1
-                            }]
-                        },
-                        options: { plugins: { legend: { position: 'bottom' } } }
-                    });
-
-                    @php
-                        $__subsLabels = isset($subsLabels) && is_array($subsLabels) ? $subsLabels : ['Jun','Jul','Aug','Sep','Oct','Nov'];
-                        $__subsActive = isset($subsActive) && is_array($subsActive) ? $subsActive : [120, 135, 150, 160, 175, 190];
-                        $__subsNew = isset($subsNew) && is_array($subsNew) ? $subsNew : [20, 25, 30, 28, 35, 40];
-                    @endphp
-                    const subsCtx = document.getElementById('adminSubscriptionsChart');
-                    new Chart(subsCtx, {
-                        type: 'line',
-                        data: {
-                            labels: @json($__subsLabels),
-                            datasets: [{
-                                label: 'Active Subscriptions',
-                                data: @json($__subsActive),
-                                borderColor: '#22c55e',
-                                backgroundColor: 'rgba(34, 197, 94, 0.2)',
-                                tension: 0.3,
-                                fill: true
-                            },{
-                                label: 'New Subscriptions',
-                                data: @json($__subsNew),
-                                borderColor: '#3b82f6',
-                                backgroundColor: 'rgba(59, 130, 246, 0.2)',
-                                tension: 0.3,
-                                fill: true
-                            }]
-                        },
-                        options: {
-                            responsive: true,
-                            plugins: { legend: { position: 'bottom' } },
-                            scales: { y: { beginAtZero: true } }
-                        }
-                    });
+                    const expCatCtx = document.getElementById('adminExpenseCategoriesChart');
+                    if (expCatCtx) {
+                        @php
+                            $catLabels = $expenseCategoryLabels ?? ['Operations', 'Salaries', 'Utilities', 'Supplies', 'Other'];
+                            $catAmounts = $expenseCategoryAmounts ?? [30, 25, 15, 20, 10];
+                        @endphp
+                        const expCatLabels = @json($catLabels);
+                        const expCatData = @json($catAmounts);
+                        new Chart(expCatCtx, {
+                            type: 'doughnut',
+                            data: {
+                                labels: expCatLabels,
+                                datasets: [{
+                                    data: expCatData,
+                                    backgroundColor: ['#ef4444', '#f59e0b', '#3b82f6', '#10b981', '#8b5cf6'],
+                                    borderWidth: 1
+                                }]
+                            },
+                            options: { plugins: { legend: { position: 'bottom' } } }
+                        });
+                    }
                 }
             });
         </script>
         @endpush
-        {{-- Income & Subscription KPIs (new) --}}
+        {{-- Income & Expense KPIs --}}
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
             <a href="{{ route('admin.incomes.index') }}" class="card group hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 cursor-pointer">
                 <div class="card-body">
@@ -484,9 +437,9 @@
                         <div class="flex-1">
                             <p class="text-sm font-medium text-slate-600 dark:text-slate-400 mb-1">{{ __('app.income_this_month') }}</p>
                             <h3 class="text-3xl font-bold text-emerald-600 dark:text-emerald-400" data-animate-count>
-                                {{ number_format((int) floor(($stats['incomeThisMonth'] ?? 0)/100)) }} RWF
+                                {{ number_format($stats['incomeThisMonth'] ?? 0) }} RWF
                             </h3>
-                            <p class="text-xs text-slate-500 dark:text-slate-400 mt-2">RWF</p>
+                            <p class="text-xs text-slate-500 dark:text-slate-400 mt-2">{{ __('app.from_all_sources') }}</p>
                         </div>
                         <div class="w-12 h-12 bg-gradient-to-br from-emerald-500 to-emerald-600 rounded-xl flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
                             <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -503,7 +456,7 @@
                         <div class="flex-1">
                             <p class="text-sm font-medium text-slate-600 dark:text-slate-400 mb-1">{{ __('app.total_income') }}</p>
                             <h3 class="text-3xl font-bold text-slate-900" data-animate-count>
-                                {{ number_format((int) floor(($stats['totalIncome'] ?? 0)/100)) }} RWF
+                                {{ number_format($stats['totalIncome'] ?? 0) }} RWF
                             </h3>
                             <p class="text-xs text-slate-500 dark:text-slate-400 mt-2">{{ __('app.all_time') }}</p>
                         </div>
@@ -516,17 +469,17 @@
                 </div>
             </a>
 
-            <a href="{{ route('accountant.subscriptions.index') }}" class="card group hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 cursor-pointer">
+            <a href="{{ route('admin.expenses.index') }}" class="card group hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 cursor-pointer">
                 <div class="card-body">
                     <div class="flex items-start justify-between">
                         <div class="flex-1">
-                            <p class="text-sm font-medium text-slate-600 dark:text-slate-400 mb-1">{{ __('app.subscription_revenue_this_month') }}</p>
-                            <h3 class="text-3xl font-bold text-amber-600 dark:text-amber-400" data-animate-count>
-                                {{ number_format((int) floor(($stats['subscriptionRevenueThisMonth'] ?? 0)/100)) }}
+                            <p class="text-sm font-medium text-slate-600 dark:text-slate-400 mb-1">{{ __('app.expenses_this_month') }}</p>
+                            <h3 class="text-3xl font-bold text-red-600 dark:text-red-400" data-animate-count>
+                                {{ number_format($stats['expensesThisMonth'] ?? 0) }} RWF
                             </h3>
-                            <p class="text-xs text-slate-500 dark:text-slate-400 mt-2">RWF</p>
+                            <p class="text-xs text-slate-500 dark:text-slate-400 mt-2">{{ __('app.from_all_sources') }}</p>
                         </div>
-                        <div class="w-12 h-12 bg-gradient-to-br from-amber-500 to-amber-600 rounded-xl flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
+                        <div class="w-12 h-12 bg-gradient-to-br from-red-500 to-red-600 rounded-xl flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
                             <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1"/>
                             </svg>
@@ -535,13 +488,13 @@
                 </div>
             </a>
 
-            <a href="{{ route('accountant.subscriptions.index') }}" class="card group hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 cursor-pointer">
+            <a href="{{ route('admin.expenses.index') }}" class="card group hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 cursor-pointer">
                 <div class="card-body">
                     <div class="flex items-start justify-between">
                         <div class="flex-1">
-                            <p class="text-sm font-medium text-slate-600 dark:text-slate-400 mb-1">{{ __('app.total_subscription_revenue') }}</p>
+                            <p class="text-sm font-medium text-slate-600 dark:text-slate-400 mb-1">{{ __('app.total_expenses') }}</p>
                             <h3 class="text-3xl font-bold text-slate-900" data-animate-count>
-                                {{ number_format((int) floor(($stats['totalSubscriptionRevenue'] ?? 0)/100)) }}
+                                {{ number_format($stats['totalExpenses'] ?? 0) }} RWF
                             </h3>
                             <p class="text-xs text-slate-500 dark:text-slate-400 mt-2">{{ __('app.all_time') }}</p>
                         </div>
@@ -589,16 +542,16 @@
                 </div>
             </a>
 
-            <a href="{{ route('accountant.subscriptions.index') }}" class="card cursor-pointer hover:shadow-lg transition-shadow">
+            <a href="{{ route('admin.training_session_records.index') }}" class="card cursor-pointer hover:shadow-lg transition-shadow">
                 <div class="card-body">
                     <div class="flex items-center justify-between">
                         <div>
-                            <p class="text-sm text-slate-600 dark:text-slate-400">{{ __('app.subscriptions') }}</p>
-                            <p class="text-2xl font-bold text-slate-900 dark:text-white">{{ $stats['activeSubscriptions'] ?? 0 }}</p>
+                            <p class="text-sm text-slate-600 dark:text-slate-400">{{ __('app.training_sessions') }}</p>
+                            <p class="text-2xl font-bold text-slate-900 dark:text-white">{{ $stats['totalSessions'] ?? 0 }}</p>
                         </div>
                         <div class="w-10 h-10 bg-amber-100 dark:bg-amber-900/30 rounded-lg flex items-center justify-center">
                             <svg class="w-5 h-5 text-amber-600 dark:text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"/>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
                             </svg>
                         </div>
                     </div>
@@ -743,10 +696,10 @@
                                             </div>
                                             <div class="ml-3">
                                                 <p class="text-sm font-medium text-slate-900 dark:text-white">
-                                                    {{ $attendance->student ? $attendance->student->first_name . ' ' . ($attendance->student->second_name ?? '') : 'Unknown Student' }}
+                                                    {{ $attendance->student ? $attendance->student->first_name . ' ' . ($attendance->student->second_name ?? '') : __('app.unknown_student') }}
                                                 </p>
                                                 <p class="text-xs text-slate-500 dark:text-slate-400">
-                                                    ID: {{ $attendance->student->student_id ?? $attendance->student_id }}
+                                                    {{ __('app.id') }}: {{ $attendance->student->student_id ?? $attendance->student_id }}
                                                 </p>
                                             </div>
                                         </div>
@@ -829,7 +782,7 @@
                             <div>
                                 <p class="text-sm text-slate-600 dark:text-slate-400">{{ __('app.capacity_building') }}</p>
                                 <p class="text-2xl font-bold text-slate-900 dark:text-white">{{ $stats['capacityCount'] ?? 0 }}</p>
-                                <p class="text-xs text-slate-500 mt-1">{{ __('app.total_cost') }}: {{ number_format(($stats['capacityTotalCost'] ?? 0)/100, 2) }} RWF</p>
+                                <p class="text-xs text-slate-500 mt-1">{{ __('app.total_cost') }}: {{ number_format($stats['capacityTotalCost'] ?? 0) }} RWF</p>
                             </div>
                             <div class="w-10 h-10 bg-sky-100 dark:bg-sky-900/30 rounded-lg flex items-center justify-center">
                                 <svg class="w-5 h-5 text-sky-600 dark:text-sky-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -1012,46 +965,6 @@
                 @endif
 
                 {{-- Finance --}}
-                @if(Route::has('accountant.subscriptions.index'))
-                <a href="{{ route('accountant.subscriptions.index') }}" class="card hover:shadow-lg transition-shadow">
-                    <div class="card-body p-4 text-center">
-                        <div class="text-3xl mb-2">💳</div>
-                        <div class="text-sm font-semibold text-slate-900">{{ __('app.subscriptions') }}</div>
-                        <div class="text-xs text-slate-500 mt-1">{{ __('app.subscriptions') }}</div>
-                    </div>
-                </a>
-                @endif
-
-                @if(Route::has('admin.plans.index'))
-                <a href="{{ route('admin.plans.index') }}" class="card hover:shadow-lg transition-shadow">
-                    <div class="card-body p-4 text-center">
-                        <div class="text-3xl mb-2">🏷️</div>
-                        <div class="text-sm font-semibold text-slate-900">{{ __('app.plans') }}</div>
-                        <div class="text-xs text-slate-500 mt-1">{{ __('app.pricing') }}</div>
-                    </div>
-                </a>
-                @endif
-
-                @if(Route::has('accountant.invoices.index'))
-                <a href="{{ route('accountant.invoices.index') }}" class="card hover:shadow-lg transition-shadow">
-                    <div class="card-body p-4 text-center">
-                        <div class="text-3xl mb-2">📄</div>
-                        <div class="text-sm font-semibold text-slate-900">{{ __('app.invoices') }}</div>
-                        <div class="text-xs text-slate-500 mt-1">{{ __('app.billing') }}</div>
-                    </div>
-                </a>
-                @endif
-
-                @if(Route::has('accountant.payments.index'))
-                <a href="{{ route('accountant.payments.index') }}" class="card hover:shadow-lg transition-shadow">
-                    <div class="card-body p-4 text-center">
-                        <div class="text-3xl mb-2">💰</div>
-                        <div class="text-sm font-semibold text-slate-900">{{ __('app.payments') }}</div>
-                        <div class="text-xs text-slate-500 mt-1">{{ __('app.transactions') }}</div>
-                    </div>
-                </a>
-                @endif
-
                 @if(Route::has('admin.incomes.index'))
                 <a href="{{ route('admin.incomes.index') }}" class="card hover:shadow-lg transition-shadow">
                     <div class="card-body p-4 text-center">
@@ -1163,7 +1076,7 @@
                 <h2 class="text-xl font-bold text-slate-900 dark:text-white">💰 {{ __('app.todays_incomes') }}</h2>
                 <div class="flex items-center gap-4">
                     <span class="px-3 py-1 bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-400 rounded-full text-sm font-semibold">
-                        {{ __('app.total') }}: {{ number_format(($todayIncomeStats['total'] ?? 0) / 100, 0) }} RWF
+                        {{ __('app.total') }}: {{ number_format($todayIncomeStats['total'] ?? 0) }} RWF
                     </span>
                     <span class="px-3 py-1 bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400 rounded-full text-sm font-semibold">
                         {{ $todayIncomeStats['count'] ?? 0 }} {{ __('app.records') }}
@@ -1268,35 +1181,6 @@
             </div>
         </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <div class="card">
-                    <div class="card-body p-4">
-                        <h3 class="font-semibold text-slate-900 mb-2 text-sm">📊 {{ __('app.weekly_session_trends') }}</h3>
-                        <div class="h-48">
-                            <canvas id="sessionTrendsChart" class="w-full h-full"></canvas>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="card">
-                    <div class="card-body p-4">
-                        <h3 class="font-semibold text-slate-900 mb-2 text-sm">📋 {{ __('app.coach_workload') }}</h3>
-                        <div class="h-48">
-                            <canvas id="coachWorkloadChart" class="w-full h-full"></canvas>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="card">
-                    <div class="card-body p-4">
-                        <h3 class="font-semibold text-slate-900 mb-2 text-sm">💸 {{ __('app.income_expenses_netflow') }}</h3>
-                        <div class="h-48">
-                            <canvas id="financeFlowChart" class="w-full h-full"></canvas>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mt-6">
                 <div class="card">
                     <div class="card-body p-5">
@@ -1310,12 +1194,12 @@
                     <div class="card-body p-5">
                         <div class="text-xs text-slate-500 font-semibold">{{ __('app.net_profit_month') }}</div>
                         <div class="mt-2 text-2xl font-bold {{ ($netProfit ?? 0) >= 0 ? 'text-emerald-600' : 'text-rose-600' }}">
-                            {{ number_format(($netProfit ?? 0)/100, 2) }} RWF
+                            {{ number_format($netProfit ?? 0) }} RWF
                         </div>
                         <div class="text-xs text-slate-400 mt-1">{{ __('app.revenue_minus_expenses') }}</div>
                         <div class="mt-3 text-xs text-slate-500">
-                            <div>{{ __('app.expenses_this_month') }}: <span class="font-medium">{{ number_format(($stats['totalExpensesThisMonth'] ?? 0)/100, 2) }} RWF</span></div>
-                            <div>{{ __('app.total_expenses') }}: <span class="font-medium">{{ number_format(($stats['totalExpenses'] ?? 0)/100, 2) }} RWF</span></div>
+                            <div>{{ __('app.expenses_this_month') }}: <span class="font-medium">{{ number_format($stats['totalExpensesThisMonth'] ?? 0) }} RWF</span></div>
+                            <div>{{ __('app.total_expenses') }}: <span class="font-medium">{{ number_format($stats['totalExpenses'] ?? 0) }} RWF</span></div>
                             <div>{{ __('app.pending_expenses') }}: <span class="font-medium">{{ $stats['pendingExpenses'] ?? 0 }}</span></div>
                         </div>
                     </div>
@@ -1398,28 +1282,6 @@
         (function(){
             if (typeof Chart === 'undefined') { console.error('Chart.js not found. Skipping chart initialization.'); return; }
 
-            // Session trends chart
-            try {
-                const trendsCtx = document.getElementById('sessionTrendsChart');
-                if (trendsCtx) {
-                    const trendsData = @json($weeklyTrends ?? []);
-                    const labels = trendsData.map(t => t.label);
-                    const data = trendsData.map(t => t.sessions);
-                    new Chart(trendsCtx, { type: 'line', data: { labels, datasets:[{ label:'Sessions', data, borderColor:'#4f46e5', backgroundColor:'rgba(79,70,229,0.08)', fill:true, tension:0.3, pointRadius:3 }] }, options:{ responsive:true, maintainAspectRatio:false, plugins:{legend:{display:false}} } });
-                }
-            } catch (err) { console.error('sessionTrendsChart init error', err); }
-
-            // Coach workload
-            try {
-                const coachCtx = document.getElementById('coachWorkloadChart');
-                if (coachCtx) {
-                    const workloadData = @json($coachWorkload ?? []);
-                    const labels = workloadData.map(c => c.coach);
-                    const data = workloadData.map(c => c.sessions);
-                    new Chart(coachCtx, { type:'bar', data:{ labels, datasets:[{ label:'Sessions', data, backgroundColor:'#60a5fa' }] }, options:{ responsive:true, maintainAspectRatio:false, plugins:{legend:{display:false}} } });
-                }
-            } catch (err) { console.error('coachWorkloadChart init error', err); }
-
             // Capacity sparkline
             try {
                 const capCtx = document.getElementById('capacitySpendChart');
@@ -1429,18 +1291,6 @@
                     new Chart(capCtx, { type:'line', data:{ labels:capLabels, datasets:[{ data:capTotals, borderColor:'#0ea5e9', backgroundColor:'rgba(14,165,233,0.08)', fill:true, pointRadius:0 }] }, options:{ responsive:true, maintainAspectRatio:false, plugins:{legend:{display:false}}, scales:{ x:{display:false}, y:{display:false} } } });
                 }
             } catch (err) { console.error('capacitySpendChart init error', err); }
-
-            // Finance flow
-            try {
-                const financeCtx = document.getElementById('financeFlowChart');
-                if (financeCtx) {
-                    const financeLabels = @json($financeLabels ?? []);
-                    const incomeData = @json($incomeTotals ?? []);
-                    const expenseData = @json($expenseTotals ?? []);
-                    const netflowData = @json($netflowTotals ?? []);
-                    new Chart(financeCtx, { type:'bar', data:{ labels:financeLabels, datasets:[ { type:'bar', label:'Income', data:incomeData, backgroundColor:'rgba(16,185,129,0.7)' }, { type:'bar', label:'Expenses', data:expenseData, backgroundColor:'rgba(239,68,68,0.7)' }, { type:'line', label:'Netflow', data:netflowData, borderColor:'#2563eb', backgroundColor:'rgba(37,99,235,0.08)', fill:false } ] }, options:{ responsive:true, maintainAspectRatio:false, plugins:{ tooltip:{ mode:'index', intersect:false } }, scales:{ x:{ stacked:true }, y:{ beginAtZero:true } } });
-                }
-            } catch (err) { console.error('financeFlowChart init error', err); }
 
         })();
     </script>

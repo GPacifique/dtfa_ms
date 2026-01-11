@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@push('hero')
+@section('hero')
     <x-hero title="Expenses Management" subtitle="Track and manage all academy expenses">
         <a href="{{ route('admin.expenses.create') }}"
            class="inline-flex items-center px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white font-medium rounded-lg transition">
@@ -10,7 +10,7 @@
             Add Expense
         </a>
     </x-hero>
-@endpush
+@endsection
 
 @section('content')
 <div class="container mx-auto px-4 py-8">
@@ -22,7 +22,7 @@
             <div class="flex items-center justify-between">
                 <div>
                     <p class="text-blue-100 text-sm font-medium">Total Expenses</p>
-                    <p class="text-3xl font-bold mt-2">{{ number_format($totalAmount / 100, 0) }}</p>
+                    <p class="text-3xl font-bold mt-2">{{ number_format($totalAmount) }}</p>
                     <p class="text-xs text-blue-100 mt-1">RWF</p>
                 </div>
                 <div class="bg-blue-400 bg-opacity-30 rounded-lg p-3">

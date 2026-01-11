@@ -1,14 +1,14 @@
 @php($title = 'Equipment Details - ' . $equipment->name)
 @extends('layouts.app')
 
-@push('hero')
+@section('hero')
     <x-hero :title="'🎽 ' . $equipment->name" :subtitle="'Category: ' . ($equipment->category ?? '—')">
         <div class="mt-4">
             <a href="{{ route('admin.equipment.index') }}" class="btn-secondary">← Back to Equipment</a>
             <a href="{{ route('admin.equipment.edit', $equipment) }}" class="btn-primary">✏️ Edit Equipment</a>
         </div>
     </x-hero>
-@endpush
+@endsection
 
 @section('content')
     <div class="max-w-7xl mx-auto space-y-6">

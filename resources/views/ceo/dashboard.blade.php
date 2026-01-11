@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@push('hero')
+@section('hero')
 <x-hero title="CEO Dashboard" subtitle="High-level overview of the academy's performance.">
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
         <div class="card">
@@ -8,7 +8,7 @@
                 <div class="flex items-start justify-between">
                     <div>
                         <p class="text-sm text-slate-600 dark:text-slate-400">Revenue (This Month)</p>
-                        <p class="text-3xl font-bold text-emerald-600">{{ number_format(($metrics['revenueThisMonth'] ?? 0) / 100, 0) }} RWF</p>
+                        <p class="text-3xl font-bold text-emerald-600">{{ number_format($metrics['revenueThisMonth'] ?? 0) }} RWF</p>
                         <p class="text-xs text-slate-500 mt-2">
                             <span class="{{ ($revenueChangeDirection ?? 'up') === 'up' ? 'text-green-600' : 'text-red-600' }}">
                                 {{ ($revenueChangeDirection ?? 'up') === 'up' ? '↑' : '↓' }} {{ abs($revenueChange ?? 0) }}%
@@ -24,7 +24,7 @@
         <div class="card">
             <div class="card-body">
                 <p class="text-sm text-slate-600 dark:text-slate-400">Net Profit (This Month)</p>
-                <p class="text-3xl font-bold {{ ($netProfitThisMonth ?? 0) >= 0 ? 'text-green-600' : 'text-rose-600' }}">{{ number_format(($netProfitThisMonth ?? 0) / 100, 0) }} RWF</p>
+                <p class="text-3xl font-bold {{ ($netProfitThisMonth ?? 0) >= 0 ? 'text-green-600' : 'text-rose-600' }}">{{ number_format($netProfitThisMonth ?? 0) }} RWF</p>
                 <p class="text-xs text-slate-500 mt-2">Revenue + Income - Expenses</p>
             </div>
         </div>
@@ -44,7 +44,7 @@
         </div>
     </div>
 </x-hero>
-@endpush
+@endsection
 
 @section('content')
 <div class="min-h-screen bg-gradient-to-br from-slate-50 via-emerald-50 to-teal-50 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900">
@@ -60,7 +60,7 @@
                             @foreach($topBranches as $row)
                                 <li class="py-2 flex items-center justify-between">
                                     <span class="font-medium text-slate-800">{{ $row['branch'] }}</span>
-                                    <span class="text-slate-700">{{ number_format(($row['total'] ?? 0)/100, 0) }} RWF</span>
+                                    <span class="text-slate-700">{{ number_format($row['total'] ?? 0) }} RWF</span>
                                 </li>
                             @endforeach
                         </ul>
@@ -88,8 +88,8 @@
 
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
             <div class="card"><div class="card-body"><p class="text-sm text-slate-600">Sessions This Week</p><p class="text-3xl font-bold">{{ $orgStats['sessionsThisWeek'] ?? 0 }}</p></div></div>
-            <div class="card"><div class="card-body"><p class="text-sm text-slate-600">Total Revenue</p><p class="text-3xl font-bold">{{ number_format(($metrics['totalRevenue'] ?? 0 + ($metrics['totalOtherIncome'] ?? 0))/100, 0) }} RWF</p></div></div>
-            <div class="card"><div class="card-body"><p class="text-sm text-slate-600">Total Expenses</p><p class="text-3xl font-bold">{{ number_format(($metrics['totalExpenses'] ?? 0)/100, 0) }} RWF</p></div></div>
+            <div class="card"><div class="card-body"><p class="text-sm text-slate-600">Total Revenue</p><p class="text-3xl font-bold">{{ number_format(($metrics['totalRevenue'] ?? 0) + ($metrics['totalOtherIncome'] ?? 0)) }} RWF</p></div></div>
+            <div class="card"><div class="card-body"><p class="text-sm text-slate-600">Total Expenses</p><p class="text-3xl font-bold">{{ number_format($metrics['totalExpenses'] ?? 0) }} RWF</p></div></div>
         </div>
     </div>
 </div>

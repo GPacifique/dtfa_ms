@@ -1,10 +1,10 @@
 @extends('layouts.app')
 
-@push('hero')
+@section('hero')
     <x-hero title="Add New Expense" subtitle="Record a new expense for the academy">
         <a href="{{ route('admin.expenses.index') }}" class="inline-flex items-center px-4 py-2 bg-slate-200 hover:bg-slate-300 text-slate-800 rounded-lg">Back to Expenses</a>
     </x-hero>
-@endpush
+@endsection
 
 @section('content')
 <div class="container mx-auto px-4 py-8 max-w-4xl">

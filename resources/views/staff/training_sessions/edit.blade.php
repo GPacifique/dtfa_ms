@@ -1,10 +1,10 @@
 @extends('layouts.app')
 
-@push('hero')
+@section('hero')
     <x-hero title="Edit Training Session Record" subtitle="Update session details" gradient="emerald">
         <a href="{{ route('training_sessions.index') }}" class="inline-flex items-center px-3 py-1.5 border border-white/30 rounded-md text-sm text-white hover:bg-white/10">← Back</a>
     </x-hero>
-@endpush
+@endsection
 
 @section('content')
 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">

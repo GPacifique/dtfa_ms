@@ -9,9 +9,6 @@ use App\Models\User;
 use App\Models\Branch;
 use App\Models\Student;
 use App\Models\Group;
-use App\Models\Payment;
-use App\Models\Subscription;
-use App\Models\Invoice;
 use App\Models\Expense;
 use App\Models\Income;
 use App\Models\StudentAttendance;
@@ -64,19 +61,8 @@ class AdminController extends Controller
         // Use cached heavyweight aggregates when possible to reduce DB load
         $metrics = Cache::remember('dashboard.metrics', 30, function () {
             return [
-                'revenueThisMonth' => Payment::where('status', 'succeeded')
-                    ->whereBetween('paid_at', [now()->startOfMonth(), now()->endOfMonth()])
-                    ->sum('amount_cents'),
-                'totalRevenue' => Payment::where('status', 'succeeded')->sum('amount_cents'),
                 'incomeThisMonth' => Income::whereBetween('received_at', [now()->startOfMonth(), now()->endOfMonth()])->sum('amount_cents'),
                 'totalIncome' => Income::sum('amount_cents'),
-                'subscriptionRevenueThisMonth' => Payment::whereNotNull('subscription_id')
-                    ->where('status', 'succeeded')
-                    ->whereBetween('paid_at', [now()->startOfMonth(), now()->endOfMonth()])
-                    ->sum('amount_cents'),
-                'totalSubscriptionRevenue' => Payment::whereNotNull('subscription_id')
-                    ->where('status', 'succeeded')
-                    ->sum('amount_cents'),
                 'pendingExpenses' => Expense::where('status', 'pending')->count(),
                 'totalExpensesThisMonth' => Expense::whereIn('status', ['approved', 'paid'])
                     ->whereBetween('expense_date', [now()->startOfMonth(), now()->endOfMonth()])
@@ -98,7 +84,6 @@ class AdminController extends Controller
             'totalUsers' => User::count(),
             'totalCoaches' => User::role('coach')->count(),
             'totalAdmins' => User::role('admin')->count(),
-            'totalPayments' => Payment::where('status', 'succeeded')->count(),
             'totalIncomeRecords' => Income::count(),
             'totalExpensesRecords' => Expense::count(),
             'totalSessions' => TrainingSession::count(),
@@ -116,16 +101,10 @@ class AdminController extends Controller
                 now()->startOfWeek()->toDateString(),
                 now()->endOfWeek()->toDateString(),
             ])->count(),
-            // Payment & Subscription stats (from cache)
-            'activeSubscriptions' => Subscription::where('status', 'active')->count(),
-            'totalSubscriptions' => Subscription::count(),
-            'revenueThisMonth' => $metrics['revenueThisMonth'] ?? 0,
+            // Income & Expense stats (from cache)
             'incomeThisMonth' => $metrics['incomeThisMonth'] ?? 0,
             'totalIncome' => $metrics['totalIncome'] ?? 0,
-            'subscriptionRevenueThisMonth' => $metrics['subscriptionRevenueThisMonth'] ?? 0,
-            'totalSubscriptionRevenue' => $metrics['totalSubscriptionRevenue'] ?? 0,
-            'pendingInvoices' => Invoice::whereIn('status', ['pending', 'overdue'])->count(),
-            'totalRevenue' => $metrics['totalRevenue'] ?? 0,
+            'expensesThisMonth' => $metrics['totalExpensesThisMonth'] ?? 0,
 
             // Expenses (from cache)
             'pendingExpenses' => $metrics['pendingExpenses'] ?? 0,
@@ -204,17 +183,11 @@ class AdminController extends Controller
             'futureEvents' => \App\Models\UpcomingEvent::where('date', '>=', $today)->count(),
         ];
 
-        // Calculate net profit
-        $netProfit = (($stats['revenueThisMonth'] ?? 0) + ($stats['incomeThisMonth'] ?? 0)) - ($stats['totalExpensesThisMonth'] ?? 0);
+        // Calculate net profit (income - expenses)
+        $netProfit = ($stats['incomeThisMonth'] ?? 0) - ($stats['totalExpensesThisMonth'] ?? 0);
 
-        // Fees Status (counts): Paid via succeeded payments this month, Pending invoices, Overdue invoices
         $startOfMonth = now()->startOfMonth();
         $endOfMonth = now()->endOfMonth();
-        $feesPaidCount = Payment::where('status', 'succeeded')
-            ->whereBetween('paid_at', [$startOfMonth, $endOfMonth])
-            ->count();
-        $feesPendingCount = Invoice::where('status','pending')->count();
-        $feesOverdueCount = Invoice::where('status','overdue')->count();
 
         // Monthly Registrations (last 12 months for admin chart)
         $regLabels = [];
@@ -226,6 +199,18 @@ class AdminController extends Controller
             $regCounts[] = (int) Student::whereBetween('created_at', [$startM, $endM])->count();
         }
 
+        // Expense Categories breakdown for chart
+        $expenseCategories = \App\Models\ExpenseCategory::withCount(['expenses' => function($q) use ($startOfMonth, $endOfMonth) {
+            $q->whereIn('status', ['approved', 'paid'])
+              ->whereBetween('expense_date', [$startOfMonth, $endOfMonth]);
+        }])->withSum(['expenses' => function($q) use ($startOfMonth, $endOfMonth) {
+            $q->whereIn('status', ['approved', 'paid'])
+              ->whereBetween('expense_date', [$startOfMonth, $endOfMonth]);
+        }], 'amount_cents')->get();
+
+        $expenseCategoryLabels = $expenseCategories->pluck('name')->toArray();
+        $expenseCategoryAmounts = $expenseCategories->map(fn($c) => (int) ($c->expenses_sum_amount_cents ?? 0))->toArray();
+
         // Performance Metrics (real data)
         $totalStudents = Student::count();
         $enrolledThisMonth = Student::whereBetween('created_at', [$startOfMonth, $endOfMonth])->count();
@@ -235,12 +220,10 @@ class AdminController extends Controller
         $attendedSessionsMonth = \App\Models\StudentAttendance::whereBetween('created_at', [$startOfMonth, $endOfMonth])->count();
         $sessionAttendanceRate = $totalSessionsMonth > 0 ? round(($attendedSessionsMonth / $totalSessionsMonth) * 100, 1) : 0; // % sessions with attendance
 
-        // Revenue Target: compare this month revenue to last month or a simple target (e.g., 10% MoM growth)
-        $lastMonthRevenue = Payment::where('status', 'succeeded')
-            ->whereBetween('paid_at', [now()->subMonth()->startOfMonth(), now()->subMonth()->endOfMonth()])
-            ->sum('amount_cents');
-        $targetRevenueCents = (int) round($lastMonthRevenue * 1.10); // 10% growth target
-        $revenueProgress = $targetRevenueCents > 0 ? round(($stats['revenueThisMonth'] ?? 0) * 100 / $targetRevenueCents, 1) : 0; // % of target achieved
+        // Income Target: compare this month income to last month (10% MoM growth)
+        $lastMonthIncome = Income::whereBetween('received_at', [now()->subMonth()->startOfMonth(), now()->subMonth()->endOfMonth()])->sum('amount_cents');
+        $targetIncomeCents = (int) round($lastMonthIncome * 1.10); // 10% growth target
+        $incomeProgress = $targetIncomeCents > 0 ? round(($stats['incomeThisMonth'] ?? 0) * 100 / $targetIncomeCents, 1) : 0; // % of target achieved
 
         // Equipment Status: percentage in use vs total
         $equipmentTotal = \App\Models\Equipment::count();
@@ -290,31 +273,18 @@ class AdminController extends Controller
             ->get();
 
         $capacityMonthlyLabels = $capacityByMonth->pluck('month')->toArray();
-        // convert to RWF (assumes stored in cents)
-        $capacityMonthlyTotals = $capacityByMonth->pluck('total')->map(fn($v) => (float) ($v / 100))->toArray();
+        // RWF values - no conversion needed
+        $capacityMonthlyTotals = $capacityByMonth->pluck('total')->map(fn($v) => (float) $v)->toArray();
 
         // Finance time series (last 12 months): incomes, expenses, netflow
         $financeStart = now()->subMonths(11)->startOfMonth()->toDateString();
         $financeEnd = now()->endOfMonth()->toDateString();
 
-        // Payments (succeeded)
-        $paymentDateFormat = config('database.default') === 'sqlite'
-            ? "strftime('%Y-%m', paid_at)"
-            : "DATE_FORMAT(paid_at, '%Y-%m')";
-        $paymentsByMonth = \App\Models\Payment::selectRaw("{$paymentDateFormat} as month, SUM(amount_cents) as total")
-            ->where('status', 'succeeded')
-            ->whereNotNull('paid_at')
-            ->whereBetween('paid_at', [$financeStart, $financeEnd])
-            ->groupBy('month')
-            ->orderBy('month')
-            ->get()
-            ->keyBy('month');
-
-        // Other incomes (Income model)
+        // Incomes by month (Income model)
         $incomeDateFormat = config('database.default') === 'sqlite'
             ? "strftime('%Y-%m', received_at)"
             : "DATE_FORMAT(received_at, '%Y-%m')";
-        $otherIncomeByMonth = \App\Models\Income::selectRaw("{$incomeDateFormat} as month, SUM(amount_cents) as total")
+        $incomesByMonth = \App\Models\Income::selectRaw("{$incomeDateFormat} as month, SUM(amount_cents) as total")
             ->whereNotNull('received_at')
             ->whereBetween('received_at', [$financeStart, $financeEnd])
             ->groupBy('month')
@@ -345,35 +315,13 @@ class AdminController extends Controller
         $incomeTotals = [];
         $expenseTotals = [];
         foreach ($financeLabels as $m) {
-            $payments = isset($paymentsByMonth[$m]) ? $paymentsByMonth[$m]->total : 0;
-            $other = isset($otherIncomeByMonth[$m]) ? $otherIncomeByMonth[$m]->total : 0;
-            $income = ($payments + $other) / 100.0; // to RWF
-            $expense = (isset($expensesByMonth[$m]) ? $expensesByMonth[$m]->total : 0) / 100.0;
+            $income = (isset($incomesByMonth[$m]) ? $incomesByMonth[$m]->total : 0); // RWF
+            $expense = (isset($expensesByMonth[$m]) ? $expensesByMonth[$m]->total : 0);
             $incomeTotals[] = (float) $income;
             $expenseTotals[] = (float) $expense;
         }
 
         $netflowTotals = array_map(fn($inc, $exp) => round($inc - $exp, 2), $incomeTotals, $expenseTotals);
-
-        // Subscriptions last 6 months: active and new per month
-        $subsLabels = [];
-        $subsActive = [];
-        $subsNew = [];
-        for ($i = 5; $i >= 0; $i--) {
-            $start = now()->copy()->subMonths($i)->startOfMonth();
-            $end = now()->copy()->subMonths($i)->endOfMonth();
-            $subsLabels[] = $start->format('M');
-            $activeCount = Subscription::where('status', 'active')
-                ->whereDate('start_date', '<=', $end)
-                ->when(\Illuminate\Support\Facades\Schema::hasColumn('subscriptions', 'end_date'), function($q) use ($start) {
-                    $q->where(function($q2) use ($start) {
-                        $q2->whereNull('end_date')->orWhereDate('end_date', '>=', $start);
-                    });
-                })
-                ->count();
-            $subsActive[] = (int) $activeCount;
-            $subsNew[] = (int) Subscription::whereBetween('created_at', [$start, $end])->count();
-        }
 
         return view('admin.dashboard', [
             'totalteams' => $totalteams,
@@ -422,39 +370,32 @@ class AdminController extends Controller
             // Finance Summary by Period (Daily, Weekly, Monthly, Yearly)
             'financeStats' => [
                 'daily' => [
-                    'income' => (Income::whereDate('received_at', now()->toDateString())->sum('amount_cents') +
-                                Payment::where('status', 'succeeded')->whereDate('paid_at', now()->toDateString())->sum('amount_cents')) / 100,
-                    'expenses' => Expense::whereIn('status', ['approved', 'paid'])->whereDate('expense_date', now()->toDateString())->sum('amount_cents') / 100,
+                    'income' => Income::whereDate('received_at', now()->toDateString())->sum('amount_cents'),
+                    'expenses' => Expense::whereIn('status', ['approved', 'paid'])->whereDate('expense_date', now()->toDateString())->sum('amount_cents'),
                 ],
                 'weekly' => [
-                    'income' => (Income::whereBetween('received_at', [now()->startOfWeek(), now()->endOfWeek()])->sum('amount_cents') +
-                                Payment::where('status', 'succeeded')->whereBetween('paid_at', [now()->startOfWeek(), now()->endOfWeek()])->sum('amount_cents')) / 100,
-                    'expenses' => Expense::whereIn('status', ['approved', 'paid'])->whereBetween('expense_date', [now()->startOfWeek(), now()->endOfWeek()])->sum('amount_cents') / 100,
+                    'income' => Income::whereBetween('received_at', [now()->startOfWeek(), now()->endOfWeek()])->sum('amount_cents'),
+                    'expenses' => Expense::whereIn('status', ['approved', 'paid'])->whereBetween('expense_date', [now()->startOfWeek(), now()->endOfWeek()])->sum('amount_cents'),
                 ],
                 'monthly' => [
-                    'income' => (Income::whereBetween('received_at', [now()->startOfMonth(), now()->endOfMonth()])->sum('amount_cents') +
-                                Payment::where('status', 'succeeded')->whereBetween('paid_at', [now()->startOfMonth(), now()->endOfMonth()])->sum('amount_cents')) / 100,
-                    'expenses' => Expense::whereIn('status', ['approved', 'paid'])->whereBetween('expense_date', [now()->startOfMonth(), now()->endOfMonth()])->sum('amount_cents') / 100,
+                    'income' => Income::whereBetween('received_at', [now()->startOfMonth(), now()->endOfMonth()])->sum('amount_cents'),
+                    'expenses' => Expense::whereIn('status', ['approved', 'paid'])->whereBetween('expense_date', [now()->startOfMonth(), now()->endOfMonth()])->sum('amount_cents'),
                 ],
                 'yearly' => [
-                    'income' => (Income::whereBetween('received_at', [now()->startOfYear(), now()->endOfYear()])->sum('amount_cents') +
-                                Payment::where('status', 'succeeded')->whereBetween('paid_at', [now()->startOfYear(), now()->endOfYear()])->sum('amount_cents')) / 100,
-                    'expenses' => Expense::whereIn('status', ['approved', 'paid'])->whereBetween('expense_date', [now()->startOfYear(), now()->endOfYear()])->sum('amount_cents') / 100,
+                    'income' => Income::whereBetween('received_at', [now()->startOfYear(), now()->endOfYear()])->sum('amount_cents'),
+                    'expenses' => Expense::whereIn('status', ['approved', 'paid'])->whereBetween('expense_date', [now()->startOfYear(), now()->endOfYear()])->sum('amount_cents'),
                 ],
             ],
-            'subsLabels' => $subsLabels,
-            'subsActive' => $subsActive,
-            'subsNew' => $subsNew,
             // Admin charts real data
             'regLabels' => $regLabels,
             'regCounts' => $regCounts,
-            'feesPaidCount' => $feesPaidCount,
-            'feesPendingCount' => $feesPendingCount,
-            'feesOverdueCount' => $feesOverdueCount,
+            // Expense categories chart
+            'expenseCategoryLabels' => $expenseCategoryLabels ?? [],
+            'expenseCategoryAmounts' => $expenseCategoryAmounts ?? [],
             // Performance metrics
             'studentEnrollmentRate' => $studentEnrollmentRate,
             'sessionAttendanceRate' => $sessionAttendanceRate,
-            'revenueProgress' => $revenueProgress,
+            'incomeProgress' => $incomeProgress ?? 0,
             'equipmentUtilPct' => $equipmentUtilPct,
         ]);
     }

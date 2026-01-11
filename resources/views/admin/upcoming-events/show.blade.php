@@ -1,12 +1,12 @@
 @extends('layouts.app')
 
-@push('hero')
+@section('hero')
     <x-hero title="{{ $event->event_name }}" subtitle="📅 {{ $event->date?->format('F j, Y') ?? 'No Date Set' }}">
         <span class="px-4 py-2 rounded-full font-semibold text-lg {{ $event->status === 'upcoming' ? 'bg-blue-200 text-blue-800 dark:bg-blue-900 dark:text-blue-200' : ($event->status === 'ongoing' ? 'bg-yellow-200 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200' : ($event->status === 'completed' ? 'bg-green-200 text-green-800 dark:bg-green-900 dark:text-green-200' : 'bg-red-200 text-red-800 dark:bg-red-900 dark:text-red-200')) }}">
             {{ ucfirst($event->status) }}
         </span>
     </x-hero>
-@endpush
+@endsection
 
 @section('content')
 <div class="container mx-auto px-4 py-6">

@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@push('hero')
+@section('hero')
     <x-hero title="Training Session Details" subtitle="View session record information" gradient="emerald">
         <div class="flex gap-2">
             <a href="{{ route('training_sessions.edit', $record) }}" class="inline-flex items-center px-3 py-1.5 bg-white/20 hover:bg-white/30 rounded-md text-sm text-white transition">
@@ -10,7 +10,7 @@
             <a href="{{ route('training_sessions.index') }}" class="inline-flex items-center px-3 py-1.5 border border-white/30 rounded-md text-sm text-white hover:bg-white/10">← Back</a>
         </div>
     </x-hero>
-@endpush
+@endsection
 
 @section('content')
 <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-6">

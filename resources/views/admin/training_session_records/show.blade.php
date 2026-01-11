@@ -1,11 +1,11 @@
 @extends('layouts.app')
 
-@push('hero')
+@section('hero')
     <x-hero title="Training Session Details" subtitle="Review recorded session information">
         <a href="{{ route('admin.training_session_records.index') }}" class="inline-flex items-center px-3 py-1.5 border border-gray-300 rounded-md text-sm">Back</a>
         <a href="{{ route('admin.training_session_records.edit', $trainingSessionRecord) }}" class="inline-flex items-center px-3 py-1.5 border border-yellow-300 rounded-md text-sm ml-2">Edit</a>
     </x-hero>
-@endpush
+@endsection
 
 @section('content')
 <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-6">

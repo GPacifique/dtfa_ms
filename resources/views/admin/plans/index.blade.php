@@ -33,7 +33,7 @@
                 @foreach($plans as $plan)
                     <tr>
                         <td class="px-4 py-3">{{ $plan->name }}</td>
-                        <td class="px-4 py-3">{{ number_format($plan->price_cents/100, 2) }} {{ $plan->currency }}</td>
+                        <td class="px-4 py-3">{{ number_format($plan->price_cents) }} {{ $plan->currency }}</td>
                         <td class="px-4 py-3">{{ ucfirst($plan->interval) }}</td>
                         <td class="px-4 py-3">
                             @if($plan->active)

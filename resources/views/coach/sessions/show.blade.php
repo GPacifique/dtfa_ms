@@ -1,11 +1,11 @@
 @extends('layouts.app')
 
-@push('hero')
+@section('hero')
     <x-hero title="Session Details" subtitle="Review session schedule and info">
         <a href="{{ route('coach.sessions.create') }}" class="px-4 py-2 bg-indigo-600 text-white rounded-lg font-semibold hover:bg-indigo-700 transition">➕ Schedule New Session</a>
 
     </x-hero>
-@endpush
+@endsection
 
 @section('content')
 <div class="max-w-2xl mx-auto p-6">

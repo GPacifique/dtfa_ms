@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@push('hero')
+@section('hero')
     <x-hero title="My Students" subtitle="Manage student profiles and attendance records" gradient="emerald">
         <div class="mt-4 flex flex-wrap items-center gap-2">
             <form method="GET" class="flex items-center gap-2">
@@ -13,7 +13,7 @@
             <a href="{{ route('coach.dashboard') }}" class="px-4 py-2 bg-white/20 hover:bg-white/30 text-white font-semibold rounded-xl transition">← Back</a>
         </div>
     </x-hero>
-@endpush
+@endsection
 
 @section('content')
 <div class="max-w-6xl mx-auto p-6">

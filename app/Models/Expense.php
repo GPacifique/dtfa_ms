@@ -13,7 +13,8 @@ class Expense extends Model
     protected $fillable = [
         'branch_id',
         'user_id',
-        'category',
+        'expense_category_id',
+        'category', // kept for backward compatibility
         'description',
         'notes',
         'amount_cents',
@@ -34,9 +35,30 @@ class Expense extends Model
     ];
 
     /**
-     * Categories for expenses
+     * Get the expense category
      */
-    public static function categories(): array
+    public function expenseCategory(): BelongsTo
+    {
+        return $this->belongsTo(ExpenseCategory::class);
+    }
+
+    /**
+     * Get category name (from relationship or legacy field)
+     */
+    public function getCategoryNameAttribute(): string
+    {
+        if ($this->expenseCategory) {
+            return $this->expenseCategory->name;
+        }
+        // Fallback to legacy category field
+        return self::legacyCategories()[$this->category] ?? ucfirst(str_replace('_', ' ', $this->category ?? 'Other'));
+    }
+
+    /**
+     * Legacy categories for backward compatibility
+     * @deprecated Use ExpenseCategory model instead
+     */
+    public static function legacyCategories(): array
     {
         return [
             'transport' => 'Transport',
@@ -60,6 +82,17 @@ class Expense extends Model
             'management_system' => 'Management System',
             'invoice' => 'Invoice',
         ];
+    }
+
+    /**
+     * Get all expense categories from the database
+     */
+    public static function categories(): array
+    {
+        return ExpenseCategory::active()
+            ->ordered()
+            ->pluck('name', 'id')
+            ->toArray();
     }
 
     /**

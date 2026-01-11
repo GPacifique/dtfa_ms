@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@push('hero')
+@section('hero')
     <x-hero title="Edit User" subtitle="Update profile, roles, and access">
         <div class="mt-4 flex items-center gap-3">
             <form method="POST" action="{{ route('admin.users.sendReset', $user) }}">
@@ -10,7 +10,7 @@
             <a href="{{ route('admin.users.index') }}" class="btn-secondary">← Back to list</a>
         </div>
     </x-hero>
-@endpush
+@endsection
 
 @section('content')
 <div class="max-w-3xl mx-auto p-6">

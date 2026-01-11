@@ -1,11 +1,11 @@
 @extends('layouts.app')
 
-@push('hero')
+@section('hero')
     <x-hero title="Edit Expense" subtitle="Update expense details and status">
         <a href="{{ route('admin.expenses.index') }}" class="inline-flex items-center px-4 py-2 bg-slate-200 hover:bg-slate-300 text-slate-800 rounded-lg mr-2">Back to Expenses</a>
         <a href="{{ route('admin.expenses.index', ['status' => $expense->status]) }}" class="inline-flex items-center px-4 py-2 bg-slate-200 hover:bg-slate-300 text-slate-800 rounded-lg">Filter: {{ ucfirst($expense->status) }}</a>
     </x-hero>
-@endpush
+@endsection
 
 @section('content')
 <div class="container mx-auto px-4 py-8 max-w-4xl">

@@ -1,12 +1,12 @@
 @extends('layouts.app')
 
-@push('hero')
+@section('hero')
     <x-hero title="{{ __('app.capacity_building') }}" subtitle="{{ __('app.manage_training_records') }}">
         <div class="mt-4">
             <a href="{{ route('admin.inhousetrainings.create') }}" class="btn-primary">➕ {{ __('app.add_new_training') }}</a>
         </div>
     </x-hero>
-@endpush
+@endsection
 
 @section('content')
 <div class="max-w-7xl mx-auto p-6">

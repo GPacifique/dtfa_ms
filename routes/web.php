@@ -300,14 +300,6 @@ Route::middleware(['auth', 'verified', 'role:admin|super-admin|accountant|coach'
 
     // Students (admin-only routes moved to a dedicated middleware group below)
 
-    // Subscription Plans
-    Route::get('/plans', [\App\Http\Controllers\Admin\SubscriptionPlansController::class, 'index'])->name('admin.plans.index');
-    Route::get('/plans/create', [\App\Http\Controllers\Admin\SubscriptionPlansController::class, 'create'])->name('admin.plans.create');
-    Route::post('/plans', [\App\Http\Controllers\Admin\SubscriptionPlansController::class, 'store'])->name('admin.plans.store');
-    Route::get('/plans/{plan}/edit', [\App\Http\Controllers\Admin\SubscriptionPlansController::class, 'edit'])->name('admin.plans.edit');
-    Route::put('/plans/{plan}', [\App\Http\Controllers\Admin\SubscriptionPlansController::class, 'update'])->name('admin.plans.update');
-    Route::delete('/plans/{plan}', [\App\Http\Controllers\Admin\SubscriptionPlansController::class, 'destroy'])->name('admin.plans.destroy');
-
 });
 
 // Expenses: allow accountant role alongside admin & super-admin
@@ -436,29 +428,11 @@ Route::middleware(['auth', 'verified', 'role:accountant|admin|super-admin'])->pr
     // Dashboard metrics endpoint for charts
     Route::get('/dashboard/metrics', [\App\Http\Controllers\AccountantController::class, 'metrics'])->name('accountant.dashboard.metrics');
 
-    // Subscriptions
-    Route::get('/subscriptions', [\App\Http\Controllers\Accountant\SubscriptionsController::class, 'index'])->name('accountant.subscriptions.index');
-    Route::get('/subscriptions/create', [\App\Http\Controllers\Accountant\SubscriptionsController::class, 'create'])->name('accountant.subscriptions.create');
-    Route::post('/subscriptions', [\App\Http\Controllers\Accountant\SubscriptionsController::class, 'store'])->name('accountant.subscriptions.store');
-    Route::get('/subscriptions/{subscription}/edit', [\App\Http\Controllers\Accountant\SubscriptionsController::class, 'edit'])->name('accountant.subscriptions.edit');
-    Route::get('/subscriptions/{subscription}', [\App\Http\Controllers\Accountant\SubscriptionsController::class, 'show'])->name('accountant.subscriptions.show');
-    Route::put('/subscriptions/{subscription}', [\App\Http\Controllers\Accountant\SubscriptionsController::class, 'update'])->name('accountant.subscriptions.update');
-    Route::delete('/subscriptions/{subscription}', [\App\Http\Controllers\Accountant\SubscriptionsController::class, 'destroy'])->name('accountant.subscriptions.destroy');
+    // Income Categories Management
+    Route::resource('income-categories', \App\Http\Controllers\Accountant\IncomeCategoryController::class, ['as' => 'accountant']);
 
-    // Payments
-    Route::get('/payments', [\App\Http\Controllers\Accountant\PaymentsController::class, 'index'])->name('accountant.payments.index');
-    Route::get('/payments/create', [\App\Http\Controllers\Accountant\PaymentsController::class, 'create'])->name('accountant.payments.create');
-    Route::post('/payments', [\App\Http\Controllers\Accountant\PaymentsController::class, 'store'])->name('accountant.payments.store');
-    Route::get('/payments/{payment}', [\App\Http\Controllers\Accountant\PaymentsController::class, 'show'])->name('accountant.payments.show');
-    Route::get('/payments/export', [\App\Http\Controllers\Accountant\PaymentsController::class, 'export'])->name('accountant.payments.export');
-
-    // Invoices
-    Route::get('/invoices', [\App\Http\Controllers\Accountant\InvoicesController::class, 'index'])->name('accountant.invoices.index');
-    Route::get('/invoices/create', [\App\Http\Controllers\Accountant\InvoicesController::class, 'create'])->name('accountant.invoices.create');
-    Route::post('/invoices', [\App\Http\Controllers\Accountant\InvoicesController::class, 'store'])->name('accountant.invoices.store');
-    Route::get('/invoices/{invoice}/edit', [\App\Http\Controllers\Accountant\InvoicesController::class, 'edit'])->name('accountant.invoices.edit');
-    Route::put('/invoices/{invoice}', [\App\Http\Controllers\Accountant\InvoicesController::class, 'update'])->name('accountant.invoices.update');
-    Route::delete('/invoices/{invoice}', [\App\Http\Controllers\Accountant\InvoicesController::class, 'destroy'])->name('accountant.invoices.destroy');
+    // Expense Categories Management
+    Route::resource('expense-categories', \App\Http\Controllers\Accountant\ExpenseCategoryController::class, ['as' => 'accountant']);
 
     // Equipment (view only)
     Route::get('/equipment', [\App\Http\Controllers\Admin\EquipmentController::class, 'index'])->name('accountant.equipment.index');
@@ -467,7 +441,6 @@ Route::middleware(['auth', 'verified', 'role:accountant|admin|super-admin'])->pr
 
 Route::middleware(['auth', 'verified', 'role:parent|admin|super-admin|accountant'])->prefix('parent')->group(function () {
     Route::get('/dashboard', [\App\Http\Controllers\ParentController::class, 'index'])->name('parent.dashboard');
-    Route::get('/child/{student}/payments', [\App\Http\Controllers\ParentController::class, 'childPayments'])->name('parent.child-payments');
 });
 
 // Payment gateway webhooks (public routes - no auth)

@@ -89,7 +89,7 @@ class PaymentsController extends Controller
                     $p->student->first_name . ' ' . $p->student->second_name,
                     optional($p->subscription?->plan)->name ?? '—',
                     $p->invoice_id ? "Invoice #{$p->invoice_id}" : '—',
-                    number_format($p->amount_cents / 100, 2),
+                    number_format($p->amount_cents, 0),
                     $p->currency,
                     ucfirst(str_replace('_', ' ', $p->method)),
                     ucfirst($p->status),

@@ -1,12 +1,12 @@
 @extends('layouts.app')
 
-@push('hero')
+@section('hero')
     <x-hero title="Add Student" subtitle="Create a new student profile">
         <div class="mt-4">
             <a href="{{ route('coach.students.index') }}" class="btn-secondary">← Back to Students</a>
         </div>
     </x-hero>
-@endpush
+@endsection
 
 @section('content')
 <div class="max-w-xl mx-auto mt-10 bg-white p-8 rounded shadow">

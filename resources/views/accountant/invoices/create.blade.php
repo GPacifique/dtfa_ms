@@ -17,7 +17,7 @@
                             </option>
                         @endforeach
                     </x-form.select>
-                    <x-form.input label="Amount (cents)" name="amount_cents" type="number" />
+                    <x-form.input label="Amount (RWF)" name="amount_cents" type="number" />
                     <x-form.input label="Currency" name="currency" value="RWF" />
                     <x-form.input label="Due date" name="due_date" type="date" />
                     <div class="md:col-span-2">

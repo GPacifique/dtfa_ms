@@ -1,12 +1,12 @@
 @extends('layouts.app')
 
-@push('hero')
+@section('hero')
     <x-hero title="New Staff Profile" subtitle="Add a new team member">
         <div class="mt-4">
 
         </div>
     </x-hero>
-@endpush
+@endsection
 
 @section('content')
     <div class="container mx-auto px-6 py-8">

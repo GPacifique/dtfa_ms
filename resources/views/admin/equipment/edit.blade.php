@@ -1,14 +1,14 @@
 @php($title = 'Edit Equipment')
 @extends('layouts.app')
 
-@push('hero')
+@section('hero')
     <x-hero title="Edit Equipment" subtitle="Update equipment details">
         <div class="mt-4">
             <a href="{{ route('admin.equipment.index') }}" class="btn-secondary">← Back to List</a>
             <a href="{{ route('admin.equipment.show', $equipment) }}" class="btn-outline">View</a>
         </div>
     </x-hero>
-@endpush
+@endsection
 
 @section('content')
     <div class="max-w-4xl mx-auto space-y-6">

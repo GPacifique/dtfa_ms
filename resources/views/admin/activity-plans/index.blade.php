@@ -1,10 +1,10 @@
 @extends('layouts.app')
 
-@push('hero')
+@section('hero')
     <x-hero title="Activity Plans" subtitle="Manage organizational activity plans and progress">
         <a href="{{ route('admin.activity-plans.create') }}" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg font-medium transition">➕ New Activity Plan</a>
     </x-hero>
-@endpush
+@endsection
 
 @section('content')
 <div class="max-w-6xl mx-auto p-6">

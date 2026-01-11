@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@push('hero')
+@section('hero')
     <x-hero gradient="cyan" :title="$staff->first_name . ' ' . $staff->last_name" subtitle="Staff Profile Details">
         <div class="mt-4 flex flex-wrap items-center gap-3">
             <a href="{{ route('staff.edit', $staff) }}" class="inline-flex items-center gap-2 px-5 py-2.5 bg-white text-cyan-700 rounded-xl hover:bg-cyan-50 transition font-semibold shadow-lg">
@@ -13,7 +13,7 @@
             </a>
         </div>
     </x-hero>
-@endpush
+@endsection
 
 @section('content')
 <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">

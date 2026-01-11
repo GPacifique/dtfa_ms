@@ -1,22 +1,22 @@
-@php($title = 'Subscriptions')
+@php($title = __('app.subscriptions'))
 @extends('layouts.app')
 
 @section('content')
 <div class="container-page space-y-6">
     <div class="flex items-center justify-between">
-        <h1 class="page-title">Subscriptions</h1>
-        <x-button :href="route('accountant.subscriptions.create')" variant="primary">Assign Subscription</x-button>
+        <h1 class="page-title">{{ __('app.subscriptions') }}</h1>
+        <x-button :href="route('accountant.subscriptions.create')" variant="primary">{{ __('app.assign_subscription') }}</x-button>
     </div>
     <div class="card overflow-hidden">
         <table class="table">
             <thead>
                 <tr>
-                    <th>Student</th>
-                    <th>Plan</th>
-                    <th>Status</th>
-                    <th>Start</th>
-                    <th>Next Billing</th>
-                    <th class="text-right">Actions</th>
+                    <th>{{ __('app.student') }}</th>
+                    <th>{{ __('app.plan') }}</th>
+                    <th>{{ __('app.status') }}</th>
+                    <th>{{ __('app.start') }}</th>
+                    <th>{{ __('app.next_billing') }}</th>
+                    <th class="text-right">{{ __('app.actions') }}</th>
                 </tr>
             </thead>
             <tbody>
@@ -30,11 +30,11 @@
                         <td class="px-4 py-3">{{ optional($s->start_date)->format('Y-m-d') }}</td>
                         <td class="px-4 py-3">{{ optional($s->next_billing_date)->format('Y-m-d') }}</td>
                         <td class="px-4 py-3 text-right">
-                            <a class="text-indigo-700 hover:underline px-2" href="{{ route('accountant.subscriptions.edit', $s) }}">Edit</a>
-                            <form class="inline" method="POST" action="{{ route('accountant.subscriptions.destroy', $s) }}" onsubmit="return confirm('Delete this subscription?');">
+                            <a class="text-indigo-700 hover:underline px-2" href="{{ route('accountant.subscriptions.edit', $s) }}">{{ __('app.edit') }}</a>
+                            <form class="inline" method="POST" action="{{ route('accountant.subscriptions.destroy', $s) }}" onsubmit="return confirm('{{ __('app.confirm_delete') }}');">
                                 @csrf
                                 @method('DELETE')
-                                <button class="text-red-700 hover:underline px-2" type="submit">Delete</button>
+                                <button class="text-red-700 hover:underline px-2" type="submit">{{ __('app.delete') }}</button>
                             </form>
                         </td>
                     </tr>

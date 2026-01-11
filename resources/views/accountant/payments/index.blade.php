@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@push('hero')
+@section('hero')
     <x-hero title="Payment Records" subtitle="Manage and track all student payments">
         <form method="GET" action="{{ route('accountant.payments.export') }}" class="inline">
             @if(request('from'))
@@ -26,7 +26,7 @@
             Record Payment
         </a>
     </x-hero>
-@endpush
+@endsection
 
 @section('content')
 <div class="container mx-auto px-4 py-8">

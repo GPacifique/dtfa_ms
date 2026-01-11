@@ -1,14 +1,14 @@
 @php($title = 'Edit Group')
 @extends('layouts.app')
 
-@push('hero')
+@section('hero')
     <x-hero title="✏️ Edit Group" subtitle="Update group information">
         <div class="mt-4">
             <a href="{{ route('admin.groups.index') }}" class="btn-secondary">← Back to Groups</a>
             <a href="{{ route('admin.groups.show', $group) }}" class="btn-outline">View</a>
         </div>
     </x-hero>
-@endpush
+@endsection
 
 @section('content')
     <div class="max-w-2xl mx-auto">

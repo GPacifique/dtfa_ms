@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@push('hero')
+@section('hero')
     <x-hero :title="$user->name" :subtitle="$user->email">
         <div class="mt-4 flex items-center gap-2">
             <a href="{{ route('user.profile.show', $user) }}" class="btn-outline">👤 View Profile</a>
@@ -8,7 +8,7 @@
             <a href="{{ route('admin.users.index') }}" class="btn-secondary">Back to Users</a>
         </div>
     </x-hero>
-@endpush
+@endsection
 
 @section('content')
 <div class="max-w-6xl mx-auto p-6">

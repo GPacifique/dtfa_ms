@@ -1,12 +1,12 @@
 @extends('layouts.app')
 
-@push('hero')
+@section('hero')
     <x-hero title="User Role Management" subtitle="Manage roles, status, and access">
         <div class="mt-4 flex items-center gap-2">
             <x-button :href="route('admin.users.create')" variant="primary">New User</x-button>
         </div>
     </x-hero>
-@endpush
+@endsection
 
 @section('content')
 <div class="container-page">

@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@push('hero')
+@section('hero')
     <x-hero gradient="cyan" title="Staff Directory" subtitle="Manage and review all staff profiles">
         <div class="mt-4 flex flex-wrap items-center gap-3">
             <a href="{{ route('staff.create') }}" class="inline-flex items-center gap-2 px-5 py-2.5 bg-white text-cyan-700 rounded-xl hover:bg-cyan-50 transition font-semibold shadow-lg">
@@ -12,7 +12,7 @@
             </span>
         </div>
     </x-hero>
-@endpush
+@endsection
 
 @section('content')
 

@@ -1,14 +1,14 @@
 @php($title = 'Group Details - ' . $group->name)
 @extends('layouts.app')
 
-@push('hero')
+@section('hero')
     <x-hero :title="'👥 ' . $group->name" :subtitle="'Branch: ' . ($group->branch->name ?? 'N/A')">
         <div class="mt-4">
             <a href="{{ route('admin.groups.index') }}" class="btn-secondary">← Back to Groups</a>
             <a href="{{ route('admin.groups.edit', $group) }}" class="btn-primary">✏️ Edit Group</a>
         </div>
     </x-hero>
-@endpush
+@endsection
 
 @section('content')
     <div class="max-w-7xl mx-auto space-y-6">
