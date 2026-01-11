@@ -27,6 +27,11 @@
     <meta name="theme-color" content="#ffffff">
     <title>{{ config('app.name', 'Sport Academy MS') }} - Modern Academy Management Platform</title>
 
+    <!-- Favicon -->
+    <link rel="icon" type="image/jpeg" href="{{ asset('logo.jpeg') }}">
+    <link rel="apple-touch-icon" href="{{ asset('logo.jpeg') }}">
+    <link rel="shortcut icon" href="{{ asset('logo.jpeg') }}">
+
     <!-- Preconnect to font service for faster load -->
     <link rel="preconnect" href="https://fonts.bunny.net" crossorigin>
     <link href="https://fonts.bunny.net/css?family=figtree:400,500,600,700&display=swap" rel="stylesheet" />

@@ -9,6 +9,7 @@
 
         <!-- Favicon -->
         <link rel="icon" type="image/jpeg" href="{{ asset('logo.jpeg') }}">
+        <link rel="shortcut icon" href="{{ asset('logo.jpeg') }}">
         <link rel="apple-touch-icon" href="{{ asset('logo.jpeg') }}">
 
         <!-- Fonts -->
