@@ -30,13 +30,13 @@
         <!-- Floating Toggle Button (visible on desktop) -->
         <button
             @click="$store.layout.sidebarOpen = !$store.layout.sidebarOpen"
-            class="hidden lg:flex fixed z-[60] w-10 h-10 bg-gradient-to-br from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 rounded-full items-center justify-center shadow-xl hover:shadow-2xl border-2 border-white/20 transition-all duration-300 group hover:scale-110"
-            :class="$store.layout.sidebarOpen ? 'left-[15rem]' : 'left-[4rem]'"
-            style="top: 5rem;"
+            class="hidden lg:flex fixed w-8 h-8 bg-gradient-to-br from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 rounded-full items-center justify-center shadow-lg hover:shadow-xl border-2 border-white/30 transition-all duration-300 group hover:scale-110"
+            :class="$store.layout.sidebarOpen ? 'left-[15.5rem]' : 'left-[4.5rem]'"
+            style="top: 1.25rem; z-index: 9999;"
             :title="$store.layout.sidebarOpen ? 'Collapse sidebar' : 'Expand sidebar'"
         >
             <svg
-                class="w-5 h-5 text-white transition-transform duration-300"
+                class="w-4 h-4 text-white transition-transform duration-300"
                 :class="$store.layout.sidebarOpen ? '' : 'rotate-180'"
                 fill="none"
                 stroke="currentColor"

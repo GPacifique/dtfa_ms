@@ -19,6 +19,150 @@
     
     <?php echo app('Illuminate\Foundation\Vite')(['resources/css/app.css', 'resources/js/app.js']); ?>
     <?php echo $__env->yieldPushContent('head'); ?>
+
+    <!-- Modern Theme Toggle Styles for Dashboard -->
+    <style>
+        .theme-toggle-dashboard {
+            display: flex;
+            align-items: center;
+        }
+
+        .theme-switch-input-dash {
+            position: absolute;
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .theme-switch-label-dash {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            cursor: pointer;
+            width: 56px;
+            height: 28px;
+            background: linear-gradient(135deg, #87CEEB 0%, #E0F7FA 100%);
+            border-radius: 100px;
+            position: relative;
+            padding: 3px;
+            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1), inset 0 1px 2px rgba(255, 255, 255, 0.4);
+            border: 1.5px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .theme-switch-label-dash:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .theme-icon-dash {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1;
+            transition: all 0.3s ease;
+            padding: 0 4px;
+        }
+
+        .theme-icon-dash.sun-dash {
+            color: #FFA500;
+            filter: drop-shadow(0 0 2px rgba(255, 165, 0, 0.5));
+        }
+
+        .theme-icon-dash.moon-dash {
+            color: #6366f1;
+            filter: drop-shadow(0 0 2px rgba(99, 102, 241, 0.5));
+        }
+
+        .theme-slider-dash {
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            width: 22px;
+            height: 22px;
+            background: linear-gradient(135deg, #ffffff 0%, #f0f0f0 100%);
+            border-radius: 50%;
+            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+        }
+
+        .theme-slider-dash::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 14px;
+            height: 14px;
+            background: radial-gradient(circle, #FFD700 30%, #FFA500 100%);
+            border-radius: 50%;
+            box-shadow: 0 0 6px rgba(255, 215, 0, 0.6);
+            transition: all 0.4s ease;
+        }
+
+        /* Dark mode styles */
+        .theme-switch-input-dash:checked + .theme-switch-label-dash {
+            background: linear-gradient(135deg, #1e1b4b 0%, #312e81 50%, #1e3a5f 100%);
+            border-color: rgba(99, 102, 241, 0.3);
+            box-shadow: 0 2px 8px rgba(99, 102, 241, 0.3);
+        }
+
+        .theme-switch-input-dash:checked + .theme-switch-label-dash .theme-slider-dash {
+            transform: translateX(28px);
+            background: linear-gradient(135deg, #1e1b4b 0%, #312e81 100%);
+        }
+
+        .theme-switch-input-dash:checked + .theme-switch-label-dash .theme-slider-dash::before {
+            background: radial-gradient(circle, #c7d2fe 30%, #a5b4fc 100%);
+            box-shadow: 0 0 10px rgba(199, 210, 254, 0.8);
+            width: 12px;
+            height: 12px;
+        }
+
+        .theme-switch-input-dash:checked + .theme-switch-label-dash .sun-dash {
+            opacity: 0.4;
+            transform: scale(0.8);
+        }
+
+        .theme-switch-input-dash:checked + .theme-switch-label-dash .moon-dash {
+            color: #c7d2fe;
+            filter: drop-shadow(0 0 4px rgba(199, 210, 254, 0.8));
+        }
+
+        .theme-switch-input-dash:not(:checked) + .theme-switch-label-dash .moon-dash {
+            opacity: 0.4;
+            transform: scale(0.8);
+        }
+
+        /* Stars animation for dark mode */
+        .theme-switch-input-dash:checked + .theme-switch-label-dash::before,
+        .theme-switch-input-dash:checked + .theme-switch-label-dash::after {
+            content: '';
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: white;
+            border-radius: 50%;
+            animation: twinkle-dash 1.5s infinite;
+        }
+
+        .theme-switch-input-dash:checked + .theme-switch-label-dash::before {
+            top: 6px;
+            left: 10px;
+            animation-delay: 0.3s;
+        }
+
+        .theme-switch-input-dash:checked + .theme-switch-label-dash::after {
+            top: 16px;
+            left: 18px;
+            animation-delay: 0.7s;
+        }
+
+        @keyframes twinkle-dash {
+            0%, 100% { opacity: 0.3; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.2); }
+        }
+    </style>
 </head>
 <body class="font-sans antialiased">
 <!-- Notification Alert -->
@@ -52,10 +196,28 @@
         <!-- Topbar -->
         <header class="sticky top-0 h-16 flex items-center px-4 sm:px-6 justify-between z-30 blur-card">
             <div class="flex items-center gap-2">
-                <!-- Mobile menu button only (desktop uses sidebar edge toggle) -->
+                <!-- Mobile menu button -->
                 <button data-toggle-sidebar-mobile class="lg:hidden inline-flex items-center justify-center p-2 rounded-md text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-700" @click.prevent="$store.layout.mobileOpen = !$store.layout.mobileOpen; $store.layout.sidebarOpen = true">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" /></svg>
                 </button>
+
+                <!-- Desktop sidebar toggle button -->
+                <button
+                    @click="$store.layout.sidebarOpen = !$store.layout.sidebarOpen"
+                    class="hidden lg:inline-flex items-center justify-center p-2 rounded-lg text-slate-500 hover:text-indigo-600 hover:bg-indigo-50 dark:text-slate-400 dark:hover:text-indigo-400 dark:hover:bg-slate-800 transition-all duration-200"
+                    :title="$store.layout.sidebarOpen ? 'Collapse sidebar' : 'Expand sidebar'"
+                >
+                    <svg
+                        class="w-5 h-5 transition-transform duration-300"
+                        :class="$store.layout.sidebarOpen ? '' : 'rotate-180'"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                    >
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 19l-7-7 7-7m8 14l-7-7 7-7"/>
+                    </svg>
+                </button>
+
                 <div class="font-semibold text-slate-700 dark:text-slate-200"><?php echo e($title ?? 'Dashboard'); ?></div>
             </div>
             <div class="flex items-center gap-3">
@@ -84,11 +246,23 @@
 <?php unset($__componentOriginal8d3bff7d7383a45350f7495fc470d934); ?>
 <?php endif; ?>
 
-                    <button type="button" id="theme-toggle" data-theme-toggle class="btn-secondary" title="Toggle theme" onclick="toggleTheme()">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="h-5 w-5">
-                        <path d="M12 3a1 1 0 0 1 1 1v1a1 1 0 1 1-2 0V4a1 1 0 0 1 1-1Zm0 14a5 5 0 1 0 0-10 5 5 0 0 0 0 10Zm8-5a1 1 0 0 1-1 1h-1a1 1 0 1 1 0-2h1a1 1 0 0 1 1 1ZM5 12a1 1 0 0 1-1 1H3a1 1 0 1 1 0-2h1a1 1 0 0 1 1 1Zm11.657 6.657a1 1 0 0 1-1.414 0L14.1 17.514a1 1 0 0 1 1.414-1.415l1.142 1.143a1 1 0 0 1 0 1.415Zm0-13.314a1 1 0 0 1 0 1.414L15.515 7.9A1 1 0 1 1 14.1 6.485l1.143-1.142a1 1 0 0 1 1.414 0ZM6.485 14.1a1 1 0 0 1 0 1.414l-1.142 1.143a1 1 0 0 1-1.415-1.414L5.07 14.1A1 1 0 0 1 6.485 14.1Zm0-7.071L5.343 5.886A1 1 0 1 1 6.757 4.47l1.143 1.143A1 1 0 1 1 6.485 7.03Z"/>
-                    </svg>
-                </button>
+                <!-- Modern Theme Toggle Switch -->
+                <div class="theme-toggle-dashboard" title="Toggle theme">
+                    <input type="checkbox" id="theme-switch-dashboard" class="theme-switch-input-dash" />
+                    <label for="theme-switch-dashboard" class="theme-switch-label-dash">
+                        <span class="theme-icon-dash sun-dash">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-3.5 h-3.5">
+                                <path d="M12 2.25a.75.75 0 01.75.75v2.25a.75.75 0 01-1.5 0V3a.75.75 0 01.75-.75zM7.5 12a4.5 4.5 0 119 0 4.5 4.5 0 01-9 0zM18.894 6.166a.75.75 0 00-1.06-1.06l-1.591 1.59a.75.75 0 101.06 1.061l1.591-1.59zM21.75 12a.75.75 0 01-.75.75h-2.25a.75.75 0 010-1.5H21a.75.75 0 01.75.75zM17.834 18.894a.75.75 0 001.06-1.06l-1.59-1.591a.75.75 0 10-1.061 1.06l1.59 1.591zM12 18a.75.75 0 01.75.75V21a.75.75 0 01-1.5 0v-2.25A.75.75 0 0112 18zM7.758 17.303a.75.75 0 00-1.061-1.06l-1.591 1.59a.75.75 0 001.06 1.061l1.591-1.59zM6 12a.75.75 0 01-.75.75H3a.75.75 0 010-1.5h2.25A.75.75 0 016 12zM6.697 7.757a.75.75 0 001.06-1.06l-1.59-1.591a.75.75 0 00-1.061 1.06l1.59 1.591z" />
+                            </svg>
+                        </span>
+                        <span class="theme-icon-dash moon-dash">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-3.5 h-3.5">
+                                <path fill-rule="evenodd" d="M9.528 1.718a.75.75 0 01.162.819A8.97 8.97 0 009 6a9 9 0 009 9 8.97 8.97 0 003.463-.69.75.75 0 01.981.98 10.503 10.503 0 01-9.694 6.46c-5.799 0-10.5-4.701-10.5-10.5 0-4.368 2.667-8.112 6.46-9.694a.75.75 0 01.818.162z" clip-rule="evenodd" />
+                            </svg>
+                        </span>
+                        <span class="theme-slider-dash"></span>
+                    </label>
+                </div>
                 <?php if(auth()->guard()->check()): ?>
                 <?php if (\Illuminate\Support\Facades\Blade::check('role', 'super-admin|admin|CEO|Technical Director')): ?>
                     <a href="<?php echo e(route('admin.communications.create')); ?>" class="btn-secondary mr-2"><?php echo e(__('app.compose')); ?></a>
@@ -226,6 +400,38 @@
 <script src="<?php echo e(asset('js/custom-interactions.js')); ?>"></script>
 <!-- Chart.js for dashboards -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js" crossorigin="anonymous"></script>
+
+<!-- Modern Theme Toggle Script -->
+<script>
+    (function() {
+        // Initialize theme on load
+        const savedTheme = localStorage.getItem('sport-academy-theme');
+        const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+        const theme = savedTheme || (prefersDark ? 'dark' : 'light');
+
+        document.documentElement.classList.remove('dark', 'light');
+        document.documentElement.classList.add(theme);
+
+        // Update toggle state after DOM is ready
+        document.addEventListener('DOMContentLoaded', function() {
+            const themeSwitch = document.getElementById('theme-switch-dashboard');
+            if (themeSwitch) {
+                themeSwitch.checked = theme === 'dark';
+
+                themeSwitch.addEventListener('change', function() {
+                    const newTheme = this.checked ? 'dark' : 'light';
+                    document.documentElement.classList.remove('dark', 'light');
+                    document.documentElement.classList.add(newTheme);
+                    localStorage.setItem('sport-academy-theme', newTheme);
+
+                    if (window.SportAcademy) {
+                        window.SportAcademy.emit('themeChanged', { theme: newTheme });
+                    }
+                });
+            }
+        });
+    })();
+</script>
 
 <!-- Floating WhatsApp Button -->
 <a href="https://wa.me/250786163963" target="_blank" rel="noopener noreferrer"
