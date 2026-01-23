@@ -7,12 +7,12 @@
 @endsection
 
 @section('content')
-<div class="max-w-5xl mx-auto">
+<div class="max-w-5xl px-4 sm:px-6 lg:px-8 lg:ml-64">
     <div class="card p-6">
         <h2 class="text-xl font-semibold text-slate-900 dark:text-white mb-1">Record Income</h2>
         <p class="text-sm text-slate-500 dark:text-slate-400 mb-6">Capture a new income entry with category, source, and timing.</p>
 
-        @if ($errors->any())
+        @if (is_object($errors) && method_exists($errors, 'any') && $errors->any())
             <div class="mb-6 rounded-lg border border-red-200 dark:border-red-800 bg-red-50 dark:bg-red-900/20 p-4 text-sm text-red-700 dark:text-red-300">
                 <div class="font-semibold mb-1">Please fix the following:</div>
                 <ul class="list-disc list-inside space-y-0.5">
@@ -98,7 +98,7 @@
                 </div>
 
                 <!-- Received at -->
-                <div class="col-span-1">
+                <div class="max-w-5xl px-4 sm:px-6 lg:px-8 lg:ml-64">
                     <label for="received_at" class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-1">Received At</label>
                     <input id="received_at" name="received_at" type="datetime-local" value="{{ old('received_at') }}" class="w-full rounded-lg border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 focus:border-emerald-500 focus:ring-emerald-500">
                     <p class="mt-1 text-xs text-slate-500">Leave blank to default to now.</p>
@@ -108,7 +108,7 @@
                 </div>
 
                 <!-- Notes -->
-                <div class="md:col-span-2">
+               <div class="max-w-5xl px-4 sm:px-6 lg:px-8 lg:ml-64">
                     <label for="notes" class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-1">Notes</label>
                     <textarea id="notes" name="notes" rows="3" class="w-full rounded-lg border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 focus:border-emerald-500 focus:ring-emerald-500" placeholder="Optional notes or references">{{ old('notes') }}</textarea>
                     @error('notes')
@@ -117,14 +117,13 @@
                 </div>
             </div>
 
-            <div class="flex items-center justify-end gap-3 pt-2">
+<div class="max-w-5xl px-4 sm:px-6 lg:px-8 lg:ml-64">
                 <a href="{{ route('admin.incomes.index') }}" class="px-4 py-2 rounded-lg border border-slate-300 text-slate-700 hover:bg-slate-50 dark:border-slate-700 dark:text-slate-200 dark:hover:bg-slate-800">Cancel</a>
                 <button class="btn-primary">Save Income</button>
             </div>
         </form>
     </div>
 </div>
-@endsection
 
 @push('scripts')
 <script>
@@ -142,4 +141,4 @@
         el.addEventListener('blur', () => { el.value = format(el.value); });
     })();
 </script>
-@endsection
+<!-- Removed unmatched @endsection: Blade section error fix -->
