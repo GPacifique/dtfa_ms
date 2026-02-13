@@ -8,6 +8,7 @@
 
     <!-- Favicon -->
     <link rel="icon" type="image/jpeg" href="<?php echo e(asset('logo.jpeg')); ?>">
+    <link rel="shortcut icon" href="<?php echo e(asset('logo.jpeg')); ?>">
     <link rel="apple-touch-icon" href="<?php echo e(asset('logo.jpeg')); ?>">
 
     <link rel="preconnect" href="https://fonts.bunny.net">

@@ -5,10 +5,11 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="csrf-token" content="<?php echo e(csrf_token()); ?>">
 
-        <title><?php echo e(config('app.name', 'Laravel')); ?></title>
+        <title><?php echo e(config('app.name', 'SAMS')); ?></title>
 
         <!-- Favicon -->
         <link rel="icon" type="image/jpeg" href="<?php echo e(asset('logo.jpeg')); ?>">
+        <link rel="shortcut icon" href="<?php echo e(asset('logo.jpeg')); ?>">
         <link rel="apple-touch-icon" href="<?php echo e(asset('logo.jpeg')); ?>">
 
         <!-- Fonts -->

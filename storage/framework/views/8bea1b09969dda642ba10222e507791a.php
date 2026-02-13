@@ -27,6 +27,11 @@
     <meta name="theme-color" content="#ffffff">
     <title><?php echo e(config('app.name', 'Sport Academy MS')); ?> - Modern Academy Management Platform</title>
 
+    <!-- Favicon -->
+    <link rel="icon" type="image/jpeg" href="<?php echo e(asset('logo.jpeg')); ?>">
+    <link rel="apple-touch-icon" href="<?php echo e(asset('logo.jpeg')); ?>">
+    <link rel="shortcut icon" href="<?php echo e(asset('logo.jpeg')); ?>">
+
     <!-- Preconnect to font service for faster load -->
     <link rel="preconnect" href="https://fonts.bunny.net" crossorigin>
     <link href="https://fonts.bunny.net/css?family=figtree:400,500,600,700&display=swap" rel="stylesheet" />
@@ -45,13 +50,25 @@
         Skip to main content
     </a>
 
-    <!-- Theme Toggle (Enhanced) -->
-    <button id="theme-toggle"
-            class="fixed top-4 right-4 z-40 w-12 h-12 rounded-full bg-white dark:bg-gray-800 shadow-lg border border-gray-200 dark:border-gray-700 flex items-center justify-center hover:shadow-xl transition-all duration-200"
-            title="Toggle theme"
-            data-theme-toggle>
-        <span class="text-lg">🌙</span>
-    </button>
+    <!-- Modern Theme Toggle Switch -->
+    <div id="theme-toggle" class="theme-toggle-container" title="Toggle theme" data-theme-toggle>
+        <input type="checkbox" id="theme-switch" class="theme-switch-input" />
+        <label for="theme-switch" class="theme-switch-label">
+            <span class="theme-switch-inner">
+                <span class="theme-icon sun">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-4 h-4">
+                        <path d="M12 2.25a.75.75 0 01.75.75v2.25a.75.75 0 01-1.5 0V3a.75.75 0 01.75-.75zM7.5 12a4.5 4.5 0 119 0 4.5 4.5 0 01-9 0zM18.894 6.166a.75.75 0 00-1.06-1.06l-1.591 1.59a.75.75 0 101.06 1.061l1.591-1.59zM21.75 12a.75.75 0 01-.75.75h-2.25a.75.75 0 010-1.5H21a.75.75 0 01.75.75zM17.834 18.894a.75.75 0 001.06-1.06l-1.59-1.591a.75.75 0 10-1.061 1.06l1.59 1.591zM12 18a.75.75 0 01.75.75V21a.75.75 0 01-1.5 0v-2.25A.75.75 0 0112 18zM7.758 17.303a.75.75 0 00-1.061-1.06l-1.591 1.59a.75.75 0 001.06 1.061l1.591-1.59zM6 12a.75.75 0 01-.75.75H3a.75.75 0 010-1.5h2.25A.75.75 0 016 12zM6.697 7.757a.75.75 0 001.06-1.06l-1.59-1.591a.75.75 0 00-1.061 1.06l1.59 1.591z" />
+                    </svg>
+                </span>
+                <span class="theme-icon moon">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-4 h-4">
+                        <path fill-rule="evenodd" d="M9.528 1.718a.75.75 0 01.162.819A8.97 8.97 0 009 6a9 9 0 009 9 8.97 8.97 0 003.463-.69.75.75 0 01.981.98 10.503 10.503 0 01-9.694 6.46c-5.799 0-10.5-4.701-10.5-10.5 0-4.368 2.667-8.112 6.46-9.694a.75.75 0 01.818.162z" clip-rule="evenodd" />
+                    </svg>
+                </span>
+            </span>
+            <span class="theme-switch-slider"></span>
+        </label>
+    </div>
 
     <!-- Navigation Header (Enhanced) -->
     <nav class="navbar sticky top-0 z-30 backdrop-blur-md bg-white/80 dark:bg-gray-900/80 border-b border-gray-200 dark:border-gray-700"
@@ -702,10 +719,10 @@
             html.classList.remove('dark', 'light');
             html.classList.add(newTheme);
 
-            // Update theme toggle icon
-            const themeToggle = document.getElementById('theme-toggle');
-            if (themeToggle) {
-                themeToggle.querySelector('span').textContent = newTheme === 'dark' ? '☀️' : '🌙';
+            // Update modern toggle switch
+            const themeSwitch = document.getElementById('theme-switch');
+            if (themeSwitch) {
+                themeSwitch.checked = newTheme === 'dark';
             }
 
             // Store preference
@@ -725,15 +742,187 @@
 
             document.documentElement.classList.add(theme);
 
-            const themeToggle = document.getElementById('theme-toggle');
-            if (themeToggle) {
-                themeToggle.querySelector('span').textContent = theme === 'dark' ? '☀️' : '🌙';
+            // Update modern toggle switch
+            const themeSwitch = document.getElementById('theme-switch');
+            if (themeSwitch) {
+                themeSwitch.checked = theme === 'dark';
             }
         })();
+
+        // Modern toggle switch handler
+        document.addEventListener('DOMContentLoaded', function() {
+            const themeSwitch = document.getElementById('theme-switch');
+            if (themeSwitch) {
+                themeSwitch.addEventListener('change', function() {
+                    const html = document.documentElement;
+                    const newTheme = this.checked ? 'dark' : 'light';
+
+                    html.classList.remove('dark', 'light');
+                    html.classList.add(newTheme);
+
+                    localStorage.setItem('sport-academy-theme', newTheme);
+
+                    if (window.SportAcademy) {
+                        window.SportAcademy.emit('themeChanged', { theme: newTheme });
+                    }
+                });
+            }
+        });
     </script>
 
     <!-- Enhanced CSS Animations -->
     <style>
+        /* Modern Theme Toggle Switch Styles */
+        .theme-toggle-container {
+            position: fixed;
+            top: 1rem;
+            right: 1rem;
+            z-index: 50;
+        }
+
+        .theme-switch-input {
+            position: absolute;
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .theme-switch-label {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            cursor: pointer;
+            width: 70px;
+            height: 36px;
+            background: linear-gradient(135deg, #87CEEB 0%, #E0F7FA 100%);
+            border-radius: 100px;
+            position: relative;
+            padding: 4px;
+            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1), inset 0 2px 4px rgba(255, 255, 255, 0.4);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .theme-switch-label:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15), inset 0 2px 4px rgba(255, 255, 255, 0.4);
+        }
+
+        .theme-switch-inner {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+            padding: 0 6px;
+            z-index: 1;
+        }
+
+        .theme-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .theme-icon.sun {
+            color: #FFA500;
+            filter: drop-shadow(0 0 3px rgba(255, 165, 0, 0.5));
+        }
+
+        .theme-icon.moon {
+            color: #6366f1;
+            filter: drop-shadow(0 0 3px rgba(99, 102, 241, 0.5));
+        }
+
+        .theme-switch-slider {
+            position: absolute;
+            top: 3px;
+            left: 3px;
+            width: 28px;
+            height: 28px;
+            background: linear-gradient(135deg, #ffffff 0%, #f0f0f0 100%);
+            border-radius: 50%;
+            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2), inset 0 1px 2px rgba(255, 255, 255, 0.8);
+        }
+
+        .theme-switch-slider::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 18px;
+            height: 18px;
+            background: radial-gradient(circle, #FFD700 30%, #FFA500 100%);
+            border-radius: 50%;
+            box-shadow: 0 0 10px rgba(255, 215, 0, 0.6);
+            transition: all 0.4s ease;
+        }
+
+        /* Dark mode styles */
+        .theme-switch-input:checked + .theme-switch-label {
+            background: linear-gradient(135deg, #1e1b4b 0%, #312e81 50%, #1e3a5f 100%);
+            border-color: rgba(99, 102, 241, 0.3);
+            box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3), inset 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .theme-switch-input:checked + .theme-switch-label .theme-switch-slider {
+            transform: translateX(34px);
+            background: linear-gradient(135deg, #1e1b4b 0%, #312e81 100%);
+        }
+
+        .theme-switch-input:checked + .theme-switch-label .theme-switch-slider::before {
+            background: radial-gradient(circle, #c7d2fe 30%, #a5b4fc 100%);
+            box-shadow: 0 0 15px rgba(199, 210, 254, 0.8), 0 0 30px rgba(165, 180, 252, 0.4);
+            width: 16px;
+            height: 16px;
+        }
+
+        .theme-switch-input:checked + .theme-switch-label .theme-icon.sun {
+            opacity: 0.4;
+            transform: scale(0.8);
+        }
+
+        .theme-switch-input:checked + .theme-switch-label .theme-icon.moon {
+            color: #c7d2fe;
+            filter: drop-shadow(0 0 5px rgba(199, 210, 254, 0.8));
+        }
+
+        .theme-switch-input:not(:checked) + .theme-switch-label .theme-icon.moon {
+            opacity: 0.4;
+            transform: scale(0.8);
+        }
+
+        /* Stars animation for dark mode */
+        .theme-switch-input:checked + .theme-switch-label::before,
+        .theme-switch-input:checked + .theme-switch-label::after {
+            content: '';
+            position: absolute;
+            width: 3px;
+            height: 3px;
+            background: white;
+            border-radius: 50%;
+            animation: twinkle 1.5s infinite;
+        }
+
+        .theme-switch-input:checked + .theme-switch-label::before {
+            top: 8px;
+            left: 12px;
+            animation-delay: 0.3s;
+        }
+
+        .theme-switch-input:checked + .theme-switch-label::after {
+            top: 20px;
+            left: 22px;
+            animation-delay: 0.7s;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.3; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.2); }
+        }
+
         /* Keyframe Animations */
         @keyframes ripple-animation {
             to { transform: scale(4); opacity: 0; }

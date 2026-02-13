@@ -73,6 +73,9 @@
                     </td>
                     <td class="px-6 py-4 text-right">
                         <div class="flex gap-2 justify-end items-center">
+                            <a href="{{ route('admin.games.show', $game) }}" class="px-3 py-1.5 bg-blue-100 hover:bg-blue-200 text-blue-700 rounded-lg font-medium text-sm transition" title="View Match">
+                                👁️ View
+                            </a>
                             <a href="{{ route('admin.games.report', $game) }}" class="px-3 py-1.5 bg-indigo-100 hover:bg-indigo-200 text-indigo-700 rounded-lg font-medium text-sm transition" title="Match Report">
                                 📝 Report
                             </a>

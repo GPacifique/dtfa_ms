@@ -74,7 +74,7 @@
             <div class="overflow-x-auto">
                 <table class="w-full">
                     <tbody class="divide-y divide-slate-200 dark:divide-slate-700">
-                        @forelse($students->take(10) as $student)
+                        @forelse($students->take(100) as $student)
                             <tr class="hover:bg-slate-50 dark:hover:bg-slate-700/40 transition">
                                 <td class="p-4">
                                     <div class="flex items-center gap-3">
