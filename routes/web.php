@@ -462,6 +462,19 @@ Route::middleware(['auth', 'verified'])->prefix('admin')->group(function () {
     Route::resource('communications', \App\Http\Controllers\Admin\CommunicationController::class, ['as' => 'admin'])->only(['index','create','store','show','destroy']);
 });
 
+// Form Submissions admin CRUD - for handling user form submissions
+Route::middleware(['auth', 'verified'])->prefix('admin')->group(function () {
+    Route::get('form-submissions', [\App\Http\Controllers\Admin\FormSubmissionController::class, 'index'])->name('admin.form-submissions.index');
+    Route::get('form-submissions/{formSubmission}', [\App\Http\Controllers\Admin\FormSubmissionController::class, 'show'])->name('admin.form-submissions.show');
+    Route::post('form-submissions/{formSubmission}/mark-read', [\App\Http\Controllers\Admin\FormSubmissionController::class, 'markAsRead'])->name('admin.form-submissions.mark-read');
+    Route::post('form-submissions/{formSubmission}/assign', [\App\Http\Controllers\Admin\FormSubmissionController::class, 'assign'])->name('admin.form-submissions.assign');
+    Route::post('form-submissions/{formSubmission}/status', [\App\Http\Controllers\Admin\FormSubmissionController::class, 'updateStatus'])->name('admin.form-submissions.status');
+    Route::delete('form-submissions/{formSubmission}', [\App\Http\Controllers\Admin\FormSubmissionController::class, 'destroy'])->name('admin.form-submissions.destroy');
+});
+
+// Public Form Submission API - for handling user form submissions from public pages
+Route::post('/api/form-submissions', [\App\Http\Controllers\Admin\FormSubmissionController::class, 'store'])->name('api.form-submissions.store');
+
 // Capacity Building admin CRUD
 Route::middleware(['auth', 'verified', 'role:admin|super-admin|accountant'])->prefix('admin')->group(function () {
     Route::resource('capacity-buildings', \App\Http\Controllers\Admin\CapacityBuildingController::class, ['as' => 'admin']);
