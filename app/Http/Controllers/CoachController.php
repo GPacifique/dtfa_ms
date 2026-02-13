@@ -44,7 +44,7 @@ class CoachController extends Controller
         if ($coach->group_id) {
             $studentQuery->where('group_id', $coach->group_id);
         }
-        $students = $studentQuery->with(['parent', 'group', 'branch'])->get();
+        $students = $studentQuery->with(['parent', 'group', 'branch'])->orderBy('first_name')->orderBy('second_name')->get();
         $activeStudents = $students->where('status', 'active');
         $recentStudents = $studentQuery->clone()->latest()->limit(10)->get();
 
