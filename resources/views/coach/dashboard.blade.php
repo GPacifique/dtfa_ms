@@ -146,15 +146,37 @@
                     @forelse($recentTrainingRecords->take(8) as $record)
                         <tr class="hover:bg-slate-50 dark:hover:bg-slate-700/40 transition">
                             <td class="p-4">
-                                <div>
-                                    <p class="font-semibold text-slate-900 dark:text-white text-sm">{{ $record->main_topic ?? $record->training_objective ?? 'Training Session' }}</p>
-                                    <p class="text-xs text-slate-500">{{ $record->date?->format('M d, Y') }} • {{ $record->branch }}</p>
+                                <div class="flex items-center gap-3">
+                                    <div class="flex-shrink-0">
+                                        @if($record->status === 'completed')
+                                            <span class="w-2.5 h-2.5 rounded-full bg-green-500 block" title="Completed"></span>
+                                        @elseif($record->status === 'in_progress')
+                                            <span class="w-2.5 h-2.5 rounded-full bg-blue-500 block animate-pulse" title="In Progress"></span>
+                                        @else
+                                            <span class="w-2.5 h-2.5 rounded-full bg-slate-300 dark:bg-slate-600 block" title="Scheduled"></span>
+                                        @endif
+                                    </div>
+                                    <div>
+                                        <a href="{{ route('admin.training_session_records.show', $record) }}" class="font-semibold text-slate-900 dark:text-white text-sm hover:text-indigo-600 transition">
+                                            {{ $record->main_topic ?? $record->training_objective ?? 'Training Session' }}
+                                        </a>
+                                        <div class="flex items-center gap-2 mt-0.5">
+                                            <p class="text-xs text-slate-500">{{ $record->date instanceof \Carbon\Carbon ? $record->date->format('M d, Y') : $record->date }}</p>
+                                            <span class="text-slate-300 dark:text-slate-600">•</span>
+                                            <p class="text-xs text-slate-500">{{ $record->branch }}</p>
+                                        </div>
+                                    </div>
                                 </div>
                             </td>
                             <td class="p-4 text-right">
-                                <span class="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-full bg-indigo-100 dark:bg-indigo-900/30 text-indigo-700 dark:text-indigo-400">
-                                    {{ $record->sport_discipline ?? 'Sport' }}
-                                </span>
+                                <div class="flex items-center justify-end gap-3">
+                                    <span class="hidden sm:inline-flex items-center px-2.5 py-0.5 text-xs font-medium rounded-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400">
+                                        {{ $record->sport_discipline ?? 'Sport' }}
+                                    </span>
+                                    <a href="{{ route('admin.training_session_records.show', $record) }}" class="p-2 bg-slate-100 dark:bg-slate-700 text-slate-500 dark:text-slate-400 rounded-lg hover:bg-indigo-50 hover:text-indigo-600 dark:hover:bg-indigo-900/30 dark:hover:text-indigo-400 transition" title="View Details">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" /></svg>
+                                    </a>
+                                </div>
                             </td>
                         </tr>
                     @empty

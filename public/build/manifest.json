@@ -3,20 +3,22 @@
     "file": "assets/advanced-DZ_2ZOgt.css",
     "src": "resources/css/advanced.css",
     "isEntry": true,
+    "name": "advanced",
     "names": [
       "advanced.css"
     ]
   },
   "resources/css/app.css": {
-    "file": "assets/app-CdlQXOMx.css",
+    "file": "assets/app-C6HlNaZd.css",
     "src": "resources/css/app.css",
     "isEntry": true,
+    "name": "app",
     "names": [
       "app.css"
     ]
   },
   "resources/js/app.js": {
-    "file": "assets/app-uNFG-kR3.js",
+    "file": "assets/app-CEs_jvQG.js",
     "name": "app",
     "src": "resources/js/app.js",
     "isEntry": true
