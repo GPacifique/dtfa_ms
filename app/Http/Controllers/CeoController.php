@@ -321,19 +321,30 @@ class CeoController extends Controller
         $colors = [];
 
         // Get expenses with expense_category_id (new system)
-        $categorizedExpenses = Expense::with('expenseCategory')
-            ->whereIn('status', ['approved', 'paid'])
+        $categorizedExpenses = Expense::whereIn('status', ['approved', 'paid'])
             ->whereBetween('expense_date', [$startDate, $endDate])
             ->whereNotNull('expense_category_id')
             ->selectRaw('expense_category_id, SUM(amount_cents) as total')
             ->groupBy('expense_category_id')
             ->get();
 
-        foreach ($categorizedExpenses as $expense) {
-            if ($expense->expenseCategory) {
-                $labels[] = $expense->expenseCategory->name;
-                $colors[] = $expense->expenseCategory->color ?? $this->getDefaultColor(count($labels));
-                $data[] = round($expense->total / 100, 2);
+        // Load all ExpenseCategory models
+        if ($categorizedExpenses->isNotEmpty()) {
+            $categoryIds = $categorizedExpenses->pluck('expense_category_id')->filter()->all();
+            $categories = ExpenseCategory::whereIn('id', $categoryIds)->get()->keyBy('id');
+
+            foreach ($categorizedExpenses as $expense) {
+                $category = $categories->get($expense->expense_category_id);
+                if ($category) {
+                    $labels[] = $category->name;
+                    $colors[] = $category->color ?? $this->getDefaultColor(count($labels));
+                    $data[] = round($expense->total / 100, 2);
+                } else {
+                    // Category not found, show ID
+                    $labels[] = 'Category #' . $expense->expense_category_id;
+                    $colors[] = $this->getDefaultColor(count($labels));
+                    $data[] = round($expense->total / 100, 2);
+                }
             }
         }
 
