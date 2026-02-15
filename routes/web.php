@@ -59,7 +59,7 @@ Route::middleware(['auth', 'verified'])
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/coach/checkin/{student}', [CheckinController::class, 'index'])->name('coach.checkin.index');
 });
-Route::prefix('admin')->name('admin.')->middleware(['auth', 'verified', 'role:CEO|super-admin'])->group(function () {
+Route::prefix('admin')->name('admin.')->middleware(['auth', 'verified', 'role:super-admin'])->group(function () {
     Route::resource('users', App\Http\Controllers\Admin\UsersController::class);
     Route::post('users/{id}/restore', [App\Http\Controllers\Admin\UsersController::class, 'restore'])
         ->name('users.restore');
@@ -73,25 +73,25 @@ Route::middleware(['auth', 'verified'])
         Route::resource('inhousetrainings', App\Http\Controllers\Admin\InhouseTrainingController::class);
     });
 
-Route::middleware(['auth', 'verified', 'role:CEO|admin|super-admin|accountant'])
+Route::middleware(['auth', 'verified', 'role:admin|super-admin|accountant'])
     ->prefix('admin')
     ->name('admin.')
     ->group(function () {
         Route::resource('tasks', App\Http\Controllers\Admin\TaskController::class);
     });
-    Route::middleware(['auth', 'verified', 'role:CEO|admin|super-admin|accountant'])
+    Route::middleware(['auth', 'verified', 'role:admin|super-admin|accountant'])
     ->prefix('admin')
     ->name('admin.')
     ->group(function () {
         Route::resource('teams', App\Http\Controllers\Admin\TeamController::class);
     });
-    Route::middleware(['auth', 'verified', 'role:CEO|admin|super-admin|accountant'])
+    Route::middleware(['auth', 'verified', 'role:admin|super-admin|accountant'])
     ->prefix('admin')
     ->name('admin.')
     ->group(function () {
         Route::resource('groups', App\Http\Controllers\Admin\GroupsController::class);
     });
-    Route::middleware(['auth', 'verified', 'role:CEO|admin|super-admin|accountant'])
+    Route::middleware(['auth', 'verified', 'role:admin|super-admin|accountant'])
     ->prefix('admin')
     ->name('admin.')
     ->group(function () {
@@ -221,17 +221,17 @@ Route::middleware(['auth', 'verified'])->group(function () {
 // Example protected route - requires auth and admin role
 Route::get('/admin-only', function () {
     return 'Hello admin — you have access.';
-})->middleware(['auth', 'verified', 'role:CEO|admin|coach']);
+})->middleware(['auth', 'verified', 'role:admin|coach']);
 
 // Legacy admin student public endpoints removed in favor of modern CRUD
 
 // Admin and User dashboards
-Route::middleware(['auth', 'verified', 'role:CEO|admin|super-admin|accountant|coach'])->prefix('admin')->group(function () {
+Route::middleware(['auth', 'verified', 'role:admin|super-admin|accountant|coach'])->prefix('admin')->group(function () {
     Route::get('/dashboard', [\App\Http\Controllers\AdminController::class, 'index'])->name('admin.dashboard');
 
     // Note: User CRUD routes are defined at the top of this file using Route::resource('users', ...)
     // Only custom user routes that aren't part of RESTful resource are defined here:
-    Route::middleware(['role:CEO|super-admin'])->group(function () {
+    Route::middleware(['role:super-admin'])->group(function () {
         Route::put('/users/{user}/full', [\App\Http\Controllers\Admin\UsersController::class, 'updateFull'])->name('admin.users.updateFull');
         Route::post('/users/{user}/send-reset', [\App\Http\Controllers\Admin\UsersController::class, 'sendReset'])->name('admin.users.sendReset');
     });
@@ -303,7 +303,7 @@ Route::middleware(['auth', 'verified', 'role:CEO|admin|super-admin|accountant|co
 });
 
 // Expenses: allow accountant role alongside admin & super-admin
-Route::middleware(['auth', 'verified', 'role:CEO|admin|super-admin|accountant'])->prefix('admin')->group(function () {
+Route::middleware(['auth', 'verified', 'role:admin|super-admin|accountant'])->prefix('admin')->group(function () {
     Route::get('/expenses', [\App\Http\Controllers\Admin\ExpensesController::class, 'index'])->name('admin.expenses.index');
     Route::get('/expenses/create', [\App\Http\Controllers\Admin\ExpensesController::class, 'create'])->name('admin.expenses.create');
     Route::post('/expenses', [\App\Http\Controllers\Admin\ExpensesController::class, 'store'])->name('admin.expenses.store');
@@ -315,7 +315,7 @@ Route::middleware(['auth', 'verified', 'role:CEO|admin|super-admin|accountant'])
     Route::delete('/expenses/{expense}', [\App\Http\Controllers\Admin\ExpensesController::class, 'destroy'])->name('admin.expenses.destroy');
 });
 
-Route::middleware(['auth', 'verified', 'role:CEO|admin|super-admin|coach|accountant'])->prefix('admin')->group(function () {
+Route::middleware(['auth', 'verified', 'role:admin|super-admin|coach|accountant'])->prefix('admin')->group(function () {
     // Equipment Management (coaches can view/manage equipment)
     // (moved below) Expenses routes now allow accountant role
 
@@ -340,7 +340,7 @@ Route::middleware(['auth', 'verified', 'role:CEO|admin|super-admin|coach|account
     // Note: Groups Management routes are defined at the top using Route::resource('groups', ...)
 
     // Super-admin only: Roles & Permissions management
-    Route::middleware(['role:CEO|super-admin'])->group(function () {
+    Route::middleware(['role:super-admin'])->group(function () {
         Route::get('/roles', [\App\Http\Controllers\Admin\RolePermissionController::class, 'index'])->name('admin.roles.index');
         Route::get('/roles/{role}/edit', [\App\Http\Controllers\Admin\RolePermissionController::class, 'edit'])->name('admin.roles.edit');
         Route::put('/roles/{role}', [\App\Http\Controllers\Admin\RolePermissionController::class, 'update'])->name('admin.roles.update');
@@ -368,7 +368,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 });
 
 // Backward-compatible aliases for legacy admin student URLs
-Route::middleware(['auth', 'verified', 'role:CEO|admin|super-admin|coach|accountant'])
+Route::middleware(['auth', 'verified', 'role:admin|super-admin|coach|accountant'])
     ->prefix('admin')
     ->group(function () {
         // Index and create
@@ -403,7 +403,7 @@ Route::middleware(['auth', 'verified', 'role:CEO|admin|super-admin|coach|account
     });
 
 // Role-based dashboards
-Route::middleware(['auth', 'verified', 'role:CEO|coach|admin|super-admin'])->prefix('coach')->group(function () {
+Route::middleware(['auth', 'verified', 'role:coach|admin|super-admin'])->prefix('coach')->group(function () {
     Route::get('/dashboard', [\App\Http\Controllers\CoachController::class, 'index'])->name('coach.dashboard');
     // Attendance management
     Route::get('/attendance', [\App\Http\Controllers\Coach\AttendanceController::class, 'index'])->name('coach.attendance.index');
@@ -423,7 +423,7 @@ Route::middleware(['auth', 'verified', 'role:CEO|coach|admin|super-admin'])->pre
     Route::get('/equipment/{equipment}', [\App\Http\Controllers\Admin\EquipmentController::class, 'show'])->name('coach.equipment.show');
 });
 
-Route::middleware(['auth', 'verified', 'role:CEO|accountant|admin|super-admin'])->prefix('accountant')->group(function () {
+Route::middleware(['auth', 'verified', 'role:accountant|admin|super-admin'])->prefix('accountant')->group(function () {
     Route::get('/dashboard', [\App\Http\Controllers\AccountantController::class, 'index'])->name('accountant.dashboard');
     // Dashboard metrics endpoint for charts
     Route::get('/dashboard/metrics', [\App\Http\Controllers\AccountantController::class, 'metrics'])->name('accountant.dashboard.metrics');
@@ -439,7 +439,7 @@ Route::middleware(['auth', 'verified', 'role:CEO|accountant|admin|super-admin'])
     Route::get('/equipment/{equipment}', [\App\Http\Controllers\Admin\EquipmentController::class, 'show'])->name('accountant.equipment.show');
 });
 
-Route::middleware(['auth', 'verified', 'role:CEO|parent|admin|super-admin|accountant'])->prefix('parent')->group(function () {
+Route::middleware(['auth', 'verified', 'role:parent|admin|super-admin|accountant'])->prefix('parent')->group(function () {
     Route::get('/dashboard', [\App\Http\Controllers\ParentController::class, 'index'])->name('parent.dashboard');
 });
 
@@ -478,7 +478,7 @@ Route::middleware(['auth', 'verified'])->prefix('admin')->group(function () {
 Route::post('/api/form-submissions', [\App\Http\Controllers\Admin\FormSubmissionController::class, 'store'])->name('api.form-submissions.store');
 
 // Capacity Building admin CRUD
-Route::middleware(['auth', 'verified', 'role:CEO|admin|super-admin|accountant'])->prefix('admin')->group(function () {
+Route::middleware(['auth', 'verified', 'role:admin|super-admin|accountant'])->prefix('admin')->group(function () {
     Route::resource('capacity-buildings', \App\Http\Controllers\Admin\CapacityBuildingController::class, ['as' => 'admin']);
     // Stats
     Route::get('/capacity-buildings/stats', [\App\Http\Controllers\Admin\CapacityBuildingController::class, 'stats'])->name('admin.capacity-buildings.stats');
@@ -486,7 +486,7 @@ Route::middleware(['auth', 'verified', 'role:CEO|admin|super-admin|accountant'])
 });
 
 // Training Session Records admin CRUD - allow coaches and accountants
-Route::middleware(['auth', 'verified', 'role:CEO|admin|super-admin|coach|accountant'])->prefix('admin')->group(function () {
+Route::middleware(['auth', 'verified', 'role:admin|super-admin|coach|accountant'])->prefix('admin')->group(function () {
     Route::get('training_session_records/{training_session_record}/prepare', [\App\Http\Controllers\Admin\TrainingSessionRecordController::class, 'prepare'])->name('admin.training_session_records.prepare');
     Route::get('training_session_records/{training_session_record}/report', [\App\Http\Controllers\Admin\TrainingSessionRecordController::class, 'report'])->name('admin.training_session_records.report');
     Route::post('training_session_records/{training_session_record}/start', [\App\Http\Controllers\Admin\TrainingSessionRecordController::class, 'start'])->name('admin.training_session_records.start');
@@ -495,7 +495,7 @@ Route::middleware(['auth', 'verified', 'role:CEO|admin|super-admin|coach|account
 });
 
 // Staff Attendance admin CRUD - allow coaches and accountants
-Route::middleware(['auth', 'verified', 'role:CEO|admin|super-admin|coach|accountant'])->prefix('admin')->group(function () {
+Route::middleware(['auth', 'verified', 'role:admin|super-admin|coach|accountant'])->prefix('admin')->group(function () {
     Route::resource('staff_attendances', \App\Http\Controllers\Admin\StaffAttendanceController::class, ['as' => 'admin']);
 });
 
