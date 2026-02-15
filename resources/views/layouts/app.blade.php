@@ -174,19 +174,21 @@
     @include('layouts.sidebar')
 
     <!-- Main -->
-    <div id="main-content" :class="$store.layout.sidebarOpen ? 'lg:ml-64' : 'lg:ml-20'" class="flex-1 flex flex-col min-w-0 min-h-screen transition-all duration-300 ease-in-out relative z-0">
+    <div id="main-content"
+         :class="$store.layout.sidebarOpen ? 'lg:ml-64' : 'lg:ml-20'"
+         class="flex-1 flex flex-col w-full min-h-screen transition-all duration-300 ease-in-out relative z-10 ml-0">
         <!-- Topbar -->
-        <header class="sticky top-0 h-16 flex items-center px-4 sm:px-6 justify-between z-30 blur-card">
-            <div class="flex items-center gap-2">
+        <header class="sticky top-0 h-16 flex items-center px-4 sm:px-6 justify-between z-20 blur-card">
+            <div class="flex items-center gap-2 relative z-10">
                 <!-- Mobile menu button -->
-                <button data-toggle-sidebar-mobile class="lg:hidden inline-flex items-center justify-center p-2 rounded-md text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-700" @click.prevent="$store.layout.mobileOpen = !$store.layout.mobileOpen; $store.layout.sidebarOpen = true">
+                <button data-toggle-sidebar-mobile class="lg:hidden inline-flex items-center justify-center p-2 rounded-md text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-700 cursor-pointer" @click.prevent="$store.layout.mobileOpen = !$store.layout.mobileOpen; $store.layout.sidebarOpen = true">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" /></svg>
                 </button>
 
                 <!-- Desktop sidebar toggle button -->
                 <button
                     @click="$store.layout.sidebarOpen = !$store.layout.sidebarOpen"
-                    class="hidden lg:inline-flex items-center justify-center p-2 rounded-lg text-slate-500 hover:text-indigo-600 hover:bg-indigo-50 dark:text-slate-400 dark:hover:text-indigo-400 dark:hover:bg-slate-800 transition-all duration-200"
+                    class="hidden lg:inline-flex items-center justify-center p-2 rounded-lg text-slate-500 hover:text-indigo-600 hover:bg-indigo-50 dark:text-slate-400 dark:hover:text-indigo-400 dark:hover:bg-slate-800 transition-all duration-200 cursor-pointer"
                     :title="$store.layout.sidebarOpen ? 'Collapse sidebar' : 'Expand sidebar'"
                 >
                     <svg
@@ -202,7 +204,7 @@
 
                 <div class="font-semibold text-slate-700 dark:text-slate-200">{{ $title ?? 'Dashboard' }}</div>
             </div>
-            <div class="flex items-center gap-3">
+            <div class="flex items-center gap-3 relative z-30">
                 @can('manage users')<span class="badge badge-slate">manage users</span>@endcan
                 @can('manage finances')<span class="badge badge-slate">manage finances</span>@endcan
 
@@ -232,68 +234,138 @@
                 @endrole
 
                 <!-- User Profile Dropdown -->
-                <div x-data="{ open: false }" class="relative">
-                    <button @click="open = !open" @click.away="open = false" class="flex items-center gap-2 p-1 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors" title="User menu">
-                        <img
-                            src="{{ Auth::user()->profile_picture_url }}"
-                            alt="{{ Auth::user()->name }}"
-                            class="w-8 h-8 rounded-full object-cover ring-2 ring-slate-200 dark:ring-slate-700"
-                        >
+                <div x-data="{ open: false }" x-init="console.log('Profile dropdown initialized')" class="relative z-30">
+                    <button
+                        @click.prevent="open = !open; console.log('Button clicked, open:', open)"
+                        @click.stop
+                        type="button"
+                        class="flex items-center gap-2 p-1 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors cursor-pointer relative z-30"
+                        title="User menu"
+                        style="pointer-events: auto; user-select: none;"
+                    >
+                        <div class="relative">
+                            <img
+                                src="{{ Auth::user()->profile_picture_url }}"
+                                alt="{{ Auth::user()->name }}"
+                                class="w-8 h-8 rounded-full object-cover ring-2 ring-slate-200 dark:ring-slate-700"
+                            >
+                            <span class="absolute bottom-0 right-0 block h-2.5 w-2.5 rounded-full bg-green-400 ring-2 ring-white dark:ring-slate-800"></span>
+                        </div>
                         <span class="text-sm font-semibold text-slate-700 dark:text-slate-200 hidden sm:inline">{{ Auth::user()->name }}</span>
+                        <svg class="w-4 h-4 text-slate-500 dark:text-slate-400 hidden sm:block" :class="open ? 'rotate-180' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                        </svg>
                     </button>
 
                     <!-- Dropdown Menu -->
                     <div
                         x-show="open"
-                        x-transition
-                        @click.away="open = false"
-                        class="absolute right-0 mt-2 w-48 bg-white dark:bg-slate-800 rounded-lg shadow-lg border border-slate-200 dark:border-slate-700 z-50"
+                        x-transition:enter="transition ease-out duration-200"
+                        x-transition:enter-start="opacity-0 scale-95"
+                        x-transition:enter-end="opacity-100 scale-100"
+                        x-transition:leave="transition ease-in duration-150"
+                        x-transition:leave-start="opacity-100 scale-100"
+                        x-transition:leave-end="opacity-0 scale-95"
+                        @click.outside="open = false"
+                        class="absolute right-0 mt-2 w-64 bg-white dark:bg-slate-800 rounded-lg shadow-xl border border-slate-200 dark:border-slate-700 z-[100] origin-top-right"
+                        style="display: none;"
+                        x-cloak
                     >
-                        <div class="p-3 border-b border-slate-200 dark:border-slate-700">
+                        <!-- User Info Header -->
+                        <div class="p-4 border-b border-slate-200 dark:border-slate-700 bg-gradient-to-br from-indigo-50 to-purple-50 dark:from-slate-700 dark:to-slate-800">
                             <div class="flex items-center gap-3">
-                                <img
-                                    src="{{ Auth::user()->profile_picture_url }}"
-                                    alt="{{ Auth::user()->name }}"
-                                    class="w-10 h-10 rounded-full object-cover ring-2 ring-slate-200 dark:ring-slate-700"
-                                >
-                                <div>
-                                    <p class="font-semibold text-slate-900 dark:text-white">{{ Auth::user()->name }}</p>
-                                    <p class="text-xs text-slate-600 dark:text-slate-400">{{ Auth::user()->email }}</p>
+                                <div class="relative">
+                                    <img
+                                        src="{{ Auth::user()->profile_picture_url }}"
+                                        alt="{{ Auth::user()->name }}"
+                                        class="w-12 h-12 rounded-full object-cover ring-2 ring-white dark:ring-slate-600 flex-shrink-0"
+                                    >
+                                    <span class="absolute bottom-0 right-0 block h-3 w-3 rounded-full bg-green-400 ring-2 ring-white dark:ring-slate-700"></span>
+                                </div>
+                                <div class="flex-1 min-w-0">
+                                    <p class="font-semibold text-slate-900 dark:text-white truncate">{{ Auth::user()->name }}</p>
+                                    <p class="text-xs text-slate-600 dark:text-slate-400 truncate">{{ Auth::user()->email }}</p>
+                                    @if(Auth::user()->getRoleNames()->isNotEmpty())
+                                        <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-indigo-100 text-indigo-800 dark:bg-indigo-900/30 dark:text-indigo-300 mt-1">
+                                            {{ Auth::user()->getRoleNames()->first() }}
+                                        </span>
+                                    @endif
                                 </div>
                             </div>
                         </div>
+
+                        <!-- Menu Items -->
                         <div class="py-2">
+                            <!-- Profile Section -->
+                            <div class="px-2 py-1">
+                                <p class="px-2 text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Profile</p>
+                            </div>
                             <a
                                 href="{{ route('user.profile.show', Auth::user()) }}"
                                 @click="open = false"
-                                class="block px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700"
+                                class="flex items-center gap-3 px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors"
                             >
-                                👤 {{ __('app.my_profile') }}
+                                <svg class="w-4 h-4 text-slate-500 dark:text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
+                                </svg>
+                                <span>{{ __('app.my_profile') }}</span>
+                            </a>
+                            @if(Route::has('profile.edit'))
+                            <a
+                                href="{{ route('profile.edit') }}"
+                                @click="open = false"
+                                class="flex items-center gap-3 px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors"
+                            >
+                                <svg class="w-4 h-4 text-slate-500 dark:text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/>
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                                </svg>
+                                <span>Settings</span>
+                            </a>
+                            @endif
+
+                            <div class="border-t border-slate-200 dark:border-slate-700 my-2"></div>
+
+                            <!-- Navigation Section -->
+                            <div class="px-2 py-1">
+                                <p class="px-2 text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Navigation</p>
+                            </div>
+                            <a
+                                href="{{ route('user.dashboard') }}"
+                                @click="open = false"
+                                class="flex items-center gap-3 px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors"
+                            >
+                                <svg class="w-4 h-4 text-slate-500 dark:text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
+                                </svg>
+                                <span>{{ __('app.dashboard') }}</span>
                             </a>
                             @if(auth()->user()->hasRole(['admin', 'super-admin']))
                                 <a
                                     href="{{ route('admin.dashboard') }}"
                                     @click="open = false"
-                                    class="block px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700"
+                                    class="flex items-center gap-3 px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors"
                                 >
-                                    ⚙️ {{ __('app.admin_panel') }}
+                                    <svg class="w-4 h-4 text-slate-500 dark:text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
+                                    </svg>
+                                    <span>{{ __('app.admin_panel') }}</span>
                                 </a>
                             @endif
-                            <a
-                                href="{{ route('user.dashboard') }}"
-                                @click="open = false"
-                                class="block px-4 py-2 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700"
-                            >
-                                📊 {{ __('app.dashboard') }}
-                            </a>
-                            <div class="border-t border-slate-200 dark:border-slate-700 my-1"></div>
+
+                            <div class="border-t border-slate-200 dark:border-slate-700 my-2"></div>
+
+                            <!-- Logout -->
                             <form action="{{ route('logout') }}" method="POST" class="block">
                                 @csrf
                                 <button
                                     type="submit"
-                                    class="w-full text-left px-4 py-2 text-sm text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20"
+                                    class="w-full flex items-center gap-3 px-4 py-2 text-sm text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors"
                                 >
-                                    🚪 {{ __('app.logout') }}
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/>
+                                    </svg>
+                                    <span>{{ __('app.logout') }}</span>
                                 </button>
                             </form>
                         </div>

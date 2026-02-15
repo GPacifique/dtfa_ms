@@ -455,6 +455,8 @@ require __DIR__.'/staff.php';
 // CEO dashboard
 Route::middleware(['auth', 'verified', 'role:CEO|admin|super-admin|accountant'])->prefix('ceo')->group(function () {
     Route::get('/dashboard', [\App\Http\Controllers\CeoController::class, 'index'])->name('ceo.dashboard');
+    Route::get('/dashboard/export-pdf', [\App\Http\Controllers\CeoController::class, 'exportPdf'])->name('ceo.dashboard.export-pdf');
+    Route::get('/dashboard/export-csv', [\App\Http\Controllers\CeoController::class, 'exportCsv'])->name('ceo.dashboard.export-csv');
 });
 
 // Communications admin CRUD - accessible to all logged-in users

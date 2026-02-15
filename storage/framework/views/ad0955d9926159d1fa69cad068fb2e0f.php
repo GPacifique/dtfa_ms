@@ -11,9 +11,27 @@
          x-transition:leave="transition-opacity ease-linear duration-300"
          x-transition:leave-start="opacity-100"
          x-transition:leave-end="opacity-0"
-         class="fixed inset-0 bg-gray-900 bg-opacity-75 z-40 lg:hidden">
+         class="fixed inset-0 bg-gray-900 bg-opacity-75 z-30 lg:hidden">
     </div>
 
+    <!-- Floating Toggle Button (visible on desktop) - Outside sidebar for proper z-index -->
+    <button
+        @click="$store.layout.sidebarOpen = !$store.layout.sidebarOpen"
+        class="hidden lg:flex fixed w-8 h-8 bg-gradient-to-br from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 rounded-full items-center justify-center shadow-lg hover:shadow-xl border-2 border-white/30 transition-all duration-300 group hover:scale-110 z-50 cursor-pointer pointer-events-auto"
+        :class="$store.layout.sidebarOpen ? 'left-[15.5rem]' : 'left-[4.5rem]'"
+        style="top: 1.25rem;"
+        :title="$store.layout.sidebarOpen ? 'Collapse sidebar' : 'Expand sidebar'"
+    >
+        <svg
+            class="w-4 h-4 text-white transition-transform duration-300"
+            :class="$store.layout.sidebarOpen ? '' : 'rotate-180'"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+        >
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 19l-7-7 7-7"/>
+        </svg>
+    </button>
 
     <!-- Sidebar (fixed on the left) -->
     <aside id="app-sidebar" role="navigation" aria-label="Main navigation"
@@ -26,25 +44,6 @@
            "
            class="fixed inset-y-0 left-0 h-screen bg-gradient-to-b from-slate-900 via-slate-800 to-slate-900 text-white transition-all duration-300 ease-in-out z-40 shadow-2xl border-r border-slate-700 overflow-y-auto"
            tabindex="0">
-
-        <!-- Floating Toggle Button (visible on desktop) -->
-        <button
-            @click="$store.layout.sidebarOpen = !$store.layout.sidebarOpen"
-            class="hidden lg:flex fixed w-8 h-8 bg-gradient-to-br from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 rounded-full items-center justify-center shadow-lg hover:shadow-xl border-2 border-white/30 transition-all duration-300 group hover:scale-110"
-            :class="$store.layout.sidebarOpen ? 'left-[15.5rem]' : 'left-[4.5rem]'"
-            style="top: 1.25rem; z-index: 9999;"
-            :title="$store.layout.sidebarOpen ? 'Collapse sidebar' : 'Expand sidebar'"
-        >
-            <svg
-                class="w-4 h-4 text-white transition-transform duration-300"
-                :class="$store.layout.sidebarOpen ? '' : 'rotate-180'"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-            >
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 19l-7-7 7-7"/>
-            </svg>
-        </button>
 
         <!-- Logo Header -->
         <div class="flex items-center justify-between px-4 py-6 border-b border-slate-700">

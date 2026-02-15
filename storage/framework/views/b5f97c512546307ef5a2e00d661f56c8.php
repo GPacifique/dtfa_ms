@@ -1,2 +1,0 @@
-<img src="/logo.jpeg" alt="Application Logo" class="h-12 w-auto" />
-<?php /**PATH C:\Users\USER\Desktop\projects\htdocs\GitHub\dtfa_ms\resources\views/components/application-logo.blade.php ENDPATH**/ ?>

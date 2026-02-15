@@ -1,0 +1,339 @@
+<?php $__env->startSection('content'); ?>
+<div class="container-page">
+    <div class="card">
+        <div class="card-header">
+            <h1 class="page-title">My Profile</h1>
+        </div>
+
+        <div class="card-body">
+            <!-- Status Messages -->
+            <?php if($message = Session::get('status')): ?>
+                <div class="mb-4 p-4 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-lg flex items-start gap-3">
+                    <svg class="w-5 h-5 text-green-600 dark:text-green-400 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                    </svg>
+                    <span class="text-sm text-green-800 dark:text-green-300"><?php echo e($message); ?></span>
+                </div>
+            <?php endif; ?>
+
+            <?php if($message = Session::get('error')): ?>
+                <div class="mb-4 p-4 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg flex items-start gap-3">
+                    <svg class="w-5 h-5 text-red-600 dark:text-red-400 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/>
+                    </svg>
+                    <span class="text-sm text-red-800 dark:text-red-300"><?php echo e($message); ?></span>
+                </div>
+            <?php endif; ?>
+
+            <form method="POST" action="<?php echo e(route('user.profile.update', $user)); ?>" enctype="multipart/form-data" class="space-y-6">
+                <?php echo csrf_field(); ?>
+                <?php echo method_field('PUT'); ?>
+
+                <!-- Profile Picture Section -->
+                <div class="space-y-4 p-4 bg-slate-50 dark:bg-slate-900/30 rounded-lg border border-slate-200 dark:border-slate-800">
+                    <h2 class="text-lg font-semibold text-slate-900 dark:text-white">Profile Picture</h2>
+
+                    <div class="flex items-start gap-6">
+                        <!-- Current Picture -->
+                        <div class="flex-shrink-0">
+                            <div class="relative">
+                                <img
+                                    src="<?php echo e($user->profile_picture_url); ?>"
+                                    alt="<?php echo e($user->name); ?>"
+                                    class="w-24 h-24 rounded-full object-cover ring-4 ring-white dark:ring-slate-800 shadow-md"
+                                    id="picture-preview"
+                                >
+                                <?php if($user->profile_picture_path): ?>
+                                    <button
+                                        type="button"
+                                        onclick="deletePicture(event)"
+                                        class="absolute bottom-0 right-0 bg-red-500 hover:bg-red-600 text-white rounded-full p-2 shadow-lg transition-colors"
+                                        title="Delete picture"
+                                    >
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+                                        </svg>
+                                    </button>
+                                <?php endif; ?>
+                            </div>
+                        </div>
+
+                        <!-- Upload Section -->
+                        <div class="flex-1">
+                            <label class="label mb-2">Upload Picture</label>
+                            <div class="space-y-3">
+                                <input
+                                    type="file"
+                                    name="profile_picture"
+                                    accept="image/*"
+                                    id="picture-input"
+                                    class="block w-full text-sm text-slate-600 dark:text-slate-400 file:mr-3 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-blue-50 dark:file:bg-blue-900/30 file:text-blue-700 dark:file:text-blue-400 hover:file:bg-blue-100 dark:hover:file:bg-blue-900/50 transition-colors cursor-pointer"
+                                >
+                                <p class="text-xs text-slate-500 dark:text-slate-400">
+                                    Supported formats: JPEG, PNG, GIF • Max size: 2MB
+                                </p>
+                                <?php $__errorArgs = ['profile_picture'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
+                                    <p class="text-sm text-red-600 dark:text-red-400"><?php echo e($message); ?></p>
+                                <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Basic Information Section -->
+                <div class="space-y-4 p-4 bg-slate-50 dark:bg-slate-900/30 rounded-lg border border-slate-200 dark:border-slate-800">
+                    <h2 class="text-lg font-semibold text-slate-900 dark:text-white">Basic Information</h2>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label class="label">Name</label>
+                            <input
+                                type="text"
+                                name="name"
+                                value="<?php echo e(old('name', $user->name)); ?>"
+                                class="input"
+                                placeholder="Leave blank to keep current"
+                            >
+                            <?php $__errorArgs = ['name'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
+                                <p class="text-sm text-red-600 dark:text-red-400 mt-1"><?php echo e($message); ?></p>
+                            <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
+                        </div>
+
+                        <div>
+                            <label class="label">Email</label>
+                            <input
+                                type="email"
+                                name="email"
+                                value="<?php echo e(old('email', $user->email)); ?>"
+                                class="input"
+                                placeholder="Leave blank to keep current"
+                            >
+                            <?php $__errorArgs = ['email'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
+                                <p class="text-sm text-red-600 dark:text-red-400 mt-1"><?php echo e($message); ?></p>
+                            <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Account Information -->
+                <div class="space-y-4 p-4 bg-slate-50 dark:bg-slate-900/30 rounded-lg border border-slate-200 dark:border-slate-800">
+                    <h2 class="text-lg font-semibold text-slate-900 dark:text-white">Account Information</h2>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label class="label text-slate-500 dark:text-slate-400">Email Verified</label>
+                            <p class="text-slate-900 dark:text-white font-medium">
+                                <?php if($user->email_verified_at): ?>
+                                    <span class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-sm font-medium bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400">
+                                        <span class="w-2 h-2 rounded-full bg-green-600"></span>
+                                        Verified
+                                    </span>
+                                <?php else: ?>
+                                    <span class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-sm font-medium bg-yellow-100 dark:bg-yellow-900/30 text-yellow-700 dark:text-yellow-400">
+                                        <span class="w-2 h-2 rounded-full bg-yellow-600"></span>
+                                        Pending
+                                    </span>
+                                <?php endif; ?>
+                            </p>
+                        </div>
+
+                        <div>
+                            <label class="label text-slate-500 dark:text-slate-400">Roles</label>
+                            <div class="flex flex-wrap gap-2">
+                                <?php $__empty_1 = true; $__currentLoopData = $user->getRoleNames(); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $role): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
+                                    <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400">
+                                        <?php echo e(ucfirst($role)); ?>
+
+                                    </span>
+                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
+                                    <span class="text-slate-600 dark:text-slate-400">No roles assigned</span>
+                                <?php endif; ?>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="label text-slate-500 dark:text-slate-400">Account Created</label>
+                            <p class="text-slate-900 dark:text-white font-medium"><?php echo e($user->created_at->format('M d, Y \a\t H:i')); ?></p>
+                        </div>
+
+                        <?php if($user->branch): ?>
+                            <div>
+                                <label class="label text-slate-500 dark:text-slate-400">Branch</label>
+                                <p class="text-slate-900 dark:text-white font-medium"><?php echo e($user->branch->name); ?></p>
+                            </div>
+                        <?php endif; ?>
+                    </div>
+                </div>
+
+                <!-- Form Actions -->
+                <div class="flex items-center justify-between pt-4 border-t border-slate-200 dark:border-slate-800">
+                    <a href="<?php echo e(route('user.dashboard')); ?>" class="btn btn-secondary">
+                        Cancel
+                    </a>
+                    <button type="submit" class="btn btn-primary">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                        </svg>
+                        Save Changes
+                    </button>
+                </div>
+            </form>
+
+            <!-- Change Password Section -->
+            <div class="mt-6 space-y-4 p-4 bg-slate-50 dark:bg-slate-900/30 rounded-lg border border-slate-200 dark:border-slate-800">
+                <h2 class="text-lg font-semibold text-slate-900 dark:text-white">Change Password</h2>
+                <p class="text-sm text-slate-600 dark:text-slate-400">
+                    Ensure your account is using a long, random password to stay secure.
+                </p>
+
+                <?php if(session('status') === 'password-updated'): ?>
+                    <div class="mb-4 p-4 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-lg flex items-start gap-3">
+                        <svg class="w-5 h-5 text-green-600 dark:text-green-400 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                        </svg>
+                        <span class="text-sm text-green-800 dark:text-green-300">Password updated successfully!</span>
+                    </div>
+                <?php endif; ?>
+
+                <form method="POST" action="<?php echo e(route('password.update')); ?>" class="space-y-4">
+                    <?php echo csrf_field(); ?>
+                    <?php echo method_field('PUT'); ?>
+
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div>
+                            <label for="current_password" class="label">Current Password</label>
+                            <input
+                                type="password"
+                                name="current_password"
+                                id="current_password"
+                                class="input"
+                                autocomplete="current-password"
+                                required
+                            >
+                            <?php $__errorArgs = ['current_password', 'updatePassword'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
+                                <p class="text-sm text-red-600 dark:text-red-400 mt-1"><?php echo e($message); ?></p>
+                            <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
+                        </div>
+
+                        <div>
+                            <label for="password" class="label">New Password</label>
+                            <input
+                                type="password"
+                                name="password"
+                                id="password"
+                                class="input"
+                                autocomplete="new-password"
+                                required
+                            >
+                            <?php $__errorArgs = ['password', 'updatePassword'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
+                                <p class="text-sm text-red-600 dark:text-red-400 mt-1"><?php echo e($message); ?></p>
+                            <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
+                        </div>
+
+                        <div>
+                            <label for="password_confirmation" class="label">Confirm Password</label>
+                            <input
+                                type="password"
+                                name="password_confirmation"
+                                id="password_confirmation"
+                                class="input"
+                                autocomplete="new-password"
+                                required
+                            >
+                            <?php $__errorArgs = ['password_confirmation', 'updatePassword'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
+                                <p class="text-sm text-red-600 dark:text-red-400 mt-1"><?php echo e($message); ?></p>
+                            <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
+                        </div>
+                    </div>
+
+                    <div class="flex justify-end">
+                        <button type="submit" class="btn btn-primary">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z"/>
+                            </svg>
+                            Update Password
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Delete Picture Modal -->
+<form
+    id="delete-picture-form"
+    method="POST"
+    action="<?php echo e(route('user.profile.deletePicture', $user)); ?>"
+    style="display: none;"
+>
+    <?php echo csrf_field(); ?>
+    <?php echo method_field('DELETE'); ?>
+</form>
+
+<script>
+    // Picture preview on file selection
+    document.getElementById('picture-input').addEventListener('change', function(e) {
+        const file = e.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(event) {
+                document.getElementById('picture-preview').src = event.target.result;
+            };
+            reader.readAsDataURL(file);
+        }
+    });
+
+    // Delete picture handler
+    function deletePicture(e) {
+        e.preventDefault();
+        if (confirm('Are you sure you want to delete your profile picture?')) {
+            document.getElementById('delete-picture-form').submit();
+        }
+    }
+</script>
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('layouts.app', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?><?php /**PATH C:\Users\USER\Desktop\projects\htdocs\GitHub\dtfa_ms\resources\views/user/profile/show.blade.php ENDPATH**/ ?>
