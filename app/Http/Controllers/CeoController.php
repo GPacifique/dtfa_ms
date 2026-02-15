@@ -320,28 +320,32 @@ class CeoController extends Controller
         $data = [];
         $colors = [];
 
-        // Get all expenses with categories (using raw SQL for reliable grouping)
+        // Get all expenses grouped by expense_category_id with category details
         $categorizedExpenses = DB::select("
             SELECT
+                e.expense_category_id,
                 ec.name as category_name,
                 ec.color as category_color,
                 SUM(e.amount_cents) as total
             FROM expenses e
-            INNER JOIN expense_categories ec ON e.expense_category_id = ec.id
+            LEFT JOIN expense_categories ec ON e.expense_category_id = ec.id
             WHERE e.status IN ('approved', 'paid')
             AND e.expense_date BETWEEN ? AND ?
             AND e.expense_category_id IS NOT NULL
-            GROUP BY ec.id, ec.name, ec.color
+            GROUP BY e.expense_category_id, ec.name, ec.color
             ORDER BY total DESC
         ", [$startDate, $endDate]);
 
         foreach ($categorizedExpenses as $expense) {
-            $labels[] = $expense->category_name ?? 'Unknown';
+            // If category name exists, use it; otherwise show descriptive text with ID
+            $categoryLabel = $expense->category_name ?? 'Category #' . $expense->expense_category_id;
+            $labels[] = $categoryLabel;
             $colors[] = $expense->category_color ?? $this->getDefaultColor(count($labels));
             $data[] = round($expense->total / 100, 2);
         }
 
-        // Get expenses with legacy category field (old system)
+        // Get expenses grouped by legacy category field (NOT expense_category_id)
+        // This handles old expenses that use the 'category' column instead
         $legacyExpenses = DB::select("
             SELECT
                 category,
@@ -349,7 +353,7 @@ class CeoController extends Controller
             FROM expenses
             WHERE status IN ('approved', 'paid')
             AND expense_date BETWEEN ? AND ?
-            AND expense_category_id IS NULL
+            AND (expense_category_id IS NULL OR expense_category_id = 0)
             AND category IS NOT NULL
             AND category != ''
             GROUP BY category
@@ -357,7 +361,23 @@ class CeoController extends Controller
         ", [$startDate, $endDate]);
 
         foreach ($legacyExpenses as $expense) {
-            $categoryName = ucfirst(str_replace('_', ' ', $expense->category));
+            // Handle legacy category field - check if it's numeric (bad data)
+            if (is_numeric($expense->category)) {
+                // Try to find the category name from expense_categories table
+                $categoryFromTable = DB::selectOne("
+                    SELECT name FROM expense_categories WHERE id = ?
+                ", [$expense->category]);
+
+                if ($categoryFromTable) {
+                    $categoryName = $categoryFromTable->name;
+                } else {
+                    $categoryName = 'Category #' . $expense->category;
+                }
+            } else {
+                // Proper text category, just format it
+                $categoryName = ucfirst(str_replace('_', ' ', $expense->category));
+            }
+
             $labels[] = $categoryName;
             $colors[] = $this->getDefaultColor(count($labels));
             $data[] = round($expense->total / 100, 2);
@@ -369,7 +389,7 @@ class CeoController extends Controller
             FROM expenses
             WHERE status IN ('approved', 'paid')
             AND expense_date BETWEEN ? AND ?
-            AND expense_category_id IS NULL
+            AND (expense_category_id IS NULL OR expense_category_id = 0)
             AND (category IS NULL OR category = '')
         ", [$startDate, $endDate]);
 
