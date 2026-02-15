@@ -25,7 +25,7 @@
                             <svg class="w-4 h-4 sm:w-5 sm:h-5 text-cyan-300" fill="currentColor" viewBox="0 0 20 20">
                                 <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"/>
                             </svg>
-                            <span class="font-semibold text-white text-xs sm:text-sm">{{ $students->total() ?? $students->count() }} {{ __('app.students') }}</span>
+                            <span class="font-semibold text-white text-xs sm:text-sm">{{ $students->count() }} {{ __('app.students') }}</span>
                         </div>
                         <div class="flex items-center gap-2 bg-gradient-to-r from-emerald-500/30 to-green-500/30 backdrop-blur-sm rounded-full px-3 sm:px-4 py-1.5 sm:py-2 border border-white/20">
                             <svg class="w-4 h-4 sm:w-5 sm:h-5 text-emerald-300" fill="currentColor" viewBox="0 0 20 20">
@@ -250,7 +250,7 @@
                         {{-- Quick Attendance Section --}}
                         <div class="mt-4 pt-4 border-t border-slate-100 dark:border-slate-800">
                             <p class="text-xs font-medium text-slate-500 dark:text-slate-400 mb-2 text-center">Quick Attendance</p>
-                            <div class="grid grid-cols-4 gap-1.5">
+                            <div class="flex justify-center">
                                 <button type="button"
                                         onclick="recordStudentAttendance({{ $student->id }}, '{{ addslashes($student->first_name . ' ' . $student->second_name) }}', 'present')"
                                         class="flex flex-col items-center gap-1 p-2 rounded-xl bg-emerald-50 hover:bg-emerald-500 text-emerald-600 hover:text-white dark:bg-emerald-900/20 dark:hover:bg-emerald-600 dark:text-emerald-400 dark:hover:text-white transition-all duration-200 group/btn"
@@ -259,33 +259,6 @@
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
                                     </svg>
                                     <span class="text-[10px] font-semibold">Present</span>
-                                </button>
-                                <button type="button"
-                                        onclick="recordStudentAttendance({{ $student->id }}, '{{ addslashes($student->first_name . ' ' . $student->second_name) }}', 'absent')"
-                                        class="flex flex-col items-center gap-1 p-2 rounded-xl bg-red-50 hover:bg-red-500 text-red-600 hover:text-white dark:bg-red-900/20 dark:hover:bg-red-600 dark:text-red-400 dark:hover:text-white transition-all duration-200"
-                                        title="Mark Absent">
-                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
-                                    </svg>
-                                    <span class="text-[10px] font-semibold">Absent</span>
-                                </button>
-                                <button type="button"
-                                        onclick="recordStudentAttendance({{ $student->id }}, '{{ addslashes($student->first_name . ' ' . $student->second_name) }}', 'late')"
-                                        class="flex flex-col items-center gap-1 p-2 rounded-xl bg-amber-50 hover:bg-amber-500 text-amber-600 hover:text-white dark:bg-amber-900/20 dark:hover:bg-amber-600 dark:text-amber-400 dark:hover:text-white transition-all duration-200"
-                                        title="Mark Late">
-                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                                    </svg>
-                                    <span class="text-[10px] font-semibold">Late</span>
-                                </button>
-                                <button type="button"
-                                        onclick="recordStudentAttendance({{ $student->id }}, '{{ addslashes($student->first_name . ' ' . $student->second_name) }}', 'excused')"
-                                        class="flex flex-col items-center gap-1 p-2 rounded-xl bg-purple-50 hover:bg-purple-500 text-purple-600 hover:text-white dark:bg-purple-900/20 dark:hover:bg-purple-600 dark:text-purple-400 dark:hover:text-white transition-all duration-200"
-                                        title="Mark Excused">
-                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
-                                    </svg>
-                                    <span class="text-[10px] font-semibold">Excused</span>
                                 </button>
                             </div>
                         </div>
@@ -431,22 +404,6 @@
                                                 title="Mark Present">
                                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
-                                            </svg>
-                                        </button>
-                                        <button type="button"
-                                                onclick="recordStudentAttendance({{ $student->id }}, '{{ addslashes($student->first_name . ' ' . $student->second_name) }}', 'absent')"
-                                                class="p-2 rounded-lg bg-red-50 hover:bg-red-500 text-red-600 hover:text-white dark:bg-red-900/20 dark:hover:bg-red-600 dark:text-red-400 dark:hover:text-white transition-all duration-200"
-                                                title="Mark Absent">
-                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
-                                            </svg>
-                                        </button>
-                                        <button type="button"
-                                                onclick="recordStudentAttendance({{ $student->id }}, '{{ addslashes($student->first_name . ' ' . $student->second_name) }}', 'late')"
-                                                class="p-2 rounded-lg bg-amber-50 hover:bg-amber-500 text-amber-600 hover:text-white dark:bg-amber-900/20 dark:hover:bg-amber-600 dark:text-amber-400 dark:hover:text-white transition-all duration-200"
-                                                title="Mark Late">
-                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
                                             </svg>
                                         </button>
                                         <button type="button"
