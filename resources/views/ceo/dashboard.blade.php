@@ -170,14 +170,54 @@
             <!-- Expense Breakdown Chart -->
             <div class="card">
                 <div class="card-body">
-                    <h3 class="text-lg font-semibold text-slate-900 dark:text-white mb-4">Expense Breakdown</h3>
-                    <div class="h-64 flex items-center justify-center">
-                        @if(count($expenseBreakdown['labels'] ?? []) > 0)
-                            <canvas id="expenseBreakdownChart"></canvas>
-                        @else
-                            <p class="text-slate-600 dark:text-slate-400">No expense data available</p>
-                        @endif
-                    </div>
+                    <h3 class="text-lg font-semibold text-slate-900 dark:text-white mb-4">Expense Breakdown by Category</h3>
+                    @if(count($expenseBreakdown['labels'] ?? []) > 0)
+                        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                            <!-- Pie Chart -->
+                            <div class="h-64 flex items-center justify-center">
+                                <canvas id="expenseBreakdownChart"></canvas>
+                            </div>
+                            
+                            <!-- Breakdown List -->
+                            <div class="space-y-3">
+                                @php
+                                    $totalExpenseAmount = array_sum($expenseBreakdown['data'] ?? []);
+                                @endphp
+                                @foreach(($expenseBreakdown['labels'] ?? []) as $index => $label)
+                                    @php
+                                        $amount = $expenseBreakdown['data'][$index] ?? 0;
+                                        $percentage = $totalExpenseAmount > 0 ? ($amount / $totalExpenseAmount) * 100 : 0;
+                                        $color = $expenseBreakdown['colors'][$index] ?? '#6B7280';
+                                    @endphp
+                                    <div class="flex items-center gap-3 p-3 bg-slate-50 dark:bg-slate-700/50 rounded-lg">
+                                        <div class="w-4 h-4 rounded-full flex-shrink-0" style="background-color: {{ $color }}"></div>
+                                        <div class="flex-1 min-w-0">
+                                            <div class="flex justify-between items-start mb-1">
+                                                <span class="font-medium text-slate-800 dark:text-slate-200 truncate">{{ $label }}</span>
+                                                <span class="text-slate-700 dark:text-slate-300 font-semibold ml-2 flex-shrink-0">{{ number_format($amount) }} RWF</span>
+                                            </div>
+                                            <div class="flex items-center gap-2">
+                                                <div class="flex-1 bg-slate-200 dark:bg-slate-600 rounded-full h-2">
+                                                    <div class="h-2 rounded-full" style="width: {{ $percentage }}%; background-color: {{ $color }}"></div>
+                                                </div>
+                                                <span class="text-xs text-slate-600 dark:text-slate-400 flex-shrink-0 w-12 text-right">{{ number_format($percentage, 1) }}%</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endforeach
+                                
+                                <!-- Total -->
+                                <div class="flex items-center justify-between p-3 bg-slate-100 dark:bg-slate-700 rounded-lg border-t-2 border-slate-300 dark:border-slate-600">
+                                    <span class="font-bold text-slate-900 dark:text-white">Total Expenses (Period)</span>
+                                    <span class="font-bold text-lg text-rose-600 dark:text-rose-400">{{ number_format($totalExpenseAmount) }} RWF</span>
+                                </div>
+                            </div>
+                        </div>
+                    @else
+                        <div class="text-center py-8">
+                            <p class="text-slate-600 dark:text-slate-400">No expense data available for the selected period</p>
+                        </div>
+                    @endif
                 </div>
             </div>
 
