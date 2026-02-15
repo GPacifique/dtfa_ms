@@ -578,22 +578,23 @@ document.addEventListener('DOMContentLoaded', function() {
     if (expenseBreakdownCtx) {
         const expenseLabels = @json($expenseBreakdown['labels'] ?? []);
         const expenseData = @json($expenseBreakdown['data'] ?? []);
+        const expenseColors = @json($expenseBreakdown['colors'] ?? []);
 
         if (expenseLabels.length > 0) {
             new Chart(expenseBreakdownCtx, {
-                type: 'doughnut',
+                type: 'pie',
                 data: {
                     labels: expenseLabels,
                     datasets: [{
                         data: expenseData,
-                        backgroundColor: [
-                            'rgb(239, 68, 68)',
-                            'rgb(59, 130, 246)',
-                            'rgb(16, 185, 129)',
-                            'rgb(245, 158, 11)',
-                            'rgb(139, 92, 246)',
-                            'rgb(236, 72, 153)',
-                            'rgb(20, 184, 166)',
+                        backgroundColor: expenseColors.length > 0 ? expenseColors : [
+                            '#EF4444',
+                            '#3B82F6',
+                            '#10B981',
+                            '#F59E0B',
+                            '#8B5CF6',
+                            '#EC4899',
+                            '#14B8A6',
                         ],
                         borderWidth: 2,
                         borderColor: '#fff'
@@ -609,7 +610,9 @@ document.addEventListener('DOMContentLoaded', function() {
                         tooltip: {
                             callbacks: {
                                 label: function(context) {
-                                    return context.label + ': ' + context.parsed.toLocaleString() + ' RWF';
+                                    const total = context.dataset.data.reduce((a, b) => a + b, 0);
+                                    const percentage = ((context.parsed / total) * 100).toFixed(1);
+                                    return context.label + ': ' + context.parsed.toLocaleString() + ' RWF (' + percentage + '%)';
                                 }
                             }
                         }

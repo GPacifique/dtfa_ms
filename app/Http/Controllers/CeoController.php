@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use App\Models\Expense;
+use App\Models\ExpenseCategory;
 use App\Models\Income;
 use App\Models\Student;
 use App\Models\User;
@@ -315,26 +316,61 @@ class CeoController extends Controller
 
     protected function getExpenseBreakdown($startDate, $endDate)
     {
-        $expenses = Expense::with('expenseCategory')
-            ->whereIn('status', ['approved', 'paid'])
+        // Get expenses grouped by category
+        $expensesByCategory = Expense::whereIn('status', ['approved', 'paid'])
             ->whereBetween('expense_date', [$startDate, $endDate])
             ->selectRaw('expense_category_id, SUM(amount_cents) as total')
             ->groupBy('expense_category_id')
-            ->get();
+            ->get()
+            ->keyBy('expense_category_id');
+
+        // Load all categories that have expenses
+        $categoryIds = $expensesByCategory->pluck('expense_category_id')->filter()->all();
+        $categories = ExpenseCategory::whereIn('id', $categoryIds)->get()->keyBy('id');
 
         $labels = [];
         $data = [];
+        $colors = [];
 
-        foreach ($expenses as $expense) {
-            $categoryName = $expense->expenseCategory
-                ? $expense->expenseCategory->name
-                : 'Uncategorized';
+        foreach ($expensesByCategory as $categoryId => $expense) {
+            if ($categoryId && isset($categories[$categoryId])) {
+                // Categorized expense
+                $category = $categories[$categoryId];
+                $labels[] = $category->name;
+                $colors[] = $category->color ?? $this->getDefaultColor(count($labels));
+            } else {
+                // Uncategorized expense
+                $labels[] = 'Uncategorized';
+                $colors[] = '#6B7280'; // Gray color for uncategorized
+            }
 
-            $labels[] = $categoryName;
-            $data[] = $expense->total / 100;
+            $data[] = round($expense->total / 100, 2);
         }
 
-        return ['labels' => $labels, 'data' => $data];
+        return [
+            'labels' => $labels,
+            'data' => $data,
+            'colors' => $colors
+        ];
+    }
+
+    /**
+     * Get default color for chart if category doesn't have one
+     */
+    protected function getDefaultColor($index)
+    {
+        $colors = [
+            '#EF4444', // Red
+            '#3B82F6', // Blue
+            '#10B981', // Green
+            '#F59E0B', // Amber
+            '#8B5CF6', // Purple
+            '#EC4899', // Pink
+            '#14B8A6', // Teal
+            '#F97316', // Orange
+        ];
+
+        return $colors[$index % count($colors)];
     }
 
     public function exportPdf(Request $request)
