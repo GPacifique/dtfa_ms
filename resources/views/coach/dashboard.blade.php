@@ -11,7 +11,7 @@
             <h1 class="text-4xl font-bold text-slate-900 dark:text-white">🏆 {{ __('app.coach_dashboard') }}</h1>
             <p class="text-slate-600 dark:text-slate-400 mt-2">{{ __('app.welcome_back') }}, <span class="font-semibold">{{ Auth::user()->name }}</span></p>
         </div>
-        <a href="{{ route('coach.sessions.create') }}" class="inline-flex items-center gap-2 px-4 py-2 bg-indigo-600 text-white rounded-lg text-sm font-semibold hover:bg-indigo-700 transition">
+        <a href="{{ route('admin.training_session_records.create') }}" class="inline-flex items-center gap-2 px-4 py-2 bg-indigo-600 text-white rounded-lg text-sm font-semibold hover:bg-indigo-700 transition">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" /></svg>
             {{ __('app.new_session') }}
         </a>
@@ -115,13 +115,12 @@
                 @forelse($sessionsToday as $s)
                     <div class="p-4 rounded-xl bg-gradient-to-br from-indigo-50 to-blue-50 dark:from-indigo-900/20 dark:to-blue-900/20 border border-indigo-200 dark:border-indigo-800">
                         <div class="flex justify-between items-start mb-2">
-                            <span class="text-sm font-bold text-indigo-900 dark:text-indigo-100">{{ $s->start_time ?? 'N/A' }} – {{ $s->end_time ?? 'N/A' }}</span>
-                            <span class="text-xs bg-indigo-600 text-white px-2 py-1 rounded">{{ $s->location ?? 'TBA' }}</span>
+                            <span class="text-sm font-bold text-indigo-900 dark:text-indigo-100">{{ $s->start_time ?? 'N/A' }} – {{ $s->finish_time ?? 'N/A' }}</span>
+                            <span class="text-xs bg-indigo-600 text-white px-2 py-1 rounded">{{ $s->training_pitch ?? $s->other_training_pitch ?? 'TBA' }}</span>
                         </div>
-                        <p class="text-xs text-slate-600 dark:text-slate-400 mb-3"><strong>{{ __('app.group') }}:</strong> {{ $s->group->name ?? 'All Groups' }}</p>
+                        <p class="text-xs text-slate-600 dark:text-slate-400 mb-3"><strong>{{ __('app.sport') }}:</strong> {{ $s->sport_discipline ?? 'Training' }}</p>
                         <div class="flex gap-2">
-                            <a href="{{ route('coach.sessions.show', $s) }}" class="flex-1 text-center text-xs py-2 border border-slate-300 dark:border-slate-600 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-700 transition font-medium">{{ __('app.details') }}</a>
-                            <a href="{{ route('coach.attendance.show', $s) }}" class="flex-1 text-center text-xs py-2 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 transition font-medium">{{ __('app.attendance') }}</a>
+                            <a href="{{ route('admin.training_session_records.show', $s) }}" class="flex-1 text-center text-xs py-2 border border-slate-300 dark:border-slate-600 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-700 transition font-medium">{{ __('app.details') }}</a>
                         </div>
                     </div>
                 @empty
@@ -136,12 +135,42 @@
 
     <!-- Recent Training Records -->
     <div class="bg-white dark:bg-slate-800 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-700">
-        <div class="p-6 border-b border-slate-200 dark:border-slate-700 flex items-center justify-between">
-            <h2 class="text-lg font-bold text-slate-900 dark:text-white">📊 {{ __('app.training_records') }}</h2>
-            <a href="{{ route('admin.training_session_records.index') }}" class="text-sm text-indigo-600 dark:text-indigo-400 hover:underline font-medium">{{ __('app.view_all') }} →</a>
+        <div class="p-6 border-b border-slate-200 dark:border-slate-700">
+            <div class="flex items-center justify-between mb-4">
+                <h2 class="text-lg font-bold text-slate-900 dark:text-white">📊 {{ __('app.training_records') }}</h2>
+                <a href="{{ route('admin.training_session_records.index') }}" class="text-sm text-indigo-600 dark:text-indigo-400 hover:underline font-medium">{{ __('app.view_all') }} →</a>
+            </div>
+            <!-- Training Stats Mini Cards -->
+            <div class="grid grid-cols-2 lg:grid-cols-4 gap-3">
+                <div class="bg-green-50 dark:bg-green-900/20 rounded-lg p-3 border border-green-200 dark:border-green-800">
+                    <p class="text-xs text-green-600 dark:text-green-400 font-medium">Completed</p>
+                    <p class="text-2xl font-bold text-green-900 dark:text-green-100">{{ $completedRecords ?? 0 }}</p>
+                </div>
+                <div class="bg-blue-50 dark:bg-blue-900/20 rounded-lg p-3 border border-blue-200 dark:border-blue-800">
+                    <p class="text-xs text-blue-600 dark:text-blue-400 font-medium">In Progress</p>
+                    <p class="text-2xl font-bold text-blue-900 dark:text-blue-100">{{ $inProgressRecords ?? 0 }}</p>
+                </div>
+                <div class="bg-amber-50 dark:bg-amber-900/20 rounded-lg p-3 border border-amber-200 dark:border-amber-800">
+                    <p class="text-xs text-amber-600 dark:text-amber-400 font-medium">Scheduled</p>
+                    <p class="text-2xl font-bold text-amber-900 dark:text-amber-100">{{ $scheduledRecords ?? 0 }}</p>
+                </div>
+                <div class="bg-purple-50 dark:bg-purple-900/20 rounded-lg p-3 border border-purple-200 dark:border-purple-800">
+                    <p class="text-xs text-purple-600 dark:text-purple-400 font-medium">Kids Trained</p>
+                    <p class="text-2xl font-bold text-purple-900 dark:text-purple-100">{{ $totalKidsTrained ?? 0 }}</p>
+                </div>
+            </div>
         </div>
         <div class="overflow-x-auto">
             <table class="w-full">
+                <thead class="bg-slate-50 dark:bg-slate-900/50">
+                    <tr>
+                        <th class="px-4 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">Session</th>
+                        <th class="px-4 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider hidden md:table-cell">Time</th>
+                        <th class="px-4 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider hidden lg:table-cell">Location</th>
+                        <th class="px-4 py-3 text-left text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider hidden xl:table-cell">Kids</th>
+                        <th class="px-4 py-3 text-right text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">Actions</th>
+                    </tr>
+                </thead>
                 <tbody class="divide-y divide-slate-200 dark:divide-slate-700">
                     @forelse($recentTrainingRecords->take(8) as $record)
                         <tr class="hover:bg-slate-50 dark:hover:bg-slate-700/40 transition">
@@ -156,21 +185,45 @@
                                             <span class="w-2.5 h-2.5 rounded-full bg-slate-300 dark:bg-slate-600 block" title="Scheduled"></span>
                                         @endif
                                     </div>
-                                    <div>
-                                        <a href="{{ route('admin.training_session_records.show', $record) }}" class="font-semibold text-slate-900 dark:text-white text-sm hover:text-indigo-600 transition">
+                                    <div class="min-w-0">
+                                        <a href="{{ route('admin.training_session_records.show', $record) }}" class="font-semibold text-slate-900 dark:text-white text-sm hover:text-indigo-600 transition block truncate">
                                             {{ $record->main_topic ?? $record->training_objective ?? 'Training Session' }}
                                         </a>
                                         <div class="flex items-center gap-2 mt-0.5">
                                             <p class="text-xs text-slate-500">{{ $record->date instanceof \Carbon\Carbon ? $record->date->format('M d, Y') : $record->date }}</p>
                                             <span class="text-slate-300 dark:text-slate-600">•</span>
-                                            <p class="text-xs text-slate-500">{{ $record->branch }}</p>
+                                            <p class="text-xs text-slate-500">{{ $record->branch ?? 'N/A' }}</p>
                                         </div>
+                                        <span class="inline-flex md:hidden items-center px-2 py-0.5 text-xs font-medium rounded-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 mt-1">
+                                            {{ $record->sport_discipline ?? 'Sport' }}
+                                        </span>
                                     </div>
                                 </div>
                             </td>
+                            <td class="p-4 hidden md:table-cell">
+                                <div class="text-sm text-slate-900 dark:text-white font-medium">
+                                    {{ $record->start_time ?? 'N/A' }}
+                                </div>
+                                <div class="text-xs text-slate-500">
+                                    to {{ $record->finish_time ?? 'N/A' }}
+                                </div>
+                            </td>
+                            <td class="p-4 hidden lg:table-cell">
+                                <div class="text-sm text-slate-700 dark:text-slate-300">
+                                    {{ $record->training_pitch ?? $record->other_training_pitch ?? 'N/A' }}
+                                </div>
+                                <div class="text-xs text-slate-500">
+                                    {{ $record->city ?? '' }}
+                                </div>
+                            </td>
+                            <td class="p-4 hidden xl:table-cell text-center">
+                                <span class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-400 font-bold text-sm">
+                                    {{ $record->number_of_kids ?? 0 }}
+                                </span>
+                            </td>
                             <td class="p-4 text-right">
                                 <div class="flex items-center justify-end gap-3">
-                                    <span class="hidden sm:inline-flex items-center px-2.5 py-0.5 text-xs font-medium rounded-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400">
+                                    <span class="hidden md:inline-flex items-center px-2.5 py-0.5 text-xs font-medium rounded-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400">
                                         {{ $record->sport_discipline ?? 'Sport' }}
                                     </span>
                                     <a href="{{ route('admin.training_session_records.show', $record) }}" class="p-2 bg-slate-100 dark:bg-slate-700 text-slate-500 dark:text-slate-400 rounded-lg hover:bg-indigo-50 hover:text-indigo-600 dark:hover:bg-indigo-900/30 dark:hover:text-indigo-400 transition" title="View Details">
@@ -181,8 +234,10 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="2" class="p-12 text-center">
+                            <td colspan="5" class="p-12 text-center">
+                                <p class="text-4xl mb-3">📋</p>
                                 <p class="text-slate-500 dark:text-slate-400 font-medium">{{ __('app.no_training_records') }}</p>
+                                <p class="text-xs text-slate-400 dark:text-slate-500 mt-2">Create your first training session record</p>
                             </td>
                         </tr>
                     @endforelse

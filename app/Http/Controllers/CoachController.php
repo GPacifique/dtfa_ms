@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\TrainingSession;
 use App\Models\Student;
 use App\Models\StudentAttendance;
 use App\Models\TrainingSessionRecord;
@@ -23,13 +22,13 @@ class CoachController extends Controller
         $today = now()->toDateString();
 
         // Sessions
-        $sessionsToday = TrainingSession::where('coach_user_id', $coach->id)
+        $sessionsToday = TrainingSessionRecord::where('coach_id', $coach->id)
             ->where('date', $today)
             ->orderBy('start_time')
             ->get();
 
-        $allSessions = TrainingSession::where('coach_user_id', $coach->id)->get();
-        $upcomingSessions = TrainingSession::where('coach_user_id', $coach->id)
+        $allSessions = TrainingSessionRecord::where('coach_id', $coach->id)->get();
+        $upcomingSessions = TrainingSessionRecord::where('coach_id', $coach->id)
             ->where('date', '>=', $today)
             ->orderBy('date')
             ->orderBy('start_time')
@@ -48,15 +47,13 @@ class CoachController extends Controller
         $activeStudents = $students->where('status', 'active');
         $recentStudents = $studentQuery->clone()->latest()->limit(10)->get();
 
-        // Attendance stats
-        $sessionIds = $allSessions->pluck('id');
-        $attendanceTotal = StudentAttendance::whereIn('training_session_id', $sessionIds)->count();
-        $attendancePresent = StudentAttendance::whereIn('training_session_id', $sessionIds)->where('status', 'present')->count();
+        // Attendance stats (general - not linked to training sessions)
+        $attendanceTotal = StudentAttendance::count();
+        $attendancePresent = StudentAttendance::where('status', 'present')->count();
         $attendanceRate = $attendanceTotal > 0 ? round(($attendancePresent / $attendanceTotal) * 100) : 0;
 
         // Recent attendance records
         $recentAttendance = StudentAttendance::with(['student'])
-            ->whereIn('training_session_id', $sessionIds)
             ->latest()
             ->limit(15)
             ->get();
@@ -66,6 +63,20 @@ class CoachController extends Controller
             ->latest()
             ->limit(10)
             ->get();
+
+        // Training Records Stats
+        $completedRecords = TrainingSessionRecord::where('coach_id', $coach->id)
+            ->where('status', 'completed')
+            ->count();
+        $inProgressRecords = TrainingSessionRecord::where('coach_id', $coach->id)
+            ->where('status', 'in_progress')
+            ->count();
+        $scheduledRecords = TrainingSessionRecord::where('coach_id', $coach->id)
+            ->where('status', 'scheduled')
+            ->count();
+        $totalKidsTrained = TrainingSessionRecord::where('coach_id', $coach->id)
+            ->where('status', 'completed')
+            ->sum('number_of_kids');
 
         // Teams count (show all - teams are not branch-specific)
         $teamsCount = Team::count();
@@ -111,6 +122,10 @@ class CoachController extends Controller
             'attendanceRate' => $attendanceRate,
             'recentAttendance' => $recentAttendance,
             'recentTrainingRecords' => $recentTrainingRecords,
+            'completedRecords' => $completedRecords,
+            'inProgressRecords' => $inProgressRecords,
+            'scheduledRecords' => $scheduledRecords,
+            'totalKidsTrained' => $totalKidsTrained,
             'teamsCount' => $teamsCount,
             'gamesCount' => $gamesCount,
             'upcomingGames' => $upcomingGames,
