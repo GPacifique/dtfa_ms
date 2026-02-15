@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
-use App\Models\Payment;
 use App\Models\Expense;
 use App\Models\Income;
 use App\Models\Student;
@@ -42,17 +41,19 @@ class CeoController extends Controller
 
         // Cache heavy aggregates briefly
         $cacheKey = 'ceo.metrics.' . $dateRange . '.' . ($branchFilter ?? 'all');
-        $metrics = Cache::remember($cacheKey, 30, function () use ($startDate, $endDate, $branchQuery, $startOfMonth, $endOfMonth) {
-            $revenueThisMonth = Payment::where('status', 'succeeded')
-                ->whereBetween('paid_at', [$startDate, $endDate])
-                ->when($branchQuery, $branchQuery)
+        $metrics = Cache::remember($cacheKey, 30, function () use ($startDate, $endDate, $branchQuery, $startOfMonth, $endOfMonth, $branchFilter) {
+            $revenueThisMonth = Income::whereBetween('received_at', [$startDate, $endDate])
+                ->when($branchFilter, function($q) use ($branchFilter) {
+                    $q->where('branch_id', $branchFilter);
+                })
                 ->sum('amount_cents');
-            $totalRevenue = Payment::where('status', 'succeeded')
-                ->when($branchQuery, $branchQuery)
+            $totalRevenue = Income::when($branchFilter, function($q) use ($branchFilter) {
+                    $q->where('branch_id', $branchFilter);
+                })
                 ->sum('amount_cents');
 
-            $otherIncomeThisMonth = Income::whereBetween('received_at', [$startDate, $endDate])->sum('amount_cents');
-            $totalOtherIncome = Income::sum('amount_cents');
+            $otherIncomeThisMonth = 0; // Already included in revenueThisMonth
+            $totalOtherIncome = 0; // Already included in totalRevenue
 
             $expensesThisMonth = Expense::whereIn('status', ['approved', 'paid'])
                 ->whereBetween('expense_date', [$startDate, $endDate])
@@ -62,14 +63,15 @@ class CeoController extends Controller
             return compact('revenueThisMonth', 'totalRevenue', 'otherIncomeThisMonth', 'totalOtherIncome', 'expensesThisMonth', 'totalExpenses');
         });
 
-        $netProfitThisMonth = (($metrics['revenueThisMonth'] ?? 0) + ($metrics['otherIncomeThisMonth'] ?? 0)) - ($metrics['expensesThisMonth'] ?? 0);
+        $netProfitThisMonth = ($metrics['revenueThisMonth'] ?? 0) - ($metrics['expensesThisMonth'] ?? 0);
 
         // MoM revenue change
         $lastMonthStart = now()->subMonth()->startOfMonth();
         $lastMonthEnd = now()->subMonth()->endOfMonth();
-        $lastMonthRevenue = Payment::where('status', 'succeeded')
-            ->whereBetween('paid_at', [$lastMonthStart, $lastMonthEnd])
-            ->when($branchQuery, $branchQuery)
+        $lastMonthRevenue = Income::whereBetween('received_at', [$lastMonthStart, $lastMonthEnd])
+            ->when($branchFilter, function($q) use ($branchFilter) {
+                $q->where('branch_id', $branchFilter);
+            })
             ->sum('amount_cents');
         $revenueChange = $lastMonthRevenue > 0 ? round((($metrics['revenueThisMonth'] - $lastMonthRevenue) / $lastMonthRevenue) * 100, 1) : 0;
         $revenueChangeDirection = ($metrics['revenueThisMonth'] ?? 0) >= $lastMonthRevenue ? 'up' : 'down';
@@ -99,18 +101,16 @@ class CeoController extends Controller
         $newMetrics = $this->calculateNewMetrics($branchFilter, $startDate, $endDate);
 
         // Top branches by revenue this month (via student branch)
-        $topBranchRows = DB::table('payments')
-            ->join('students', 'payments.student_id', '=', 'students.id')
-            ->where('payments.status', 'succeeded')
-            ->whereBetween('payments.paid_at', [$startDate, $endDate])
-            ->whereNotNull('students.branch_id')
+        $topBranchRows = DB::table('incomes')
+            ->whereBetween('received_at', [$startDate, $endDate])
+            ->whereNotNull('branch_id')
             ->when($branchFilter, function($q) use ($branchFilter) {
-                $q->where('students.branch_id', $branchFilter);
+                $q->where('branch_id', $branchFilter);
             })
-            ->groupBy('students.branch_id')
-            ->orderByDesc(DB::raw('SUM(payments.amount_cents)'))
+            ->groupBy('branch_id')
+            ->orderByDesc(DB::raw('SUM(amount_cents)'))
             ->limit(5)
-            ->select('students.branch_id', DB::raw('SUM(payments.amount_cents) as total'))
+            ->select('branch_id', DB::raw('SUM(amount_cents) as total'))
             ->get();
         $branchNames = Branch::whereIn('id', $topBranchRows->pluck('branch_id')->all())
             ->pluck('name', 'id');
@@ -238,12 +238,9 @@ class CeoController extends Controller
                 $q->where('branch_id', $branchFilter);
             })->count();
 
-        $totalRevenueFiltered = Payment::where('status', 'succeeded')
-            ->whereBetween('paid_at', [$startDate, $endDate])
+        $totalRevenueFiltered = Income::whereBetween('received_at', [$startDate, $endDate])
             ->when($branchFilter, function($q) use ($branchFilter) {
-                $q->whereHas('student', function($sq) use ($branchFilter) {
-                    $sq->where('branch_id', $branchFilter);
-                });
+                $q->where('branch_id', $branchFilter);
             })->sum('amount_cents');
 
         $avgRevenuePerStudent = $activeStudentsCount > 0 ? round($totalRevenueFiltered / $activeStudentsCount) : 0;
@@ -370,14 +367,11 @@ class CeoController extends Controller
 
         [$startDate, $endDate] = $this->getDateRange($dateRange);
 
-        $payments = Payment::where('status', 'succeeded')
-            ->whereBetween('paid_at', [$startDate, $endDate])
+        $incomes = Income::whereBetween('received_at', [$startDate, $endDate])
             ->when($branchFilter, function($q) use ($branchFilter) {
-                $q->whereHas('student', function($sq) use ($branchFilter) {
-                    $sq->where('branch_id', $branchFilter);
-                });
+                $q->where('branch_id', $branchFilter);
             })
-            ->with('student')
+            ->with(['branch', 'incomeCategory'])
             ->get();
 
         $filename = 'ceo-financial-data-' . now()->format('Y-m-d') . '.csv';
@@ -387,17 +381,18 @@ class CeoController extends Controller
             'Content-Disposition' => "attachment; filename=\"$filename\"",
         ];
 
-        $callback = function() use ($payments) {
+        $callback = function() use ($incomes) {
             $file = fopen('php://output', 'w');
-            fputcsv($file, ['Date', 'Student', 'Amount (RWF)', 'Status', 'Payment Method']);
+            fputcsv($file, ['Date', 'Branch', 'Category', 'Amount (RWF)', 'Source', 'Notes']);
 
-            foreach ($payments as $payment) {
+            foreach ($incomes as $income) {
                 fputcsv($file, [
-                    $payment->paid_at ? $payment->paid_at->format('Y-m-d') : '',
-                    $payment->student ? $payment->student->name : '',
-                    $payment->amount_cents / 100,
-                    $payment->status,
-                    $payment->payment_method ?? 'N/A',
+                    $income->received_at ? $income->received_at->format('Y-m-d') : '',
+                    $income->branch ? $income->branch->name : 'N/A',
+                    $income->incomeCategory ? $income->incomeCategory->name : 'N/A',
+                    $income->amount_cents / 100,
+                    $income->source ?? 'N/A',
+                    $income->notes ?? '',
                 ]);
             }
 
@@ -440,19 +435,13 @@ class CeoController extends Controller
                 },
                 'groups as groups_count'
             ])
-            ->with(['students' => function($q) {
-                $q->select('branch_id', 'id')
-                  ->with(['payments' => function($pq) {
-                      $pq->where('status', 'succeeded')
-                         ->whereBetween('paid_at', [now()->startOfMonth(), now()->endOfMonth()]);
-                  }]);
-            }])
             ->orderBy('name')
             ->get()
             ->map(function($branch) {
-                $revenue = $branch->students->sum(function($student) {
-                    return $student->payments->sum('amount_cents');
-                });
+                // Get income for this branch for current month
+                $revenue = Income::where('branch_id', $branch->id)
+                    ->whereBetween('received_at', [now()->startOfMonth(), now()->endOfMonth()])
+                    ->sum('amount_cents');
 
                 return [
                     'name' => $branch->name,
@@ -503,29 +492,21 @@ class CeoController extends Controller
                     $q->where('status', 'active');
                 }
             ])
-            ->with(['branch', 'students' => function($q) use ($startDate, $endDate) {
-                $q->select('group_id', 'id')
-                  ->with(['payments' => function($pq) use ($startDate, $endDate) {
-                      $pq->where('status', 'succeeded')
-                         ->whereBetween('paid_at', [$startDate, $endDate]);
-                  }]);
-            }])
+            ->with(['branch'])
             ->when($branchFilter, function($q) use ($branchFilter) {
                 $q->where('branch_id', $branchFilter);
             })
             ->orderBy('name')
             ->get()
             ->map(function($group) {
-                $revenue = $group->students->sum(function($student) {
-                    return $student->payments->sum('amount_cents');
-                });
-
+                // Note: Revenue is tracked at branch level via Income table, not per group
+                // So we can't accurately attribute income to specific groups
                 return [
                     'name' => $group->name,
                     'branch' => $group->branch ? $group->branch->name : 'N/A',
                     'total_students' => $group->total_students,
                     'active_students' => $group->active_students,
-                    'revenue' => $revenue,
+                    'revenue' => 0, // Income is tracked at branch level, not group level
                 ];
             });
 

@@ -65,7 +65,7 @@
                     <div>
                         <p class="text-sm text-slate-600 dark:text-slate-400">Net Profit</p>
                         <p class="text-3xl font-bold {{ ($netProfitThisMonth ?? 0) >= 0 ? 'text-green-600' : 'text-rose-600' }}">{{ number_format($netProfitThisMonth ?? 0) }} RWF</p>
-                        <p class="text-xs text-slate-500 mt-2">Revenue + Income - Expenses</p>
+                        <p class="text-xs text-slate-500 mt-2">Income - Expenses</p>
                     </div>
                     <div class="w-12 h-12 bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl flex items-center justify-center shadow text-2xl">
                         📊
@@ -265,7 +265,7 @@
                         <div class="w-12 h-12 bg-emerald-500 rounded-lg flex items-center justify-center text-white text-2xl">💵</div>
                         <div>
                             <p class="text-sm text-slate-600 dark:text-slate-400">Total Revenue</p>
-                            <p class="text-2xl font-bold text-emerald-600 dark:text-emerald-400">{{ number_format(($metrics['totalRevenue'] ?? 0) + ($metrics['totalOtherIncome'] ?? 0)) }} RWF</p>
+                            <p class="text-2xl font-bold text-emerald-600 dark:text-emerald-400">{{ number_format($metrics['totalRevenue'] ?? 0) }} RWF</p>
                         </div>
                     </div>
                 </div>
