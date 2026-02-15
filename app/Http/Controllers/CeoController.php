@@ -320,36 +320,41 @@ class CeoController extends Controller
         $data = [];
         $colors = [];
 
-        // Get expenses with expense_category_id (new system) - using JOIN to get category names
-        $categorizedExpenses = DB::table('expenses')
-            ->join('expense_categories', 'expenses.expense_category_id', '=', 'expense_categories.id')
-            ->whereIn('expenses.status', ['approved', 'paid'])
-            ->whereBetween('expenses.expense_date', [$startDate, $endDate])
-            ->whereNotNull('expenses.expense_category_id')
-            ->select(
-                'expense_categories.name as category_name',
-                'expense_categories.color as category_color',
-                DB::raw('SUM(expenses.amount_cents) as total')
-            )
-            ->groupBy('expense_categories.id', 'expense_categories.name', 'expense_categories.color')
-            ->orderBy('total', 'DESC')
-            ->get();
+        // Get all expenses with categories (using raw SQL for reliable grouping)
+        $categorizedExpenses = DB::select("
+            SELECT
+                ec.name as category_name,
+                ec.color as category_color,
+                SUM(e.amount_cents) as total
+            FROM expenses e
+            INNER JOIN expense_categories ec ON e.expense_category_id = ec.id
+            WHERE e.status IN ('approved', 'paid')
+            AND e.expense_date BETWEEN ? AND ?
+            AND e.expense_category_id IS NOT NULL
+            GROUP BY ec.id, ec.name, ec.color
+            ORDER BY total DESC
+        ", [$startDate, $endDate]);
 
         foreach ($categorizedExpenses as $expense) {
-            $labels[] = $expense->category_name;
+            $labels[] = $expense->category_name ?? 'Unknown';
             $colors[] = $expense->category_color ?? $this->getDefaultColor(count($labels));
             $data[] = round($expense->total / 100, 2);
         }
 
         // Get expenses with legacy category field (old system)
-        $legacyExpenses = Expense::whereIn('status', ['approved', 'paid'])
-            ->whereBetween('expense_date', [$startDate, $endDate])
-            ->whereNull('expense_category_id')
-            ->whereNotNull('category')
-            ->selectRaw('category, SUM(amount_cents) as total')
-            ->groupBy('category')
-            ->orderByDesc('total')
-            ->get();
+        $legacyExpenses = DB::select("
+            SELECT
+                category,
+                SUM(amount_cents) as total
+            FROM expenses
+            WHERE status IN ('approved', 'paid')
+            AND expense_date BETWEEN ? AND ?
+            AND expense_category_id IS NULL
+            AND category IS NOT NULL
+            AND category != ''
+            GROUP BY category
+            ORDER BY total DESC
+        ", [$startDate, $endDate]);
 
         foreach ($legacyExpenses as $expense) {
             $categoryName = ucfirst(str_replace('_', ' ', $expense->category));
@@ -358,14 +363,17 @@ class CeoController extends Controller
             $data[] = round($expense->total / 100, 2);
         }
 
-        // Get uncategorized expenses (no category_id and no legacy category)
-        $uncategorizedTotal = Expense::whereIn('status', ['approved', 'paid'])
-            ->whereBetween('expense_date', [$startDate, $endDate])
-            ->whereNull('expense_category_id')
-            ->where(function($q) {
-                $q->whereNull('category')->orWhere('category', '');
-            })
-            ->sum('amount_cents');
+        // Get uncategorized expenses
+        $uncategorizedResult = DB::select("
+            SELECT SUM(amount_cents) as total
+            FROM expenses
+            WHERE status IN ('approved', 'paid')
+            AND expense_date BETWEEN ? AND ?
+            AND expense_category_id IS NULL
+            AND (category IS NULL OR category = '')
+        ", [$startDate, $endDate]);
+
+        $uncategorizedTotal = $uncategorizedResult[0]->total ?? 0;
 
         if ($uncategorizedTotal > 0) {
             $labels[] = 'Uncategorized';
