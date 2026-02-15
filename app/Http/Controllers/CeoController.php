@@ -286,7 +286,7 @@ class CeoController extends Controller
                 ->sum('amount_cents');
 
             $months[] = $date->format('M Y');
-            $revenues[] = $revenue / 100; // Convert to regular units
+            $revenues[] = $revenue;
         }
 
         return ['labels' => $months, 'data' => $revenues];
@@ -341,7 +341,7 @@ class CeoController extends Controller
             $categoryLabel = $expense->category_name ?? 'Category #' . $expense->expense_category_id;
             $labels[] = $categoryLabel;
             $colors[] = $expense->category_color ?? $this->getDefaultColor(count($labels));
-            $data[] = round($expense->total / 100, 2);
+            $data[] = $expense->total;
         }
 
         // Get expenses grouped by legacy category field (NOT expense_category_id)
@@ -380,7 +380,7 @@ class CeoController extends Controller
 
             $labels[] = $categoryName;
             $colors[] = $this->getDefaultColor(count($labels));
-            $data[] = round($expense->total / 100, 2);
+            $data[] = $expense->total;
         }
 
         // Get uncategorized expenses
@@ -398,7 +398,7 @@ class CeoController extends Controller
         if ($uncategorizedTotal > 0) {
             $labels[] = 'Uncategorized';
             $colors[] = '#6B7280'; // Gray color
-            $data[] = round($uncategorizedTotal / 100, 2);
+            $data[] = $uncategorizedTotal;
         }
 
         return [
@@ -480,7 +480,7 @@ class CeoController extends Controller
                     $income->received_at ? $income->received_at->format('Y-m-d') : '',
                     $income->branch ? $income->branch->name : 'N/A',
                     $income->incomeCategory ? $income->incomeCategory->name : 'N/A',
-                    $income->amount_cents / 100,
+                    $income->amount_cents,
                     $income->source ?? 'N/A',
                     $income->notes ?? '',
                 ]);
