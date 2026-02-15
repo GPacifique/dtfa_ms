@@ -8,6 +8,7 @@ use App\Models\Student;
 use App\Models\Branch;
 use App\Models\Group;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\StudentRegistered;
@@ -23,6 +24,13 @@ class StudentController extends Controller
         $from = $request->query('from');
         $to = $request->query('to');
 
+        $user = Auth::user();
+
+        // Default to user's branch if they have one and no branch filter is specified
+        if (!$branchId && $user && $user->branch_id) {
+            $branchId = $user->branch_id;
+        }
+
         $students = Student::query()
             ->with(['branch','group'])
             ->search($q)
@@ -30,7 +38,8 @@ class StudentController extends Controller
             ->byBranch($branchId)
             ->byGroup($groupId)
             ->joinedBetween($from, $to)
-            ->orderByDesc('id')
+            ->orderBy('first_name')
+            ->orderBy('second_name')
             ->paginate(15)
             ->withQueryString();
 
@@ -63,7 +72,7 @@ class StudentController extends Controller
     {
         $data = $request->validated();
         if (empty($data['registered_by'])) {
-            $data['registered_by'] = auth()->id();
+            $data['registered_by'] = Auth::id();
         }
         $student = new Student($data);
         $student->save();
@@ -129,7 +138,7 @@ class StudentController extends Controller
         $student = $students_modern;
         $data = $request->validated();
         if (empty($data['registered_by'])) {
-            $data['registered_by'] = $student->registered_by ?: auth()->id();
+            $data['registered_by'] = $student->registered_by ?: Auth::id();
         }
         $student->fill($data)->save();
 
