@@ -123,7 +123,7 @@
                 
 
 
-                <?php if (\Illuminate\Support\Facades\Blade::check('role', 'super-admin|admin|accountant')): ?>
+                <?php if (\Illuminate\Support\Facades\Blade::check('role', 'super-admin|admin|accountant|CEO')): ?>
                     <?php if(Route::has('staff.index')): ?>
                     <a href="<?php echo e(route('staff.index')); ?>" aria-label="<?php echo e(__('app.staff_profiles')); ?>" title="<?php echo e(__('app.staff_profiles')); ?>" class="nav-item flex items-center gap-3 px-3 py-2 rounded-md hover:bg-slate-800 transition <?php echo e(request()->routeIs('staff.*') ? 'active' : ''); ?>">
                             <span class="icon flex-shrink-0 w-6 h-6 flex items-center justify-center text-slate-200">
@@ -147,7 +147,7 @@
                         </a>
                     <?php endif; ?>
 
-<?php if (\Illuminate\Support\Facades\Blade::check('role', 'super-admin|admin')): ?>
+<?php if (\Illuminate\Support\Facades\Blade::check('role', 'super-admin|admin|CEO')): ?>
                     <?php if(Route::has('admin.users.index')): ?>
                         <a href="<?php echo e(route('admin.users.index')); ?>" aria-label="<?php echo e(__('app.users')); ?>" title="<?php echo e(__('app.users')); ?>" class="nav-item flex items-center gap-3 px-3 py-2 rounded-md hover:bg-slate-800 transition <?php echo e(request()->routeIs('admin.users.*') ? 'active' : ''); ?>">
                             <span class="icon flex-shrink-0 w-6 h-6 flex items-center justify-center text-slate-200">
@@ -158,7 +158,7 @@
                         </a>
                     <?php endif; ?>
                     <?php endif; ?>
-                    <?php if (\Illuminate\Support\Facades\Blade::check('role', 'super-admin')): ?>
+                    <?php if (\Illuminate\Support\Facades\Blade::check('role', 'super-admin|CEO')): ?>
                         <?php if(Route::has('admin.roles.index')): ?>
                             <a href="<?php echo e(route('admin.roles.index')); ?>" aria-label="<?php echo e(__('app.roles_permissions')); ?>" title="<?php echo e(__('app.roles_permissions')); ?>" class="nav-item flex items-center gap-3 px-3 py-2 rounded-md hover:bg-slate-800 transition <?php echo e(request()->routeIs('admin.roles.*') ? 'active' : ''); ?>">
                                 <span class="icon flex-shrink-0 w-6 h-6 flex items-center justify-center text-slate-200">
@@ -182,7 +182,7 @@
 
 
 
-                <?php if (\Illuminate\Support\Facades\Blade::check('role', 'super-admin|accountant|admin|coach')): ?>
+                <?php if (\Illuminate\Support\Facades\Blade::check('role', 'super-admin|accountant|admin|coach|CEO')): ?>
                     <?php if(Route::has('admin.training_session_records.index')): ?>
                         <a href="<?php echo e(route('admin.training_session_records.index')); ?>" aria-label="<?php echo e(__('app.training_scheduling')); ?>" title="<?php echo e(__('app.training_scheduling')); ?>" class="nav-item flex items-center gap-3 px-3 py-2 rounded-md hover:bg-slate-800 transition <?php echo e(request()->routeIs('admin.training_session_records.*') ? 'active' : ''); ?>">
                             <span class="icon flex-shrink-0 w-6 h-6 flex items-center justify-center text-slate-200">
@@ -284,7 +284,7 @@
 
                 <?php endif; ?>
 
-                <?php if (\Illuminate\Support\Facades\Blade::check('role', 'super-admin|accountant|admin|coach')): ?>
+                <?php if (\Illuminate\Support\Facades\Blade::check('role', 'super-admin|accountant|admin|coach|CEO')): ?>
                     <?php if(Route::has('admin.training_session_records.index')): ?>
                         <a href="<?php echo e(route('admin.training_session_records.index')); ?>" aria-label="<?php echo e(__('app.training_records')); ?>" title="<?php echo e(__('app.training_records')); ?>" class="nav-item flex items-center gap-3 px-3 py-2 rounded-md hover:bg-slate-800 transition <?php echo e(request()->routeIs('admin.training_session_records.*') ? 'active' : ''); ?>">
                             <span class="icon flex-shrink-0 w-6 h-6 flex items-center justify-center text-slate-200">
@@ -298,7 +298,7 @@
                 <?php endif; ?>
 
 
-                <?php if (\Illuminate\Support\Facades\Blade::check('role', 'super-admin|accountant|admin|coach')): ?>
+                <?php if (\Illuminate\Support\Facades\Blade::check('role', 'super-admin|accountant|admin|coach|CEO')): ?>
                     <?php if(Route::has('admin.student-attendance.index')): ?>
                         <a href="<?php echo e(route('admin.student-attendance.index')); ?>" aria-label="<?php echo e(__('app.student_attendance')); ?>" title="<?php echo e(__('app.student_attendance')); ?>" class="nav-item flex items-center gap-3 px-3 py-2 rounded-md hover:bg-slate-800 transition <?php echo e(request()->routeIs('admin.student-attendance.*') ? 'active' : ''); ?>">
                             <span class="icon flex-shrink-0 w-6 h-6 flex items-center justify-center text-slate-200">
@@ -321,7 +321,7 @@
                     <?php endif; ?>
                 <?php endif; ?>
 
-                <?php if (\Illuminate\Support\Facades\Blade::check('role', 'super-admin|accountant|admin')): ?>
+                <?php if (\Illuminate\Support\Facades\Blade::check('role', 'super-admin|accountant|admin|CEO')): ?>
                     <?php if(Route::has('admin.staff_attendances.index')): ?>
                         <a href="<?php echo e(route('admin.staff_attendances.index')); ?>" aria-label="<?php echo e(__('app.staff_attendance')); ?>" title="<?php echo e(__('app.staff_attendance')); ?>" class="nav-item flex items-center gap-3 px-3 py-2 rounded-md hover:bg-slate-800 transition <?php echo e(request()->routeIs('admin.staff_attendances.*') ? 'active' : ''); ?>">
                             <span class="icon flex-shrink-0 w-6 h-6 flex items-center justify-center text-slate-200">
@@ -333,7 +333,7 @@
                         </a>
                     <?php endif; ?>
                 <?php endif; ?>
-                  <?php if (\Illuminate\Support\Facades\Blade::check('role', 'super-admin|coach|accountant|admin')): ?>
+                  <?php if (\Illuminate\Support\Facades\Blade::check('role', 'super-admin|coach|accountant|admin|CEO')): ?>
                     <?php if(Route::has('admin.inhousetrainings.index')): ?>
                         <a href="<?php echo e(route('admin.inhousetrainings.index')); ?>" aria-label="Inhouse Training" title="Staff Attendance" class="nav-item flex items-center gap-3 px-3 py-2 rounded-md hover:bg-slate-800 transition <?php echo e(request()->routeIs('admin.trainings.*') ? 'active' : ''); ?>">
                             <span class="icon flex-shrink-0 w-6 h-6 flex items-center justify-center text-slate-200">
@@ -349,7 +349,7 @@
 
 
             
-            <?php if (\Illuminate\Support\Facades\Blade::check('role', 'super-admin|admin|accountant')): ?>
+            <?php if (\Illuminate\Support\Facades\Blade::check('role', 'super-admin|admin|accountant|CEO')): ?>
             <div class="pt-4">
                 <p x-show="$store.layout.sidebarOpen" class="px-3 text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2"><?php echo e(__('app.finance')); ?></p>
 

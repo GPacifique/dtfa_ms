@@ -281,12 +281,9 @@ class CeoController extends Controller
             $startOfMonth = $date->copy()->startOfMonth();
             $endOfMonth = $date->copy()->endOfMonth();
 
-            $revenue = Payment::where('status', 'succeeded')
-                ->whereBetween('paid_at', [$startOfMonth, $endOfMonth])
+            $revenue = Income::whereBetween('received_at', [$startOfMonth, $endOfMonth])
                 ->when($branchFilter, function($q) use ($branchFilter) {
-                    $q->whereHas('student', function($sq) use ($branchFilter) {
-                        $sq->where('branch_id', $branchFilter);
-                    });
+                    $q->where('branch_id', $branchFilter);
                 })
                 ->sum('amount_cents');
 
@@ -321,17 +318,22 @@ class CeoController extends Controller
 
     protected function getExpenseBreakdown($startDate, $endDate)
     {
-        $expenses = Expense::whereIn('status', ['approved', 'paid'])
+        $expenses = Expense::with('expenseCategory')
+            ->whereIn('status', ['approved', 'paid'])
             ->whereBetween('expense_date', [$startDate, $endDate])
-            ->selectRaw('category, SUM(amount_cents) as total')
-            ->groupBy('category')
+            ->selectRaw('expense_category_id, SUM(amount_cents) as total')
+            ->groupBy('expense_category_id')
             ->get();
 
         $labels = [];
         $data = [];
 
         foreach ($expenses as $expense) {
-            $labels[] = ucfirst($expense->category ?? 'Uncategorized');
+            $categoryName = $expense->expenseCategory
+                ? $expense->expenseCategory->name
+                : 'Uncategorized';
+
+            $labels[] = $categoryName;
             $data[] = $expense->total / 100;
         }
 

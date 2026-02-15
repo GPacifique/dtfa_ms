@@ -123,7 +123,7 @@
                 {{-- Legacy Admin Students Management link removed --}}
 
 
-                @role('super-admin|admin|accountant')
+                @role('super-admin|admin|accountant|CEO')
                     @if(Route::has('staff.index'))
                     <a href="{{ route('staff.index') }}" aria-label="{{ __('app.staff_profiles') }}" title="{{ __('app.staff_profiles') }}" class="nav-item flex items-center gap-3 px-3 py-2 rounded-md hover:bg-slate-800 transition {{ request()->routeIs('staff.*') ? 'active' : '' }}">
                             <span class="icon flex-shrink-0 w-6 h-6 flex items-center justify-center text-slate-200">
@@ -147,7 +147,7 @@
                         </a>
                     @endif
 
-@role('super-admin|admin')
+@role('super-admin|admin|CEO')
                     @if(Route::has('admin.users.index'))
                         <a href="{{ route('admin.users.index') }}" aria-label="{{ __('app.users') }}" title="{{ __('app.users') }}" class="nav-item flex items-center gap-3 px-3 py-2 rounded-md hover:bg-slate-800 transition {{ request()->routeIs('admin.users.*') ? 'active' : '' }}">
                             <span class="icon flex-shrink-0 w-6 h-6 flex items-center justify-center text-slate-200">
@@ -158,7 +158,7 @@
                         </a>
                     @endif
                     @endrole
-                    @role('super-admin')
+                    @role('super-admin|CEO')
                         @if(Route::has('admin.roles.index'))
                             <a href="{{ route('admin.roles.index') }}" aria-label="{{ __('app.roles_permissions') }}" title="{{ __('app.roles_permissions') }}" class="nav-item flex items-center gap-3 px-3 py-2 rounded-md hover:bg-slate-800 transition {{ request()->routeIs('admin.roles.*') ? 'active' : '' }}">
                                 <span class="icon flex-shrink-0 w-6 h-6 flex items-center justify-center text-slate-200">
@@ -182,7 +182,7 @@
 
 
 
-                @role('super-admin|accountant|admin|coach')
+                @role('super-admin|accountant|admin|coach|CEO')
                     @if(Route::has('admin.training_session_records.index'))
                         <a href="{{ route('admin.training_session_records.index') }}" aria-label="{{ __('app.training_scheduling') }}" title="{{ __('app.training_scheduling') }}" class="nav-item flex items-center gap-3 px-3 py-2 rounded-md hover:bg-slate-800 transition {{ request()->routeIs('admin.training_session_records.*') ? 'active' : '' }}">
                             <span class="icon flex-shrink-0 w-6 h-6 flex items-center justify-center text-slate-200">
@@ -284,7 +284,7 @@
 
                 @endrole
 
-                @role('super-admin|accountant|admin|coach')
+                @role('super-admin|accountant|admin|coach|CEO')
                     @if(Route::has('admin.training_session_records.index'))
                         <a href="{{ route('admin.training_session_records.index') }}" aria-label="{{ __('app.training_records') }}" title="{{ __('app.training_records') }}" class="nav-item flex items-center gap-3 px-3 py-2 rounded-md hover:bg-slate-800 transition {{ request()->routeIs('admin.training_session_records.*') ? 'active' : '' }}">
                             <span class="icon flex-shrink-0 w-6 h-6 flex items-center justify-center text-slate-200">
@@ -298,7 +298,7 @@
                 @endrole
 
 
-                @role('super-admin|accountant|admin|coach')
+                @role('super-admin|accountant|admin|coach|CEO')
                     @if(Route::has('admin.student-attendance.index'))
                         <a href="{{ route('admin.student-attendance.index') }}" aria-label="{{ __('app.student_attendance') }}" title="{{ __('app.student_attendance') }}" class="nav-item flex items-center gap-3 px-3 py-2 rounded-md hover:bg-slate-800 transition {{ request()->routeIs('admin.student-attendance.*') ? 'active' : '' }}">
                             <span class="icon flex-shrink-0 w-6 h-6 flex items-center justify-center text-slate-200">
@@ -321,7 +321,7 @@
                     @endif
                 @endrole
 
-                @role('super-admin|accountant|admin')
+                @role('super-admin|accountant|admin|CEO')
                     @if(Route::has('admin.staff_attendances.index'))
                         <a href="{{ route('admin.staff_attendances.index') }}" aria-label="{{ __('app.staff_attendance') }}" title="{{ __('app.staff_attendance') }}" class="nav-item flex items-center gap-3 px-3 py-2 rounded-md hover:bg-slate-800 transition {{ request()->routeIs('admin.staff_attendances.*') ? 'active' : '' }}">
                             <span class="icon flex-shrink-0 w-6 h-6 flex items-center justify-center text-slate-200">
@@ -333,7 +333,7 @@
                         </a>
                     @endif
                 @endrole
-                  @role('super-admin|coach|accountant|admin')
+                  @role('super-admin|coach|accountant|admin|CEO')
                     @if(Route::has('admin.inhousetrainings.index'))
                         <a href="{{ route('admin.inhousetrainings.index') }}" aria-label="Inhouse Training" title="Staff Attendance" class="nav-item flex items-center gap-3 px-3 py-2 rounded-md hover:bg-slate-800 transition {{ request()->routeIs('admin.trainings.*') ? 'active' : '' }}">
                             <span class="icon flex-shrink-0 w-6 h-6 flex items-center justify-center text-slate-200">
@@ -349,7 +349,7 @@
 
 
             {{-- Finance --}}
-            @role('super-admin|admin|accountant')
+            @role('super-admin|admin|accountant|CEO')
             <div class="pt-4">
                 <p x-show="$store.layout.sidebarOpen" class="px-3 text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">{{ __('app.finance') }}</p>
 
