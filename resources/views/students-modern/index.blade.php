@@ -503,21 +503,7 @@
                     </tbody>
                 </table>
             </div>
-
-            {{-- Pagination --}}
-            @if($students->hasPages())
-                <div class="px-6 py-4 border-t border-slate-200 dark:border-slate-800">
-                    {{ $students->links() }}
-                </div>
-            @endif
         </div>
-        @endif
-
-        {{-- Pagination for Cards View --}}
-        @if(request('view') === 'cards' && $students->hasPages())
-            <div class="mt-6">
-                {{ $students->links() }}
-            </div>
         @endif
     </div>
 </div>

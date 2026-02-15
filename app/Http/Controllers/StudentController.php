@@ -40,8 +40,7 @@ class StudentController extends Controller
             ->joinedBetween($from, $to)
             ->orderBy('first_name')
             ->orderBy('second_name')
-            ->paginate(15)
-            ->withQueryString();
+            ->get();
 
         return view('students-modern.index', [
             'students' => $students,
