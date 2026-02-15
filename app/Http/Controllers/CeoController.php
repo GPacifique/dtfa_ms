@@ -316,35 +316,56 @@ class CeoController extends Controller
 
     protected function getExpenseBreakdown($startDate, $endDate)
     {
-        // Get expenses grouped by category
-        $expensesByCategory = Expense::whereIn('status', ['approved', 'paid'])
-            ->whereBetween('expense_date', [$startDate, $endDate])
-            ->selectRaw('expense_category_id, SUM(amount_cents) as total')
-            ->groupBy('expense_category_id')
-            ->get()
-            ->keyBy('expense_category_id');
-
-        // Load all categories that have expenses
-        $categoryIds = $expensesByCategory->pluck('expense_category_id')->filter()->all();
-        $categories = ExpenseCategory::whereIn('id', $categoryIds)->get()->keyBy('id');
-
         $labels = [];
         $data = [];
         $colors = [];
 
-        foreach ($expensesByCategory as $categoryId => $expense) {
-            if ($categoryId && isset($categories[$categoryId])) {
-                // Categorized expense
-                $category = $categories[$categoryId];
-                $labels[] = $category->name;
-                $colors[] = $category->color ?? $this->getDefaultColor(count($labels));
-            } else {
-                // Uncategorized expense
-                $labels[] = 'Uncategorized';
-                $colors[] = '#6B7280'; // Gray color for uncategorized
-            }
+        // Get expenses with expense_category_id (new system)
+        $categorizedExpenses = Expense::with('expenseCategory')
+            ->whereIn('status', ['approved', 'paid'])
+            ->whereBetween('expense_date', [$startDate, $endDate])
+            ->whereNotNull('expense_category_id')
+            ->selectRaw('expense_category_id, SUM(amount_cents) as total')
+            ->groupBy('expense_category_id')
+            ->get();
 
+        foreach ($categorizedExpenses as $expense) {
+            if ($expense->expenseCategory) {
+                $labels[] = $expense->expenseCategory->name;
+                $colors[] = $expense->expenseCategory->color ?? $this->getDefaultColor(count($labels));
+                $data[] = round($expense->total / 100, 2);
+            }
+        }
+
+        // Get expenses with legacy category field (old system)
+        $legacyExpenses = Expense::whereIn('status', ['approved', 'paid'])
+            ->whereBetween('expense_date', [$startDate, $endDate])
+            ->whereNull('expense_category_id')
+            ->whereNotNull('category')
+            ->selectRaw('category, SUM(amount_cents) as total')
+            ->groupBy('category')
+            ->get();
+
+        foreach ($legacyExpenses as $expense) {
+            $categoryName = ucfirst(str_replace('_', ' ', $expense->category));
+            $labels[] = $categoryName;
+            $colors[] = $this->getDefaultColor(count($labels));
             $data[] = round($expense->total / 100, 2);
+        }
+
+        // Get uncategorized expenses (no category_id and no legacy category)
+        $uncategorizedTotal = Expense::whereIn('status', ['approved', 'paid'])
+            ->whereBetween('expense_date', [$startDate, $endDate])
+            ->whereNull('expense_category_id')
+            ->where(function($q) {
+                $q->whereNull('category')->orWhere('category', '');
+            })
+            ->sum('amount_cents');
+
+        if ($uncategorizedTotal > 0) {
+            $labels[] = 'Uncategorized';
+            $colors[] = '#6B7280'; // Gray color
+            $data[] = round($uncategorizedTotal / 100, 2);
         }
 
         return [
