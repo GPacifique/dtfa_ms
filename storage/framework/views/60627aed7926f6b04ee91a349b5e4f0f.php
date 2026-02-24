@@ -186,14 +186,54 @@
             <!-- Expense Breakdown Chart -->
             <div class="card">
                 <div class="card-body">
-                    <h3 class="text-lg font-semibold text-slate-900 dark:text-white mb-4">Expense Breakdown</h3>
-                    <div class="h-64 flex items-center justify-center">
-                        <?php if(count($expenseBreakdown['labels'] ?? []) > 0): ?>
-                            <canvas id="expenseBreakdownChart"></canvas>
-                        <?php else: ?>
-                            <p class="text-slate-600 dark:text-slate-400">No expense data available</p>
-                        <?php endif; ?>
-                    </div>
+                    <h3 class="text-lg font-semibold text-slate-900 dark:text-white mb-4">Expense Breakdown by Category</h3>
+                    <?php if(count($expenseBreakdown['labels'] ?? []) > 0): ?>
+                        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                            <!-- Pie Chart -->
+                            <div class="h-64 flex items-center justify-center">
+                                <canvas id="expenseBreakdownChart"></canvas>
+                            </div>
+                            
+                            <!-- Breakdown List -->
+                            <div class="space-y-3">
+                                <?php
+                                    $totalExpenseAmount = array_sum($expenseBreakdown['data'] ?? []);
+                                ?>
+                                <?php $__currentLoopData = ($expenseBreakdown['labels'] ?? []); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $index => $label): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                    <?php
+                                        $amount = $expenseBreakdown['data'][$index] ?? 0;
+                                        $percentage = $totalExpenseAmount > 0 ? ($amount / $totalExpenseAmount) * 100 : 0;
+                                        $color = $expenseBreakdown['colors'][$index] ?? '#6B7280';
+                                    ?>
+                                    <div class="flex items-center gap-3 p-3 bg-slate-50 dark:bg-slate-700/50 rounded-lg">
+                                        <div class="w-4 h-4 rounded-full flex-shrink-0" style="background-color: <?php echo e($color); ?>"></div>
+                                        <div class="flex-1 min-w-0">
+                                            <div class="flex justify-between items-start mb-1">
+                                                <span class="font-medium text-slate-800 dark:text-slate-200 truncate"><?php echo e($label); ?></span>
+                                                <span class="text-slate-700 dark:text-slate-300 font-semibold ml-2 flex-shrink-0"><?php echo e(number_format($amount)); ?> RWF</span>
+                                            </div>
+                                            <div class="flex items-center gap-2">
+                                                <div class="flex-1 bg-slate-200 dark:bg-slate-600 rounded-full h-2">
+                                                    <div class="h-2 rounded-full" style="width: <?php echo e($percentage); ?>%; background-color: <?php echo e($color); ?>"></div>
+                                                </div>
+                                                <span class="text-xs text-slate-600 dark:text-slate-400 flex-shrink-0 w-12 text-right"><?php echo e(number_format($percentage, 1)); ?>%</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                
+                                <!-- Total -->
+                                <div class="flex items-center justify-between p-3 bg-slate-100 dark:bg-slate-700 rounded-lg border-t-2 border-slate-300 dark:border-slate-600">
+                                    <span class="font-bold text-slate-900 dark:text-white">Total Expenses (Period)</span>
+                                    <span class="font-bold text-lg text-rose-600 dark:text-rose-400"><?php echo e(number_format($totalExpenseAmount)); ?> RWF</span>
+                                </div>
+                            </div>
+                        </div>
+                    <?php else: ?>
+                        <div class="text-center py-8">
+                            <p class="text-slate-600 dark:text-slate-400">No expense data available for the selected period</p>
+                        </div>
+                    <?php endif; ?>
                 </div>
             </div>
 
@@ -599,22 +639,23 @@ document.addEventListener('DOMContentLoaded', function() {
     if (expenseBreakdownCtx) {
         const expenseLabels = <?php echo json_encode($expenseBreakdown['labels'] ?? [], 15, 512) ?>;
         const expenseData = <?php echo json_encode($expenseBreakdown['data'] ?? [], 15, 512) ?>;
+        const expenseColors = <?php echo json_encode($expenseBreakdown['colors'] ?? [], 15, 512) ?>;
 
         if (expenseLabels.length > 0) {
             new Chart(expenseBreakdownCtx, {
-                type: 'doughnut',
+                type: 'pie',
                 data: {
                     labels: expenseLabels,
                     datasets: [{
                         data: expenseData,
-                        backgroundColor: [
-                            'rgb(239, 68, 68)',
-                            'rgb(59, 130, 246)',
-                            'rgb(16, 185, 129)',
-                            'rgb(245, 158, 11)',
-                            'rgb(139, 92, 246)',
-                            'rgb(236, 72, 153)',
-                            'rgb(20, 184, 166)',
+                        backgroundColor: expenseColors.length > 0 ? expenseColors : [
+                            '#EF4444',
+                            '#3B82F6',
+                            '#10B981',
+                            '#F59E0B',
+                            '#8B5CF6',
+                            '#EC4899',
+                            '#14B8A6',
                         ],
                         borderWidth: 2,
                         borderColor: '#fff'
@@ -630,7 +671,9 @@ document.addEventListener('DOMContentLoaded', function() {
                         tooltip: {
                             callbacks: {
                                 label: function(context) {
-                                    return context.label + ': ' + context.parsed.toLocaleString() + ' RWF';
+                                    const total = context.dataset.data.reduce((a, b) => a + b, 0);
+                                    const percentage = ((context.parsed / total) * 100).toFixed(1);
+                                    return context.label + ': ' + context.parsed.toLocaleString() + ' RWF (' + percentage + '%)';
                                 }
                             }
                         }
