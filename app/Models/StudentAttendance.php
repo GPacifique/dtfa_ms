@@ -12,6 +12,7 @@ protected $table = 'student_attendance';
 
 protected $fillable = [
 'student_id',
+'training_session_id',
 'attendance_date',
 'status',
 'remarks',
