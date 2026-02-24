@@ -144,4 +144,4 @@
         el.addEventListener('blur', () => { el.value = format(el.value); });
     })();
 </script>
-@endsection
+@endpush
