@@ -5,8 +5,8 @@
                 <a href="{{ route('dashboard') }}" class="flex items-center gap-3">
                     <img src="{{ asset('logo.jpeg') }}" alt="DTFA logo" class="w-8 h-8 rounded-md">
                     <div>
-                        <div class="font-semibold text-white">DTFA — Sport Academy</div>
-                        <div class="text-slate-400 text-sm">Developing talent since {{ date('Y', strtotime('-3 years')) }}</div>
+                        <div class="font-semibold text-white">{{ __('app.footer_academy_name') }}</div>
+                        <div class="text-slate-400 text-sm">{{ __('app.developing_talent_since') }} {{ date('Y', strtotime('-3 years')) }}</div>
                     </div>
                 </a>
 
@@ -24,16 +24,16 @@
             </div>
 
             <div class="text-sm">
-                <div class="font-semibold text-white mb-2">Quick Links</div>
+                <div class="font-semibold text-white mb-2">{{ __('app.quick_links') }}</div>
                 <ul class="space-y-1">
-                    <li><a href="#" onclick="showPrivacyModal(event)" class="text-slate-400 hover:text-white">Privacy Policy</a></li>
-                    <li><a href="#" onclick="showTermsModal(event)" class="text-slate-400 hover:text-white">Terms of Service</a></li>
-                    <li><a href="#" onclick="showHelpModal(event)" class="text-slate-400 hover:text-white">Help & Support</a></li>
+                    <li><a href="#" onclick="showPrivacyModal(event)" class="text-slate-400 hover:text-white">{{ __('app.privacy_policy') }}</a></li>
+                    <li><a href="#" onclick="showTermsModal(event)" class="text-slate-400 hover:text-white">{{ __('app.terms_of_service') }}</a></li>
+                    <li><a href="#" onclick="showHelpModal(event)" class="text-slate-400 hover:text-white">{{ __('app.help_support') }}</a></li>
                 </ul>
             </div>
 
             <div class="text-sm">
-                <div class="font-semibold text-white mb-2">Contact</div>
+                <div class="font-semibold text-white mb-2">{{ __('app.contact') }}</div>
                 <div class="text-slate-400">Phone: <a href="tel:0786163963" class="text-slate-200">0786 163 963</a></div>
                 <div class="text-slate-400">Email: <a href="mailto:info@sportacademyms.com" class="text-slate-200">info@sportacademyms.com</a></div>
                 <div class="text-slate-400 mt-2">Kigali, Rwanda</div>
@@ -41,8 +41,8 @@
         </div>
 
         <div class="border-t border-slate-800 pt-4 pb-8 flex flex-col md:flex-row items-center justify-between gap-3">
-            <div class="text-slate-500 text-sm">&copy; {{ date('Y') }} Sport Academy MS — All rights reserved.</div>
-            <div class="text-slate-400 text-xs">Built with ❤️ — Data & tools for coaches and admins</div>
+            <div class="text-slate-500 text-sm">&copy; {{ date('Y') }} Sport Academy MS — {{ __('app.all_rights_reserved') }}.</div>
+            <div class="text-slate-400 text-xs">{{ __('app.built_with_love') }}</div>
         </div>
     </div>
 </footer>
@@ -70,30 +70,30 @@
     <div id="modal-privacy" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black/60 px-4">
         <div class="bg-white rounded-lg max-w-2xl w-full p-6">
             <div class="flex items-center justify-between mb-4">
-                <h3 class="text-lg font-bold">Privacy Policy</h3>
-                <button onclick="closeModal('modal-privacy')" class="text-slate-600">Close</button>
+                <h3 class="text-lg font-bold">{{ __('app.privacy_policy') }}</h3>
+                <button onclick="closeModal('modal-privacy')" class="text-slate-600">{{ __('app.close') }}</button>
             </div>
-            <p class="text-sm text-slate-700">We collect and store only the data necessary to run academy operations. Last updated: {{ date('F Y') }}.</p>
+            <p class="text-sm text-slate-700">{{ __('app.privacy_policy_text') }} {{ __('app.last_updated') }}: {{ date('F Y') }}.</p>
         </div>
     </div>
 
     <div id="modal-terms" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black/60 px-4">
         <div class="bg-white rounded-lg max-w-2xl w-full p-6">
             <div class="flex items-center justify-between mb-4">
-                <h3 class="text-lg font-bold">Terms of Service</h3>
-                <button onclick="closeModal('modal-terms')" class="text-slate-600">Close</button>
+                <h3 class="text-lg font-bold">{{ __('app.terms_of_service') }}</h3>
+                <button onclick="closeModal('modal-terms')" class="text-slate-600">{{ __('app.close') }}</button>
             </div>
-            <p class="text-sm text-slate-700">By using our services you agree to our terms. Please contact support for details.</p>
+            <p class="text-sm text-slate-700">{{ __('app.terms_of_service_text') }}</p>
         </div>
     </div>
 
     <div id="modal-help" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black/60 px-4">
         <div class="bg-white rounded-lg max-w-2xl w-full p-6">
             <div class="flex items-center justify-between mb-4">
-                <h3 class="text-lg font-bold">Help & Support</h3>
-                <button onclick="closeModal('modal-help')" class="text-slate-600">Close</button>
+                <h3 class="text-lg font-bold">{{ __('app.help_support') }}</h3>
+                <button onclick="closeModal('modal-help')" class="text-slate-600">{{ __('app.close') }}</button>
             </div>
-            <p class="text-sm text-slate-700">Contact us at <a href="mailto:info@sportacademyms.com" class="text-slate-900 font-semibold">info@sportacademyms.com</a> or call <a href="tel:0786163963" class="text-slate-900 font-semibold">0786 163 963</a>.</p>
+            <p class="text-sm text-slate-700">{!! __('app.help_support_text', ['email' => '<a href="mailto:info@sportacademyms.com" class="text-slate-900 font-semibold">info@sportacademyms.com</a>', 'phone' => '<a href="tel:0786163963" class="text-slate-900 font-semibold">0786 163 963</a>']) !!}</p>
         </div>
     </div>
 @endonce

@@ -582,4 +582,36 @@ return [
     'unknown_student' => 'Umukinnyi utazwi',
     'id' => 'Nimero',
     'from_all_sources' => 'Kuva mu nkomoko zose',
+
+    // Accessibility
+    'skip_to_main_content' => 'Jya ku birimo by\'ingenzi',
+
+    // Income Page
+    'income_management' => 'Gucunga Amafaranga Yinjiye',
+    'track_manage_revenue' => 'Kurikirana no gucunga inkomoko zose z\'amafaranga',
+    'income_entries' => 'Inyandiko z\'amafaranga',
+    'avg_income' => 'Amafaranga hagati',
+    'per_entry' => 'kuri buri nyandiko',
+    'filter_by_month' => 'Shungura ukwezi',
+    'all_branches' => 'Amashami yose',
+    'filter_by_branch' => 'Shungura ishami',
+    'reset_filters' => 'Subiramo utondekanya',
+    'no_income_records_found' => 'Nta nyandiko z\'amafaranga zabonetse',
+    'try_adjust_filters' => 'Gerageza guhindura utondekanya cyangwa ongeraho inyandiko nshya y\'amafaranga',
+    'all_time_option' => 'Igihe Cyose',
+
+    // Footer
+    'footer_academy_name' => 'DTFA — Ishuri ry\'Imikino',
+    'developing_talent_since' => 'Guteza imbere impano kuva',
+    'quick_links' => 'Itumanaho ryihuse',
+    'privacy_policy' => 'Politiki y\'Ubuzima Bwite',
+    'terms_of_service' => 'Amabwiriza y\'Ikoreshwa',
+    'help_support' => 'Ubufasha n\'Inkunga',
+    'contact' => 'Kuvugana',
+    'all_rights_reserved' => 'Uburenganzira bwose bucungwa',
+    'built_with_love' => 'Yakozwe n\'urukundo — Amakuru n\'ibikoresho ku batoza n\'abayobozi',
+    'privacy_policy_text' => 'Dukusanya gusa amakuru agenewe gukomeza ibikorwa by\'akademi.',
+    'terms_of_service_text' => 'Gukoresha serivisi zacu bivuga ko wemeye amabwiriza yacu. Vugana na support kugira ngo umenye ibisobanuro.',
+    'help_support_text' => 'Twandikire kuri :email cyangwa uduhamagare kuri :phone.',
+    'last_updated' => 'Ivuguruwe bwa nyuma',
 ];

@@ -584,4 +584,36 @@ return [
     'unknown_student' => 'Mchezaji asiyejulikana',
     'id' => 'Kitambulisho',
     'from_all_sources' => 'Kutoka vyanzo vyote',
+
+    // Accessibility
+    'skip_to_main_content' => 'Nenda kwenye maudhui makuu',
+
+    // Income Page
+    'income_management' => 'Usimamizi wa Mapato',
+    'track_manage_revenue' => 'Fuatilia na simamia mtiririko wote wa mapato',
+    'income_entries' => 'Rekodi za mapato',
+    'avg_income' => 'Wastani wa mapato',
+    'per_entry' => 'kwa kila rekodi',
+    'filter_by_month' => 'Chuja kwa mwezi',
+    'all_branches' => 'Matawi yote',
+    'filter_by_branch' => 'Chuja kwa tawi',
+    'reset_filters' => 'Weka upya vichujio',
+    'no_income_records_found' => 'Hakuna rekodi za mapato zilizopatikana',
+    'try_adjust_filters' => 'Jaribu kurekebisha vichujio au ongeza rekodi mpya ya mapato',
+    'all_time_option' => 'Wakati Wote',
+
+    // Footer
+    'footer_academy_name' => 'DTFA — Chuo cha Michezo',
+    'developing_talent_since' => 'Kukuza vipaji tangu',
+    'quick_links' => 'Viungo vya haraka',
+    'privacy_policy' => 'Sera ya Faragha',
+    'terms_of_service' => 'Masharti ya Huduma',
+    'help_support' => 'Msaada & Usaidizi',
+    'contact' => 'Mawasiliano',
+    'all_rights_reserved' => 'Haki zote zimehifadhiwa',
+    'built_with_love' => 'Imejengwa kwa ❤️ — Data na zana kwa makocha na wasimamizi',
+    'privacy_policy_text' => 'Tunakusanya na kuhifadhi data inayohitajika tu kwa uendeshaji wa chuo.',
+    'terms_of_service_text' => 'Kwa kutumia huduma zetu unakubali masharti yetu. Tafadhali wasiliana na msaada kwa maelezo.',
+    'help_support_text' => 'Wasiliana nasi kwa :email au piga simu :phone.',
+    'last_updated' => 'Ilisasishwa mara ya mwisho',
 ];

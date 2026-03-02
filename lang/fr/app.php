@@ -584,4 +584,36 @@ return [
     'unknown_student' => 'Joueur inconnu',
     'id' => 'ID',
     'from_all_sources' => 'De toutes sources',
+
+    // Accessibility
+    'skip_to_main_content' => 'Aller au contenu principal',
+
+    // Income Page
+    'income_management' => 'Gestion des revenus',
+    'track_manage_revenue' => 'Suivre et gérer tous les flux de revenus',
+    'income_entries' => 'Entrées de revenus',
+    'avg_income' => 'Revenu moyen',
+    'per_entry' => 'par entrée',
+    'filter_by_month' => 'Filtrer par mois',
+    'all_branches' => 'Toutes les agences',
+    'filter_by_branch' => 'Filtrer par agence',
+    'reset_filters' => 'Réinitialiser les filtres',
+    'no_income_records_found' => 'Aucun enregistrement de revenu trouvé',
+    'try_adjust_filters' => 'Essayez d\'ajuster vos filtres ou ajoutez un nouvel enregistrement',
+    'all_time_option' => 'Tout le temps',
+
+    // Footer
+    'footer_academy_name' => 'DTFA — Académie Sportive',
+    'developing_talent_since' => 'Développement des talents depuis',
+    'quick_links' => 'Liens rapides',
+    'privacy_policy' => 'Politique de confidentialité',
+    'terms_of_service' => 'Conditions d\'utilisation',
+    'help_support' => 'Aide & Support',
+    'contact' => 'Contact',
+    'all_rights_reserved' => 'Tous droits réservés',
+    'built_with_love' => 'Fait avec ❤️ — Données et outils pour les entraîneurs et administrateurs',
+    'privacy_policy_text' => 'Nous collectons uniquement les données nécessaires aux opérations de l\'académie.',
+    'terms_of_service_text' => 'En utilisant nos services, vous acceptez nos conditions. Veuillez contacter le support pour plus de détails.',
+    'help_support_text' => 'Contactez-nous à :email ou appelez le :phone.',
+    'last_updated' => 'Dernière mise à jour',
 ];

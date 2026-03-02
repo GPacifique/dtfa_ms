@@ -582,4 +582,36 @@ return [
     'unknown_student' => 'Unknown Player',
     'id' => 'ID',
     'from_all_sources' => 'From all sources',
+
+    // Accessibility
+    'skip_to_main_content' => 'Skip to main content',
+
+    // Income Page
+    'income_management' => 'Income Management',
+    'track_manage_revenue' => 'Track and manage all revenue streams',
+    'income_entries' => 'Income entries',
+    'avg_income' => 'Avg Income',
+    'per_entry' => 'per entry',
+    'filter_by_month' => 'Filter by Month',
+    'all_branches' => 'All Branches',
+    'filter_by_branch' => 'Filter by Branch',
+    'reset_filters' => 'Reset Filters',
+    'no_income_records_found' => 'No income records found',
+    'try_adjust_filters' => 'Try adjusting your filters or add a new income record',
+    'all_time_option' => 'All Time',
+
+    // Footer
+    'footer_academy_name' => 'DTFA — Sport Academy',
+    'developing_talent_since' => 'Developing talent since',
+    'quick_links' => 'Quick Links',
+    'privacy_policy' => 'Privacy Policy',
+    'terms_of_service' => 'Terms of Service',
+    'help_support' => 'Help & Support',
+    'contact' => 'Contact',
+    'all_rights_reserved' => 'All rights reserved',
+    'built_with_love' => 'Built with ❤️ — Data & tools for coaches and admins',
+    'privacy_policy_text' => 'We collect and store only the data necessary to run academy operations.',
+    'terms_of_service_text' => 'By using our services you agree to our terms. Please contact support for details.',
+    'help_support_text' => 'Contact us at :email or call :phone.',
+    'last_updated' => 'Last updated',
 ];

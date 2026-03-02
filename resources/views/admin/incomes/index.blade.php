@@ -1,13 +1,13 @@
 @extends('layouts.app')
 
 @section('hero')
-    <x-hero title="Income Management" subtitle="Track and manage all revenue streams">
+    <x-hero title="{{ __('app.income_management') }}" subtitle="{{ __('app.track_manage_revenue') }}">
         <a href="{{ route('admin.incomes.create') }}"
            class="inline-flex items-center px-5 py-2.5 bg-gradient-to-r from-emerald-600 to-emerald-700 hover:from-emerald-700 hover:to-emerald-800 text-white font-semibold rounded-lg shadow-lg transition transform hover:scale-105">
             <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
             </svg>
-            Record Income
+            {{ __('app.record_income') }}
         </a>
     </x-hero>
 @endsection
@@ -43,7 +43,7 @@
         <div class="bg-gradient-to-br from-emerald-500 to-emerald-600 rounded-xl shadow-xl p-6 text-white">
             <div class="flex items-center justify-between">
                 <div>
-                    <p class="text-emerald-100 text-sm font-medium uppercase tracking-wide">Total Income</p>
+                    <p class="text-emerald-100 text-sm font-medium uppercase tracking-wide">{{ __('app.total_income') }}</p>
                     <p class="text-4xl font-bold mt-2">{{ number_format($totalIncomeCents, 0) }} <span class="text-sm font-medium">{{ $incomes->first()->currency ?? 'RWF' }}</span></p>
                 </div>
                 <div class="bg-emerald-400 bg-opacity-30 rounded-lg p-4">
@@ -57,9 +57,9 @@
         <div class="bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl shadow-xl p-6 text-white">
             <div class="flex items-center justify-between">
                 <div>
-                    <p class="text-blue-100 text-sm font-medium uppercase tracking-wide">Total Records</p>
+                    <p class="text-blue-100 text-sm font-medium uppercase tracking-wide">{{ __('app.total_records') }}</p>
                     <p class="text-4xl font-bold mt-2">{{ $incomes->total() }}</p>
-                    <p class="text-xs text-blue-100 mt-1">Income entries</p>
+                    <p class="text-xs text-blue-100 mt-1">{{ __('app.income_entries') }}</p>
                 </div>
                 <div class="bg-blue-400 bg-opacity-30 rounded-lg p-4">
                     <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -72,9 +72,9 @@
         <div class="bg-gradient-to-br from-purple-500 to-purple-600 rounded-xl shadow-xl p-6 text-white">
             <div class="flex items-center justify-between">
                 <div>
-                    <p class="text-purple-100 text-sm font-medium uppercase tracking-wide">Avg Income</p>
+                    <p class="text-purple-100 text-sm font-medium uppercase tracking-wide">{{ __('app.avg_income') }}</p>
                     <p class="text-4xl font-bold mt-2">{{ number_format($avgIncomeCents, 0) }} <span class="text-sm font-medium">{{ $incomes->first()->currency ?? 'RWF' }}</span></p>
-                    <p class="text-xs text-purple-100 mt-1">per entry</p>
+                    <p class="text-xs text-purple-100 mt-1">{{ __('app.per_entry') }}</p>
                 </div>
                 <div class="bg-purple-400 bg-opacity-30 rounded-lg p-4">
                     <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -89,9 +89,9 @@
     <div class="bg-white rounded-xl shadow-md p-6 mb-8">
         <form method="GET" action="{{ route('admin.incomes.index') }}" class="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div>
-                <label class="block text-sm font-semibold text-slate-700 mb-2">📅 Filter by Month</label>
+                <label class="block text-sm font-semibold text-slate-700 mb-2">📅 {{ __('app.filter_by_month') }}</label>
                 <select name="month" class="w-full px-4 py-2.5 border border-slate-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition" onchange="this.form.submit()">
-                    <option value="all" {{ request('month') === 'all' ? 'selected' : '' }}>🌍 All Time</option>
+                    <option value="all" {{ request('month') === 'all' ? 'selected' : '' }}>🌍 {{ __('app.all_time_option') }}</option>
                     @foreach($months as $m)
                         <option value="{{ $m['value'] }}" {{ request('month', now()->format('Y-m')) === $m['value'] ? 'selected' : '' }}>
                             {{ $m['label'] }}
@@ -101,9 +101,9 @@
             </div>
             @if(isset($branches) && $branches->count() > 0)
             <div>
-                <label class="block text-sm font-semibold text-slate-700 mb-2">🏢 Filter by Branch</label>
+                <label class="block text-sm font-semibold text-slate-700 mb-2">🏢 {{ __('app.filter_by_branch') }}</label>
                 <select name="branch_id" class="w-full px-4 py-2.5 border border-slate-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition" onchange="this.form.submit()">
-                    <option value="">All Branches</option>
+                    <option value="">{{ __('app.all_branches') }}</option>
                     @foreach($branches as $branch)
                         <option value="{{ $branch->id }}" {{ request('branch_id') == $branch->id ? 'selected' : '' }}>
                             {{ $branch->name }}
@@ -114,7 +114,7 @@
             @endif
             <div class="flex items-end">
                 <a href="{{ route('admin.incomes.index') }}" class="w-full px-4 py-2.5 bg-slate-200 hover:bg-slate-300 text-slate-700 font-medium rounded-lg transition text-center">
-                    🔄 Reset Filters
+                    🔄 {{ __('app.reset_filters') }}
                 </a>
             </div>
         </form>
@@ -126,12 +126,12 @@
             <table class="min-w-full divide-y divide-slate-200">
                 <thead class="bg-gradient-to-r from-slate-50 to-slate-100">
                     <tr>
-                        <th class="px-6 py-4 text-left text-xs font-bold text-slate-600 uppercase tracking-wider">Date</th>
-                        <th class="px-6 py-4 text-left text-xs font-bold text-slate-600 uppercase tracking-wider">Branch</th>
-                        <th class="px-6 py-4 text-left text-xs font-bold text-slate-600 uppercase tracking-wider">Category</th>
-                        <th class="px-6 py-4 text-left text-xs font-bold text-slate-600 uppercase tracking-wider">Source</th>
-                        <th class="px-6 py-4 text-right text-xs font-bold text-slate-600 uppercase tracking-wider">Amount</th>
-                        <th class="px-6 py-4 text-right text-xs font-bold text-slate-600 uppercase tracking-wider">Actions</th>
+                        <th class="px-6 py-4 text-left text-xs font-bold text-slate-600 uppercase tracking-wider">{{ __('app.date') }}</th>
+                        <th class="px-6 py-4 text-left text-xs font-bold text-slate-600 uppercase tracking-wider">{{ __('app.branch') }}</th>
+                        <th class="px-6 py-4 text-left text-xs font-bold text-slate-600 uppercase tracking-wider">{{ __('app.category') }}</th>
+                        <th class="px-6 py-4 text-left text-xs font-bold text-slate-600 uppercase tracking-wider">{{ __('app.source') }}</th>
+                        <th class="px-6 py-4 text-right text-xs font-bold text-slate-600 uppercase tracking-wider">{{ __('app.amount') }}</th>
+                        <th class="px-6 py-4 text-right text-xs font-bold text-slate-600 uppercase tracking-wider">{{ __('app.actions') }}</th>
                     </tr>
                 </thead>
                 <tbody class="bg-white divide-y divide-slate-100">
@@ -157,8 +157,8 @@
                                 {{ number_format($income->amount_cents, 0) }} <span class="text-xs text-slate-500">{{ $income->currency ?? 'RWF' }}</span>
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                <a href="{{ route('admin.incomes.show', $income) }}" class="text-blue-600 hover:text-blue-900 mr-3 transition">View</a>
-                                <a href="{{ route('admin.incomes.edit', $income) }}" class="text-indigo-600 hover:text-indigo-900 transition">Edit</a>
+                                <a href="{{ route('admin.incomes.show', $income) }}" class="text-blue-600 hover:text-blue-900 mr-3 transition">{{ __('app.view') }}</a>
+                                <a href="{{ route('admin.incomes.edit', $income) }}" class="text-indigo-600 hover:text-indigo-900 transition">{{ __('app.edit') }}</a>
                             </td>
                         </tr>
                     @empty
@@ -167,8 +167,8 @@
                                 <svg class="mx-auto h-12 w-12 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4" />
                                 </svg>
-                                <p class="mt-4 text-lg font-medium">No income records found</p>
-                                <p class="mt-1 text-sm">Try adjusting your filters or add a new income record</p>
+                                <p class="mt-4 text-lg font-medium">{{ __('app.no_income_records_found') }}</p>
+                                <p class="mt-1 text-sm">{{ __('app.try_adjust_filters') }}</p>
                             </td>
                         </tr>
                     @endforelse

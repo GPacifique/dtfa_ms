@@ -166,6 +166,11 @@
     </style>
 </head>
 <body class="font-sans antialiased">
+<!-- Skip to main content (accessibility) -->
+<a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-[9999] focus:px-4 focus:py-2 focus:bg-indigo-600 focus:text-white focus:rounded-md focus:text-sm focus:font-medium">
+    {{ __('app.skip_to_main_content') }}
+</a>
+
 <!-- Notification Alert -->
 <x-notification-alert />
 
