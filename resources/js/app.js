@@ -13,6 +13,18 @@ import Alpine from 'alpinejs';
 
 window.Alpine = Alpine;
 
+// ── Alpine store must be registered BEFORE Alpine.start() ──
+const _savedCollapsed = localStorage.getItem('sidebar-collapsed');
+const _savedMobileOpen = localStorage.getItem('sidebar-mobile-open');
+
+Alpine.store('layout', {
+	sidebarOpen: _savedCollapsed === 'true' ? false : true,
+	mobileOpen: _savedMobileOpen === 'true',
+	activeSubmenu: null,
+});
+
+Alpine.start();
+
 // Legacy theme handling - now integrated with core system
 const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
 const getStoredTheme = () => localStorage.getItem('theme') || localStorage.getItem('sport-academy-theme');
@@ -121,22 +133,7 @@ document.addEventListener('DOMContentLoaded', () => {
 		}, 100);
 	}
 
-	// Initialize Alpine store for layout (sidebar state persistence)
-	const savedCollapsed = localStorage.getItem('sidebar-collapsed');
-	const savedMobileOpen = localStorage.getItem('sidebar-mobile-open');
-	const initialSidebarOpen = savedCollapsed === 'true' ? false : true;
-	const initialMobileOpen = savedMobileOpen === 'true';
-
-	Alpine.store('layout', {
-		sidebarOpen: initialSidebarOpen,
-		mobileOpen: initialMobileOpen,
-		activeSubmenu: null,
-	});
-
-	// Initialize Alpine.js components
-	Alpine.start();
-
-	// Persist store changes to localStorage (lightweight polling to stay compatible)
+	// Persist sidebar state to localStorage (lightweight polling)
 	try {
 		let prevSidebar = Alpine.store('layout').sidebarOpen;
 		let prevMobile = Alpine.store('layout').mobileOpen;

@@ -17,4 +17,15 @@ export default {
     },
   },
   plugins: [],
+  safelist: [
+    'lg:ml-64',
+    'lg:ml-20',
+    'ml-64',
+    'ml-20',
+    'w-64',
+    'w-20',
+    'translate-x-0',
+    '-translate-x-full',
+    'transition-all',
+  ],
 }

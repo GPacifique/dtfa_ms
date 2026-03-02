@@ -175,29 +175,23 @@
 
     <!-- Main -->
     <div id="main-content"
-         :class="$store.layout.sidebarOpen ? 'lg:ml-64' : 'lg:ml-20'"
-         class="flex-1 flex flex-col w-full min-h-screen transition-all duration-300 ease-in-out relative z-10 ml-0">
+         :style="{ '--sidebar-w': $store.layout.sidebarOpen ? '16rem' : '5rem' }"
+         class="flex-1 flex flex-col w-full min-h-screen relative z-10">
         <!-- Topbar -->
         <header class="sticky top-0 h-16 flex items-center px-4 sm:px-6 justify-between z-20 blur-card">
             <div class="flex items-center gap-2 relative z-10">
-                <!-- Mobile menu button -->
-                <button data-toggle-sidebar-mobile class="lg:hidden inline-flex items-center justify-center p-2 rounded-md text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-700 cursor-pointer" @click.prevent="$store.layout.mobileOpen = !$store.layout.mobileOpen; $store.layout.sidebarOpen = true">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" /></svg>
-                </button>
-
-                <!-- Desktop sidebar toggle button -->
+                <!-- Sidebar toggle: mobile opens overlay, desktop expands/collapses -->
                 <button
-                    @click="$store.layout.sidebarOpen = !$store.layout.sidebarOpen"
-                    class="hidden lg:inline-flex items-center justify-center p-2 rounded-lg text-slate-500 hover:text-indigo-600 hover:bg-indigo-50 dark:text-slate-400 dark:hover:text-indigo-400 dark:hover:bg-slate-800 transition-all duration-200 cursor-pointer"
+                    @click="window.innerWidth < 1024
+                        ? ($store.layout.mobileOpen = !$store.layout.mobileOpen, $store.layout.sidebarOpen = true)
+                        : ($store.layout.sidebarOpen = !$store.layout.sidebarOpen)"
+                    class="inline-flex items-center justify-center p-2 rounded-lg text-slate-500 hover:text-indigo-600 hover:bg-indigo-50 dark:text-slate-400 dark:hover:text-indigo-400 dark:hover:bg-slate-800 transition-all duration-200 cursor-pointer"
+                    :aria-label="$store.layout.sidebarOpen ? 'Collapse sidebar' : 'Expand sidebar'"
                     :title="$store.layout.sidebarOpen ? 'Collapse sidebar' : 'Expand sidebar'"
                 >
-                    <svg
-                        class="w-5 h-5 transition-transform duration-300"
-                        :class="$store.layout.sidebarOpen ? '' : 'rotate-180'"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                    >
+                    <svg class="w-5 h-5 transition-transform duration-300"
+                         :class="$store.layout.sidebarOpen ? '' : 'rotate-180'"
+                         fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 19l-7-7 7-7m8 14l-7-7 7-7"/>
                     </svg>
                 </button>

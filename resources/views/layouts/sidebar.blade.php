@@ -14,25 +14,6 @@
          class="fixed inset-0 bg-gray-900 bg-opacity-75 z-30 lg:hidden">
     </div>
 
-    <!-- Floating Toggle Button (visible on desktop) - Outside sidebar for proper z-index -->
-    <button
-        @click="$store.layout.sidebarOpen = !$store.layout.sidebarOpen"
-        class="hidden lg:flex fixed w-8 h-8 bg-gradient-to-br from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 rounded-full items-center justify-center shadow-lg hover:shadow-xl border-2 border-white/30 transition-all duration-300 group hover:scale-110 z-50 cursor-pointer pointer-events-auto"
-        :class="$store.layout.sidebarOpen ? 'left-[15.5rem]' : 'left-[4.5rem]'"
-        style="top: 1.25rem;"
-        :title="$store.layout.sidebarOpen ? 'Collapse sidebar' : 'Expand sidebar'"
-    >
-        <svg
-            class="w-4 h-4 text-white transition-transform duration-300"
-            :class="$store.layout.sidebarOpen ? '' : 'rotate-180'"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-        >
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 19l-7-7 7-7"/>
-        </svg>
-    </button>
-
     <!-- Sidebar (fixed on the left) -->
     <aside id="app-sidebar" role="navigation" aria-label="Main navigation"
            x-bind:class="[
@@ -47,16 +28,28 @@
 
         <!-- Logo Header -->
         <div class="flex items-center justify-between px-4 py-6 border-b border-slate-700">
-            <div class="flex items-center space-x-3">
-                <a href="{{ route('dashboard') }}" class="flex items-center gap-3">
-                    <div class="bg-gradient-to-br from-blue-500 to-indigo-600 rounded-lg p-2 shadow-lg">
-                        <img src="{{ asset('logo.jpeg') }}" alt="logo" class="w-8 h-8">
-                    </div>
-                    <div x-show="$store.layout.sidebarOpen" class="ml-2">
-                        <span class="text-lg font-semibold">DTFA</span>
-                    </div>
-                </a>
-            </div>
+            <a href="{{ route('dashboard') }}" class="flex items-center gap-3 min-w-0">
+                <div class="bg-gradient-to-br from-blue-500 to-indigo-600 rounded-lg p-2 shadow-lg flex-shrink-0">
+                    <img src="{{ asset('logo.jpeg') }}" alt="logo" class="w-8 h-8">
+                </div>
+                <div x-show="$store.layout.sidebarOpen" x-transition class="min-w-0">
+                    <span class="text-lg font-semibold truncate">DTFA</span>
+                </div>
+            </a>
+
+            <!-- Sidebar collapse / expand toggle -->
+            <button
+                @click="$store.layout.sidebarOpen = !$store.layout.sidebarOpen"
+                class="flex-shrink-0 ml-1 p-1.5 rounded-md text-slate-400 hover:text-white hover:bg-slate-700 transition-colors duration-200 cursor-pointer"
+                :title="$store.layout.sidebarOpen ? 'Collapse sidebar' : 'Expand sidebar'"
+                aria-label="Toggle sidebar"
+            >
+                <svg class="w-5 h-5 transition-transform duration-300"
+                     :class="$store.layout.sidebarOpen ? '' : 'rotate-180'"
+                     fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 19l-7-7 7-7m8 14l-7-7 7-7"/>
+                </svg>
+            </button>
         </div>
 
 

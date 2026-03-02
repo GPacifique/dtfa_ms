@@ -6,26 +6,26 @@
 	html { @apply scroll-smooth; }
 	body { @apply bg-slate-50 text-slate-800 dark:bg-slate-950 dark:text-slate-200; }
 
-	/* Ensure main content is never covered by sidebar */
+	/* Main content shifts in sync with the sidebar */
 	#main-content {
-		@apply relative;
+		--sidebar-w: 16rem; /* default: expanded */
 		min-height: 100vh;
 		width: 100%;
 		margin-left: 0;
+		transition: margin-left 300ms ease-in-out;
 	}
 
-	/* Force proper spacing on mobile */
+	/* On mobile the sidebar is an overlay – no margin needed */
 	@media (max-width: 1023px) {
 		#main-content {
 			margin-left: 0 !important;
 		}
 	}
 
-	/* Ensure proper spacing on desktop */
+	/* On desktop, follow the CSS variable Alpine updates on every toggle */
 	@media (min-width: 1024px) {
-		/* Default to collapsed state */
 		#main-content {
-			margin-left: 5rem; /* 80px - w-20 collapsed sidebar */
+			margin-left: var(--sidebar-w, 5rem);
 		}
 	}
 
