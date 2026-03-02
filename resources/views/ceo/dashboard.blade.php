@@ -125,16 +125,16 @@
         </div>
         <div class="card hover:shadow-lg transition-shadow duration-300">
             <div class="card-body">
-                <p class="text-sm text-slate-600 dark:text-slate-400">Avg Revenue / Student</p>
+                <p class="text-sm text-slate-600 dark:text-slate-400">Avg Revenue / Player</p>
                 <p class="text-2xl font-bold text-orange-600">{{ number_format($newMetrics['avgRevenuePerStudent'] ?? 0) }} RWF</p>
-                <p class="text-xs text-slate-500 mt-2">Per active student</p>
+                <p class="text-xs text-slate-500 mt-2">Per active player</p>
             </div>
         </div>
         <div class="card hover:shadow-lg transition-shadow duration-300">
             <div class="card-body">
                 <p class="text-sm text-slate-600 dark:text-slate-400">Growth Rate (30d)</p>
                 <p class="text-3xl font-bold text-green-600">+{{ $newMetrics['growthRate'] ?? 0 }}%</p>
-                <p class="text-xs text-slate-500 mt-2">{{ $newMetrics['newStudents'] ?? 0 }} new students</p>
+                <p class="text-xs text-slate-500 mt-2">{{ $newMetrics['newStudents'] ?? 0 }} new players</p>
             </div>
         </div>
     </div>
@@ -157,10 +157,10 @@
                 </div>
             </div>
 
-            <!-- Student Growth Chart -->
+            <!-- Player Growth Chart -->
             <div class="card">
                 <div class="card-body">
-                    <h3 class="text-lg font-semibold text-slate-900 dark:text-white mb-4">Student Growth (Last 6 Months)</h3>
+                    <h3 class="text-lg font-semibold text-slate-900 dark:text-white mb-4">Player Growth (Last 6 Months)</h3>
                     <div class="h-64">
                         <canvas id="studentGrowthChart"></canvas>
                     </div>
@@ -177,7 +177,7 @@
                             <div class="h-64 flex items-center justify-center">
                                 <canvas id="expenseBreakdownChart"></canvas>
                             </div>
-                            
+
                             <!-- Breakdown List -->
                             <div class="space-y-3">
                                 @php
@@ -205,7 +205,7 @@
                                         </div>
                                     </div>
                                 @endforeach
-                                
+
                                 <!-- Total -->
                                 <div class="flex items-center justify-between p-3 bg-slate-100 dark:bg-slate-700 rounded-lg border-t-2 border-slate-300 dark:border-slate-600">
                                     <span class="font-bold text-slate-900 dark:text-white">Total Expenses (Period)</span>
@@ -337,7 +337,7 @@
                             <thead>
                                 <tr class="border-b border-slate-200 dark:border-slate-700">
                                     <th class="text-left py-3 px-4 font-semibold text-slate-700 dark:text-slate-300">Sport</th>
-                                    <th class="text-center py-3 px-4 font-semibold text-slate-700 dark:text-slate-300">Total Students</th>
+                                    <th class="text-center py-3 px-4 font-semibold text-slate-700 dark:text-slate-300">Total Players</th>
                                     <th class="text-center py-3 px-4 font-semibold text-slate-700 dark:text-slate-300">Active</th>
                                     <th class="text-right py-3 px-4 font-semibold text-slate-700 dark:text-slate-300">Active Rate</th>
                                 </tr>
@@ -378,7 +378,7 @@
                             <thead>
                                 <tr class="border-b border-slate-200 dark:border-slate-700">
                                     <th class="text-left py-3 px-4 font-semibold text-slate-700 dark:text-slate-300">Branch</th>
-                                    <th class="text-center py-3 px-4 font-semibold text-slate-700 dark:text-slate-300">Total Students</th>
+                                    <th class="text-center py-3 px-4 font-semibold text-slate-700 dark:text-slate-300">Total Players</th>
                                     <th class="text-center py-3 px-4 font-semibold text-slate-700 dark:text-slate-300">Active</th>
                                     <th class="text-center py-3 px-4 font-semibold text-slate-700 dark:text-slate-300">Groups</th>
                                     <th class="text-right py-3 px-4 font-semibold text-slate-700 dark:text-slate-300">Revenue (Period)</th>
@@ -444,11 +444,11 @@
                             </div>
                             <div class="space-y-3">
                                 <div>
-                                    <p class="text-sm text-slate-600 dark:text-slate-400">Total Students</p>
+                                    <p class="text-sm text-slate-600 dark:text-slate-400">Total Players</p>
                                     <p class="text-3xl font-bold text-slate-900 dark:text-white">{{ $stat['total'] }}</p>
                                 </div>
                                 <div>
-                                    <p class="text-sm text-slate-600 dark:text-slate-400">Active Students</p>
+                                    <p class="text-sm text-slate-600 dark:text-slate-400">Active Players</p>
                                     <p class="text-2xl font-bold text-green-600 dark:text-green-400">{{ $stat['active'] }}</p>
                                 </div>
                                 <div>
@@ -482,7 +482,7 @@
                                 <tr class="border-b border-slate-200 dark:border-slate-700">
                                     <th class="text-left py-3 px-4 font-semibold text-slate-700 dark:text-slate-300">Group</th>
                                     <th class="text-left py-3 px-4 font-semibold text-slate-700 dark:text-slate-300">Branch</th>
-                                    <th class="text-center py-3 px-4 font-semibold text-slate-700 dark:text-slate-300">Total Students</th>
+                                    <th class="text-center py-3 px-4 font-semibold text-slate-700 dark:text-slate-300">Total Players</th>
                                     <th class="text-center py-3 px-4 font-semibold text-slate-700 dark:text-slate-300">Active</th>
                                     <th class="text-right py-3 px-4 font-semibold text-slate-700 dark:text-slate-300">Revenue (Period)</th>
                                 </tr>
@@ -578,7 +578,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Student Growth Chart
+    // Player Growth Chart
     const studentGrowthCtx = document.getElementById('studentGrowthChart');
     if (studentGrowthCtx) {
         new Chart(studentGrowthCtx, {
@@ -586,7 +586,7 @@ document.addEventListener('DOMContentLoaded', function() {
             data: {
                 labels: @json($studentGrowth['labels'] ?? []),
                 datasets: [{
-                    label: 'Total Students',
+                    label: 'Total Players',
                     data: @json($studentGrowth['data'] ?? []),
                     borderColor: 'rgb(99, 102, 241)',
                     backgroundColor: 'rgba(99, 102, 241, 0.1)',

@@ -13,11 +13,11 @@
         <div class="relative container mx-auto px-4 sm:px-6 lg:px-8 py-8 lg:py-12">
             {{-- Breadcrumb --}}
             <nav class="flex items-center gap-2 text-sm text-emerald-200 mb-6">
-                <a href="{{ route('students-modern.index') }}" class="hover:text-white transition">Students</a>
+                <a href="{{ route('students-modern.index') }}" class="hover:text-white transition">Players</a>
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
                 </svg>
-                <span class="text-white font-medium">Add New Student</span>
+                <span class="text-white font-medium">Add New Player</span>
             </nav>
 
             <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
@@ -26,10 +26,10 @@
                         <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"/>
                         </svg>
-                        Add New Student
+                        Add New Player
                     </h1>
                     <p class="mt-2 text-emerald-100 text-sm lg:text-base">
-                        Register a new student to the academy
+                        Register a new player to the academy
                     </p>
                 </div>
                 <a href="{{ route('students-modern.index') }}"
@@ -321,7 +321,7 @@
                             </div>
                             <div>
                                 <h2 class="text-lg font-bold text-slate-900 dark:text-white">Profile Photo</h2>
-                                <p class="text-sm text-slate-500 dark:text-slate-400">Upload a photo for the student</p>
+                                <p class="text-sm text-slate-500 dark:text-slate-400">Upload a photo for the player</p>
                             </div>
                         </div>
 
@@ -357,7 +357,7 @@
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
                             </svg>
-                            Save Student
+                            Save Player
                         </button>
                     </div>
                 </div>

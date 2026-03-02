@@ -564,7 +564,7 @@ return [
     'subscriptions' => 'Subscriptions',
     'assign_subscription' => 'Assign Subscription',
     'edit_subscription' => 'Edit Subscription',
-    'student' => 'Student',
+    'student' => 'Player',
     'plan' => 'Plan',
     'start' => 'Start',
     'start_date' => 'Start date',

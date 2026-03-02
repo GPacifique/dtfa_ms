@@ -16,7 +16,7 @@
         <div class="relative container mx-auto px-4 sm:px-6 lg:px-8 py-8">
             {{-- Breadcrumb --}}
             <nav class="flex items-center gap-2 text-sm text-indigo-200 mb-6">
-                <a href="{{ route('students-modern.index') }}" class="hover:text-white transition">Students</a>
+                <a href="{{ route('students-modern.index') }}" class="hover:text-white transition">Players</a>
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
                 </svg>

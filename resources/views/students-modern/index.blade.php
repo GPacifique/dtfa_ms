@@ -81,7 +81,7 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
                     {{-- Search --}}
                     <div class="lg:col-span-2">
-                        <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">Search Students</label>
+                        <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">Search Players</label>
                         <div class="relative">
                             <input type="text" name="q" value="{{ request('q') }}"
                                    placeholder="Search by name, email, phone..."

@@ -51,7 +51,7 @@
                 </div>
             </a>
 
-            {{-- Active Students --}}
+            {{-- Active Players --}}
             <a href="{{ route('admin.students.index') }}" class="card group hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 cursor-pointer">
                 <div class="card-body">
                     <div class="flex items-start justify-between">
@@ -629,7 +629,7 @@
             </div>
         </div>
 
-        {{-- Today's Student Attendance Table --}}
+        {{-- Today's Player Attendance Table --}}
         <div class="mb-8">
             <div class="flex items-center justify-between mb-4">
                 <h2 class="text-xl font-bold text-slate-900 dark:text-white">📋 {{ __('app.todays_student_attendance') }}</h2>
@@ -1146,7 +1146,7 @@
         <div>
             <h2 class="text-xl font-bold text-slate-900 mb-4">📈 {{ __('app.analytics_insights') }}</h2>
 
-        <!-- Recent Students -->
+        <!-- Recent Players -->
         <div class="mt-6">
             <h3 class="text-lg font-semibold text-slate-900 mb-3">🆕 {{ __('app.recent_students') }}</h3>
             <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-4">
