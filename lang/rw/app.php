@@ -95,6 +95,7 @@ return [
     'class' => 'Umwaka',
     'enrollment_date' => 'Itariki yo kwiyandikisha',
     'discipline' => 'Umukino',
+    'sport' => 'Umukino w\'ubwoko',
     'football' => 'Umupira w\'amaguru',
     'basketball' => 'Umupira wo mu ntoki',
 
@@ -190,6 +191,8 @@ return [
     'manage_staff' => 'Gucunga abakozi',
     'manage_training' => 'Gucunga imyitozo',
     'manage_matches' => 'Gucunga imikino',
+    'manage_users' => 'Gucunga abakoresha',
+    'manage_finances' => 'Gucunga imari',
     'new_student' => 'Umukinnyi mushya',
     'new_staff' => 'Umukozi mushya',
     'new_training_session' => 'Isomo rishya ry\'imyitozo',

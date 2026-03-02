@@ -218,8 +218,12 @@
                 <div class="font-semibold text-slate-700 dark:text-slate-200"><?php echo e($title ?? 'Dashboard'); ?></div>
             </div>
             <div class="flex items-center gap-3 relative z-30">
-                <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('manage users')): ?><span class="badge badge-slate">manage users</span><?php endif; ?>
-                <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('manage finances')): ?><span class="badge badge-slate">manage finances</span><?php endif; ?>
+                <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('manage users')): ?>
+                    <a href="<?php echo e(route('admin.users.index')); ?>" class="badge badge-slate hover:bg-slate-200 dark:hover:bg-slate-600 transition-colors"><?php echo e(__('app.manage_users')); ?></a>
+                <?php endif; ?>
+                <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('manage finances')): ?>
+                    <a href="<?php echo e(route('admin.incomes.index')); ?>" class="badge badge-slate hover:bg-slate-200 dark:hover:bg-slate-600 transition-colors"><?php echo e(__('app.manage_finances')); ?></a>
+                <?php endif; ?>
 
                 <!-- Language Switcher -->
                 <?php if (isset($component)) { $__componentOriginal8d3bff7d7383a45350f7495fc470d934 = $component; } ?>

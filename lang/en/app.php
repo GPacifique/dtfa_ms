@@ -97,6 +97,7 @@ return [
     'class' => 'Class',
     'enrollment_date' => 'Enrollment Date',
     'discipline' => 'Discipline',
+    'sport' => 'Sport',
     'football' => 'Football',
     'basketball' => 'Basketball',
 
@@ -192,6 +193,8 @@ return [
     'manage_staff' => 'Manage Staff',
     'manage_training' => 'Manage Training',
     'manage_matches' => 'Manage Matches',
+    'manage_users' => 'Manage Users',
+    'manage_finances' => 'Manage Finances',
     'new_student' => 'New Player',
     'new_staff' => 'New Staff',
     'new_training_session' => 'New Training Session',
