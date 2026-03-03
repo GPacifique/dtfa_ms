@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use App\Models\Branch;
 use App\Models\TrainingEquipmentRequest;
 use App\Models\EquipmentUsageReport;
 
@@ -18,6 +20,7 @@ class TrainingSessionRecord extends Model
         'coach_id',
         'coach_name',
         'branch',
+        'branch_id',
         'country',
         'city',
         'training_pitch',
@@ -87,6 +90,13 @@ class TrainingSessionRecord extends Model
     public function canReport(): bool
     {
         return in_array($this->status, ['in_progress', 'completed']);
+    }
+
+    /* ─── Branch Relationship ─────────────────────────────────────── */
+
+    public function branchModel(): BelongsTo
+    {
+        return $this->belongsTo(Branch::class, 'branch_id');
     }
 
     /* ─── Equipment Relationships ───────────────────────────────────── */
