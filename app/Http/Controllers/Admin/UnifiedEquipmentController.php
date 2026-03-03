@@ -211,7 +211,7 @@ class UnifiedEquipmentController extends Controller
         $equipmentRequest->load(['trainingRecord', 'usageReport']);
 
         if ($equipmentRequest->usageReport) {
-            return redirect()->route('admin.equipment.usage-reports')
+            return redirect()->route('admin.equipment.unified.usage-reports')
                 ->with('info', 'A usage report already exists for this request.');
         }
 
@@ -259,7 +259,7 @@ class UnifiedEquipmentController extends Controller
 
         $equipmentRequest->update(['status' => 'returned']);
 
-        return redirect()->route('admin.equipment.usage-reports')
+        return redirect()->route('admin.equipment.unified.usage-reports')
             ->with('success', 'Usage report submitted and inventory updated.');
     }
 
