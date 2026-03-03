@@ -15,24 +15,58 @@ use Illuminate\Support\Facades\Auth;
 
 class UnifiedEquipmentController extends Controller
 {
+    /**
+     * Returns true when the current user can see data across ALL branches
+     * (super-admin and CEO are global; everyone else is branch-scoped).
+     */
+    private function isGlobal(): bool
+    {
+        return Auth::user()->hasRole(['super-admin', 'CEO']);
+    }
+
+    /**
+     * The branch_id of the current user, or null for global users.
+     */
+    private function userBranchId(): ?int
+    {
+        if ($this->isGlobal()) {
+            return null;
+        }
+        return Auth::user()->branch_id;
+    }
+
+    /**
+     * Apply a branch scope to an Eloquent query builder.
+     * Global users are unaffected; branch-scoped users are restricted.
+     */
+    private function scopeToBranch($query, ?int $overrideBranchId = null): void
+    {
+        $branchId = $overrideBranchId ?? $this->userBranchId();
+        if ($branchId !== null) {
+            $query->where('branch_id', $branchId);
+        }
+    }
+
     /* ═══════════════════════════════════════════════════════════════════
      *  UNIFIED EQUIPMENT DASHBOARD
      * ═════════════════════════════════════════════════════════════════ */
 
     public function index(Request $request)
     {
-        $tab    = $request->get('tab', 'general');
-        $search = $request->get('search');
-        $status = $request->get('status');
+        $tab       = $request->get('tab', 'general');
+        $search    = $request->get('search');
+        $status    = $request->get('status');
         $condition = $request->get('condition');
-        $branchId = $request->get('branch_id');
 
-        // General equipment
+        // Branch filter: global users may pick any branch via the UI;
+        // branch-scoped users are always locked to their own branch.
+        $branchId = $this->isGlobal()
+            ? ($request->filled('branch_id') ? (int) $request->branch_id : null)
+            : $this->userBranchId();
+
         $generalQuery = Equipment::with('branch');
-        // Sports equipment
-        $sportsQuery = SportsEquipment::with('branch');
-        // Office equipment
-        $officeQuery = OfficeEquipment::with('branch');
+        $sportsQuery  = SportsEquipment::with('branch');
+        $officeQuery  = OfficeEquipment::with('branch');
 
         foreach ([$generalQuery, $sportsQuery, $officeQuery] as $query) {
             if ($search) {
@@ -50,22 +84,31 @@ class UnifiedEquipmentController extends Controller
         $sports  = $sportsQuery->orderBy('name')->paginate(15, ['*'], 'sports_page');
         $office  = $officeQuery->orderBy('name')->paginate(15, ['*'], 'office_page');
 
-        // Totals for dashboard cards
+        // Stats: scoped to the user's branch
+        $statsBase = fn($model) => $branchId
+            ? $model::where('branch_id', $branchId)
+            : $model::query();
+
         $stats = [
-            'general_total'   => Equipment::count(),
-            'general_avail'   => Equipment::where('status', 'available')->count(),
-            'sports_total'    => SportsEquipment::count(),
-            'sports_avail'    => SportsEquipment::where('status', 'available')->count(),
-            'office_total'    => OfficeEquipment::count(),
-            'office_avail'    => OfficeEquipment::where('status', 'available')->count(),
-            'pending_requests'=> TrainingEquipmentRequest::where('status', 'pending')->count(),
+            'general_total'    => (clone $statsBase(Equipment::class))->count(),
+            'general_avail'    => (clone $statsBase(Equipment::class))->where('status', 'available')->count(),
+            'sports_total'     => (clone $statsBase(SportsEquipment::class))->count(),
+            'sports_avail'     => (clone $statsBase(SportsEquipment::class))->where('status', 'available')->count(),
+            'office_total'     => (clone $statsBase(OfficeEquipment::class))->count(),
+            'office_avail'     => (clone $statsBase(OfficeEquipment::class))->where('status', 'available')->count(),
+            'pending_requests' => $this->pendingRequestsQuery()->count(),
         ];
 
-        $branches         = Branch::orderBy('name')->get();
-        $recentRequests   = TrainingEquipmentRequest::with(['trainingRecord', 'requestedBy'])
-                                ->latest()
-                                ->limit(5)
-                                ->get();
+        // Branch dropdown: global users see all; others locked to their branch
+        $branches = $this->isGlobal()
+            ? Branch::orderBy('name')->get()
+            : Branch::where('id', $branchId)->get();
+
+        $recentRequests = $this->pendingRequestsQuery()
+            ->with(['trainingRecord', 'requestedBy'])
+            ->latest()
+            ->limit(5)
+            ->get();
 
         return view('admin.equipment.unified', compact(
             'general', 'sports', 'office', 'stats',
@@ -79,8 +122,8 @@ class UnifiedEquipmentController extends Controller
 
     public function requests(Request $request)
     {
-        $status          = $request->get('status');
-        $equipmentType   = $request->get('equipment_type');
+        $status           = $request->get('status');
+        $equipmentType    = $request->get('equipment_type');
         $trainingRecordId = $request->get('training_record_id');
 
         $query = TrainingEquipmentRequest::with([
@@ -90,12 +133,20 @@ class UnifiedEquipmentController extends Controller
             'usageReport',
         ]);
 
-        if ($status)          $query->where('status', $status);
-        if ($equipmentType)   $query->where('equipment_type', $equipmentType);
+        // Scope to branch via the related training record
+        if (!$this->isGlobal()) {
+            $branchId = $this->userBranchId();
+            $query->whereHas('trainingRecord', function ($q) use ($branchId) {
+                $q->where('branch_id', $branchId);
+            });
+        }
+
+        if ($status)           $query->where('status', $status);
+        if ($equipmentType)    $query->where('equipment_type', $equipmentType);
         if ($trainingRecordId) $query->where('training_record_id', $trainingRecordId);
 
         $requests        = $query->latest()->paginate(20);
-        $trainingRecords = TrainingSessionRecord::orderByDesc('date')->get();
+        $trainingRecords = $this->trainingRecordsQuery()->orderByDesc('date')->get();
         $allEquipment    = $this->getAllEquipmentList();
 
         return view('admin.equipment.requests', compact(
@@ -114,13 +165,21 @@ class UnifiedEquipmentController extends Controller
             'notes'               => 'nullable|string|max:500',
         ]);
 
-        // Validate equipment exists
+        // Ensure the training record belongs to the user's branch
+        if (!$this->isGlobal()) {
+            $record = TrainingSessionRecord::where('id', $validated['training_record_id'])
+                ->where('branch_id', $this->userBranchId())
+                ->first();
+            if (!$record) {
+                return back()->withErrors(['training_record_id' => 'Training record not found for your branch.']);
+            }
+        }
+
         $equipment = $this->findEquipment($validated['equipment_type'], $validated['equipment_id']);
         if (!$equipment) {
             return back()->withErrors(['equipment_id' => 'Selected equipment not found.']);
         }
 
-        // Check availability
         if ($equipment->available_quantity < $validated['quantity_requested']) {
             return back()->withErrors([
                 'quantity_requested' => "Only {$equipment->available_quantity} units available.",
@@ -157,12 +216,14 @@ class UnifiedEquipmentController extends Controller
             'approved_at'       => now(),
         ]);
 
-        // Reserve quantity in inventory
         if ($equipmentRequest->status === 'approved') {
             $equipment = $this->findEquipment($equipmentRequest->equipment_type, $equipmentRequest->equipment_id);
             if ($equipment) {
                 $newAvail = max(0, $equipment->available_quantity - $validated['quantity_approved']);
-                $equipment->update(['available_quantity' => $newAvail, 'status' => $newAvail === 0 ? 'in_use' : $equipment->status]);
+                $equipment->update([
+                    'available_quantity' => $newAvail,
+                    'status' => $newAvail === 0 ? 'in_use' : $equipment->status,
+                ]);
             }
         }
 
@@ -191,6 +252,14 @@ class UnifiedEquipmentController extends Controller
             'equipmentRequest',
         ]);
 
+        // Scope to branch via the related training record
+        if (!$this->isGlobal()) {
+            $branchId = $this->userBranchId();
+            $query->whereHas('trainingRecord', function ($q) use ($branchId) {
+                $q->where('branch_id', $branchId);
+            });
+        }
+
         if ($request->filled('equipment_type')) {
             $query->where('equipment_type', $request->equipment_type);
         }
@@ -199,9 +268,8 @@ class UnifiedEquipmentController extends Controller
             $query->where('training_record_id', $request->training_record_id);
         }
 
-        $reports = $query->latest()->paginate(20);
-
-        $trainingRecords = TrainingSessionRecord::orderByDesc('date')->get();
+        $reports         = $query->latest()->paginate(20);
+        $trainingRecords = $this->trainingRecordsQuery()->orderByDesc('date')->get();
 
         return view('admin.equipment.usage-reports', compact('reports', 'trainingRecords'));
     }
@@ -240,14 +308,13 @@ class UnifiedEquipmentController extends Controller
             'reported_at'                   => now(),
         ]));
 
-        // Return equipment to inventory
         $equipment = $this->findEquipment($equipmentRequest->equipment_type, $equipmentRequest->equipment_id);
         if ($equipment) {
-            $returned = $validated['quantity_returned'];
-            $damaged  = $validated['quantity_damaged'];
-            $newAvail = $equipment->available_quantity + $returned;
-            $newQty   = $equipment->quantity - $damaged - $validated['quantity_lost'];
-            $newStatus = $newAvail > 0 ? 'available' : $equipment->status;
+            $returned    = $validated['quantity_returned'];
+            $damaged     = $validated['quantity_damaged'];
+            $newAvail    = $equipment->available_quantity + $returned;
+            $newQty      = $equipment->quantity - $damaged - $validated['quantity_lost'];
+            $newStatus   = $newAvail > 0 ? 'available' : $equipment->status;
             $newCondition = $validated['equipment_condition_after'];
             $equipment->update([
                 'available_quantity' => max(0, $newAvail),
@@ -275,9 +342,15 @@ class UnifiedEquipmentController extends Controller
 
     public function trainingEquipment(Request $request)
     {
-        $records = TrainingSessionRecord::with([
+        $query = TrainingSessionRecord::with([
             'equipmentRequests.usageReport',
-        ])->orderByDesc('date')->paginate(20);
+        ]);
+
+        if (!$this->isGlobal()) {
+            $query->where('branch_id', $this->userBranchId());
+        }
+
+        $records = $query->orderByDesc('date')->paginate(20);
 
         return view('admin.equipment.training-equipment', compact('records'));
     }
@@ -286,12 +359,53 @@ class UnifiedEquipmentController extends Controller
      *  PRIVATE HELPERS
      * ═════════════════════════════════════════════════════════════════ */
 
+    /**
+     * A base query for TrainingEquipmentRequests scoped to the user's branch.
+     */
+    private function pendingRequestsQuery()
+    {
+        $query = TrainingEquipmentRequest::query();
+
+        if (!$this->isGlobal()) {
+            $branchId = $this->userBranchId();
+            $query->whereHas('trainingRecord', function ($q) use ($branchId) {
+                $q->where('branch_id', $branchId);
+            });
+        }
+
+        return $query;
+    }
+
+    /**
+     * Training session records scoped to the user's branch.
+     */
+    private function trainingRecordsQuery()
+    {
+        $query = TrainingSessionRecord::query();
+
+        if (!$this->isGlobal()) {
+            $query->where('branch_id', $this->userBranchId());
+        }
+
+        return $query;
+    }
+
     private function getAllEquipmentList(): array
     {
+        $branchId = $this->userBranchId();
+
+        $scope = function ($model) use ($branchId) {
+            $query = $model::select('id', 'name', 'available_quantity', 'status')->orderBy('name');
+            if ($branchId !== null) {
+                $query->where('branch_id', $branchId);
+            }
+            return $query->get()->values();
+        };
+
         return [
-            'general' => Equipment::select('id', 'name', 'available_quantity', 'status')->orderBy('name')->get()->values(),
-            'sports'  => SportsEquipment::select('id', 'name', 'available_quantity', 'status')->orderBy('name')->get()->values(),
-            'office'  => OfficeEquipment::select('id', 'name', 'available_quantity', 'status')->orderBy('name')->get()->values(),
+            'general' => $scope(Equipment::class),
+            'sports'  => $scope(SportsEquipment::class),
+            'office'  => $scope(OfficeEquipment::class),
         ];
     }
 
