@@ -110,18 +110,24 @@
         {{-- Tab Nav --}}
         <div class="border-b border-slate-200 px-6">
             <nav class="-mb-px flex gap-1 overflow-x-auto">
-                @foreach([
-                    'general' => ['label' => 'General Equipment', 'count' => $general->total(), 'color' => 'indigo'],
-                    'sports'  => ['label' => 'Sports Equipment',  'count' => $sports->total(),  'color' => 'blue'],
-                    'office'  => ['label' => 'Office Equipment',  'count' => $office->total(),  'color' => 'purple'],
-                ] as $key => $cfg)
-                <button @click="tab='{{ $key }}'"
-                    :class="tab==='{{ $key }}' ? 'border-{{ $cfg['color'] }}-600 text-{{ $cfg['color'] }}-600' : 'border-transparent text-slate-500 hover:text-slate-700'"
+                <button @click="tab='general'"
+                    :class="tab==='general' ? 'border-indigo-600 text-indigo-600' : 'border-transparent text-slate-500 hover:text-slate-700'"
                     class="inline-flex items-center gap-2 px-5 py-4 text-sm font-semibold border-b-2 transition whitespace-nowrap">
-                    {{ $cfg['label'] }}
-                    <span class="bg-{{ $cfg['color'] }}-100 text-{{ $cfg['color'] }}-700 px-2 py-0.5 rounded-full text-xs">{{ $cfg['count'] }}</span>
+                    General Equipment
+                    <span class="bg-indigo-100 text-indigo-700 px-2 py-0.5 rounded-full text-xs">{{ $general->total() }}</span>
                 </button>
-                @endforeach
+                <button @click="tab='sports'"
+                    :class="tab==='sports' ? 'border-blue-600 text-blue-600' : 'border-transparent text-slate-500 hover:text-slate-700'"
+                    class="inline-flex items-center gap-2 px-5 py-4 text-sm font-semibold border-b-2 transition whitespace-nowrap">
+                    Sports Equipment
+                    <span class="bg-blue-100 text-blue-700 px-2 py-0.5 rounded-full text-xs">{{ $sports->total() }}</span>
+                </button>
+                <button @click="tab='office'"
+                    :class="tab==='office' ? 'border-purple-600 text-purple-600' : 'border-transparent text-slate-500 hover:text-slate-700'"
+                    class="inline-flex items-center gap-2 px-5 py-4 text-sm font-semibold border-b-2 transition whitespace-nowrap">
+                    Office Equipment
+                    <span class="bg-purple-100 text-purple-700 px-2 py-0.5 rounded-full text-xs">{{ $office->total() }}</span>
+                </button>
             </nav>
         </div>
 
