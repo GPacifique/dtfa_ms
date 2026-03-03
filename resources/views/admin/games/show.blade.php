@@ -261,26 +261,34 @@
             <!-- Staff Widget -->
             <div class="bg-white dark:bg-neutral-900 shadow-sm rounded-xl border border-gray-100 dark:border-neutral-800 overflow-hidden">
                 <div class="bg-slate-50 dark:bg-neutral-800 px-4 py-3 border-b border-gray-100 dark:border-neutral-700 flex justify-between items-center">
-                    <h3 class="font-bold text-gray-800 dark:text-white">👔 Coaching Staff</h3>
+                    <h3 class="font-bold text-gray-800 dark:text-white flex items-center gap-2">👔 Coaching Staff
+                        @if($game->staff_ids && count($game->staff_ids) > 0)
+                            <span class="text-[11px] bg-slate-200 dark:bg-neutral-700 text-slate-600 dark:text-slate-300 px-2 py-0.5 rounded-full font-bold">{{ count($game->staff_ids) }}</span>
+                        @endif
+                    </h3>
                     @if($game->notify_staff)
                         <span class="text-[10px] bg-green-100 text-green-700 px-2 py-0.5 rounded-full font-bold uppercase tracking-wide">Notified</span>
                     @endif
                 </div>
                 <div class="p-4">
-                     @if($game->staff_ids && count($game->staff_ids) > 0)
-                    <ul class="space-y-3">
-                        @foreach($game->staff_ids as $staffId)
-                            @php $staff = \App\Models\Staff::find($staffId); @endphp
-                            @if($staff)
-                            <li class="flex items-center gap-3">
-                                <div class="w-8 h-8 rounded-full bg-slate-200 flex items-center justify-center text-xs font-bold text-slate-600">
-                                    {{ substr($staff->name, 0, 2) }}
-                                </div>
-                                <span class="text-sm font-medium text-gray-700 dark:text-gray-300">{{ $staff->name }}</span>
-                            </li>
-                            @endif
-                        @endforeach
-                    </ul>
+                    @if($game->staff_ids && count($game->staff_ids) > 0)
+                        @php $staffList = \App\Models\Staff::whereIn('id', $game->staff_ids)->get()->keyBy('id'); @endphp
+                        <ul class="space-y-3">
+                            @foreach($game->staff_ids as $staffId)
+                                @php $staff = $staffList->get($staffId); @endphp
+                                @if($staff)
+                                <li class="flex items-center gap-3">
+                                    <img src="{{ $staff->photo_url }}" alt="{{ $staff->first_name }}" class="w-9 h-9 rounded-full object-cover border-2 border-slate-200 dark:border-neutral-700 flex-shrink-0">
+                                    <div class="min-w-0">
+                                        <p class="text-sm font-semibold text-gray-800 dark:text-white truncate">{{ $staff->first_name }} {{ $staff->last_name }}</p>
+                                        @if($staff->role_function)
+                                            <p class="text-xs text-indigo-500 dark:text-indigo-400 truncate">{{ $staff->role_function }}</p>
+                                        @endif
+                                    </div>
+                                </li>
+                                @endif
+                            @endforeach
+                        </ul>
                     @else
                     <div class="text-center py-4">
                         <p class="text-sm text-gray-500 italic block">No staff assigned</p>
@@ -291,24 +299,38 @@
 
             <!-- Players Widget -->
             <div class="bg-white dark:bg-neutral-900 shadow-sm rounded-xl border border-gray-100 dark:border-neutral-800 overflow-hidden">
-                 <div class="bg-slate-50 dark:bg-neutral-800 px-4 py-3 border-b border-gray-100 dark:border-neutral-700">
-                    <h3 class="font-bold text-gray-800 dark:text-white">🏃 Squad List</h3>
+                <div class="bg-slate-50 dark:bg-neutral-800 px-4 py-3 border-b border-gray-100 dark:border-neutral-700 flex justify-between items-center">
+                    <h3 class="font-bold text-gray-800 dark:text-white flex items-center gap-2">🏃 Squad List
+                        @if($game->player_ids && count($game->player_ids) > 0)
+                            <span class="text-[11px] bg-slate-200 dark:bg-neutral-700 text-slate-600 dark:text-slate-300 px-2 py-0.5 rounded-full font-bold">{{ count($game->player_ids) }}</span>
+                        @endif
+                    </h3>
                 </div>
                 <div class="p-4">
                     @if($game->player_ids && count($game->player_ids) > 0)
-                    <div class="space-y-2">
-                        @foreach($game->player_ids as $playerId)
-                            @php $player = \App\Models\Player::find($playerId); @endphp
-                            @if($player)
-                             <div class="flex items-center gap-3 p-2 hover:bg-gray-50 dark:hover:bg-neutral-800 rounded-lg transition">
-                                <div class="w-8 h-8 rounded-full bg-slate-100 dark:bg-neutral-700 flex items-center justify-center text-xs font-bold text-slate-500">
-                                    {{ substr($player->name, 0, 1) }}
+                        @php $playerList = \App\Models\Player::whereIn('id', $game->player_ids)->get()->keyBy('id'); @endphp
+                        <div class="space-y-1">
+                            @foreach($game->player_ids as $playerId)
+                                @php $player = $playerList->get($playerId); @endphp
+                                @if($player)
+                                <div class="flex items-center gap-3 px-2 py-2 hover:bg-slate-50 dark:hover:bg-neutral-800 rounded-lg transition">
+                                    <div class="w-8 h-8 rounded-full bg-indigo-100 dark:bg-indigo-900/40 flex items-center justify-center flex-shrink-0">
+                                        @if($player->number)
+                                            <span class="text-xs font-black text-indigo-700 dark:text-indigo-300">#{{ $player->number }}</span>
+                                        @else
+                                            <span class="text-xs font-bold text-indigo-400">{{ strtoupper(mb_substr($player->first_name, 0, 1)) }}</span>
+                                        @endif
+                                    </div>
+                                    <div class="min-w-0 flex-1">
+                                        <p class="text-sm font-semibold text-gray-800 dark:text-white truncate">{{ $player->first_name }} {{ $player->last_name }}</p>
+                                        @if($player->position)
+                                            <p class="text-xs text-emerald-500 dark:text-emerald-400">{{ $player->position }}</p>
+                                        @endif
+                                    </div>
                                 </div>
-                                <span class="text-sm font-medium text-gray-700 dark:text-gray-300">{{ $player->name }}</span>
-                            </div>
-                            @endif
-                        @endforeach
-                    </div>
+                                @endif
+                            @endforeach
+                        </div>
                     @else
                     <div class="text-center py-4">
                         <p class="text-sm text-gray-500 italic">No players assigned</p>
