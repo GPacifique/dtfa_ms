@@ -158,7 +158,12 @@
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                                 <a href="{{ route('admin.incomes.show', $income) }}" class="text-blue-600 hover:text-blue-900 mr-3 transition">{{ __('app.view') }}</a>
-                                <a href="{{ route('admin.incomes.edit', $income) }}" class="text-indigo-600 hover:text-indigo-900 transition">{{ __('app.edit') }}</a>
+                                <a href="{{ route('admin.incomes.edit', $income) }}" class="text-indigo-600 hover:text-indigo-900 mr-3 transition">{{ __('app.edit') }}</a>
+                                <form action="{{ route('admin.incomes.destroy', $income) }}" method="POST" class="inline" onsubmit="return confirm('{{ __('app.confirm_delete') }}')">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="text-red-600 hover:text-red-900 transition">{{ __('app.delete') }}</button>
+                                </form>
                             </td>
                         </tr>
                     @empty
