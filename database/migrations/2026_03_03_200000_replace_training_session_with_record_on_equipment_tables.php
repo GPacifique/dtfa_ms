@@ -2,16 +2,34 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
+    /** Check whether a named foreign-key constraint exists on a table. */
+    private function foreignKeyExists(string $table, string $constraintName): bool
+    {
+        $db = DB::connection()->getDatabaseName();
+        $count = DB::table('information_schema.KEY_COLUMN_USAGE')
+            ->where('TABLE_SCHEMA', $db)
+            ->where('TABLE_NAME', $table)
+            ->where('CONSTRAINT_NAME', $constraintName)
+            ->whereNotNull('REFERENCED_TABLE_NAME')
+            ->count();
+        return $count > 0;
+    }
+
     public function up(): void
     {
         // ── training_equipment_requests ──────────────────────────────────
         Schema::table('training_equipment_requests', function (Blueprint $table) {
-            try { $table->dropForeign(['training_session_id']); } catch (\Throwable $e) {}
-            try { $table->dropForeign(['inhouse_training_id']); } catch (\Throwable $e) {}
+            if ($this->foreignKeyExists('training_equipment_requests', 'training_equipment_requests_training_session_id_foreign')) {
+                $table->dropForeign(['training_session_id']);
+            }
+            if ($this->foreignKeyExists('training_equipment_requests', 'training_equipment_requests_inhouse_training_id_foreign')) {
+                $table->dropForeign(['inhouse_training_id']);
+            }
         });
 
         Schema::table('training_equipment_requests', function (Blueprint $table) {
@@ -33,8 +51,12 @@ return new class extends Migration
 
         // ── equipment_usage_reports ──────────────────────────────────────
         Schema::table('equipment_usage_reports', function (Blueprint $table) {
-            try { $table->dropForeign(['training_session_id']); } catch (\Throwable $e) {}
-            try { $table->dropForeign(['inhouse_training_id']); } catch (\Throwable $e) {}
+            if ($this->foreignKeyExists('equipment_usage_reports', 'equipment_usage_reports_training_session_id_foreign')) {
+                $table->dropForeign(['training_session_id']);
+            }
+            if ($this->foreignKeyExists('equipment_usage_reports', 'equipment_usage_reports_inhouse_training_id_foreign')) {
+                $table->dropForeign(['inhouse_training_id']);
+            }
         });
 
         Schema::table('equipment_usage_reports', function (Blueprint $table) {

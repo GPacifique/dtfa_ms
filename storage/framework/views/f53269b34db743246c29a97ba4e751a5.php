@@ -59,6 +59,28 @@
                     <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                 </select>
             </div>
+            <div>
+                <label class="block text-xs font-semibold text-slate-600 mb-1">Equipment Category</label>
+                <select name="equipment_type" class="px-3 py-2 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500">
+                    <option value="">All Categories</option>
+                    <option value="general" <?php if(request('equipment_type')==='general'): echo 'selected'; endif; ?>>General</option>
+                    <option value="sports" <?php if(request('equipment_type')==='sports'): echo 'selected'; endif; ?>>Sports</option>
+                    <option value="office" <?php if(request('equipment_type')==='office'): echo 'selected'; endif; ?>>Office</option>
+                </select>
+            </div>
+            <div>
+                <label class="block text-xs font-semibold text-slate-600 mb-1">Training Record</label>
+                <select name="training_record_id" class="px-3 py-2 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500">
+                    <option value="">All Records</option>
+                    <?php $__currentLoopData = $trainingRecords; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $record): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                        <option value="<?php echo e($record->id); ?>" <?php if(request('training_record_id')==$record->id): echo 'selected'; endif; ?>>
+                            #<?php echo e($record->id); ?> – <?php echo e($record->date?->format('d M Y') ?? 'No date'); ?>
+
+                            <?php if($record->main_topic): ?> – <?php echo e(Str::limit($record->main_topic, 30)); ?> <?php endif; ?>
+                        </option>
+                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                </select>
+            </div>
             <button type="submit" class="px-5 py-2 bg-indigo-600 text-white text-sm font-semibold rounded-lg hover:bg-indigo-700 transition">Filter</button>
             <a href="<?php echo e(route('admin.equipment.unified.requests')); ?>" class="px-5 py-2 bg-slate-200 text-slate-700 text-sm font-semibold rounded-lg hover:bg-slate-300 transition">Reset</a>
         </form>
