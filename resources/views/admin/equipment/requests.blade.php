@@ -287,7 +287,7 @@
 
     function openApproveModal(id, maxQty) {
         const form = document.getElementById('approve-form');
-        form.action = `/admin/equipment/requests/${id}/approve`;
+        form.action = `{{ url('admin/equipment-requests') }}/${id}/approve`;
         document.getElementById('approve-qty').value = maxQty;
         document.getElementById('approve-qty').max = maxQty;
         document.getElementById('approve-modal').classList.remove('hidden');
