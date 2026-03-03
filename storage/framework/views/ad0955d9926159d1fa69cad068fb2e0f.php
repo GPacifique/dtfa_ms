@@ -71,7 +71,7 @@
             
             <?php if(Route::has('dashboard')): ?>
                 <a href="<?php echo e(route('dashboard')); ?>" aria-label="<?php echo e(__('app.dashboard')); ?>" title="<?php echo e(__('app.dashboard')); ?>" class="nav-item flex items-center gap-3 px-3 py-2 rounded-md hover:bg-slate-800 transition <?php echo e(request()->routeIs('dashboard') ? 'active' : ''); ?>">
-                    <span class="icon flex-shrink-0 w-6 h-6 flex items-center justify-center text-slate-200">
+                    <span class="icon flex-shrink-0 w-6 h-6 flex items-center justify-center text-yellow-300">
                         <!-- Heroicon: Home -->
                         <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9.75L12 3l9 6.75V20a1 1 0 01-1 1h-5v-6H9v6H4a1 1 0 01-1-1V9.75z"/></svg>
                     </span>
@@ -83,7 +83,7 @@
             
             <?php if(Route::has('admin.attendance-calendar')): ?>
                 <a href="<?php echo e(route('admin.attendance-calendar')); ?>" aria-label="<?php echo e(__('app.attendance_calendar')); ?>" title="<?php echo e(__('app.attendance_calendar')); ?>" class="nav-item flex items-center gap-3 px-3 py-2 rounded-md hover:bg-slate-800 transition <?php echo e(request()->routeIs('admin.attendance-calendar*') ? 'active' : ''); ?>">
-                    <span class="icon flex-shrink-0 w-6 h-6 flex items-center justify-center text-slate-200">
+                    <span class="icon flex-shrink-0 w-6 h-6 flex items-center justify-center text-yellow-300">
                         <!-- Heroicon: Calendar -->
                         <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
                     </span>
@@ -103,7 +103,7 @@
                 <?php if (\Illuminate\Support\Facades\Blade::check('role', 'super-admin|admin|coach|accountant|CEO')): ?>
                     <?php if(Route::has('students-modern.index')): ?>
                         <a href="<?php echo e(route('students-modern.index')); ?>" aria-label="<?php echo e(__('app.students')); ?>" title="<?php echo e(__('app.students')); ?>" class="nav-item flex items-center gap-3 px-3 py-2 rounded-md hover:bg-slate-800 transition <?php echo e(request()->routeIs('students-modern.*') ? 'active' : ''); ?>">
-                            <span class="icon flex-shrink-0 w-6 h-6 flex items-center justify-center text-slate-200">
+                            <span class="icon flex-shrink-0 w-6 h-6 flex items-center justify-center text-yellow-300">
                                 <!-- Heroicon: Users -->
                                 <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a4 4 0 00-5-4M9 20H4v-2a4 4 0 015-4m0 0a4 4 0 10-4-4 4 4 0 004 4z"/></svg>
                             </span>
@@ -119,7 +119,7 @@
                 <?php if (\Illuminate\Support\Facades\Blade::check('role', 'super-admin|admin|accountant|CEO')): ?>
                     <?php if(Route::has('staff.index')): ?>
                     <a href="<?php echo e(route('staff.index')); ?>" aria-label="<?php echo e(__('app.staff_profiles')); ?>" title="<?php echo e(__('app.staff_profiles')); ?>" class="nav-item flex items-center gap-3 px-3 py-2 rounded-md hover:bg-slate-800 transition <?php echo e(request()->routeIs('staff.*') ? 'active' : ''); ?>">
-                            <span class="icon flex-shrink-0 w-6 h-6 flex items-center justify-center text-slate-200">
+                            <span class="icon flex-shrink-0 w-6 h-6 flex items-center justify-center text-yellow-300">
                                 <!-- Heroicon: User Group -->
                                 <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a4 4 0 00-5-4M9 20H4v-2a4 4 0 015-4m3 0a4 4 0 10-4-4 4 4 0 004 4z"/></svg>
                             </span>
@@ -131,7 +131,7 @@
 
                     <?php if(Route::has('admin.players.index')): ?>
                         <a href="<?php echo e(route('admin.players.index')); ?>" aria-label="<?php echo e(__('app.players')); ?>" title="<?php echo e(__('app.players')); ?>" class="nav-item flex items-center gap-3 px-3 py-2 rounded-md hover:bg-slate-800 transition <?php echo e(request()->routeIs('admin.players.*') ? 'active' : ''); ?>">
-                            <span class="icon flex-shrink-0 w-6 h-6 flex items-center justify-center text-slate-200">
+                            <span class="icon flex-shrink-0 w-6 h-6 flex items-center justify-center text-yellow-300">
                                 <!-- Heroicon: Users / Players -->
                                 <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a4 4 0 00-5-4M9 20H4v-2a4 4 0 015-4m3 0a4 4 0 10-4-4 4 4 0 004 4z"/></svg>
                             </span>
@@ -143,7 +143,7 @@
 <?php if (\Illuminate\Support\Facades\Blade::check('role', 'super-admin|admin|CEO')): ?>
                     <?php if(Route::has('admin.users.index')): ?>
                         <a href="<?php echo e(route('admin.users.index')); ?>" aria-label="<?php echo e(__('app.users')); ?>" title="<?php echo e(__('app.users')); ?>" class="nav-item flex items-center gap-3 px-3 py-2 rounded-md hover:bg-slate-800 transition <?php echo e(request()->routeIs('admin.users.*') ? 'active' : ''); ?>">
-                            <span class="icon flex-shrink-0 w-6 h-6 flex items-center justify-center text-slate-200">
+                            <span class="icon flex-shrink-0 w-6 h-6 flex items-center justify-center text-yellow-300">
                                 <svg class="w-5 h-5" aria-hidden="true" focusable="false" role="img" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 11c2.21 0 4-1.79 4-4S14.21 3 12 3 8 4.79 8 7s1.79 4 4 4zM6 21v-2a4 4 0 014-4h4a4 4 0 014 4v2"/></svg>
                             </span>
                             <span class="sr-only"><?php echo e(__('app.users')); ?></span>
@@ -154,7 +154,7 @@
                     <?php if (\Illuminate\Support\Facades\Blade::check('role', 'super-admin|CEO')): ?>
                         <?php if(Route::has('admin.roles.index')): ?>
                             <a href="<?php echo e(route('admin.roles.index')); ?>" aria-label="<?php echo e(__('app.roles_permissions')); ?>" title="<?php echo e(__('app.roles_permissions')); ?>" class="nav-item flex items-center gap-3 px-3 py-2 rounded-md hover:bg-slate-800 transition <?php echo e(request()->routeIs('admin.roles.*') ? 'active' : ''); ?>">
-                                <span class="icon flex-shrink-0 w-6 h-6 flex items-center justify-center text-slate-200">
+                                <span class="icon flex-shrink-0 w-6 h-6 flex items-center justify-center text-yellow-300">
                                     <!-- Heroicon: Shield Check -->
                                     <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 2l7 4v5c0 5-3.58 9.74-7 11-3.42-1.26-7-6-7-11V6l7-4z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4"/></svg>
                                 </span>
@@ -178,7 +178,7 @@
                 <?php if (\Illuminate\Support\Facades\Blade::check('role', 'super-admin|accountant|admin|coach|CEO')): ?>
                     <?php if(Route::has('admin.training_session_records.index')): ?>
                         <a href="<?php echo e(route('admin.training_session_records.index')); ?>" aria-label="<?php echo e(__('app.training_scheduling')); ?>" title="<?php echo e(__('app.training_scheduling')); ?>" class="nav-item flex items-center gap-3 px-3 py-2 rounded-md hover:bg-slate-800 transition <?php echo e(request()->routeIs('admin.training_session_records.*') ? 'active' : ''); ?>">
-                            <span class="icon flex-shrink-0 w-6 h-6 flex items-center justify-center text-slate-200">
+                            <span class="icon flex-shrink-0 w-6 h-6 flex items-center justify-center text-yellow-300">
                                 <!-- Heroicon: Pencil/Calendar -->
                                 <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3M3 11h18M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
                             </span>
@@ -187,7 +187,7 @@
                         </a>
                     <?php elseif(Route::has('coach.sessions.index')): ?>
                         <a href="<?php echo e(route('admin.training_session_records.index')); ?>" aria-label="<?php echo e(__('app.training_scheduling')); ?>" title="<?php echo e(__('app.training_scheduling')); ?>" class="nav-item flex items-center gap-3 px-3 py-2 rounded-md hover:bg-slate-800 transition <?php echo e(request()->routeIs('coach.sessions.*') ? 'active' : ''); ?>">
-                            <span class="icon flex-shrink-0 w-6 h-6 flex items-center justify-center text-slate-200">
+                            <span class="icon flex-shrink-0 w-6 h-6 flex items-center justify-center text-yellow-300">
                                 <!-- Heroicon: Pencil/Calendar -->
                                 <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3M3 11h18M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
                             </span>
@@ -199,7 +199,7 @@
 
                     <?php if(Route::has('admin.games.index')): ?>
                         <a href="<?php echo e(route('admin.games.index')); ?>" aria-label="<?php echo e(__('app.matches')); ?>" title="<?php echo e(__('app.matches')); ?>" class="nav-item flex items-center gap-3 px-3 py-2 rounded-md hover:bg-slate-800 transition <?php echo e(request()->routeIs('admin.games.*') ? 'active' : ''); ?>">
-                            <span class="icon flex-shrink-0 w-6 h-6 flex items-center justify-center text-slate-200">
+                            <span class="icon flex-shrink-0 w-6 h-6 flex items-center justify-center text-yellow-300">
                                 <!-- Heroicon: Soccer Ball (simple circle) -->
                                 <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><circle cx="12" cy="12" r="9" stroke-width="2"/><path d="M12 3v6l3 3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
                             </span>
@@ -210,7 +210,7 @@
 
                     <?php if(Route::has('admin.minutes.index')): ?>
                         <a href="<?php echo e(route('admin.minutes.index')); ?>" aria-label="<?php echo e(__('app.minutes')); ?>" title="<?php echo e(__('app.minutes')); ?>" class="nav-item flex items-center gap-3 px-3 py-2 rounded-md hover:bg-slate-800 transition <?php echo e(request()->routeIs('admin.minutes.*') ? 'active' : ''); ?>">
-                            <span class="icon flex-shrink-0 w-6 h-6 flex items-center justify-center text-slate-200">
+                            <span class="icon flex-shrink-0 w-6 h-6 flex items-center justify-center text-yellow-300">
                                 <!-- Heroicon: Document -->
                                 <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
                             </span>
@@ -221,7 +221,7 @@
 
                     <?php if(Route::has('admin.upcoming-events.index')): ?>
                         <a href="<?php echo e(route('admin.upcoming-events.index')); ?>" aria-label="<?php echo e(__('app.upcoming_events')); ?>" title="<?php echo e(__('app.upcoming_events')); ?>" class="nav-item flex items-center gap-3 px-3 py-2 rounded-md hover:bg-slate-800 transition <?php echo e(request()->routeIs('admin.upcoming-events.*') ? 'active' : ''); ?>">
-                            <span class="icon flex-shrink-0 w-6 h-6 flex items-center justify-center text-slate-200">
+                            <span class="icon flex-shrink-0 w-6 h-6 flex items-center justify-center text-yellow-300">
                                 <!-- Heroicon: Calendar -->
                                 <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
                             </span>
@@ -232,7 +232,7 @@
 
                     <?php if(Route::has('admin.activity-plans.index')): ?>
                         <a href="<?php echo e(route('admin.activity-plans.index')); ?>" aria-label="<?php echo e(__('app.activity_plans')); ?>" title="<?php echo e(__('app.activity_plans')); ?>" class="nav-item flex items-center gap-3 px-3 py-2 rounded-md hover:bg-slate-800 transition <?php echo e(request()->routeIs('admin.activity-plans.*') ? 'active' : ''); ?>">
-                            <span class="icon flex-shrink-0 w-6 h-6 flex items-center justify-center text-slate-200">
+                            <span class="icon flex-shrink-0 w-6 h-6 flex items-center justify-center text-yellow-300">
                                 <!-- Heroicon: Clipboard -->
                                 <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>
                             </span>
@@ -257,7 +257,7 @@
                 <?php if (\Illuminate\Support\Facades\Blade::check('role', 'super-admin|accountant|admin|coach|CEO')): ?>
                     <?php if(Route::has('admin.training_session_records.index')): ?>
                         <a href="<?php echo e(route('admin.training_session_records.index')); ?>" aria-label="<?php echo e(__('app.training_records')); ?>" title="<?php echo e(__('app.training_records')); ?>" class="nav-item flex items-center gap-3 px-3 py-2 rounded-md hover:bg-slate-800 transition <?php echo e(request()->routeIs('admin.training_session_records.*') ? 'active' : ''); ?>">
-                            <span class="icon flex-shrink-0 w-6 h-6 flex items-center justify-center text-slate-200">
+                            <span class="icon flex-shrink-0 w-6 h-6 flex items-center justify-center text-yellow-300">
                                 <!-- Heroicon: Document Text -->
                                 <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 8h10M7 12h10M7 16h6"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/></svg>
                             </span>
@@ -271,7 +271,7 @@
                 <?php if (\Illuminate\Support\Facades\Blade::check('role', 'super-admin|accountant|admin|coach|CEO')): ?>
                     <?php if(Route::has('admin.student-attendance.index')): ?>
                         <a href="<?php echo e(route('admin.student-attendance.index')); ?>" aria-label="<?php echo e(__('app.student_attendance')); ?>" title="<?php echo e(__('app.student_attendance')); ?>" class="nav-item flex items-center gap-3 px-3 py-2 rounded-md hover:bg-slate-800 transition <?php echo e(request()->routeIs('admin.student-attendance.*') ? 'active' : ''); ?>">
-                            <span class="icon flex-shrink-0 w-6 h-6 flex items-center justify-center text-slate-200">
+                            <span class="icon flex-shrink-0 w-6 h-6 flex items-center justify-center text-yellow-300">
                                 <!-- Heroicon: User Check -->
                                 <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 8a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
                             </span>
@@ -281,7 +281,7 @@
                     <?php endif; ?>
                     <?php if(Route::has('coach.attendance.index') && !Route::has('admin.student-attendance.index')): ?>
                         <a href="<?php echo e(route('coach.attendance.index')); ?>" aria-label="<?php echo e(__('app.student_attendance')); ?>" title="<?php echo e(__('app.student_attendance')); ?>" class="nav-item flex items-center gap-3 px-3 py-2 rounded-md hover:bg-slate-800 transition <?php echo e(request()->routeIs('coach.attendance.*') ? 'active' : ''); ?>">
-                            <span class="icon flex-shrink-0 w-6 h-6 flex items-center justify-center text-slate-200">
+                            <span class="icon flex-shrink-0 w-6 h-6 flex items-center justify-center text-yellow-300">
                                 <!-- Heroicon: User Check -->
                                 <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 8a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
                             </span>
@@ -294,7 +294,7 @@
                 <?php if (\Illuminate\Support\Facades\Blade::check('role', 'super-admin|accountant|admin|CEO')): ?>
                     <?php if(Route::has('admin.staff_attendances.index')): ?>
                         <a href="<?php echo e(route('admin.staff_attendances.index')); ?>" aria-label="<?php echo e(__('app.staff_attendance')); ?>" title="<?php echo e(__('app.staff_attendance')); ?>" class="nav-item flex items-center gap-3 px-3 py-2 rounded-md hover:bg-slate-800 transition <?php echo e(request()->routeIs('admin.staff_attendances.*') ? 'active' : ''); ?>">
-                            <span class="icon flex-shrink-0 w-6 h-6 flex items-center justify-center text-slate-200">
+                            <span class="icon flex-shrink-0 w-6 h-6 flex items-center justify-center text-yellow-300">
                                 <!-- Heroicon: Clipboard Check -->
                                 <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 2h6a2 2 0 012 2v1H7V4a2 2 0 012-2zM7 8h10v12a2 2 0 01-2 2H9a2 2 0 01-2-2V8z"/></svg>
                             </span>
@@ -306,7 +306,7 @@
                   <?php if (\Illuminate\Support\Facades\Blade::check('role', 'super-admin|coach|accountant|admin|CEO')): ?>
                     <?php if(Route::has('admin.inhousetrainings.index')): ?>
                         <a href="<?php echo e(route('admin.inhousetrainings.index')); ?>" aria-label="Inhouse Training" title="Staff Attendance" class="nav-item flex items-center gap-3 px-3 py-2 rounded-md hover:bg-slate-800 transition <?php echo e(request()->routeIs('admin.trainings.*') ? 'active' : ''); ?>">
-                            <span class="icon flex-shrink-0 w-6 h-6 flex items-center justify-center text-slate-200">
+                            <span class="icon flex-shrink-0 w-6 h-6 flex items-center justify-center text-yellow-300">
                                 <!-- Heroicon: Clipboard Check -->
                                 <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3M3 11h18M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
                             </span>
@@ -337,7 +337,7 @@
 
 
                     <a href="<?php echo e(route('admin.incomes.index')); ?>" aria-label="<?php echo e(__('app.incomes')); ?>" title="<?php echo e(__('app.incomes')); ?>" class="nav-item flex items-center gap-3 px-3 py-2 rounded-md hover:bg-slate-800 transition <?php echo e(request()->routeIs('admin.incomes.*') ? 'active' : ''); ?>">
-                        <span class="icon flex-shrink-0 w-6 h-6 flex items-center justify-center text-slate-200">
+                        <span class="icon flex-shrink-0 w-6 h-6 flex items-center justify-center text-yellow-300">
                             <!-- Heroicon: Cash -->
                             <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3-.895 3-2-1.343-2-3-2z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 2v2m0 16v2m8-10h-2M6 12H4m15.364 6.364l-1.414-1.414M6.05 6.05L4.636 4.636"/></svg>
                         </span>
@@ -352,7 +352,7 @@
 
                 <?php if(Route::has('admin.expenses.index')): ?>
                     <a href="<?php echo e(route('admin.expenses.index')); ?>" aria-label="<?php echo e(__('app.expenses')); ?>" title="<?php echo e(__('app.expenses')); ?>" class="nav-item flex items-center gap-3 px-3 py-2 rounded-md hover:bg-slate-800 transition <?php echo e(request()->routeIs('admin.expenses.*') ? 'active' : ''); ?>">
-                        <span class="icon flex-shrink-0 w-6 h-6 flex items-center justify-center text-slate-200">
+                        <span class="icon flex-shrink-0 w-6 h-6 flex items-center justify-center text-yellow-300">
                             <svg class="w-5 h-5" aria-hidden="true" focusable="false" role="img" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2"/></svg>
                         </span>
                         <span class="sr-only"><?php echo e(__('app.expenses')); ?></span>
@@ -366,7 +366,7 @@
                 
                 <?php if(Route::has('accountant.income-categories.index')): ?>
                     <a href="<?php echo e(route('accountant.income-categories.index')); ?>" aria-label="<?php echo e(__('app.income_categories')); ?>" title="<?php echo e(__('app.income_categories')); ?>" class="nav-item flex items-center gap-3 px-3 py-2 rounded-md hover:bg-slate-800 transition <?php echo e(request()->routeIs('accountant.income-categories.*') ? 'active' : ''); ?>">
-                        <span class="icon flex-shrink-0 w-6 h-6 flex items-center justify-center text-slate-200">
+                        <span class="icon flex-shrink-0 w-6 h-6 flex items-center justify-center text-yellow-300">
                             <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"/></svg>
                         </span>
                         <span class="sr-only"><?php echo e(__('app.income_categories')); ?></span>
@@ -377,7 +377,7 @@
                 
                 <?php if(Route::has('accountant.expense-categories.index')): ?>
                     <a href="<?php echo e(route('accountant.expense-categories.index')); ?>" aria-label="<?php echo e(__('app.expense_categories')); ?>" title="<?php echo e(__('app.expense_categories')); ?>" class="nav-item flex items-center gap-3 px-3 py-2 rounded-md hover:bg-slate-800 transition <?php echo e(request()->routeIs('accountant.expense-categories.*') ? 'active' : ''); ?>">
-                        <span class="icon flex-shrink-0 w-6 h-6 flex items-center justify-center text-slate-200">
+                        <span class="icon flex-shrink-0 w-6 h-6 flex items-center justify-center text-yellow-300">
                             <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"/></svg>
                         </span>
                         <span class="sr-only"><?php echo e(__('app.expense_categories')); ?></span>
@@ -393,30 +393,9 @@
                 <p x-show="$store.layout.sidebarOpen" class="px-3 text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2"><?php echo e(__('app.resources')); ?></p>
 
 
-                <?php if(Route::has('admin.equipment.unified')): ?>
-                    <a href="<?php echo e(route('admin.equipment.unified')); ?>" aria-label="Equipment Hub" title="Equipment Hub" class="nav-item flex items-center gap-3 px-3 py-2 rounded-md hover:bg-slate-800 transition <?php echo e(request()->routeIs('admin.equipment.unified*') ? 'active' : ''); ?>">
-                        <span class="icon flex-shrink-0 w-6 h-6 flex items-center justify-center text-yellow-300">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/></svg>
-                        </span>
-                        <span class="sr-only">Equipment Hub</span>
-                        <span x-show="$store.layout.sidebarOpen" x-transition class="truncate font-semibold">Equipment Hub</span>
-                    </a>
-                <?php endif; ?>
-
-                <?php if(Route::has('admin.equipment.index')): ?>
-                    <a href="<?php echo e(route('admin.equipment.index')); ?>" aria-label="<?php echo e(__('app.equipment')); ?>" title="<?php echo e(__('app.equipment')); ?>" class="nav-item flex items-center gap-3 px-3 py-2 rounded-md hover:bg-slate-800 transition <?php echo e(request()->routeIs('admin.equipment.*') ? 'active' : ''); ?>">
-                        <span class="icon flex-shrink-0 w-6 h-6 flex items-center justify-center text-slate-200">
-                            <svg class="w-5 h-5" aria-hidden="true" focusable="false" role="img" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5"/></svg>
-                        </span>
-                        <span class="sr-only"><?php echo e(__('app.equipment')); ?></span>
-                        <span x-show="$store.layout.sidebarOpen" x-transition class="truncate"><?php echo e(__('app.equipment')); ?></span>
-                    </a>
-                <?php endif; ?>
-
-
                 <?php if(Route::has('admin.branches.index')): ?>
                     <a href="<?php echo e(route('admin.branches.index')); ?>" aria-label="<?php echo e(__('app.branches')); ?>" title="<?php echo e(__('app.branches')); ?>" class="nav-item flex items-center gap-3 px-3 py-2 rounded-md hover:bg-slate-800 transition <?php echo e(request()->routeIs('admin.branches.*') ? 'active' : ''); ?>">
-                        <span class="icon flex-shrink-0 w-6 h-6 flex items-center justify-center text-slate-200">
+                        <span class="icon flex-shrink-0 w-6 h-6 flex items-center justify-center text-yellow-300">
                             <svg class="w-5 h-5" aria-hidden="true" focusable="false" role="img" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7h18"/></svg>
                         </span>
                         <span class="sr-only"><?php echo e(__('app.branches')); ?></span>
@@ -426,7 +405,7 @@
 
                 <?php if(Route::has('group.index')): ?>
                     <a href="<?php echo e(route('admin.groups.index')); ?>" aria-label="<?php echo e(__('app.groups')); ?>" title="<?php echo e(__('app.groups')); ?>" class="nav-item flex items-center gap-3 px-3 py-2 rounded-md hover:bg-slate-800 transition <?php echo e(request()->routeIs('groups.*') ? 'active' : ''); ?>">
-                        <span class="icon flex-shrink-0 w-6 h-6 flex items-center justify-center text-slate-200">
+                        <span class="icon flex-shrink-0 w-6 h-6 flex items-center justify-center text-yellow-300">
                             <svg class="w-5 h-5" aria-hidden="true" focusable="false" role="img" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 11l3 3L22 4"/></svg>
                         </span>
                         <span class="sr-only"><?php echo e(__('app.groups')); ?></span>
@@ -439,7 +418,7 @@
 
                 <?php if(Route::has('teams.index')): ?>
                     <a href="<?php echo e(route('admin.teams.index')); ?>" aria-label="<?php echo e(__('app.teams')); ?>" title="<?php echo e(__('app.teams')); ?>" class="nav-item flex items-center gap-3 px-3 py-2 rounded-md hover:bg-slate-800 transition <?php echo e(request()->routeIs('teams.*') ? 'active' : ''); ?>">
-                        <span class="icon flex-shrink-0 w-6 h-6 flex items-center justify-center text-slate-200">
+                        <span class="icon flex-shrink-0 w-6 h-6 flex items-center justify-center text-yellow-300">
                             <svg class="w-5 h-5" aria-hidden="true" focusable="false" role="img" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 11l3 3L22 4"/></svg>
                         </span>
                         <span class="sr-only"><?php echo e(__('app.teams')); ?></span>
@@ -452,7 +431,7 @@
 
                 <?php if(Route::has('tasks.index')): ?>
                     <a href="<?php echo e(route('admin.tasks.index')); ?>" aria-label="<?php echo e(__('app.tasks')); ?>" title="<?php echo e(__('app.tasks')); ?>" class="nav-item flex items-center gap-3 px-3 py-2 rounded-md hover:bg-slate-800 transition <?php echo e(request()->routeIs('tasks.*') ? 'active' : ''); ?>">
-                        <span class="icon flex-shrink-0 w-6 h-6 flex items-center justify-center text-slate-200">
+                        <span class="icon flex-shrink-0 w-6 h-6 flex items-center justify-center text-yellow-300">
                             <svg class="w-5 h-5" aria-hidden="true" focusable="false" role="img" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 11l3 3L22 4"/></svg>
                         </span>
                         <span class="sr-only"><?php echo e(__('app.tasks')); ?></span>
@@ -467,7 +446,7 @@
                 <?php if (\Illuminate\Support\Facades\Blade::check('role', 'super-admin|admin|accountant|coach|CEO|Technical Director')): ?>
                     <?php if(Route::has('admin.communications.index')): ?>
                         <a href="<?php echo e(route('admin.communications.index')); ?>" aria-label="<?php echo e(__('app.communications')); ?>" title="<?php echo e(__('app.communications')); ?>" class="nav-item flex items-center gap-3 px-3 py-2 rounded-md hover:bg-slate-800 transition <?php echo e(request()->routeIs('admin.communications.*') ? 'active' : ''); ?>">
-                            <span class="icon flex-shrink-0 w-6 h-6 flex items-center justify-center text-slate-200">
+                            <span class="icon flex-shrink-0 w-6 h-6 flex items-center justify-center text-yellow-300">
                                 <!-- Heroicon: Mail -->
                                 <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
                             </span>
@@ -488,7 +467,7 @@
                 <p x-show="$store.layout.sidebarOpen" class="px-3 text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2"><?php echo e(__('app.reports')); ?></p>
                 <?php if(Route::has('reports.index')): ?>
                     <a href="<?php echo e(route('reports.index')); ?>" aria-label="<?php echo e(__('app.reports')); ?>" title="<?php echo e(__('app.reports')); ?>" class="nav-item flex items-center gap-3 px-3 py-2 rounded-md hover:bg-slate-800 transition <?php echo e(request()->routeIs('reports.*') ? 'active' : ''); ?>">
-                        <span class="icon flex-shrink-0 w-6 h-6 flex items-center justify-center text-slate-200">
+                        <span class="icon flex-shrink-0 w-6 h-6 flex items-center justify-center text-yellow-300">
                             <svg class="w-5 h-5" aria-hidden="true" focusable="false" role="img" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-6a2 2 0 012-2h2"/></svg>
                         </span>
                         <span class="sr-only"><?php echo e(__('app.reports')); ?></span>
@@ -503,7 +482,7 @@
                 <?php endif; ?>
                 <?php if(Route::has('admin.imports.index')): ?>
                     <a href="<?php echo e(route('admin.imports.index')); ?>" aria-label="<?php echo e(__('app.import')); ?> SQL" title="<?php echo e(__('app.import')); ?> SQL" class="nav-item flex items-center gap-3 px-3 py-2 rounded-md hover:bg-slate-800 transition <?php echo e(request()->routeIs('admin.imports.*') ? 'active' : ''); ?>">
-                        <span class="icon flex-shrink-0 w-6 h-6 flex items-center justify-center text-slate-200">
+                        <span class="icon flex-shrink-0 w-6 h-6 flex items-center justify-center text-yellow-300">
                             <!-- Heroicon: Upload -->
                             <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v12m0 0l-4-4m4 4l4-4"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21H3"/></svg>
                         </span>
