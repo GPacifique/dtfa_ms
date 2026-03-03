@@ -47,13 +47,17 @@ class CoachController extends Controller
         $activeStudents = $students->where('status', 'active');
         $recentStudents = $studentQuery->clone()->latest()->limit(10)->get();
 
-        // Attendance stats (general - not linked to training sessions)
-        $attendanceTotal = StudentAttendance::count();
-        $attendancePresent = StudentAttendance::where('status', 'present')->count();
-        $attendanceRate = $attendanceTotal > 0 ? round(($attendancePresent / $attendanceTotal) * 100) : 0;
+        // Attendance stats — scoped to the coach's branch via student relationship
+        $attendanceBranchScope = fn ($q) => $coach->branch_id
+            ? $q->whereHas('student', fn ($sq) => $sq->where('branch_id', $coach->branch_id))
+            : $q;
 
-        // Recent attendance records
-        $recentAttendance = StudentAttendance::with(['student'])
+        $attendanceTotal   = $attendanceBranchScope(StudentAttendance::query())->count();
+        $attendancePresent = $attendanceBranchScope(StudentAttendance::where('status', 'present'))->count();
+        $attendanceRate    = $attendanceTotal > 0 ? round(($attendancePresent / $attendanceTotal) * 100) : 0;
+
+        // Recent attendance records (branch-scoped)
+        $recentAttendance = $attendanceBranchScope(StudentAttendance::with(['student']))
             ->latest()
             ->limit(15)
             ->get();
@@ -106,8 +110,9 @@ class CoachController extends Controller
         $activityPlansCount = ActivityPlan::count();
         $ongoingPlans = ActivityPlan::where('status', 'ongoing')->count();
 
-        // Recent Communications
+        // Recent Communications (scope to branch if the model has branch_id)
         $recentCommunications = Communication::with('sender')
+            ->when($coach->branch_id, fn ($q) => $q->where('branch_id', $coach->branch_id))
             ->latest('sent_at')
             ->limit(10)
             ->get();

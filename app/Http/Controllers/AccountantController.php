@@ -8,26 +8,32 @@ use App\Models\Expense;
 use App\Models\ExpenseCategory;
 use App\Models\IncomeCategory;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Auth;
 
 class AccountantController extends Controller
 {
     public function index(Request $request)
     {
+        $user     = Auth::user();
+        $isGlobal = $user->hasRole(['super-admin', 'CEO']);
+        $branchId = $isGlobal ? null : (int) $user->branch_id;
+
+        // Shorthand: apply optional branch filter to any query builder
+        $b = fn ($q) => $branchId ? $q->where('branch_id', $branchId) : $q;
+
         $now = now();
         $startOfMonth = $now->copy()->startOfMonth();
         $endOfMonth = $now->copy()->endOfMonth();
 
         // Total income this month
-        $totalIncomeCents = Income::whereBetween('received_at', [$startOfMonth, $endOfMonth])
-            ->sum('amount_cents');
+        $totalIncomeCents = $b(Income::whereBetween('received_at', [$startOfMonth, $endOfMonth]))->sum('amount_cents');
 
         // Total expenses this month (approved + paid)
-        $totalExpensesThisMonth = Expense::whereIn('status', ['approved', 'paid'])
-            ->whereBetween('expense_date', [$startOfMonth, $endOfMonth])
-            ->sum('amount_cents');
+        $totalExpensesThisMonth = $b(Expense::whereIn('status', ['approved', 'paid'])
+            ->whereBetween('expense_date', [$startOfMonth, $endOfMonth]))->sum('amount_cents');
 
         // Pending expenses count
-        $pendingExpenses = Expense::where('status', 'pending')->count();
+        $pendingExpenses = $b(Expense::where('status', 'pending'))->count();
 
         // Calculate net profit
         $netProfitThisMonth = $totalIncomeCents - $totalExpensesThisMonth;
@@ -36,24 +42,25 @@ class AccountantController extends Controller
         // Month-over-month comparison (this vs last month income)
         $lastMonthStart = $now->copy()->subMonth()->startOfMonth();
         $lastMonthEnd = $now->copy()->subMonth()->endOfMonth();
-        $lastMonthIncome = Income::whereBetween('received_at', [$lastMonthStart, $lastMonthEnd])
-            ->sum('amount_cents');
+        $lastMonthIncome = $b(Income::whereBetween('received_at', [$lastMonthStart, $lastMonthEnd]))->sum('amount_cents');
         $incomeChange = $lastMonthIncome > 0 ? round((($totalIncomeCents - $lastMonthIncome) / $lastMonthIncome) * 100, 1) : 0;
         $incomeChangeDirection = $totalIncomeCents >= $lastMonthIncome ? 'up' : 'down';
 
-        // Income categories breakdown (this month)
-        $incomeCategories = IncomeCategory::withSum(['incomes as total' => function($query) use ($startOfMonth, $endOfMonth) {
+        // Income categories breakdown (this month, branch-scoped)
+        $incomeCategories = IncomeCategory::withSum(['incomes as total' => function($query) use ($startOfMonth, $endOfMonth, $branchId) {
             $query->whereBetween('received_at', [$startOfMonth, $endOfMonth]);
+            if ($branchId) $query->where('branch_id', $branchId);
         }], 'amount_cents')
             ->orderByDesc('total')
             ->get()
             ->filter(fn($cat) => ($cat->total ?? 0) > 0)
             ->mapWithKeys(fn($cat) => [$cat->name => (int)($cat->total ?? 0)]);
 
-        // Expense categories breakdown (this month)
-        $expenseCategories = ExpenseCategory::withSum(['expenses as total' => function($query) use ($startOfMonth, $endOfMonth) {
+        // Expense categories breakdown (this month, branch-scoped)
+        $expenseCategories = ExpenseCategory::withSum(['expenses as total' => function($query) use ($startOfMonth, $endOfMonth, $branchId) {
             $query->whereIn('status', ['approved', 'paid'])
                 ->whereBetween('expense_date', [$startOfMonth, $endOfMonth]);
+            if ($branchId) $query->where('branch_id', $branchId);
         }], 'amount_cents')
             ->orderByDesc('total')
             ->get()
@@ -61,40 +68,36 @@ class AccountantController extends Controller
             ->mapWithKeys(fn($cat) => [$cat->name => (int)($cat->total ?? 0)]);
 
         // Fetch recent incomes
-        $recentIncomes = Income::with(['branch', 'incomeCategory'])
-            ->latest('received_at')
-            ->limit(10)
-            ->get();
+        $recentIncomes = $b(Income::with(['branch', 'incomeCategory'])
+            ->latest('received_at'))->limit(10)->get();
 
         // Fetch recent expenses
-        $recentExpenses = Expense::with(['branch', 'expenseCategory', 'approver'])
-            ->latest('expense_date')
-            ->limit(10)
-            ->get();
+        $recentExpenses = $b(Expense::with(['branch', 'expenseCategory', 'approver'])
+            ->latest('expense_date'))->limit(10)->get();
 
         // Finance Stats: Daily, Weekly, Monthly, Yearly income and expenses
         $financeStats = [
             'daily' => [
-                'income' => Income::whereDate('received_at', now()->toDateString())->sum('amount_cents'),
-                'expenses' => Expense::whereIn('status', ['approved', 'paid'])->whereDate('expense_date', now()->toDateString())->sum('amount_cents'),
+                'income'   => $b(Income::whereDate('received_at', now()->toDateString()))->sum('amount_cents'),
+                'expenses' => $b(Expense::whereIn('status', ['approved', 'paid'])->whereDate('expense_date', now()->toDateString()))->sum('amount_cents'),
             ],
             'weekly' => [
-                'income' => Income::whereBetween('received_at', [now()->startOfWeek(), now()->endOfWeek()])->sum('amount_cents'),
-                'expenses' => Expense::whereIn('status', ['approved', 'paid'])->whereBetween('expense_date', [now()->startOfWeek(), now()->endOfWeek()])->sum('amount_cents'),
+                'income'   => $b(Income::whereBetween('received_at', [now()->startOfWeek(), now()->endOfWeek()]))->sum('amount_cents'),
+                'expenses' => $b(Expense::whereIn('status', ['approved', 'paid'])->whereBetween('expense_date', [now()->startOfWeek(), now()->endOfWeek()]))->sum('amount_cents'),
             ],
             'monthly' => [
-                'income' => Income::whereBetween('received_at', [now()->startOfMonth(), now()->endOfMonth()])->sum('amount_cents'),
-                'expenses' => Expense::whereIn('status', ['approved', 'paid'])->whereBetween('expense_date', [now()->startOfMonth(), now()->endOfMonth()])->sum('amount_cents'),
+                'income'   => $b(Income::whereBetween('received_at', [now()->startOfMonth(), now()->endOfMonth()]))->sum('amount_cents'),
+                'expenses' => $b(Expense::whereIn('status', ['approved', 'paid'])->whereBetween('expense_date', [now()->startOfMonth(), now()->endOfMonth()]))->sum('amount_cents'),
             ],
             'yearly' => [
-                'income' => Income::whereBetween('received_at', [now()->startOfYear(), now()->endOfYear()])->sum('amount_cents'),
-                'expenses' => Expense::whereIn('status', ['approved', 'paid'])->whereBetween('expense_date', [now()->startOfYear(), now()->endOfYear()])->sum('amount_cents'),
+                'income'   => $b(Income::whereBetween('received_at', [now()->startOfYear(), now()->endOfYear()]))->sum('amount_cents'),
+                'expenses' => $b(Expense::whereIn('status', ['approved', 'paid'])->whereBetween('expense_date', [now()->startOfYear(), now()->endOfYear()]))->sum('amount_cents'),
             ],
         ];
 
         // All-time totals
-        $totalIncomeAllTime = Income::sum('amount_cents');
-        $totalExpensesAllTime = Expense::whereIn('status', ['approved', 'paid'])->sum('amount_cents');
+        $totalIncomeAllTime   = $b(Income::query())->sum('amount_cents');
+        $totalExpensesAllTime = $b(Expense::whereIn('status', ['approved', 'paid']))->sum('amount_cents');
 
         // Category counts
         $incomeCategoryCount = IncomeCategory::active()->count();
@@ -128,6 +131,11 @@ class AccountantController extends Controller
      */
     public function metrics(Request $request)
     {
+        $user     = Auth::user();
+        $isGlobal = $user->hasRole(['super-admin', 'CEO']);
+        $branchId = $isGlobal ? null : (int) $user->branch_id;
+        $b = fn ($q) => $branchId ? $q->where('branch_id', $branchId) : $q;
+
         $now = now();
         $labels = [];
         $incomeData = [];
@@ -140,31 +148,32 @@ class AccountantController extends Controller
             $label = $start->format('M Y');
             $labels[] = $label;
 
-            $incomeSum = Income::whereBetween('received_at', [$start, $end])->sum('amount_cents');
+            $incomeSum = $b(Income::whereBetween('received_at', [$start, $end]))->sum('amount_cents');
             $incomeData[] = (int) $incomeSum;
 
-            $expenseSum = Expense::whereIn('status', ['approved', 'paid'])
-                ->whereBetween('expense_date', [$start, $end])
-                ->sum('amount_cents');
+            $expenseSum = $b(Expense::whereIn('status', ['approved', 'paid'])
+                ->whereBetween('expense_date', [$start, $end]))->sum('amount_cents');
             $expenseData[] = (int) $expenseSum;
         }
 
-        // Income by category (this year)
+        // Income by category (this year, branch-scoped)
         $startOfYear = $now->copy()->startOfYear();
         $endOfYear = $now->copy()->endOfYear();
 
-        $incomeByCat = IncomeCategory::withSum(['incomes as total' => function($query) use ($startOfYear, $endOfYear) {
+        $incomeByCat = IncomeCategory::withSum(['incomes as total' => function($query) use ($startOfYear, $endOfYear, $branchId) {
             $query->whereBetween('received_at', [$startOfYear, $endOfYear]);
+            if ($branchId) $query->where('branch_id', $branchId);
         }], 'amount_cents')
             ->orderByDesc('total')
             ->limit(10)
             ->get()
             ->filter(fn($cat) => ($cat->total ?? 0) > 0);
 
-        // Expense by category (this year)
-        $expenseByCat = ExpenseCategory::withSum(['expenses as total' => function($query) use ($startOfYear, $endOfYear) {
+        // Expense by category (this year, branch-scoped)
+        $expenseByCat = ExpenseCategory::withSum(['expenses as total' => function($query) use ($startOfYear, $endOfYear, $branchId) {
             $query->whereIn('status', ['approved', 'paid'])
                 ->whereBetween('expense_date', [$startOfYear, $endOfYear]);
+            if ($branchId) $query->where('branch_id', $branchId);
         }], 'amount_cents')
             ->orderByDesc('total')
             ->limit(10)
