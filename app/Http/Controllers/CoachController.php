@@ -110,9 +110,8 @@ class CoachController extends Controller
         $activityPlansCount = ActivityPlan::count();
         $ongoingPlans = ActivityPlan::where('status', 'ongoing')->count();
 
-        // Recent Communications (scope to branch if the model has branch_id)
+        // Recent Communications (no branch_id column on this table — return as-is)
         $recentCommunications = Communication::with('sender')
-            ->when($coach->branch_id, fn ($q) => $q->where('branch_id', $coach->branch_id))
             ->latest('sent_at')
             ->limit(10)
             ->get();
