@@ -1,4 +1,4 @@
-@extends('layouts.app')
+﻿@extends('layouts.app')
 
 @section('hero')
     <x-hero title="Edit User" subtitle="Update profile, roles, and access">
@@ -70,7 +70,7 @@
         </div>
         <div>
             <label class="block text-sm font-medium mb-1">Roles</label>
-            @php($selectedRoles = old('roles', $user->roles->pluck('name')->all()))
+            @php $selectedRoles = old('roles', $user->roles->pluck('name'; @endphp->all()))
             <select name="roles[]" multiple class="w-full border rounded px-3 py-2 dark:bg-neutral-900 dark:border-neutral-700">
                 @foreach ($roles as $role)
                     <option value="{{ $role }}" @selected(collect($selectedRoles ?: ['user'])->contains($role))>{{ ucfirst($role) }}</option>

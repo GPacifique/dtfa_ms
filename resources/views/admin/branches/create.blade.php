@@ -1,4 +1,4 @@
-@php($title = 'Create Branch')
+﻿@php $title = 'Create Branch'; @endphp
 @extends('layouts.app')
 
 @section('content')

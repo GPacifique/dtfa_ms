@@ -1,4 +1,4 @@
-@php($title = 'Group Details - ' . $group->name)
+﻿@php $title = 'Group Details - ' . $group->name; @endphp
 @extends('layouts.app')
 
 @section('hero')

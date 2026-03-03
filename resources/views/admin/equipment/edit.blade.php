@@ -1,4 +1,4 @@
-@php($title = 'Edit Equipment')
+﻿@php $title = 'Edit Equipment'; @endphp
 @extends('layouts.app')
 
 @section('hero')
@@ -94,6 +94,7 @@
                             <div>
                                 <label class="block text-sm font-semibold text-slate-700 mb-2">Condition *</label>
                                 <select name="condition" required class="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 @error('condition') border-red-500 @enderror">
+                                    <option value="excellent" @selected(old('condition', $equipment->condition) === 'excellent')>Excellent</option>
                                     <option value="good" @selected(old('condition', $equipment->condition) === 'good')>Good</option>
                                     <option value="fair" @selected(old('condition', $equipment->condition) === 'fair')>Fair</option>
                                     <option value="poor" @selected(old('condition', $equipment->condition) === 'poor')>Poor</option>

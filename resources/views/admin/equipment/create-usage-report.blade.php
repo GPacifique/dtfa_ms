@@ -1,4 +1,4 @@
-@php($title = 'Submit Usage Report')
+﻿@php $title = 'Submit Usage Report'; @endphp
 @extends('layouts.app')
 
 @section('hero')

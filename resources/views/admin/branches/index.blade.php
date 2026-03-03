@@ -1,4 +1,4 @@
-@php($title = 'Manage Branches')
+﻿@php $title = 'Manage Branches'; @endphp
 @extends('layouts.app')
 
 @section('content')

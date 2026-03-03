@@ -1,4 +1,4 @@
-@php($title = 'Edit Plan')
+﻿@php $title = 'Edit Plan'; @endphp
 @extends('layouts.app')
 
 @section('content')

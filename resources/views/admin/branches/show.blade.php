@@ -1,4 +1,4 @@
-@php($title = 'Branch Details - ' . $branch->name)
+﻿@php $title = 'Branch Details - ' . $branch->name; @endphp
 @extends('layouts.app')
 
 @section('content')

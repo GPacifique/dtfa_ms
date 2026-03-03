@@ -1,4 +1,4 @@
-@php($title = $student->first_name . ' - Payment History')
+﻿@php $title = $student->first_name . ' - Payment History'; @endphp
 @extends('layouts.app')
 
 @section('content')
@@ -17,7 +17,7 @@
             </div>
         </div>
     @else
-        @php($subscription = $student->subscriptions->first())
+        @php $subscription = $student->subscriptions->first(; @endphp)
 
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
             <div class="card">
@@ -102,7 +102,7 @@
                 <h2 class="text-lg font-semibold">Payments</h2>
             </div>
             <div class="card-body p-0">
-                @php($payments = $subscription->payments)
+                @php $payments = $subscription->payments; @endphp
                 @if($payments->isEmpty())
                     <div class="text-center py-8 text-slate-500">No payments yet.</div>
                 @else

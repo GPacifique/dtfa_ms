@@ -252,40 +252,6 @@
                         </a>
                     @endif
 
-                    @if(Route::has('admin.sports-equipment.index'))
-                        <a href="{{ route('admin.sports-equipment.index') }}" aria-label="{{ __('app.sports_equipment') }}" title="{{ __('app.sports_equipment') }}" class="nav-item flex items-center gap-3 px-3 py-2 rounded-md hover:bg-slate-800 transition {{ request()->routeIs('admin.sports-equipment.*') ? 'active' : '' }}">
-                            <span class="icon flex-shrink-0 w-6 h-6 flex items-center justify-center text-slate-200">
-                                <!-- Heroicon: Sports (Dumbbell) -->
-                                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 7a4 4 0 00-4 4v6a4 4 0 004 4h12a4 4 0 004-4v-6a4 4 0 00-4-4M3 11h6M15 11h6M3 17h6M15 17h6"/></svg>
-                            </span>
-                            <span class="sr-only">{{ __('app.sports_equipment') }}</span>
-                            <span x-show="$store.layout.sidebarOpen" x-transition class="truncate">{{ __('app.sports_equipment') }}</span>
-                        </a>
-                    @endif
-
-                    @if(Route::has('admin.office-equipment.index'))
-                        <a href="{{ route('admin.office-equipment.index') }}" aria-label="{{ __('app.office_equipment') }}" title="{{ __('app.office_equipment') }}" class="nav-item flex items-center gap-3 px-3 py-2 rounded-md hover:bg-slate-800 transition {{ request()->routeIs('admin.office-equipment.*') ? 'active' : '' }}">
-                            <span class="icon flex-shrink-0 w-6 h-6 flex items-center justify-center text-slate-200">
-                                <!-- Heroicon: Briefcase -->
-                                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m0 0L4 7m8 4v10l8-4v-10m-8 14l-8-4v-10"/></svg>
-                            </span>
-                            <span class="sr-only">{{ __('app.office_equipment') }}</span>
-                            <span x-show="$store.layout.sidebarOpen" x-transition class="truncate">{{ __('app.office_equipment') }}</span>
-                        </a>
-                    @endif
-
-                    {{-- Kit Manager Dashboard --}}
-                    @if(Route::has('kit-manager.dashboard'))
-                        <a href="{{ route('kit-manager.dashboard') }}" aria-label="{{ __('app.kit_manager') }}" title="{{ __('app.kit_manager') }}" class="nav-item flex items-center gap-3 px-3 py-2 rounded-md hover:bg-slate-800 transition {{ request()->routeIs('kit-manager.*') ? 'active' : '' }}">
-                            <span class="icon flex-shrink-0 w-6 h-6 flex items-center justify-center text-slate-200">
-                                <!-- Heroicon: Cube -->
-                                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8.97-5.7a1 1 0 00-1.06 0L4 7m16 0l-8 4.97m0 0L4 7m16 0v10a1 1 0 01-.94.997L12 22.97m0 0l8-4.97V7M12 22.97L4 18M12 22.97v-4.97"/></svg>
-                            </span>
-                            <span class="sr-only">{{ __('app.kit_manager') }}</span>
-                            <span x-show="$store.layout.sidebarOpen" x-transition class="truncate">{{ __('app.kit_manager_dashboard') }}</span>
-                        </a>
-                    @endif
-
                 @endrole
 
                 @role('super-admin|accountant|admin|coach|CEO')

@@ -1,4 +1,4 @@
-@php($title = 'Welcome to Our Academy')
+﻿@php $title = 'Welcome to Our Academy'; @endphp
 @extends('layouts.app')
 
 @section('content')

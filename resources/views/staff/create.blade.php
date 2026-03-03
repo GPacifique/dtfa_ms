@@ -1,4 +1,4 @@
-@extends('layouts.app')
+﻿@extends('layouts.app')
 
 @section('hero')
     <x-hero title="New Staff Profile" subtitle="Add a new team member">
@@ -163,7 +163,7 @@
                 <div class="mb-8">
                     <h2 class="text-lg font-bold text-slate-900 dark:text-white mb-6">👕 Uniform Sizes</h2>
                     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                        @php($sizeOptions = ['Small'=>'Small','Medium'=>'Medium','Large'=>'Large','X Large'=>'X Large','XX Large'=>'XX Large','XXX Large'=>'XXX Large'])
+                        @php $sizeOptions = ['Small'=>'Small','Medium'=>'Medium','Large'=>'Large','X Large'=>'X Large','XX Large'=>'XX Large','XXX Large'=>'XXX Large']; @endphp
 
                         <div>
                             <label class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">T-Shirt Size</label>

@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\TrainingEquipmentRequest;
+use App\Models\EquipmentUsageReport;
 
 class TrainingSessionRecord extends Model
 {
@@ -85,5 +87,17 @@ class TrainingSessionRecord extends Model
     public function canReport(): bool
     {
         return in_array($this->status, ['in_progress', 'completed']);
+    }
+
+    /* ─── Equipment Relationships ───────────────────────────────────── */
+
+    public function equipmentRequests()
+    {
+        return $this->hasMany(TrainingEquipmentRequest::class, 'training_record_id');
+    }
+
+    public function equipmentUsageReports()
+    {
+        return $this->hasMany(EquipmentUsageReport::class, 'training_record_id');
     }
 }

@@ -1,4 +1,4 @@
-@php($title = 'Create Invoice')
+﻿@php $title = 'Create Invoice'; @endphp
 @extends('layouts.app')
 
 @section('content')

@@ -1,4 +1,4 @@
-@php($title = 'Record Payment')
+﻿@php $title = 'Record Payment'; @endphp
 @extends('layouts.app')
 
 @section('content')

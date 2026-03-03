@@ -1,4 +1,4 @@
-@php($title = 'Equipment Requests')
+﻿@php $title = 'Equipment Requests'; @endphp
 @extends('layouts.app')
 
 @section('hero')
@@ -42,11 +42,24 @@
                 </select>
             </div>
             <div>
-                <label class="block text-xs font-semibold text-slate-600 mb-1">Training Type</label>
-                <select name="training_type" class="px-3 py-2 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500">
-                    <option value="">All Types</option>
-                    <option value="session" @selected(request('training_type')==='session')>Training Session</option>
-                    <option value="inhouse" @selected(request('training_type')==='inhouse')>Inhouse Training</option>
+                <label class="block text-xs font-semibold text-slate-600 mb-1">Equipment Category</label>
+                <select name="equipment_type" class="px-3 py-2 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500">
+                    <option value="">All Categories</option>
+                    <option value="general" @selected(request('equipment_type')==='general')>General</option>
+                    <option value="sports" @selected(request('equipment_type')==='sports')>Sports</option>
+                    <option value="office" @selected(request('equipment_type')==='office')>Office</option>
+                </select>
+            </div>
+            <div>
+                <label class="block text-xs font-semibold text-slate-600 mb-1">Training Record</label>
+                <select name="training_record_id" class="px-3 py-2 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500">
+                    <option value="">All Records</option>
+                    @foreach($trainingRecords as $record)
+                        <option value="{{ $record->id }}" @selected(request('training_record_id')==$record->id)>
+                            #{{ $record->id }} – {{ $record->date?->format('d M Y') ?? 'No date' }}
+                            @if($record->main_topic) – {{ Str::limit($record->main_topic, 30) }} @endif
+                        </option>
+                    @endforeach
                 </select>
             </div>
             <button type="submit" class="px-5 py-2 bg-indigo-600 text-white text-sm font-semibold rounded-lg hover:bg-indigo-700 transition">Filter</button>
@@ -75,7 +88,9 @@
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-slate-100">
+                    @php $reqColors = ['pending'=>'yellow','approved'=>'blue','rejected'=>'red','fulfilled'=>'green','returned'=>'gray']; @endphp
                     @forelse($requests as $req)
+                    @php $reqC = $reqColors[$req->status] ?? 'gray'; @endphp
                     <tr class="hover:bg-slate-50 transition">
                         <td class="px-4 py-3 text-slate-500 text-xs">{{ $req->id }}</td>
                         <td class="px-4 py-3">
@@ -98,8 +113,7 @@
                             @endif
                         </td>
                         <td class="px-4 py-3">
-                            @php $c = ['pending'=>'yellow','approved'=>'blue','rejected'=>'red','fulfilled'=>'green','returned'=>'gray'][$req->status] ?? 'gray'; @endphp
-                            <span class="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-{{ $c }}-100 text-{{ $c }}-700 capitalize">{{ $req->status }}</span>
+                            <span class="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-{{ $reqC }}-100 text-{{ $reqC }}-700 capitalize">{{ $req->status }}</span>
                         </td>
                         <td class="px-4 py-3 text-slate-600 text-xs">{{ $req->requestedBy?->name ?? '—' }}</td>
                         <td class="px-4 py-3 text-slate-500 text-xs">{{ $req->created_at->format('d M Y') }}</td>
@@ -150,35 +164,19 @@
         </div>
         <form action="{{ route('admin.equipment.unified.requests.store') }}" method="POST" class="p-6 space-y-5">
             @csrf
-            {{-- Training Type --}}
+            {{-- Training Record Select --}}
             <div>
-                <label class="block text-sm font-semibold text-slate-700 mb-1">Training Type <span class="text-red-500">*</span></label>
-                <select name="training_type" id="modal_training_type" onchange="toggleTrainingSelect()" required
+                <label class="block text-sm font-semibold text-slate-700 mb-1">Training Record <span class="text-red-500">*</span></label>
+                <select name="training_record_id" required
                     class="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500">
-                    <option value="">Select type…</option>
-                    <option value="session">Training Session</option>
-                    <option value="inhouse">Inhouse Training</option>
-                </select>
-            </div>
-            {{-- Training Session Select --}}
-            <div id="session_select" class="hidden">
-                <label class="block text-sm font-semibold text-slate-700 mb-1">Training Session <span class="text-red-500">*</span></label>
-                <select name="training_session_id" class="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500">
-                    <option value="">Select session…</option>
-                    @foreach($trainingSessions as $s)
-                    <option value="{{ $s->id }}">
-                        #{{ $s->id }} – {{ $s->date?->format('d M Y') }} {{ $s->group?->name ? '– '.$s->group->name : '' }} ({{ $s->branch?->name ?? '' }})
+                    <option value="">Select training record…</option>
+                    @foreach($trainingRecords as $record)
+                    <option value="{{ $record->id }}" @selected(old('training_record_id') == $record->id)>
+                        #{{ $record->id }}
+                        &ndash; {{ $record->date?->format('d M Y') ?? 'No date' }}
+                        @if($record->main_topic) &ndash; {{ Str::limit($record->main_topic, 40) }} @endif
+                        @if($record->branch) ({{ $record->branch }}) @endif
                     </option>
-                    @endforeach
-                </select>
-            </div>
-            {{-- Inhouse Training Select --}}
-            <div id="inhouse_select" class="hidden">
-                <label class="block text-sm font-semibold text-slate-700 mb-1">Inhouse Training <span class="text-red-500">*</span></label>
-                <select name="inhouse_training_id" class="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500">
-                    <option value="">Select inhouse training…</option>
-                    @foreach($inhouseTrainings as $t)
-                    <option value="{{ $t->id }}">{{ $t->training_name }} ({{ $t->training_date?->format('d M Y') }})</option>
                     @endforeach
                 </select>
             </div>
@@ -266,18 +264,19 @@
         office:  @json($allEquipment['office']),
     };
 
-    function toggleTrainingSelect() {
-        const type = document.getElementById('modal_training_type').value;
-        document.getElementById('session_select').classList.toggle('hidden', type !== 'session');
-        document.getElementById('inhouse_select').classList.toggle('hidden', type !== 'inhouse');
-    }
-
     function updateEquipmentList() {
         const type   = document.getElementById('modal_equipment_type').value;
         const select = document.getElementById('modal_equipment_id');
         select.innerHTML = '<option value="">Select item…</option>';
-        if (!type || !equipmentData[type]) return;
-        equipmentData[type].forEach(item => {
+        if (!type) return;
+        const items = Array.isArray(equipmentData[type])
+            ? equipmentData[type]
+            : Object.values(equipmentData[type] || {});
+        if (!items.length) {
+            select.innerHTML = '<option value="">No equipment available for this category</option>';
+            return;
+        }
+        items.forEach(item => {
             const opt = document.createElement('option');
             opt.value = item.id;
             opt.textContent = `${item.name} (Available: ${item.available_quantity})`;

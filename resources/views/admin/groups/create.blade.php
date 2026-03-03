@@ -1,4 +1,4 @@
-@php($title = 'Create Group')
+﻿@php $title = 'Create Group'; @endphp
 @extends('layouts.app')
 
 @section('hero')

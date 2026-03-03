@@ -12,8 +12,7 @@ class TrainingEquipmentRequest extends Model
     use SoftDeletes;
 
     protected $fillable = [
-        'training_session_id',
-        'inhouse_training_id',
+        'training_record_id',
         'equipment_type',
         'equipment_id',
         'quantity_requested',
@@ -34,14 +33,9 @@ class TrainingEquipmentRequest extends Model
 
     /* ─── Relationships ─────────────────────────────────────────────── */
 
-    public function trainingSession(): BelongsTo
+    public function trainingRecord(): BelongsTo
     {
-        return $this->belongsTo(TrainingSession::class);
-    }
-
-    public function inhouseTraining(): BelongsTo
-    {
-        return $this->belongsTo(InhouseTraining::class);
+        return $this->belongsTo(TrainingSessionRecord::class, 'training_record_id');
     }
 
     public function requestedBy(): BelongsTo
@@ -111,11 +105,10 @@ class TrainingEquipmentRequest extends Model
 
     public function getTrainingLabel(): string
     {
-        if ($this->trainingSession) {
-            return "Training Session #{$this->training_session_id} ({$this->trainingSession->date?->format('d M Y')})";
-        }
-        if ($this->inhouseTraining) {
-            return $this->inhouseTraining->training_name ?? "Inhouse Training #{$this->inhouse_training_id}";
+        if ($this->trainingRecord) {
+            $date = $this->trainingRecord->date?->format('d M Y') ?? '–';
+            $topic = $this->trainingRecord->main_topic ? ' – ' . $this->trainingRecord->main_topic : '';
+            return "Training Record #{$this->training_record_id} ({$date}{$topic})";
         }
         return 'Unknown Training';
     }

@@ -1,4 +1,4 @@
-@php($title = __('app.dashboard'))
+﻿@php $title = __('app.dashboard'; @endphp)
 @extends('layouts.app')
 
 @section('content')

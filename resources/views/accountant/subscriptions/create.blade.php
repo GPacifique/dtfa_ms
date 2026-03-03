@@ -1,4 +1,4 @@
-@php($title = __('app.assign_subscription'))
+﻿@php $title = __('app.assign_subscription'; @endphp)
 @extends('layouts.app')
 
 @section('content')

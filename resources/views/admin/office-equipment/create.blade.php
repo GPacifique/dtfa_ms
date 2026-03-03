@@ -1,4 +1,4 @@
-@php($title = 'Add Office Equipment')
+﻿@php $title = 'Add Office Equipment'; @endphp
 @extends('layouts.app')
 
 @section('content')

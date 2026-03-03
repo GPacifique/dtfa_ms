@@ -1,4 +1,4 @@
-@php($title = 'Equipment Usage Reports')
+﻿@php $title = 'Equipment Usage Reports'; @endphp
 @extends('layouts.app')
 
 @section('hero')
@@ -20,11 +20,24 @@
     <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-4">
         <form method="GET" class="flex flex-wrap gap-3 items-end">
             <div>
-                <label class="block text-xs font-semibold text-slate-600 mb-1">Training Type</label>
-                <select name="training_type" class="px-3 py-2 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500">
+                <label class="block text-xs font-semibold text-slate-600 mb-1">Equipment Category</label>
+                <select name="equipment_type" class="px-3 py-2 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500">
                     <option value="">All</option>
-                    <option value="session" @selected(request('training_type')==='session')>Training Session</option>
-                    <option value="inhouse" @selected(request('training_type')==='inhouse')>Inhouse Training</option>
+                    <option value="general" @selected(request('equipment_type')==='general')>General</option>
+                    <option value="sports" @selected(request('equipment_type')==='sports')>Sports</option>
+                    <option value="office" @selected(request('equipment_type')==='office')>Office</option>
+                </select>
+            </div>
+            <div>
+                <label class="block text-xs font-semibold text-slate-600 mb-1">Training Record</label>
+                <select name="training_record_id" class="px-3 py-2 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500">
+                    <option value="">All Records</option>
+                    @foreach($trainingRecords as $record)
+                        <option value="{{ $record->id }}" @selected(request('training_record_id')==$record->id)>
+                            #{{ $record->id }} – {{ $record->date?->format('d M Y') ?? 'No date' }}
+                            @if($record->main_topic) – {{ Str::limit($record->main_topic, 30) }} @endif
+                        </option>
+                    @endforeach
                 </select>
             </div>
             <button type="submit" class="px-5 py-2 bg-indigo-600 text-white text-sm font-semibold rounded-lg hover:bg-indigo-700 transition">Filter</button>
@@ -57,11 +70,15 @@
                     <tr class="hover:bg-slate-50 transition {{ $report->hasLosses() ? 'bg-red-50/30' : '' }}">
                         <td class="px-4 py-3">
                             <p class="text-xs font-medium text-slate-700">
-                                @if($report->trainingSession)
-                                    Session #{{ $report->training_session_id }} ({{ $report->trainingSession->date?->format('d M Y') }})
-                                @elseif($report->inhouseTraining)
-                                    {{ $report->inhouseTraining->training_name }}
-                                @else — @endif
+                                @if($report->trainingRecord)
+                                    Record #{{ $report->training_record_id }}
+                                    @if($report->trainingRecord->date) ({{ $report->trainingRecord->date->format('d M Y') }}) @endif
+                                    @if($report->trainingRecord->main_topic)
+                                        <br><span class="text-slate-400">{{ Str::limit($report->trainingRecord->main_topic, 40) }}</span>
+                                    @endif
+                                @else
+                                    <span class="text-slate-400">—</span>
+                                @endif
                             </p>
                         </td>
                         <td class="px-4 py-3 font-medium text-slate-800">{{ $report->equipment_name }}</td>

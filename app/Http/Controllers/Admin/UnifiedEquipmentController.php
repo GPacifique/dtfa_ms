@@ -8,8 +8,7 @@ use App\Models\SportsEquipment;
 use App\Models\OfficeEquipment;
 use App\Models\TrainingEquipmentRequest;
 use App\Models\EquipmentUsageReport;
-use App\Models\TrainingSession;
-use App\Models\InhouseTraining;
+use App\Models\TrainingSessionRecord;
 use App\Models\Branch;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -63,7 +62,7 @@ class UnifiedEquipmentController extends Controller
         ];
 
         $branches         = Branch::orderBy('name')->get();
-        $recentRequests   = TrainingEquipmentRequest::with(['trainingSession', 'inhouseTraining', 'requestedBy'])
+        $recentRequests   = TrainingEquipmentRequest::with(['trainingRecord', 'requestedBy'])
                                 ->latest()
                                 ->limit(5)
                                 ->get();
@@ -80,37 +79,34 @@ class UnifiedEquipmentController extends Controller
 
     public function requests(Request $request)
     {
-        $status   = $request->get('status');
-        $type     = $request->get('training_type'); // 'session' | 'inhouse'
+        $status          = $request->get('status');
+        $equipmentType   = $request->get('equipment_type');
+        $trainingRecordId = $request->get('training_record_id');
 
         $query = TrainingEquipmentRequest::with([
-            'trainingSession.branch',
-            'inhouseTraining.branch',
+            'trainingRecord',
             'requestedBy',
             'approvedBy',
             'usageReport',
         ]);
 
-        if ($status) $query->where('status', $status);
-        if ($type === 'session')  $query->whereNotNull('training_session_id');
-        if ($type === 'inhouse')  $query->whereNotNull('inhouse_training_id');
+        if ($status)          $query->where('status', $status);
+        if ($equipmentType)   $query->where('equipment_type', $equipmentType);
+        if ($trainingRecordId) $query->where('training_record_id', $trainingRecordId);
 
-        $requests       = $query->latest()->paginate(20);
-        $trainingSessions = TrainingSession::with('branch', 'group')->orderByDesc('date')->get();
-        $inhouseTrainings = InhouseTraining::orderByDesc('training_date')->get();
-        $allEquipment     = $this->getAllEquipmentList();
+        $requests        = $query->latest()->paginate(20);
+        $trainingRecords = TrainingSessionRecord::orderByDesc('date')->get();
+        $allEquipment    = $this->getAllEquipmentList();
 
         return view('admin.equipment.requests', compact(
-            'requests', 'trainingSessions', 'inhouseTrainings', 'allEquipment'
+            'requests', 'trainingRecords', 'allEquipment'
         ));
     }
 
     public function storeRequest(Request $request)
     {
         $validated = $request->validate([
-            'training_type'       => 'required|in:session,inhouse',
-            'training_session_id' => 'required_if:training_type,session|nullable|exists:training_sessions,id',
-            'inhouse_training_id' => 'required_if:training_type,inhouse|nullable|exists:inhouse_trainings,id',
+            'training_record_id'  => 'required|exists:training_session_records,id',
             'equipment_type'      => 'required|in:general,sports,office',
             'equipment_id'        => 'required|integer',
             'quantity_requested'  => 'required|integer|min:1',
@@ -132,8 +128,7 @@ class UnifiedEquipmentController extends Controller
         }
 
         TrainingEquipmentRequest::create([
-            'training_session_id' => $validated['training_type'] === 'session' ? $validated['training_session_id'] : null,
-            'inhouse_training_id' => $validated['training_type'] === 'inhouse' ? $validated['inhouse_training_id'] : null,
+            'training_record_id'  => $validated['training_record_id'],
             'equipment_type'      => $validated['equipment_type'],
             'equipment_id'        => $validated['equipment_id'],
             'quantity_requested'  => $validated['quantity_requested'],
@@ -191,25 +186,29 @@ class UnifiedEquipmentController extends Controller
     public function usageReports(Request $request)
     {
         $query = EquipmentUsageReport::with([
-            'trainingSession.branch',
-            'inhouseTraining.branch',
+            'trainingRecord',
             'reportedBy',
             'equipmentRequest',
         ]);
 
-        if ($request->filled('training_type')) {
-            if ($request->training_type === 'session') $query->whereNotNull('training_session_id');
-            if ($request->training_type === 'inhouse') $query->whereNotNull('inhouse_training_id');
+        if ($request->filled('equipment_type')) {
+            $query->where('equipment_type', $request->equipment_type);
+        }
+
+        if ($request->filled('training_record_id')) {
+            $query->where('training_record_id', $request->training_record_id);
         }
 
         $reports = $query->latest()->paginate(20);
 
-        return view('admin.equipment.usage-reports', compact('reports'));
+        $trainingRecords = TrainingSessionRecord::orderByDesc('date')->get();
+
+        return view('admin.equipment.usage-reports', compact('reports', 'trainingRecords'));
     }
 
     public function createUsageReport(TrainingEquipmentRequest $equipmentRequest)
     {
-        $equipmentRequest->load(['trainingSession', 'inhouseTraining', 'usageReport']);
+        $equipmentRequest->load(['trainingRecord', 'usageReport']);
 
         if ($equipmentRequest->usageReport) {
             return redirect()->route('admin.equipment.usage-reports')
@@ -234,8 +233,7 @@ class UnifiedEquipmentController extends Controller
 
         EquipmentUsageReport::create(array_merge($validated, [
             'training_equipment_request_id' => $equipmentRequest->id,
-            'training_session_id'           => $equipmentRequest->training_session_id,
-            'inhouse_training_id'           => $equipmentRequest->inhouse_training_id,
+            'training_record_id'            => $equipmentRequest->training_record_id,
             'equipment_type'                => $equipmentRequest->equipment_type,
             'equipment_id'                  => $equipmentRequest->equipment_id,
             'reported_by'                   => Auth::id(),
@@ -267,7 +265,7 @@ class UnifiedEquipmentController extends Controller
 
     public function showUsageReport(EquipmentUsageReport $report)
     {
-        $report->load(['trainingSession.branch', 'inhouseTraining.branch', 'reportedBy', 'equipmentRequest']);
+        $report->load(['trainingRecord', 'reportedBy', 'equipmentRequest']);
         return view('admin.equipment.show-usage-report', compact('report'));
     }
 
@@ -277,17 +275,11 @@ class UnifiedEquipmentController extends Controller
 
     public function trainingEquipment(Request $request)
     {
-        $sessions = TrainingSession::with([
-            'branch', 'group', 'coach',
+        $records = TrainingSessionRecord::with([
             'equipmentRequests.usageReport',
-        ])->orderByDesc('date')->paginate(15, ['*'], 'sessions_page');
+        ])->orderByDesc('date')->paginate(20);
 
-        $inhouse = InhouseTraining::with([
-            'branch',
-            'equipmentRequests.usageReport',
-        ])->orderByDesc('training_date')->paginate(15, ['*'], 'inhouse_page');
-
-        return view('admin.equipment.training-equipment', compact('sessions', 'inhouse'));
+        return view('admin.equipment.training-equipment', compact('records'));
     }
 
     /* ═══════════════════════════════════════════════════════════════════
@@ -297,9 +289,9 @@ class UnifiedEquipmentController extends Controller
     private function getAllEquipmentList(): array
     {
         return [
-            'general' => Equipment::select('id', 'name', 'available_quantity', 'status')->orderBy('name')->get(),
-            'sports'  => SportsEquipment::select('id', 'name', 'available_quantity', 'status')->orderBy('name')->get(),
-            'office'  => OfficeEquipment::select('id', 'name', 'available_quantity', 'status')->orderBy('name')->get(),
+            'general' => Equipment::select('id', 'name', 'available_quantity', 'status')->orderBy('name')->get()->values(),
+            'sports'  => SportsEquipment::select('id', 'name', 'available_quantity', 'status')->orderBy('name')->get()->values(),
+            'office'  => OfficeEquipment::select('id', 'name', 'available_quantity', 'status')->orderBy('name')->get()->values(),
         ];
     }
 

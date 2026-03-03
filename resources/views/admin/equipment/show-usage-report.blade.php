@@ -1,4 +1,4 @@
-@php($title = 'Usage Report Details')
+﻿@php $title = 'Usage Report Details'; @endphp
 @extends('layouts.app')
 
 @section('hero')
@@ -16,16 +16,21 @@
     <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
-                <h3 class="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-3">Training</h3>
-                @if($report->trainingSession)
-                    <p class="font-bold text-slate-800">Training Session #{{ $report->training_session_id }}</p>
-                    <p class="text-sm text-slate-600">{{ $report->trainingSession->date?->format('d M Y') }}</p>
-                    @if($report->trainingSession->branch)
-                    <p class="text-sm text-slate-500">{{ $report->trainingSession->branch->name }}</p>
+                <h3 class="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-3">Training Record</h3>
+                @if($report->trainingRecord)
+                    <p class="font-bold text-slate-800">Record #{{ $report->training_record_id }}</p>
+                    @if($report->trainingRecord->date)
+                    <p class="text-sm text-slate-600">{{ $report->trainingRecord->date->format('d M Y') }}</p>
                     @endif
-                @elseif($report->inhouseTraining)
-                    <p class="font-bold text-slate-800">{{ $report->inhouseTraining->training_name }}</p>
-                    <p class="text-sm text-slate-600">{{ $report->inhouseTraining->training_date?->format('d M Y') }}</p>
+                    @if($report->trainingRecord->main_topic)
+                    <p class="text-sm text-slate-500">{{ $report->trainingRecord->main_topic }}</p>
+                    @endif
+                    @if($report->trainingRecord->branch)
+                    <p class="text-sm text-slate-500">{{ $report->trainingRecord->branch }}</p>
+                    @endif
+                    @if($report->trainingRecord->coach_name)
+                    <p class="text-sm text-slate-500">Coach: {{ $report->trainingRecord->coach_name }}</p>
+                    @endif
                 @else
                     <p class="text-slate-500">—</p>
                 @endif

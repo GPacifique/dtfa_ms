@@ -1,4 +1,4 @@
-@php($title = 'Sports Equipment Management')
+﻿@php $title = 'Sports Equipment Management'; @endphp
 @extends('layouts.app')
 
 @section('content')

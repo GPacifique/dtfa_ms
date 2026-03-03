@@ -1,6 +1,6 @@
-@extends('layouts.app')
+﻿@extends('layouts.app')
 
-@php($title = 'Edit Profile')
+@php $title = 'Edit Profile'; @endphp
 
 @section('content')
     <div class="py-12">

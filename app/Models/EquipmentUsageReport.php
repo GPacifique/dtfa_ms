@@ -12,8 +12,7 @@ class EquipmentUsageReport extends Model
 
     protected $fillable = [
         'training_equipment_request_id',
-        'training_session_id',
-        'inhouse_training_id',
+        'training_record_id',
         'equipment_type',
         'equipment_id',
         'quantity_used',
@@ -43,14 +42,9 @@ class EquipmentUsageReport extends Model
         return $this->belongsTo(TrainingEquipmentRequest::class, 'training_equipment_request_id');
     }
 
-    public function trainingSession(): BelongsTo
+    public function trainingRecord(): BelongsTo
     {
-        return $this->belongsTo(TrainingSession::class);
-    }
-
-    public function inhouseTraining(): BelongsTo
-    {
-        return $this->belongsTo(InhouseTraining::class);
+        return $this->belongsTo(TrainingSessionRecord::class, 'training_record_id');
     }
 
     public function reportedBy(): BelongsTo

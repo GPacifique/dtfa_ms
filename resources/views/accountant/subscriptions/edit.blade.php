@@ -1,4 +1,4 @@
-@php($title = __('app.edit_subscription'))
+﻿@php $title = __('app.edit_subscription'; @endphp)
 @extends('layouts.app')
 
 @section('content')

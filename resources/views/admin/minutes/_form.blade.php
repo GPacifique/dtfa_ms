@@ -1,4 +1,4 @@
-@php
+﻿@php
     $editing = isset($minute);
 @endphp
 
@@ -96,7 +96,7 @@
                 <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Attendance List</label>
                 <select name="attendance_list[]" multiple size="8" class="w-full border rounded-lg px-3 py-2 dark:bg-neutral-800 dark:border-neutral-700 text-sm">
                     @foreach(($staffList ?? []) as $staff)
-                        @php($fullName = trim($staff->first_name . ' ' . $staff->last_name))
+                        @php $fullName = trim($staff->first_name . ' ' . $staff->last_name; @endphp)
                         <option value="{{ $fullName }}" @if($editing && in_array($fullName, $minute->attendance_list ?? [])) selected @endif>{{ $fullName }}</option>
                     @endforeach
                 </select>
@@ -108,7 +108,7 @@
                 <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Absent with Apology</label>
                 <select name="absent_apology[]" multiple size="8" class="w-full border rounded-lg px-3 py-2 dark:bg-neutral-800 dark:border-neutral-700 text-sm">
                     @foreach(($staffList ?? []) as $staff)
-                        @php($fullName = trim($staff->first_name . ' ' . $staff->last_name))
+                        @php $fullName = trim($staff->first_name . ' ' . $staff->last_name; @endphp)
                         <option value="{{ $fullName }}" @if($editing && in_array($fullName, $minute->absent_apology ?? [])) selected @endif>{{ $fullName }}</option>
                     @endforeach
                 </select>
@@ -120,7 +120,7 @@
                 <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Absent without Apology</label>
                 <select name="absent_no_apology[]" multiple size="8" class="w-full border rounded-lg px-3 py-2 dark:bg-neutral-800 dark:border-neutral-700 text-sm">
                     @foreach(($staffList ?? []) as $staff)
-                        @php($fullName = trim($staff->first_name . ' ' . $staff->last_name))
+                        @php $fullName = trim($staff->first_name . ' ' . $staff->last_name; @endphp)
                         <option value="{{ $fullName }}" @if($editing && in_array($fullName, $minute->absent_no_apology ?? [])) selected @endif>{{ $fullName }}</option>
                     @endforeach
                 </select>

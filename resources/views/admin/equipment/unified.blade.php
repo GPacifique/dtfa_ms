@@ -1,4 +1,4 @@
-@php($title = 'Unified Equipment Management')
+@php $title = 'Unified Equipment Management'; @endphp
 @extends('layouts.app')
 
 @section('hero')
@@ -57,6 +57,87 @@
             <p class="text-2xl font-bold text-yellow-600">{{ $stats['pending_requests'] }}</p>
             <p class="text-xs text-slate-500 mt-1">Pending Requests</p>
         </div>
+    </div>
+
+    {{-- ── QUICK ACCESS LINKS ─────────────────────────────────────── --}}
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        {{-- General Equipment --}}
+        <div class="bg-white rounded-xl shadow-sm border border-indigo-200 p-5">
+            <div class="flex items-center gap-3 mb-3">
+                <div class="bg-indigo-100 rounded-lg p-2">
+                    <svg class="w-5 h-5 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/></svg>
+                </div>
+                <h3 class="text-sm font-bold text-slate-800">General Equipment</h3>
+            </div>
+            <div class="flex flex-col gap-2">
+                <a href="{{ route('admin.equipment.index') }}" class="flex items-center gap-2 px-3 py-2 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-semibold rounded-lg transition">
+                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h16M4 18h16"/></svg>
+                    View All
+                </a>
+                <a href="{{ route('admin.equipment.create') }}" class="flex items-center gap-2 px-3 py-2 bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-semibold rounded-lg transition">
+                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
+                    Add New
+                </a>
+            </div>
+        </div>
+
+        {{-- Sports Equipment --}}
+        <div class="bg-white rounded-xl shadow-sm border border-blue-200 p-5">
+            <div class="flex items-center gap-3 mb-3">
+                <div class="bg-blue-100 rounded-lg p-2">
+                    <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 7a4 4 0 00-4 4v6a4 4 0 004 4h12a4 4 0 004-4v-6a4 4 0 00-4-4M3 11h6M15 11h6M3 17h6M15 17h6"/></svg>
+                </div>
+                <h3 class="text-sm font-bold text-slate-800">Sports Equipment</h3>
+            </div>
+            <div class="flex flex-col gap-2">
+                <a href="{{ route('admin.sports-equipment.index') }}" class="flex items-center gap-2 px-3 py-2 bg-blue-50 hover:bg-blue-100 text-blue-700 text-xs font-semibold rounded-lg transition">
+                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h16M4 18h16"/></svg>
+                    View All
+                </a>
+                <a href="{{ route('admin.sports-equipment.create') }}" class="flex items-center gap-2 px-3 py-2 bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold rounded-lg transition">
+                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
+                    Add New
+                </a>
+            </div>
+        </div>
+
+        {{-- Office Equipment --}}
+        <div class="bg-white rounded-xl shadow-sm border border-purple-200 p-5">
+            <div class="flex items-center gap-3 mb-3">
+                <div class="bg-purple-100 rounded-lg p-2">
+                    <svg class="w-5 h-5 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m0 0L4 7m8 4v10l8-4v-10m-8 14l-8-4v-10"/></svg>
+                </div>
+                <h3 class="text-sm font-bold text-slate-800">Office Equipment</h3>
+            </div>
+            <div class="flex flex-col gap-2">
+                <a href="{{ route('admin.office-equipment.index') }}" class="flex items-center gap-2 px-3 py-2 bg-purple-50 hover:bg-purple-100 text-purple-700 text-xs font-semibold rounded-lg transition">
+                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h16M4 18h16"/></svg>
+                    View All
+                </a>
+                <a href="{{ route('admin.office-equipment.create') }}" class="flex items-center gap-2 px-3 py-2 bg-purple-600 hover:bg-purple-700 text-white text-xs font-semibold rounded-lg transition">
+                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
+                    Add New
+                </a>
+            </div>
+        </div>
+
+        {{-- Kit Manager Dashboard --}}
+        @if(Route::has('kit-manager.dashboard'))
+        <div class="bg-white rounded-xl shadow-sm border border-amber-200 p-5">
+            <div class="flex items-center gap-3 mb-3">
+                <div class="bg-amber-100 rounded-lg p-2">
+                    <svg class="w-5 h-5 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8.97-5.7a1 1 0 00-1.06 0L4 7m16 0l-8 4.97m0 0L4 7m16 0v10a1 1 0 01-.94.997L12 22.97m0 0l8-4.97V7M12 22.97L4 18M12 22.97v-4.97"/></svg>
+                </div>
+                <h3 class="text-sm font-bold text-slate-800">Kit Manager</h3>
+            </div>
+            <div class="flex flex-col gap-2">
+                <a href="{{ route('kit-manager.dashboard') }}" class="flex items-center gap-2 px-3 py-2 bg-amber-500 hover:bg-amber-600 text-white text-xs font-semibold rounded-lg transition">
+                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
+                    Open Dashboard
+                </a>
+            </div>
+        </div>
+        @endif
     </div>
 
     {{-- ── FILTERS ─────────────────────────────────────────────────── --}}
@@ -131,6 +212,31 @@
             </nav>
         </div>
 
+        {{-- Per-tab Add Button --}}
+        <div class="px-6 py-3 border-b border-slate-100 flex items-center justify-end gap-3 bg-slate-50/50">
+            <div x-show="tab==='general'">
+                <a href="{{ route('admin.equipment.create') }}"
+                    class="inline-flex items-center gap-1.5 px-4 py-1.5 bg-indigo-600 text-white text-xs font-semibold rounded-lg hover:bg-indigo-700 transition">
+                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
+                    Add General Equipment
+                </a>
+            </div>
+            <div x-show="tab==='sports'">
+                <a href="{{ route('admin.sports-equipment.create') }}"
+                    class="inline-flex items-center gap-1.5 px-4 py-1.5 bg-blue-600 text-white text-xs font-semibold rounded-lg hover:bg-blue-700 transition">
+                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
+                    Add Sports Equipment
+                </a>
+            </div>
+            <div x-show="tab==='office'">
+                <a href="{{ route('admin.office-equipment.create') }}"
+                    class="inline-flex items-center gap-1.5 px-4 py-1.5 bg-purple-600 text-white text-xs font-semibold rounded-lg hover:bg-purple-700 transition">
+                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
+                    Add Office Equipment
+                </a>
+            </div>
+        </div>
+
         {{-- ── GENERAL TAB ──────────────────────────────────────────── --}}
         <div x-show="tab==='general'" x-cloak class="overflow-x-auto">
             <table class="w-full text-sm">
@@ -162,6 +268,11 @@
                             <div class="flex items-center justify-center gap-2">
                                 <a href="{{ route('admin.equipment.show', $item) }}" class="text-indigo-600 hover:text-indigo-800 text-xs font-medium">View</a>
                                 <a href="{{ route('admin.equipment.edit', $item) }}" class="text-blue-600 hover:text-blue-800 text-xs font-medium">Edit</a>
+                                <form action="{{ route('admin.equipment.destroy', $item) }}" method="POST" class="inline"
+                                    onsubmit="return confirm('Delete {{ addslashes($item->name) }}?')">
+                                    @csrf @method('DELETE')
+                                    <button type="submit" class="text-red-500 hover:text-red-700 text-xs font-medium">Delete</button>
+                                </form>
                             </div>
                         </td>
                     </tr>
@@ -208,6 +319,11 @@
                             <div class="flex items-center justify-center gap-2">
                                 <a href="{{ route('admin.sports-equipment.show', $item) }}" class="text-indigo-600 hover:text-indigo-800 text-xs font-medium">View</a>
                                 <a href="{{ route('admin.sports-equipment.edit', $item) }}" class="text-blue-600 hover:text-blue-800 text-xs font-medium">Edit</a>
+                                <form action="{{ route('admin.sports-equipment.destroy', $item) }}" method="POST" class="inline"
+                                    onsubmit="return confirm('Delete {{ addslashes($item->name) }}?')">
+                                    @csrf @method('DELETE')
+                                    <button type="submit" class="text-red-500 hover:text-red-700 text-xs font-medium">Delete</button>
+                                </form>
                             </div>
                         </td>
                     </tr>
@@ -264,6 +380,11 @@
                             <div class="flex items-center justify-center gap-2">
                                 <a href="{{ route('admin.office-equipment.show', $item) }}" class="text-indigo-600 hover:text-indigo-800 text-xs font-medium">View</a>
                                 <a href="{{ route('admin.office-equipment.edit', $item) }}" class="text-blue-600 hover:text-blue-800 text-xs font-medium">Edit</a>
+                                <form action="{{ route('admin.office-equipment.destroy', $item) }}" method="POST" class="inline"
+                                    onsubmit="return confirm('Delete {{ addslashes($item->name) }}?')">
+                                    @csrf @method('DELETE')
+                                    <button type="submit" class="text-red-500 hover:text-red-700 text-xs font-medium">Delete</button>
+                                </form>
                             </div>
                         </td>
                     </tr>
@@ -280,6 +401,7 @@
 
     {{-- ── RECENT REQUESTS ─────────────────────────────────────────── --}}
     @if($recentRequests->count())
+    @php $reqStatusColors = ['pending' => 'yellow', 'approved' => 'blue', 'rejected' => 'red', 'fulfilled' => 'green', 'returned' => 'gray']; @endphp
     <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
         <div class="flex items-center justify-between mb-4">
             <h3 class="text-base font-bold text-slate-800">Recent Equipment Requests</h3>
@@ -287,20 +409,17 @@
         </div>
         <div class="space-y-3">
             @foreach($recentRequests as $req)
-            <div class="flex items-center justify-between p-3 bg-slate-50 rounded-lg">
-                <div class="min-w-0">
-                    <p class="text-sm font-semibold text-slate-800 truncate">{{ $req->equipment_name }}</p>
-                    <p class="text-xs text-slate-500">{{ $req->getTrainingLabel() }} &bull; Requested by {{ $req->requestedBy?->name ?? '—' }}</p>
+                @php $reqColor = $reqStatusColors[$req->status] ?? 'gray'; @endphp
+                <div class="flex items-center justify-between p-3 bg-slate-50 rounded-lg">
+                    <div class="min-w-0">
+                        <p class="text-sm font-semibold text-slate-800 truncate">{{ $req->equipment_name }}</p>
+                        <p class="text-xs text-slate-500">{{ $req->getTrainingLabel() }} &bull; Requested by {{ $req->requestedBy?->name ?? '—' }}</p>
+                    </div>
+                    <div class="flex items-center gap-3 ml-4 flex-shrink-0">
+                        <span class="text-sm font-semibold text-slate-700">×{{ $req->quantity_requested }}</span>
+                        <span class="px-2.5 py-1 rounded-full text-xs font-semibold bg-{{ $reqColor }}-100 text-{{ $reqColor }}-700 capitalize">{{ $req->status }}</span>
+                    </div>
                 </div>
-                <div class="flex items-center gap-3 ml-4 flex-shrink-0">
-                    <span class="text-sm font-semibold text-slate-700">×{{ $req->quantity_requested }}</span>
-                    @php
-                        $statusColors = ['pending'=>'yellow','approved'=>'blue','rejected'=>'red','fulfilled'=>'green','returned'=>'gray'];
-                        $c = $statusColors[$req->status] ?? 'gray';
-                    @endphp
-                    <span class="px-2.5 py-1 rounded-full text-xs font-semibold bg-{{ $c }}-100 text-{{ $c }}-700 capitalize">{{ $req->status }}</span>
-                </div>
-            </div>
             @endforeach
         </div>
     </div>

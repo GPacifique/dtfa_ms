@@ -1,6 +1,6 @@
-@extends('layouts.app')
+﻿@extends('layouts.app')
 
-@php($title = __('app.kit_manager_dashboard'))
+@php $title = __('app.kit_manager_dashboard'; @endphp)
 
 @section('content')
 <div class="py-4 md:py-6 px-3 sm:px-4 md:px-6 lg:px-8">

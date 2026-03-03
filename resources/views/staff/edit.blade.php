@@ -1,4 +1,4 @@
-@extends('layouts.app')
+﻿@extends('layouts.app')
 
 @section('hero')
     <x-hero title="Edit Staff Profile" subtitle="Update staff details and roles">
@@ -146,7 +146,7 @@
                     @error('professional_certificates')<span class="text-red-600 text-sm">{{ $message }}</span>@enderror
                 </div>
 
-                @php($sizeOptions = ['Small'=>'Small','Medium'=>'Medium','Large'=>'Large','X Large'=>'X Large','XX Large'=>'XX Large','XXX Large'=>'XXX Large'])
+                @php $sizeOptions = ['Small'=>'Small','Medium'=>'Medium','Large'=>'Large','X Large'=>'X Large','XX Large'=>'XX Large','XXX Large'=>'XXX Large']; @endphp
                 <div>
                     <label class="block text-sm">Top T-Shirt Size</label>
                     <select name="tshirt_size" class="w-full border rounded px-3 py-2">

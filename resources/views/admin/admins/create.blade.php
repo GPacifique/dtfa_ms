@@ -1,4 +1,4 @@
-@php($title = 'Create Admin')
+﻿@php $title = 'Create Admin'; @endphp
 @extends('layouts.app')
 
 @section('content')
