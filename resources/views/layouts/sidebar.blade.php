@@ -241,6 +241,17 @@
                         </a>
                     @endif
 
+                    {{-- Unified Equipment Hub --}}
+                    @if(Route::has('admin.equipment.unified'))
+                        <a href="{{ route('admin.equipment.unified') }}" aria-label="Equipment Hub" title="Equipment Hub" class="nav-item flex items-center gap-3 px-3 py-2 rounded-md hover:bg-slate-800 transition {{ request()->routeIs('admin.equipment.unified*') ? 'active' : '' }}">
+                            <span class="icon flex-shrink-0 w-6 h-6 flex items-center justify-center text-yellow-300">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/></svg>
+                            </span>
+                            <span class="sr-only">Equipment Hub</span>
+                            <span x-show="$store.layout.sidebarOpen" x-transition class="truncate font-semibold">Equipment Hub</span>
+                        </a>
+                    @endif
+
                     @if(Route::has('admin.sports-equipment.index'))
                         <a href="{{ route('admin.sports-equipment.index') }}" aria-label="{{ __('app.sports_equipment') }}" title="{{ __('app.sports_equipment') }}" class="nav-item flex items-center gap-3 px-3 py-2 rounded-md hover:bg-slate-800 transition {{ request()->routeIs('admin.sports-equipment.*') ? 'active' : '' }}">
                             <span class="icon flex-shrink-0 w-6 h-6 flex items-center justify-center text-slate-200">
@@ -415,6 +426,16 @@
             <div class="pt-4">
                 <p x-show="$store.layout.sidebarOpen" class="px-3 text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">{{ __('app.resources') }}</p>
 
+
+                @if(Route::has('admin.equipment.unified'))
+                    <a href="{{ route('admin.equipment.unified') }}" aria-label="Equipment Hub" title="Equipment Hub" class="nav-item flex items-center gap-3 px-3 py-2 rounded-md hover:bg-slate-800 transition {{ request()->routeIs('admin.equipment.unified*') ? 'active' : '' }}">
+                        <span class="icon flex-shrink-0 w-6 h-6 flex items-center justify-center text-yellow-300">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/></svg>
+                        </span>
+                        <span class="sr-only">Equipment Hub</span>
+                        <span x-show="$store.layout.sidebarOpen" x-transition class="truncate font-semibold">Equipment Hub</span>
+                    </a>
+                @endif
 
                 @if(Route::has('admin.equipment.index'))
                     <a href="{{ route('admin.equipment.index') }}" aria-label="{{ __('app.equipment') }}" title="{{ __('app.equipment') }}" class="nav-item flex items-center gap-3 px-3 py-2 rounded-md hover:bg-slate-800 transition {{ request()->routeIs('admin.equipment.*') ? 'active' : '' }}">

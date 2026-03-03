@@ -47,4 +47,16 @@ class Equipment extends Model
     {
         return $query->where('category', $category);
     }
+
+    public function equipmentRequests()
+    {
+        return $this->hasMany(TrainingEquipmentRequest::class, 'equipment_id')
+                    ->where('equipment_type', 'general');
+    }
+
+    public function usageReports()
+    {
+        return $this->hasMany(EquipmentUsageReport::class, 'equipment_id')
+                    ->where('equipment_type', 'general');
+    }
 }

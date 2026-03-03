@@ -70,6 +70,18 @@ class SportsEquipment extends Model
         return $this->status === 'lost';
     }
 
+    public function equipmentRequests()
+    {
+        return $this->hasMany(TrainingEquipmentRequest::class, 'equipment_id')
+                    ->where('equipment_type', 'sports');
+    }
+
+    public function usageReports()
+    {
+        return $this->hasMany(EquipmentUsageReport::class, 'equipment_id')
+                    ->where('equipment_type', 'sports');
+    }
+
     public function markAsAvailable(): void
     {
         $this->update(['status' => 'available']);

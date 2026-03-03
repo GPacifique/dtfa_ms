@@ -37,4 +37,14 @@ class TrainingSession extends Model
     {
         return $this->hasMany(StudentAttendance::class);
     }
+
+    public function equipmentRequests()
+    {
+        return $this->hasMany(TrainingEquipmentRequest::class);
+    }
+
+    public function equipmentUsageReports()
+    {
+        return $this->hasMany(EquipmentUsageReport::class);
+    }
 }

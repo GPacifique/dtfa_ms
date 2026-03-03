@@ -213,7 +213,7 @@
                                 <div class="flex flex-wrap gap-2 mb-3">
                                     @foreach($game->red_cards_players as $playerId)
                                         @php $player = \App\Models\Student::find($playerId); @endphp
-                                        @if($player)
+                                         @if($player)
                                         <span class="px-2 py-1 bg-white dark:bg-neutral-800 text-red-700 dark:text-red-300 text-xs rounded shadow-sm border border-red-200 dark:border-red-800">{{ $player->first_name }} {{ $player->second_name }}</span>
                                         @endif
                                     @endforeach

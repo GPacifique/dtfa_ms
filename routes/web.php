@@ -319,7 +319,7 @@ Route::middleware(['auth', 'verified', 'role:admin|super-admin|coach|accountant'
     // Equipment Management (coaches can view/manage equipment)
     // (moved below) Expenses routes now allow accountant role
 
-    // Equipment Management
+    // Legacy Equipment CRUD (kept for individual item management)
     Route::get('/equipment', [\App\Http\Controllers\Admin\EquipmentController::class, 'index'])->name('admin.equipment.index');
     Route::get('/equipment/create', [\App\Http\Controllers\Admin\EquipmentController::class, 'create'])->name('admin.equipment.create');
     Route::post('/equipment', [\App\Http\Controllers\Admin\EquipmentController::class, 'store'])->name('admin.equipment.store');
@@ -327,6 +327,22 @@ Route::middleware(['auth', 'verified', 'role:admin|super-admin|coach|accountant'
     Route::get('/equipment/{equipment}/edit', [\App\Http\Controllers\Admin\EquipmentController::class, 'edit'])->name('admin.equipment.edit');
     Route::put('/equipment/{equipment}', [\App\Http\Controllers\Admin\EquipmentController::class, 'update'])->name('admin.equipment.update');
     Route::delete('/equipment/{equipment}', [\App\Http\Controllers\Admin\EquipmentController::class, 'destroy'])->name('admin.equipment.destroy');
+
+    // ── Unified Equipment Management ────────────────────────────────────
+    Route::get('/equipment-unified', [\App\Http\Controllers\Admin\UnifiedEquipmentController::class, 'index'])->name('admin.equipment.unified');
+    Route::get('/equipment-unified/training', [\App\Http\Controllers\Admin\UnifiedEquipmentController::class, 'trainingEquipment'])->name('admin.equipment.unified.training');
+
+    // Equipment Requests
+    Route::get('/equipment-requests', [\App\Http\Controllers\Admin\UnifiedEquipmentController::class, 'requests'])->name('admin.equipment.unified.requests');
+    Route::post('/equipment-requests', [\App\Http\Controllers\Admin\UnifiedEquipmentController::class, 'storeRequest'])->name('admin.equipment.unified.requests.store');
+    Route::patch('/equipment-requests/{equipmentRequest}/approve', [\App\Http\Controllers\Admin\UnifiedEquipmentController::class, 'approveRequest'])->name('admin.equipment.unified.requests.approve');
+    Route::patch('/equipment-requests/{equipmentRequest}/reject', [\App\Http\Controllers\Admin\UnifiedEquipmentController::class, 'rejectRequest'])->name('admin.equipment.unified.requests.reject');
+
+    // Equipment Usage Reports
+    Route::get('/equipment-usage-reports', [\App\Http\Controllers\Admin\UnifiedEquipmentController::class, 'usageReports'])->name('admin.equipment.unified.usage-reports');
+    Route::get('/equipment-requests/{equipmentRequest}/report/create', [\App\Http\Controllers\Admin\UnifiedEquipmentController::class, 'createUsageReport'])->name('admin.equipment.unified.usage-reports.create');
+    Route::post('/equipment-requests/{equipmentRequest}/report', [\App\Http\Controllers\Admin\UnifiedEquipmentController::class, 'storeUsageReport'])->name('admin.equipment.unified.usage-reports.store');
+    Route::get('/equipment-usage-reports/{report}', [\App\Http\Controllers\Admin\UnifiedEquipmentController::class, 'showUsageReport'])->name('admin.equipment.unified.usage-reports.show');
 
     // Branches Management (coaches can view branches)
     Route::get('/branches', [\App\Http\Controllers\Admin\BranchesController::class, 'index'])->name('admin.branches.index');

@@ -47,5 +47,15 @@ class InhouseTraining extends Model
     {
         return $this->belongsTo(Role::class);
     }
+
+    public function equipmentRequests()
+    {
+        return $this->hasMany(TrainingEquipmentRequest::class);
+    }
+
+    public function equipmentUsageReports()
+    {
+        return $this->hasMany(EquipmentUsageReport::class);
+    }
 }
 
