@@ -138,7 +138,7 @@ class UnifiedEquipmentController extends Controller
             'requested_by'        => Auth::id(),
         ]);
 
-        return redirect()->route('admin.equipment.requests')
+        return redirect()->route('admin.equipment.unified.requests')
             ->with('success', 'Equipment request submitted successfully.');
     }
 
