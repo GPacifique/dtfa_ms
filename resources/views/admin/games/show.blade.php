@@ -182,9 +182,9 @@
                                 <p class="text-xs font-bold text-yellow-600 uppercase mb-1">Players</p>
                                 <div class="flex flex-wrap gap-2 mb-3">
                                     @foreach($game->yellow_cards_players as $playerId)
-                                        @php $player = \App\Models\Player::find($playerId); @endphp
+                                        @php $player = \App\Models\Student::find($playerId); @endphp
                                         @if($player)
-                                        <span class="px-2 py-1 bg-white dark:bg-neutral-800 text-yellow-700 dark:text-yellow-300 text-xs rounded shadow-sm border border-yellow-200 dark:border-yellow-800">{{ $player->name }}</span>
+                                        <span class="px-2 py-1 bg-white dark:bg-neutral-800 text-yellow-700 dark:text-yellow-300 text-xs rounded shadow-sm border border-yellow-200 dark:border-yellow-800">{{ $player->first_name }} {{ $player->second_name }}</span>
                                         @endif
                                     @endforeach
                                 </div>
@@ -212,9 +212,9 @@
                                 <p class="text-xs font-bold text-red-600 uppercase mb-1">Players</p>
                                 <div class="flex flex-wrap gap-2 mb-3">
                                     @foreach($game->red_cards_players as $playerId)
-                                        @php $player = \App\Models\Player::find($playerId); @endphp
+                                        @php $player = \App\Models\Student::find($playerId); @endphp
                                         @if($player)
-                                        <span class="px-2 py-1 bg-white dark:bg-neutral-800 text-red-700 dark:text-red-300 text-xs rounded shadow-sm border border-red-200 dark:border-red-800">{{ $player->name }}</span>
+                                        <span class="px-2 py-1 bg-white dark:bg-neutral-800 text-red-700 dark:text-red-300 text-xs rounded shadow-sm border border-red-200 dark:border-red-800">{{ $player->first_name }} {{ $player->second_name }}</span>
                                         @endif
                                     @endforeach
                                 </div>
@@ -308,21 +308,21 @@
                 </div>
                 <div class="p-4">
                     @if($game->player_ids && count($game->player_ids) > 0)
-                        @php $playerList = \App\Models\Player::whereIn('id', $game->player_ids)->get()->keyBy('id'); @endphp
+                        @php $playerList = \App\Models\Student::whereIn('id', $game->player_ids)->get()->keyBy('id'); @endphp
                         <div class="space-y-1">
                             @foreach($game->player_ids as $playerId)
                                 @php $player = $playerList->get($playerId); @endphp
                                 @if($player)
                                 <div class="flex items-center gap-3 px-2 py-2 hover:bg-slate-50 dark:hover:bg-neutral-800 rounded-lg transition">
                                     <div class="w-8 h-8 rounded-full bg-indigo-100 dark:bg-indigo-900/40 flex items-center justify-center flex-shrink-0">
-                                        @if($player->number)
-                                            <span class="text-xs font-black text-indigo-700 dark:text-indigo-300">#{{ $player->number }}</span>
+                                        @if($player->jersey_number)
+                                            <span class="text-xs font-black text-indigo-700 dark:text-indigo-300">#{{ $player->jersey_number }}</span>
                                         @else
                                             <span class="text-xs font-bold text-indigo-400">{{ strtoupper(mb_substr($player->first_name, 0, 1)) }}</span>
                                         @endif
                                     </div>
                                     <div class="min-w-0 flex-1">
-                                        <p class="text-sm font-semibold text-gray-800 dark:text-white truncate">{{ $player->first_name }} {{ $player->last_name }}</p>
+                                        <p class="text-sm font-semibold text-gray-800 dark:text-white truncate">{{ $player->first_name }} {{ $player->second_name }}</p>
                                         @if($player->position)
                                             <p class="text-xs text-emerald-500 dark:text-emerald-400">{{ $player->position }}</p>
                                         @endif
