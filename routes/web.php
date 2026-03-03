@@ -337,6 +337,9 @@ Route::middleware(['auth', 'verified', 'role:admin|super-admin|coach|accountant'
     Route::post('/equipment-requests', [\App\Http\Controllers\Admin\UnifiedEquipmentController::class, 'storeRequest'])->name('admin.equipment.unified.requests.store');
     Route::patch('/equipment-requests/{equipmentRequest}/approve', [\App\Http\Controllers\Admin\UnifiedEquipmentController::class, 'approveRequest'])->name('admin.equipment.unified.requests.approve');
     Route::patch('/equipment-requests/{equipmentRequest}/reject', [\App\Http\Controllers\Admin\UnifiedEquipmentController::class, 'rejectRequest'])->name('admin.equipment.unified.requests.reject');
+    // Legacy URL aliases (old path had /equipment/requests/ instead of /equipment-requests/)
+    Route::patch('/equipment/requests/{equipmentRequest}/approve', [\App\Http\Controllers\Admin\UnifiedEquipmentController::class, 'approveRequest']);
+    Route::patch('/equipment/requests/{equipmentRequest}/reject', [\App\Http\Controllers\Admin\UnifiedEquipmentController::class, 'rejectRequest']);
 
     // Equipment Usage Reports
     Route::get('/equipment-usage-reports', [\App\Http\Controllers\Admin\UnifiedEquipmentController::class, 'usageReports'])->name('admin.equipment.unified.usage-reports');
