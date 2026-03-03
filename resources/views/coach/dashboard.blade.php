@@ -243,8 +243,245 @@
                     @endforelse
                 </tbody>
             </table>
+        </div><!-- /overflow-x-auto -->
+    </div><!-- /recent training records card -->
+
+    <!-- Branch Chat -->
+    <div class="bg-white dark:bg-slate-800 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-700" id="chat-widget">
+        <!-- Header -->
+        <div class="p-5 border-b border-slate-200 dark:border-slate-700 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <span class="text-xl">💬</span>
+                <h2 class="text-lg font-bold text-slate-900 dark:text-white">Branch Chat</h2>
+                <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-400 text-xs font-medium rounded-full">
+                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                    Live
+                </span>
+            </div>
+            <span id="chat-status" class="text-xs text-slate-400 dark:text-slate-500"></span>
+        </div>
+
+        <!-- Messages Area -->
+        <div id="chat-messages"
+             class="h-80 overflow-y-auto p-4 space-y-2 flex flex-col scroll-smooth"
+             style="scroll-behavior: smooth;">
+            <div id="chat-loading" class="flex-1 flex items-center justify-center text-slate-400 dark:text-slate-500 text-sm">
+                <svg class="animate-spin w-5 h-5 mr-2" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"/><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"/></svg>
+                Loading messages…
+            </div>
+        </div>
+
+        <!-- Input -->
+        <div class="p-4 border-t border-slate-200 dark:border-slate-700">
+            <form id="chat-form" class="flex gap-3" autocomplete="off">
+                @csrf
+                <input id="chat-input"
+                       type="text"
+                       maxlength="1000"
+                       placeholder="Type a message and press Enter…"
+                       class="flex-1 px-4 py-2.5 text-sm rounded-xl border border-slate-300 dark:border-slate-600 bg-slate-50 dark:bg-slate-900 text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition">
+                <button id="chat-send-btn"
+                        type="submit"
+                        class="inline-flex items-center gap-1.5 px-5 py-2.5 bg-indigo-600 text-white text-sm font-semibold rounded-xl hover:bg-indigo-700 active:scale-95 transition disabled:opacity-50 disabled:cursor-not-allowed">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/>
+                    </svg>
+                    Send
+                </button>
+            </form>
         </div>
     </div>
 </div>
+
+@push('scripts')
+<script>
+(function () {
+    const messagesEl  = document.getElementById('chat-messages');
+    const inputEl     = document.getElementById('chat-input');
+    const formEl      = document.getElementById('chat-form');
+    const sendBtn     = document.getElementById('chat-send-btn');
+    const statusEl    = document.getElementById('chat-status');
+    const loadingEl   = document.getElementById('chat-loading');
+
+    const csrfToken   = document.querySelector('meta[name="csrf-token"]')?.content ?? '';
+    const fetchUrl    = "{{ route('coach.chat.messages') }}";
+    const sendUrl     = "{{ route('coach.chat.send') }}";
+
+    let lastId        = 0;
+    let pollTimer     = null;
+    let isAtBottom    = true;
+
+    // Track scroll position to avoid fighting the user
+    messagesEl.addEventListener('scroll', () => {
+        const threshold = 60;
+        isAtBottom = messagesEl.scrollHeight - messagesEl.scrollTop - messagesEl.clientHeight < threshold;
+    });
+
+    function scrollToBottom(force = false) {
+        if (force || isAtBottom) {
+            messagesEl.scrollTop = messagesEl.scrollHeight;
+        }
+    }
+
+    function formatDateSeparator(dateStr) {
+        const el = document.createElement('div');
+        el.className = 'flex items-center gap-2 my-2';
+        el.innerHTML = `<div class="flex-1 h-px bg-slate-200 dark:bg-slate-700"></div>
+            <span class="text-xs text-slate-400 dark:text-slate-500 font-medium whitespace-nowrap">${dateStr}</span>
+            <div class="flex-1 h-px bg-slate-200 dark:bg-slate-700"></div>`;
+        return el;
+    }
+
+    function renderMessage(msg) {
+        const wrapper = document.createElement('div');
+        wrapper.dataset.msgId = msg.id;
+
+        if (msg.is_mine) {
+            wrapper.className = 'flex justify-end gap-2 items-end';
+            wrapper.innerHTML = `
+                <div class="max-w-xs lg:max-w-sm">
+                    <div class="bg-indigo-600 text-white rounded-2xl rounded-br-sm px-4 py-2.5 text-sm shadow-sm">
+                        ${escHtml(msg.body)}
+                    </div>
+                    <p class="text-xs text-slate-400 dark:text-slate-500 mt-1 text-right">${msg.created_at}</p>
+                </div>
+                <div class="w-8 h-8 rounded-full bg-indigo-200 dark:bg-indigo-900/40 flex items-center justify-center text-indigo-700 dark:text-indigo-400 text-xs font-bold flex-shrink-0">
+                    ${escHtml(msg.sender.charAt(0).toUpperCase())}
+                </div>`;
+        } else {
+            wrapper.className = 'flex justify-start gap-2 items-end';
+            wrapper.innerHTML = `
+                <div class="w-8 h-8 rounded-full bg-slate-200 dark:bg-slate-700 flex items-center justify-center text-slate-600 dark:text-slate-300 text-xs font-bold flex-shrink-0">
+                    ${escHtml(msg.sender.charAt(0).toUpperCase())}
+                </div>
+                <div class="max-w-xs lg:max-w-sm">
+                    <p class="text-xs text-slate-500 dark:text-slate-400 font-medium mb-1">${escHtml(msg.sender)}</p>
+                    <div class="bg-slate-100 dark:bg-slate-700 text-slate-900 dark:text-white rounded-2xl rounded-bl-sm px-4 py-2.5 text-sm shadow-sm">
+                        ${escHtml(msg.body)}
+                    </div>
+                    <p class="text-xs text-slate-400 dark:text-slate-500 mt-1">${msg.created_at}</p>
+                </div>`;
+        }
+
+        return wrapper;
+    }
+
+    function escHtml(str) {
+        return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+    }
+
+    // Load initial messages
+    function loadMessages() {
+        fetch(fetchUrl, { headers: { 'X-Requested-With': 'XMLHttpRequest' } })
+            .then(r => r.json())
+            .then(data => {
+                // Clear loading spinner
+                if (loadingEl) loadingEl.remove();
+                messagesEl.innerHTML = '';
+
+                if (data.messages.length === 0) {
+                    const empty = document.createElement('div');
+                    empty.id = 'chat-empty';
+                    empty.className = 'flex-1 flex flex-col items-center justify-center text-slate-400 dark:text-slate-500 py-8';
+                    empty.innerHTML = '<span class="text-4xl mb-2">💬</span><p class="text-sm">No messages yet. Say hello!</p>';
+                    messagesEl.appendChild(empty);
+                } else {
+                    let lastDate = null;
+                    data.messages.forEach(msg => {
+                        if (msg.date !== lastDate) {
+                            messagesEl.appendChild(formatDateSeparator(msg.date));
+                            lastDate = msg.date;
+                        }
+                        messagesEl.appendChild(renderMessage(msg));
+                        if (msg.id > lastId) lastId = msg.id;
+                    });
+                }
+
+                scrollToBottom(true);
+                startPolling();
+            })
+            .catch(() => {
+                statusEl.textContent = 'Connection error';
+            });
+    }
+
+    // Poll for new messages
+    function poll() {
+        if (!lastId) return;
+        fetch(`${fetchUrl}?after=${lastId}`, { headers: { 'X-Requested-With': 'XMLHttpRequest' } })
+            .then(r => r.json())
+            .then(data => {
+                if (data.messages.length > 0) {
+                    const emptyEl = document.getElementById('chat-empty');
+                    if (emptyEl) emptyEl.remove();
+
+                    let prevDate = messagesEl.querySelector('[data-date-sep]:last-of-type')?.dataset.dateSep ?? null;
+                    data.messages.forEach(msg => {
+                        if (msg.date !== prevDate) {
+                            const sep = formatDateSeparator(msg.date);
+                            sep.dataset.dateSep = msg.date;
+                            messagesEl.appendChild(sep);
+                            prevDate = msg.date;
+                        }
+                        messagesEl.appendChild(renderMessage(msg));
+                        if (msg.id > lastId) lastId = msg.id;
+                    });
+
+                    scrollToBottom();
+                }
+            })
+            .catch(() => {});
+    }
+
+    function startPolling() {
+        if (pollTimer) clearInterval(pollTimer);
+        pollTimer = setInterval(poll, 4000);
+    }
+
+    // Send message
+    formEl.addEventListener('submit', function (e) {
+        e.preventDefault();
+        const body = inputEl.value.trim();
+        if (!body) return;
+
+        sendBtn.disabled = true;
+        inputEl.disabled = true;
+
+        fetch(sendUrl, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': csrfToken,
+                'X-Requested-With': 'XMLHttpRequest',
+            },
+            body: JSON.stringify({ body }),
+        })
+        .then(r => r.json())
+        .then(data => {
+            const emptyEl = document.getElementById('chat-empty');
+            if (emptyEl) emptyEl.remove();
+
+            const msg = data.message;
+            if (msg.id > lastId) lastId = msg.id;
+
+            messagesEl.appendChild(renderMessage(msg));
+            scrollToBottom(true);
+            inputEl.value = '';
+        })
+        .catch(() => {
+            statusEl.textContent = 'Failed to send';
+        })
+        .finally(() => {
+            sendBtn.disabled = false;
+            inputEl.disabled = false;
+            inputEl.focus();
+        });
+    });
+
+    // Start
+    loadMessages();
+})();
+</script>
+@endpush
 
 @endsection

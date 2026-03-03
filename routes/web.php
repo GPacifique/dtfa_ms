@@ -440,6 +440,9 @@ Route::middleware(['auth', 'verified', 'role:coach|admin|super-admin'])->prefix(
     // Equipment (view only)
     Route::get('/equipment', [\App\Http\Controllers\Admin\EquipmentController::class, 'index'])->name('coach.equipment.index');
     Route::get('/equipment/{equipment}', [\App\Http\Controllers\Admin\EquipmentController::class, 'show'])->name('coach.equipment.show');
+    // Branch chat
+    Route::get('/chat/messages', [\App\Http\Controllers\ChatController::class, 'messages'])->name('coach.chat.messages');
+    Route::post('/chat/send', [\App\Http\Controllers\ChatController::class, 'send'])->name('coach.chat.send');
 });
 
 Route::middleware(['auth', 'verified', 'role:accountant|admin|super-admin'])->prefix('accountant')->group(function () {
