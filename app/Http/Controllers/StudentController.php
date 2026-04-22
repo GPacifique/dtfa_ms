@@ -156,4 +156,8 @@ class StudentController extends Controller
         $student->delete();
         return redirect()->route('students-modern.index')->with('status', 'Student deleted');
     }
+    public function parent()
+{
+    return $this->belongsTo(User::class, 'parent_user_id');
+}
 }

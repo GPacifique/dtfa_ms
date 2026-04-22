@@ -114,4 +114,8 @@ SVG;
     {
         $this->notify(new ResetPasswordNotification($token));
     }
+    public function parent()
+{
+    return $this->hasOne(ParentModel::class);
+}
 }
