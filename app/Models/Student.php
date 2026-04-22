@@ -2,13 +2,14 @@
 
 namespace App\Models;
 
-use App\Traits\HasPhoto;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
+use Carbon\Carbon;
 
 class Student extends Model
 {
-    use HasFactory, HasPhoto;
+    use HasFactory;
 
     protected $fillable = [
         'first_name',
@@ -45,7 +46,11 @@ class Student extends Model
         'training_days' => 'array',
     ];
 
-    /* ---------------- RELATIONS ---------------- */
+    /*
+    |--------------------------------------------------------------------------
+    | RELATIONSHIPS
+    |--------------------------------------------------------------------------
+    */
 
     public function parent()
     {
@@ -82,37 +87,37 @@ class Student extends Model
         return $this->hasMany(Payment::class);
     }
 
-    /* ---------------- PHOTO (SYMLINK ONLY) ---------------- */
+    /*
+    |--------------------------------------------------------------------------
+    | PHOTO (STORAGE LINK ONLY)
+    |--------------------------------------------------------------------------
+    */
 
     public function getPhotoUrlAttribute(): string
     {
-        // If photo exists → always use storage symlink
-        if ($this->photo_path) {
+        if ($this->photo_path && Storage::disk('public')->exists($this->photo_path)) {
             return asset('storage/' . $this->photo_path);
         }
 
-        // fallback default image (no DB check, no storage check)
         return asset('images/default.png');
     }
 
-    /* ---------------- AGE ---------------- */
+    /*
+    |--------------------------------------------------------------------------
+    | AGE
+    |--------------------------------------------------------------------------
+    */
 
     public function getAgeAttribute()
     {
-        return $this->dob ? \Carbon\Carbon::parse($this->dob)->age : null;
+        return $this->dob ? Carbon::parse($this->dob)->age : null;
     }
 
-    /* ---------------- SCOPES ---------------- */
-
-    public function scopeActive($query)
-    {
-        return $query->where('status', 'active');
-    }
-
-    public function scopeStatus($query, ?string $status)
-    {
-        return $status ? $query->where('status', $status) : $query;
-    }
+    /*
+    |--------------------------------------------------------------------------
+    | SCOPES (FIXED)
+    |--------------------------------------------------------------------------
+    */
 
     public function scopeSearch($query, ?string $q)
     {
@@ -120,16 +125,50 @@ class Student extends Model
 
         $q = trim($q);
 
-        return $query->where(function ($qq) use ($q) {
-            $qq->where('first_name', 'like', "%$q%")
-                ->orWhere('second_name', 'like', "%$q%")
-                ->orWhere('player_email', 'like', "%$q%")
-                ->orWhere('parent_email', 'like', "%$q%")
-                ->orWhere('player_phone', 'like', "%$q%")
-                ->orWhere('jersey_name', 'like', "%$q%")
-                ->orWhere('jersey_number', 'like', "%$q%")
-                ->orWhere('school_name', 'like', "%$q%")
-                ->orWhere('sport_discipline', 'like', "%$q%");
+        return $query->where(function ($sub) use ($q) {
+            $sub->where('first_name', 'like', "%{$q}%")
+                ->orWhere('second_name', 'like', "%{$q}%")
+                ->orWhere('player_email', 'like', "%{$q}%")
+                ->orWhere('parent_email', 'like', "%{$q}%")
+                ->orWhere('player_phone', 'like', "%{$q}%")
+                ->orWhere('emergency_phone', 'like', "%{$q}%")
+                ->orWhere('jersey_name', 'like', "%{$q}%")
+                ->orWhere('jersey_number', 'like', "%{$q}%")
+                ->orWhere('school_name', 'like', "%{$q}%")
+                ->orWhere('coach', 'like', "%{$q}%")
+                ->orWhere('sport_discipline', 'like', "%{$q}%");
         });
+    }
+
+    public function scopeStatus($query, ?string $status)
+    {
+        return $status ? $query->where('status', $status) : $query;
+    }
+
+    public function scopeByBranch($query, $branchId)
+    {
+        return $branchId ? $query->where('branch_id', $branchId) : $query;
+    }
+
+    public function scopeByGroup($query, $groupId)
+    {
+        return $groupId ? $query->where('group_id', $groupId) : $query;
+    }
+
+    public function scopeJoinedBetween($query, ?string $from, ?string $to)
+    {
+        if ($from && $to) {
+            return $query->whereBetween('joined_at', [$from, $to]);
+        }
+
+        if ($from) {
+            return $query->where('joined_at', '>=', $from);
+        }
+
+        if ($to) {
+            return $query->where('joined_at', '<=', $to);
+        }
+
+        return $query;
     }
 }
