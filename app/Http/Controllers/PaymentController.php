@@ -8,19 +8,23 @@ use Illuminate\Http\Request;
 
 class PaymentController extends Controller
 {
+    public function index($studentId)
+{
+    $student = auth()->user()
+        ->students()
+        ->with('payments')
+        ->findOrFail($studentId);
+
+    $payments = $student->payments()->latest()->get();
+
+    return view('parent.child-payments', compact('student', 'payments'));
+}
     // 🔍 View payments for a student (parent view)
-    public function index(Student $student)
-    {
-        // 🔐 Security: parent can only view their child
-        if ($student->parent_user_id !== auth()->id()) {
-            abort(403);
-        }
-
-        $payments = $student->payments()->latest()->get();
-
-        return view('parent.payments.index', compact('student', 'payments'));
-    }
-
+    
+public function students()
+{
+    return $this->hasMany(Student::class, 'parent_user_id');
+}
     // ➕ Show form (admin/coach)
     public function create(Student $student)
     {

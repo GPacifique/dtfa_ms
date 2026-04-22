@@ -118,4 +118,8 @@ SVG;
 {
     return $this->hasOne(ParentModel::class);
 }
+public function students()
+{
+    return $this->hasMany(Student::class, 'parent_user_id');
+}
 }
