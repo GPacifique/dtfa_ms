@@ -23,7 +23,7 @@
                         @if($child->subscriptions->isEmpty())
                             <div class="text-sm text-slate-500 mb-4">{{ __('app.no_active_subscription') }}</div>
                         @else
-                            @php $subscription = $child->subscriptions->first(; @endphp)
+                            @php $subscription = $child->subscriptions->first(); @endphp
                             <div class="space-y-3 mb-4">
                                 <div>
                                     <div class="text-sm text-slate-600">{{ __('app.plan') }}</div>
