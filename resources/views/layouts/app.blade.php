@@ -229,7 +229,7 @@
                 @role('super-admin|admin|CEO|Technical Director')
                     <a href="{{ route('admin.communications.create') }}" class="btn-secondary mr-2">{{ __('app.compose') }}</a>
                 @endrole
-<div class="border-l border-slate-300 dark:border-slate-600 h-6 mx-2"></div>
+
                 <!-- User Profile Dropdown -->
                 <div x-data="{ open: false }" x-init="console.log('Profile dropdown initialized')" class="relative z-30">
                     <button
