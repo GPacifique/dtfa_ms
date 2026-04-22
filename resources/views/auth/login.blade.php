@@ -1,3 +1,5 @@
+
+text/x-generic login.blade.php ( HTML document, UTF-8 Unicode text, with very long lines )
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
@@ -35,9 +37,9 @@
                 <div class="relative z-10">
                     <a href="/" class="flex items-center gap-2 mb-8">
                         @if(file_exists(public_path('logo.jpeg')))
-                            <img src="{{ asset('logo.jpeg') }}" class="w-40 h-40 rounded-full border-2 border-white/20" alt="Logo">
+                            <img src="{{ asset('logo.jpeg') }}" class="w-10 h-10 rounded-full border-2 border-white/20" alt="Logo">
                         @else
-                            <x-application-logo class="w-40 h-40 text-white fill-current" />
+                            <x-application-logo class="w-10 h-10 text-white fill-current" />
                         @endif
                         <span class="text-xl font-bold tracking-wider">{{ config('app.name', 'SAMS') }}</span>
                     </a>
