@@ -203,10 +203,16 @@
 
                 <div class="font-semibold text-slate-700 dark:text-slate-200">{{ $title ?? 'Dashboard' }}</div>
             </div>
-            <div class="flex items-center gap-3 relative z-30"> 
+            <div class="flex items-center gap-3 relative z-30">
+                @can('manage users')
+                    <a href="{{ route('admin.users.index') }}" class="badge badge-slate hover:bg-slate-200 dark:hover:bg-slate-600 transition-colors">{{ __('app.manage_users') }}</a>
+                @endcan
+                @can('manage finances')
+                    <a href="{{ route('admin.incomes.index') }}" class="badge badge-slate hover:bg-slate-200 dark:hover:bg-slate-600 transition-colors">{{ __('app.manage_finances') }}</a>
+                @endcan
 
                 <!-- Language Switcher -->
-                <x-language-switcher /></div>
+                <x-language-switcher />
 
                 <!-- Modern Theme Toggle Switch -->
                 <div class="theme-toggle-dashboard" title="Toggle theme">
