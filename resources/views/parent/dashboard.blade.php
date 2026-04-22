@@ -1,4 +1,4 @@
-﻿@php $title = __('app.parent_dashboard'; @endphp)
+﻿@php $title = __('app.parent_dashboard'); @endphp
 @extends('layouts.app')
 
 @section('content')
