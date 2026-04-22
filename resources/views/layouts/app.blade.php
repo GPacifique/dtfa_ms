@@ -201,8 +201,12 @@
                     </svg>
                 </button>
 
+                <div class="font-semibold text-slate-700 dark:text-slate-200">{{ $title ?? 'Dashboard' }}</div>
+            </div>
+            <div class="flex items-center gap-3 relative z-30"> 
+
                 <!-- Language Switcher -->
-                <x-language-switcher />
+                <x-language-switcher /></div>
 
                 <!-- Modern Theme Toggle Switch -->
                 <div class="theme-toggle-dashboard" title="Toggle theme">
@@ -225,7 +229,7 @@
                 @role('super-admin|admin|CEO|Technical Director')
                     <a href="{{ route('admin.communications.create') }}" class="btn-secondary mr-2">{{ __('app.compose') }}</a>
                 @endrole
-
+<div class="border-l border-slate-300 dark:border-slate-600 h-6 mx-2"></div>
                 <!-- User Profile Dropdown -->
                 <div x-data="{ open: false }" x-init="console.log('Profile dropdown initialized')" class="relative z-30">
                     <button
