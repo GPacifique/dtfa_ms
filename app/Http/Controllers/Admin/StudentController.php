@@ -15,7 +15,7 @@ use App\Models\StudentAttendance;
 use Illuminate\Http\Response;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 
-class StudentsController extends Controller
+class StudentController extends Controller
 {
     public function index(Request $request)
     {
