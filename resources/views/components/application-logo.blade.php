@@ -1,1 +1,1 @@
-<img src="/logo.jpeg" alt="Application Logo" class="h-40 w-auto" />
+<img src="/logo.jpeg" alt="Application Logo" class="h-24 w-auto" />
