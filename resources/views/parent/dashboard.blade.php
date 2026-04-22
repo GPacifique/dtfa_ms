@@ -83,14 +83,18 @@
             <div class="card shadow-sm">
                 <div class="card-header bg-primary text-white">
                     Child Overview
-                </div>
-                <div class="card-body">
-                    <h5>{{ $student->name }}</h5>
-                    <p class="mb-1">Age: {{ $student->age ?? 'N/A' }}</p>
-                    <p class="mb-1">Category: {{ $student->category ?? 'Junior' }}</p>
-                    <span class="badge bg-success">Active</span>
-                </div>
-            </div>
+               @foreach($children as $student)
+    <div class="card shadow-sm mb-3">
+        <div class="card-header bg-primary text-white">
+            Child Overview
+        </div>
+        <div class="card-body">
+            <h5>{{ $student->name }}</h5>
+            <p>Age: {{ $student->age ?? 'N/A' }}</p>
+            <p>Category: {{ $student->category ?? 'Junior' }}</p>
+        </div>
+    </div>
+@endforeach
         </div>
 
         <!-- Attendance -->
