@@ -18,7 +18,7 @@
         <div class="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0 bg-gradient-to-br from-slate-100 to-slate-200">
             <div class="text-center">
                 <a href="/" class="inline-flex items-center gap-2">
-                    <x-application-logo class="w-40 h-40 fill-current text-slate-700" />
+                    <x-application-logo class="w-14 h-14 fill-current text-slate-700" />
                     <span class="text-xl font-semibold text-slate-800">{{ config('app.name', 'App') }}</span>
                 </a>
             </div>
