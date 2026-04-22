@@ -14,7 +14,7 @@ class UserProfileController extends Controller
     public function show(User $user)
     {
         // Allow users to only view their own profile or admins
-        if ($user->id !== auth()->id() && !auth()->user()->hasRole(['admin', 'super-admin'])) {
+        if ($user->id !== auth()->id() && !auth()->user()->hasRole(['admin','coach','player','parent' ,'super-admin'])) {
             abort(403, 'Unauthorized');
         }
 

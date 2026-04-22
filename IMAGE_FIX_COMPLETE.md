@@ -101,7 +101,7 @@ photo_path: "photos/students/1.Profile Picture.120245.png"
 ```
 
 ### URL Generation Flow
-1. **Blade Template**: `<img src="{{ $student->photo_url }}">`
+1. **Blade Template**: `<img src="{{ $student->photo_path ? asset('storage/' . $student->photo_path) : asset('images/default.png') }}">`
 2. **Model Accessor** (`Student.php`): Calls `route('photos.student', $student->id)`
 3. **Route**: `/photos/students/1` → `PhotoController@showStudent`
 4. **Controller**: Finds photo at `photos/students/1.Profile Picture.120245.png` in public disk
