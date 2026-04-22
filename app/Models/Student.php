@@ -144,4 +144,5 @@ SVG;
                ->orWhere('sport_discipline', 'like', "%$q%");
         });
     }
+   
 }

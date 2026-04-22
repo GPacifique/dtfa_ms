@@ -33,7 +33,7 @@
                     <img src="{{ asset('logo.jpeg') }}" alt="logo" class="w-8 h-8">
                 </div>
                 <div x-show="$store.layout.sidebarOpen" x-transition class="min-w-0">
-                    <span class="text-lg font-semibold truncate">DTFA</span>
+                    <span class="text-lg font-semibold truncate">SPORT ACADEMY MS</span>
                 </div>
             </a>
 
@@ -443,7 +443,7 @@
                 @endif
 
 
-                @role('super-admin|admin|accountant|coach|CEO|Technical Director')
+                @role('super-admin|admin|parent|accountant|coach|CEO|Technical Director')
                     @if(Route::has('admin.communications.index'))
                         <a href="{{ route('admin.communications.index') }}" aria-label="{{ __('app.communications') }}" title="{{ __('app.communications') }}" class="nav-item flex items-center gap-3 px-3 py-2 rounded-md hover:bg-slate-800 transition {{ request()->routeIs('admin.communications.*') ? 'active' : '' }}">
                             <span class="icon flex-shrink-0 w-6 h-6 flex items-center justify-center text-yellow-300">

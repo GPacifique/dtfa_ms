@@ -18,17 +18,13 @@ use App\Http\Controllers\Admin\TrainingSessionController;
 use App\Http\Controllers\Admin\StudentAttendanceController;
 use App\Http\Controllers\PhotoController;
 use App\Http\Controllers\PaymentController;
-Route::middleware(['auth'])->group(function () {
+Route::middleware(['auth'])->prefix('parent')->name('parent.')->group(function () {
 
-    Route::prefix('parent')->name('parent.')->group(function () {
-
-        Route::get('/child/{player}/payments', [PaymentController::class, 'index'])
-            ->name('child-payments');
-
-    });
+    Route::get('/students/{student}/payments', [PaymentController::class, 'index'])
+        ->name('child-payments');
 
 });
-
+        
 // Photo Routes - Serve images via controller to bypass symlink issues (PUBLIC ACCESS)
 Route::get('/photos/students/{student}', [PhotoController::class, 'showStudent'])->name('student.photo');
 Route::get('/photos/staff/{staff}', [PhotoController::class, 'showStaff'])->name('staff.photo');
