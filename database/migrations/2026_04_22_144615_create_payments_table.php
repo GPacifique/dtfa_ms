@@ -6,20 +6,31 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
         Schema::create('payments', function (Blueprint $table) {
             $table->id();
+
+            // Link to student
+            $table->foreignId('student_id')->constrained()->cascadeOnDelete();
+
+            // Optional: who recorded the payment (admin/coach)
+            $table->foreignId('recorded_by')->nullable()->constrained('users')->nullOnDelete();
+
+            $table->decimal('amount', 10, 2);
+
+            $table->enum('method', ['cash', 'mobile_money', 'card'])->default('cash');
+
+            $table->enum('status', ['paid', 'pending'])->default('paid');
+
+            $table->date('paid_at')->nullable();
+
+            $table->string('reference')->nullable(); // for MoMo / transaction ID
+
             $table->timestamps();
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::dropIfExists('payments');
