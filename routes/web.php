@@ -16,7 +16,6 @@ use App\Http\Controllers\Admin\TeamController;
 use App\Http\Controllers\Admin\GroupsController;
 use App\Http\Controllers\Admin\TrainingSessionController;
 use App\Http\Controllers\Admin\StudentAttendanceController;
-use App\Http\Controllers\PhotoController;
 use App\Http\Controllers\PaymentController;
 Route::middleware(['auth'])->prefix('parent')->name('parent.')->group(function () {
 
@@ -25,15 +24,6 @@ Route::middleware(['auth'])->prefix('parent')->name('parent.')->group(function (
 
 });
 
-// Photo Routes - Serve images via controller to bypass symlink issues (PUBLIC ACCESS)
-Route::get('/photos/students/{student}', [PhotoController::class, 'showStudent'])->name('student.photo');
-Route::get('/photos/staff/{staff}', [PhotoController::class, 'showStaff'])->name('staff.photo');
-Route::get('/photos/users/{user}', [PhotoController::class, 'showUser'])->name('user.photo');
-
-// Storage proxy route (PUBLIC ACCESS - handles /storage/* when symlink is unavailable)
-Route::get('/storage/{path}', [\App\Http\Controllers\StorageProxyController::class, 'show'])
-    ->where('path', '.*')
-    ->name('storage.proxy');
 
 Route::middleware(['auth', 'verified'])->group(function () {
     // Student Attendance (admin)
