@@ -247,11 +247,10 @@
                         style="pointer-events: auto; user-select: none;"
                     >
                         <div class="relative">
-                            <img
-                                src="{{ Auth::user()->profile_picture_path }}"
-                                alt="{{ Auth::user()->name }}"
-                                class="w-8 h-8 rounded-full object-cover ring-2 ring-slate-200 dark:ring-slate-700"
-                            >
+                            
+                                <img src="{{ asset('storage/app/public' . Auth::user()->profile_picture_path) }}"
+     alt="{{ Auth::user()->name }}">
+                            <div    class="w-8 h-8 rounded-full object-cover ring-2 ring-slate-200 dark:ring-slate-700>
                             <span class="absolute bottom-0 right-0 block h-2.5 w-2.5 rounded-full bg-green-400 ring-2 ring-white dark:ring-slate-800"></span>
                         </div>
                         <span class="text-sm font-semibold text-slate-700 dark:text-slate-200 hidden sm:inline">{{ Auth::user()->name }}</span>
