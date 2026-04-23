@@ -248,7 +248,7 @@
                     >
                         <div class="relative">
                             <img
-                                src="{{ Auth::user()->profile_picture_url }}"
+                                src="{{ Auth::user()->profile_picture_path }}"
                                 alt="{{ Auth::user()->name }}"
                                 class="w-8 h-8 rounded-full object-cover ring-2 ring-slate-200 dark:ring-slate-700"
                             >
@@ -279,7 +279,7 @@
                             <div class="flex items-center gap-3">
                                 <div class="relative">
                                     <img
-                                        src="{{ Auth::user()->profile_picture_url }}"
+                                        src="{{ Auth::user()->profile_picture_path }}"
                                         alt="{{ Auth::user()->name }}"
                                         class="w-12 h-12 rounded-full object-cover ring-2 ring-white dark:ring-slate-600 flex-shrink-0"
                                     >
