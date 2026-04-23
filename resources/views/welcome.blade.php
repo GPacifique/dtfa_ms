@@ -178,5 +178,6 @@
             }
         }
     </script>
+    <x-footer />
 </body>
 </html>
