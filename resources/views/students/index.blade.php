@@ -38,7 +38,7 @@
                     <tr>
 
                         <!-- PHOTO -->
-                        <td>
+                        <td><img src="{{ asset('storage/'.$student->photo_path) }}" width="70">
                             <img src="{{ $student->photo_path 
                                 ? asset('storage/'.$student->photo_path) 
                                 : 'https://via.placeholder.com/70' }}"

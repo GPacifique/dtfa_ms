@@ -185,7 +185,7 @@
                     @endphp
                     <div class="relative aspect-square bg-gradient-to-br {{ $colorClass }} overflow-hidden">
                         <a href="{{ route('students-modern.show', $student) }}" class="block w-full h-full">
-                            <img src="{{ $student->photo_url }}"
+                            <img src="{{ $student->photo_path ? asset('storage/'.$student->photo_path) : 'https://via.placeholder.com/150'}}"
                                  alt="{{ $student->first_name }} {{ $student->second_name }}"
                                  class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
                                  loading="lazy"
@@ -328,7 +328,7 @@
                                     @endphp
                                     <a href="{{ route('students-modern.show', $student) }}" class="flex items-center gap-4 group">
                                         <div class="relative flex-shrink-0">
-                                            <img src="{{ $student->photo_url }}"
+                                            <img src="{{ $student->photo_path ? asset('storage/'.$student->photo_path) : 'https://via.placeholder.com/150'}}"
                                                  alt="{{ $student->first_name }}"
                                                  class="w-12 h-12 rounded-xl object-cover ring-2 ring-slate-200 dark:ring-slate-700 group-hover:ring-indigo-400 transition"
                                                  loading="lazy"
