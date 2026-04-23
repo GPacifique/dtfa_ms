@@ -86,8 +86,8 @@ class User extends Authenticatable implements MustVerifyEmail
 
         // If user has a profile picture, use the route-based URL (bypasses symlink issues on shared hosting)
         if ($this->profile_picture_path) {
-            return route('user.photo', $this->id);
-        }
+    return asset('storage/app/public' . $this->profile_picture_path);
+}
 
         // Fallback to SVG avatar
         $svg = <<<SVG
