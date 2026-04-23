@@ -14,7 +14,6 @@
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
-    <x-auth-session-status class="mb-4" :status="session('status')" />
         <x-slot name="logo">
             <a href="/">
                 @if(file_exists(public_path('logo.jpeg')))
