@@ -39,7 +39,7 @@
                         @else
                             <x-application-logo class="w-30 h-30 text-white fill-current" />
                         @endif
-                        <span class="text-xl font-bold tracking-wider">{{ config('app.name', 'SAMS') }}</span>
+                        <span class="text-xl font-bold tracking-wider"></span>
                     </a>
                     <h2 class="text-3xl font-bold mb-4 leading-tight">Welcome Back!</h2>
                     <p class="text-blue-100 text-sm leading-relaxed mb-6">Log in to your dashboard to manage your activities and stay updated.</p>
