@@ -14,6 +14,7 @@ use App\Http\Controllers\Admin\GameController;
 use App\Http\Controllers\Admin\MatchController;
 use App\Http\Controllers\Admin\TeamController;
 use App\Http\Controllers\Admin\GroupsController;
+use App\Http\Controllers\Admin\StudentController;
 use App\Http\Controllers\Admin\TrainingSessionController;
 use App\Http\Controllers\Admin\StudentAttendanceController;
 use App\Http\Controllers\PaymentController;
@@ -121,7 +122,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('student/checkin', [CheckinController::class, 'index'])->name('student.checkin.index');
     Route::post('student/checkin', [CheckinController::class, 'store'])->name('student.checkin.store');
 });
-
+Route::get('/students', [StudentController::class, 'index'])->name('students.index');
+Route::post('/attendance', [StudentController::class, 'markAttendance'])->name('attendance.mark');
 // Student profile routes (update own profile and photo)
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('student/{student}/profile', [\App\Http\Controllers\Student\ProfileController::class, 'show'])->name('student.profile.show');
