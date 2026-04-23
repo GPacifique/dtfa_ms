@@ -178,6 +178,6 @@
             }
         }
     </script>
-    <x-footer />
+    <x-app-footer />
 </body>
 </html>
