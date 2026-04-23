@@ -31,7 +31,7 @@
                 @endphp
                 <div class="relative">
                     <div class="w-32 h-32 lg:w-40 lg:h-40 rounded-2xl overflow-hidden ring-4 ring-white/30 shadow-2xl">
-                        <img src="{{ $student->photo_url }}"
+                        <img src="{{ $student->photo_path ? asset('storage/app/public/'.$student->photo_path) : 'https://via.placeholder.com/150'}}"
                              alt="{{ $student->first_name }} {{ $student->second_name }}"
                              class="w-full h-full object-cover"
                              onerror="this.onerror=null; this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect fill=%22%236366f1%22 width=%22100%22 height=%22100%22/><text x=%2250%22 y=%2255%22 font-size=%2240%22 fill=%22white%22 text-anchor=%22middle%22 dominant-baseline=%22middle%22>{{ $initials }}</text></svg>';">
