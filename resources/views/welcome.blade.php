@@ -14,7 +14,6 @@
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
-<x-guest-layout>
     <x-auth-card>
         <x-slot name="logo">
             <a href="/">
