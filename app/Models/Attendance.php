@@ -10,7 +10,7 @@ class Attendance extends Model
     use HasFactory;
 
     // Table name (optional if follows Laravel convention)
-    protected $table = 'attendances';
+    protected $table = 'student-attendances';
 
     // Mass assignable fields
     protected $fillable = [
