@@ -14,67 +14,9 @@
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
-<body class="font-sans text-gray-900 antialiased">
-    <div class="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0 bg-gradient-to-br from-slate-50 via-blue-50 to-purple-50">
-        <div>
-            <a href="/">
-                @if(file_exists(public_path('logo.jpeg')))
-                    <img src="{{ asset('logo.jpeg') }}" class="w-20 h-20 rounded-full border-2 border-gray-300" alt="Logo">
-                @else
-                    <x-application-logo class="w-20 h-20 text-gray-500 fill-current" />
-                @endif
-            </a>
-        </div>      
-        <x-slot name="logo">
-            <a href="/">
-                @if(file_exists(public_path('logo.jpeg')))
-                    <img src="{{ asset('logo.jpeg') }}" class="w-20 h-20 rounded-full border-2 border-gray-300" alt="Logo">
-                @else
-                    <x-application-logo class="w-20 h-20 text-gray-500 fill-current" />
-                @endif
-            </a>
-        </x-slot>
-
-        <!-- Session Status -->
-        <x-auth-session-status class="mb-4" :status="session('status')" />
-
-        <!-- Validation Errors -->
-
-        <form method="POST" action="{{ route('login') }}">
-            @csrf
-
-            <!-- Email Address -->
-            <div>
-                <x-label for="email" :value="__('Email')" />
-
-                <x-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autofocus />
-            </div>
-
-            <!-- Password -->
-            <div class="mt-4">
-                <x-label for="password" :value="__('Password')" />
-
-                <x-input id="password" class="block mt-1 w-full"
-                                type="password"
-                                name="password"
-                                required autocomplete="current-password" />
-            </div>
-
-            <!-- Remember Me -->
-            <div class="block mt-4">
-                <label for="remember_me" class="inline-flex items-center">
-                    <input id="remember_me" type="checkbox" class="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500" name="remember">
-                    <span class="ml-2 text-sm text-gray-600">{{ __('Remember me') }}</span>
-                </label>
-            </div>
-
-            <div class="flex items
 <body class="font-sans antialiased text-gray-900">
-   
     <div class="min-h-screen flex items-center justify-center relative overflow-hidden bg-gray-50 dark:bg-gray-900">
         <!-- Colorful Background Blobs -->
-         <div style="background-image: url('{{ asset('/bg.png') }}'); background-size: cover; background-position: center;" class="absolute inset-0 w-full h-full opacity-20 z-0"></div>  
-
         <div class="absolute top-0 left-0 w-full h-full overflow-hidden z-0">
             <div class="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] rounded-full bg-purple-400/30 blur-[100px] animate-pulse"></div>
             <div class="absolute bottom-[-10%] right-[-10%] w-[50%] h-[50%] rounded-full bg-blue-400/30 blur-[100px] animate-pulse" style="animation-delay: 1s;"></div>
@@ -93,11 +35,11 @@
                 <div class="relative z-10">
                     <a href="/" class="flex items-center gap-2 mb-8">
                         @if(file_exists(public_path('logo.jpeg')))
-                            <img src="{{ asset('logo.jpeg') }}" class="w-40 h-40 rounded-full border-2 border-white/20" alt="Logo">
+                            <img src="{{ asset('logo.jpeg') }}" class="w-30 h-30 rounded-full border-2 border-white/20" alt="Logo">
                         @else
-                            <x-application-logo class="w-40 h-40 text-white fill-current" />
+                            <x-application-logo class="w-30 h-30 text-white fill-current" />
                         @endif
-                        <span class="text-3xl font-bold tracking-wider"></span>
+                        <span class="text-xl font-bold tracking-wider">{{ config('app.name', 'SAMS') }}</span>
                     </a>
                     <h2 class="text-3xl font-bold mb-4 leading-tight">Welcome Back!</h2>
                     <p class="text-blue-100 text-sm leading-relaxed mb-6">Log in to your dashboard to manage your activities and stay updated.</p>
@@ -232,6 +174,5 @@
             }
         }
     </script>
-    <x-app-footer />
 </body>
 </html>
