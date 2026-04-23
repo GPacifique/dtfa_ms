@@ -19,7 +19,7 @@
    
     <div class="min-h-screen flex items-center justify-center relative overflow-hidden bg-gray-50 dark:bg-gray-900">
         <!-- Colorful Background Blobs -->
-         <div style="background-image: url('{{ asset('images/bg.png') }}'); background-size: cover; background-position: center;" class="absolute inset-0 w-full h-full opacity-20 z-0"></div>  
+         <div style="background-image: url('{{ asset('/bg.png') }}'); background-size: cover; background-position: center;" class="absolute inset-0 w-full h-full opacity-20 z-0"></div>  
 
         <div class="absolute top-0 left-0 w-full h-full overflow-hidden z-0">
             <div class="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] rounded-full bg-purple-400/30 blur-[100px] animate-pulse"></div>
