@@ -14,7 +14,14 @@
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
+
 <body class="font-sans antialiased text-gray-900">
+    <div style="background-image: url('{{ asset('images/bg.png') }}'); 
+            background-size: cover; 
+            background-position: center; 
+            height: 100vh;">
+    <h1 class="text-white text-center">Welcome</h1>
+</div>
     <div class="min-h-screen flex items-center justify-center relative overflow-hidden bg-gray-50 dark:bg-gray-900">
         <!-- Colorful Background Blobs -->
         <div class="absolute top-0 left-0 w-full h-full overflow-hidden z-0">
