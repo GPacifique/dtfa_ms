@@ -61,7 +61,10 @@ class Student extends Model
     {
         return $this->belongsTo(User::class, 'registered_by');
     }
-
+public function attendance()
+{
+    return $this->hasMany(\App\Models\Attendance::class);
+}
     public function attendances()
     {
         return $this->hasMany(StudentAttendance::class);
@@ -96,7 +99,7 @@ class Student extends Model
     public function getPhotoUrlAttribute(): string
     {
         if ($this->photo_path && Storage::disk('public')->exists($this->photo_path)) {
-            return asset('storage/' . $this->photo_path);
+            return asset('storage/app/public' . $this->photo_path);
         }
 
         return asset('images/default.png');
