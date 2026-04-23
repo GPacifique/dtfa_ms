@@ -14,7 +14,7 @@
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
-
+<x-guest>
 <body class="font-sans antialiased text-gray-900">
    
     <div class="min-h-screen flex items-center justify-center relative overflow-hidden bg-gray-50 dark:bg-gray-900">
