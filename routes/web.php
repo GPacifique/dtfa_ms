@@ -18,6 +18,10 @@ use App\Http\Controllers\Admin\StudentController;
 use App\Http\Controllers\Admin\TrainingSessionController;
 use App\Http\Controllers\Admin\StudentAttendanceController;
 use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\Staff\StaffController;
+
+Route::get('/staff/photo/{id}', [StaffController::class, 'photo'])
+    ->name('staff.photo');
 Route::middleware(['auth'])->prefix('parent')->name('parent.')->group(function () {
 
     Route::get('/child/{student}/payments', [PaymentController::class, 'index'])
