@@ -185,6 +185,7 @@
     <!-- Pagination -->
     <div class="mt-6">
         {{ $incomes->links() }}
+
     </div>
 </div>
 @endsection
