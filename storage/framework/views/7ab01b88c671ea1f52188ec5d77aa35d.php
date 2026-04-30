@@ -88,7 +88,7 @@ unset($__errorArgs, $__bag); ?>
                 <div class="col-span-1">
                     <label for="currency" class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-1">Currency</label>
                     <input id="currency" name="currency" type="text" value="<?php echo e(old('currency', 'RWF')); ?>" class="w-full uppercase rounded-lg border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 focus:border-emerald-500 focus:ring-emerald-500">
-                    <p class="mt-1 text-xs text-slate-500">ISO code (e.g., RWF, USD, EUR)</p>
+                    <p class="mt-1 text-xs text-slate-500">Currency (e.g., RWF, USD, EUR)</p>
                     <?php $__errorArgs = ['currency'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
 if ($__bag->has($__errorArgs[0])) :
