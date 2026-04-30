@@ -1,4 +1,16 @@
 @extends('layouts.app')
+<header class="... flex justify-between items-center">
+
+    <h1>{{ $title ?? 'Dashboard' }}</h1>
+
+    @if(request()->routeIs('admin.incomes.*'))
+        <a href="{{ route('admin.incomes.create') }}"
+           class="inline-flex items-center px-4 py-2 bg-indigo-600 text-white rounded-lg">
+            ➕ New Income
+        </a>
+    @endif
+
+</header>
 
 @section('hero')
 <x-hero title="{{ __('app.income_management') }}" subtitle="{{ __('app.track_manage_revenue') }}">
