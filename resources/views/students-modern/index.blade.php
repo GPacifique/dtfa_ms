@@ -185,7 +185,7 @@
                     @endphp
                     <div class="relative aspect-square bg-gradient-to-br {{ $colorClass }} overflow-hidden">
                         <a href="{{ route('students-modern.show', $student) }}" class="block w-full h-full">
-                            <img src="{{ $student->photo_path ? asset('storage/app/public/'.$student->photo_path) : 'https://via.placeholder.com/150'}}"
+                            <img src="{{ $student->photo_path ? asset('storage/'.$student->photo_path) : 'https://via.placeholder.com/150'}}"
                                  alt="{{ $student->first_name }} {{ $student->second_name }}"
                                  class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
                                  loading="lazy"

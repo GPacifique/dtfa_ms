@@ -187,7 +187,7 @@
                     ?>
                     <div class="relative aspect-square bg-gradient-to-br <?php echo e($colorClass); ?> overflow-hidden">
                         <a href="<?php echo e(route('students-modern.show', $student)); ?>" class="block w-full h-full">
-                            <img src="<?php echo e($student->photo_path ? asset('storage/app/public/'.$student->photo_path) : 'https://via.placeholder.com/150'); ?>"
+                            <img src="<?php echo e($student->photo_path ? asset('storage/'.$student->photo_path) : 'https://via.placeholder.com/150'); ?>"
                                  alt="<?php echo e($student->first_name); ?> <?php echo e($student->second_name); ?>"
                                  class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
                                  loading="lazy"
