@@ -2,7 +2,8 @@
 
 @section('hero')
     <x-hero title="{{ __('app.income_management') }}" subtitle="{{ __('app.track_manage_revenue') }}">
-        <a href="{{ route('admin.incomes.create') }}"
+    </div>
+        <a href="{{ route('admin.incomes.create') }}"class="inline-flex items-center gap-2 px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition font-semibold">➕ New Income</a>
            class="inline-flex items-center px-5 py-2.5 bg-gradient-to-r from-emerald-600 to-emerald-700 hover:from-emerald-700 hover:to-emerald-800 text-white font-semibold rounded-lg shadow-lg transition transform hover:scale-105">
             <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
