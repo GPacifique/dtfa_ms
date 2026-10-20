@@ -273,3 +273,26 @@ This project is open-sourced software licensed under the [MIT license](https://o
 # sport_academy_management_system
 # sport_academy_management_system
 # dtfa_ms
+
+## 📲 Progressive Web App (PWA)
+
+The Blade application includes an installable PWA experience for supported desktop and mobile browsers.
+
+- Web app manifest: `public/manifest.webmanifest`
+- App icon: `public/images/pwa-icon.svg`
+- Service worker: `public/sw.js`
+- Offline fallback: `public/offline.html`
+- Install helper: `public/js/pwa-install.js`
+- Shared SEO/social metadata: `resources/views/partials/pwa-head.blade.php`
+
+### Install and sharing notes
+
+1. Deploy the site over **HTTPS** (required for service workers and installability outside localhost).
+2. Confirm the manifest, icon, and `/sw.js` URLs are publicly reachable.
+3. In supported desktop browsers, use the **Install app** control or the browser's install icon/menu.
+4. On Android, use the install control or the browser menu's **Install app / Add to Home screen** option.
+5. On iPhone/iPad, open the site in Safari, tap **Share**, then **Add to Home Screen**.
+6. Set page-specific `title` and `meta_description` sections where appropriate. Social platforms may cache link previews; use their preview/debugging tools after publishing to refresh cached cards.
+
+The service worker caches only the PWA shell assets and an offline fallback. Authenticated pages, form submissions, and live records remain network-only; this is **not full offline data entry or synchronization**. Social preview uses the existing public logo as the initial image; replace it with a dedicated public landscape image if a richer share card is desired.
+
