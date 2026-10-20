@@ -1,0 +1,28 @@
+{
+  "id": "/",
+  "name": "Sport Academy & Fitness Clubs Management System",
+  "short_name": "Sport Academy",
+  "description": "Manage sports academies, fitness clubs, athletes, training, attendance and club operations.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "display_override": ["standalone", "minimal-ui"],
+  "orientation": "any",
+  "background_color": "#f8fafc",
+  "theme_color": "#1d4ed8",
+  "categories": ["sports", "fitness", "business"],
+  "icons": [
+    {
+      "src": "/images/pwa-icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "/images/pwa-icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "maskable"
+    }
+  ]
+}

@@ -4,7 +4,8 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>{{ $title ?? config('app.name', 'App') }}</title>
+    <title>{{ $title ?? config('app.name', 'Sport Academy & Fitness Clubs') }}</title>
+    @include('partials.pwa-head')
 
     <!-- Favicon -->
     <link rel="icon" href="{{ asset('logo.jpeg') }}">
@@ -187,5 +188,6 @@
     <i class="fa-brands fa-whatsapp text-2xl"></i>
 </a>
 
+    <script src="{{ asset('js/pwa-install.js') }}" defer></script>
 </body>
 </html>
